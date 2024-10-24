@@ -40,7 +40,7 @@ public class Player extends Entity
     @Override
     public void draw(Graphics g2)
     {
-        g2.setColor(Color.RED);
+        g2.setColor(Color.BLUE);
         g2.fillRect(position.x, position.y, 30, 30);
     }
 }

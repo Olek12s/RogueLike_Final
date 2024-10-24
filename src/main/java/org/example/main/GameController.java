@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class GameController extends JPanel implements Runnable {
     private Thread mainThread;
-    private int targetDrawFrame =  80;
+    private int targetDrawFrame =  999;
     private int targetLogicFrame = 30;
 
     //CLASS INSTANCES
@@ -70,7 +70,7 @@ public class GameController extends JPanel implements Runnable {
                accumulator -= logicInterval;
                logicUpdates++;
            }
-           updateDraw();
+           repaint();
            try
            {
                long sleepTime = drawInterval - (System.nanoTime() - currentTime);
@@ -94,17 +94,16 @@ public class GameController extends JPanel implements Runnable {
         }
     }
 
-    private void updateDraw()         // UPDATE DRAWING
+
+
+    @Override
+    protected void paintComponent(Graphics g)
     {
-        Graphics g = getGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0,0, getWidth(), getHeight());
+        super.paintComponent(g);
 
         for (Drawable drawable : drawables)
         {
             drawable.draw(g);
         }
-
-        g.dispose();
     }
 }
