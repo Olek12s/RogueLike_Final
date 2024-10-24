@@ -1,11 +1,37 @@
 package org.example.main;
 
+import org.example.main.entity.Entity;
+import org.example.main.entity.Player;
+
 import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class GameController extends JPanel implements Runnable {
     private Thread mainThread;
-    private int targetDrawFrame =  900;
+    private int targetDrawFrame =  80;
     private int targetLogicFrame = 30;
+
+    //CLASS INSTANCES
+    public ArrayList<Drawable> drawables = new ArrayList<>();
+    public ArrayList<Updatable> updatables = new ArrayList<>();
+    public KeyHandler keyHandler = new KeyHandler();
+
+    public GameController()
+    {
+        init();
+        this.setPreferredSize(new Dimension(getWidth(), getHeight()));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
+        this.addKeyListener(keyHandler);
+        this.setFocusable(true);
+    }
+
+    private void init()
+    {
+        new Player(this);
+    }
 
     public void startThread() {
         mainThread = new Thread(this);
@@ -60,18 +86,25 @@ public class GameController extends JPanel implements Runnable {
        }
     }
 
-    private void updateUserInput()
-    {
-
-    }
-
     private void updateLogic()    // UPDATE LOGIC
     {
-        updateUserInput();
+        for (Updatable updatable : updatables)
+        {
+            updatable.update();
+        }
     }
 
     private void updateDraw()         // UPDATE DRAWING
     {
+        Graphics g = getGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0, getWidth(), getHeight());
 
+        for (Drawable drawable : drawables)
+        {
+            drawable.draw(g);
+        }
+
+        g.dispose();
     }
 }
