@@ -28,7 +28,7 @@ public class TestTest
     @Test
     public void testSubtract()
     {
-        Assertions.assertEquals(1, myMath.subtract(3, 2));
+        Assertions.assertEquals(2, myMath.subtract(3, 2), "XDDDDDD", "XDDASD");
     }
 
     @Test
@@ -54,5 +54,25 @@ public class TestTest
     {
         tearDown();
         Assertions.assertNull(myMath);
+    }
+
+    @Test
+    public void testAssertNotEquals()
+    {
+        Assertions.assertNotEquals(3, myMath.add(2, 2));
+    }
+
+    @Test
+    public void testAssertSame()
+    {
+        MyMath instance = myMath;
+        Assertions.assertSame(myMath, instance);
+    }
+
+    @Test
+    public void testAssertNotSame()
+    {
+        MyMath instance = new MyMath();
+        Assertions.assertNotSame(myMath, instance);
     }
 }
