@@ -16,6 +16,7 @@ public class Player extends Entity
         this.position = new Position(gc.getWidth()/2, gc.getHeight()/2);
         gc.drawables.add(this);
         gc.updatables.add(this);
+        loadSpriteSheet("resources/player/PlayerSpriteSheet", 48);
     }
 
     @Override

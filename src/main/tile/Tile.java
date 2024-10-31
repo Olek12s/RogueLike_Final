@@ -25,7 +25,8 @@ public class Tile implements Drawable, Updatable
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
 
     }
 }
