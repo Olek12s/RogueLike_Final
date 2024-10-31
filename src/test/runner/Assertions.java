@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 public class Assertions
 {
+    private static int testCount = 0;
+
+    public static void resetTestCount() {testCount = 0;}
+    public static int getTestCount() {return testCount;}
     /*
     void assertEquals(Object expected, Object actual)
     void assertNotEquals(Object unexpected, Object actual)
@@ -24,6 +28,7 @@ public class Assertions
 
     public static void assertEquals(Object expected, Object actual, String ... message)
     {
+        testCount++;
         if (!expected.equals(actual))
         {
             throw new AssertionError(formatMessage(message) + "Expected: " + expected + " but was: " + actual);
@@ -32,6 +37,7 @@ public class Assertions
 
     public static void assertNotEquals(Object unexpected, Object actual, String ... message)
     {
+        testCount++;
         if (unexpected.equals(actual))
         {
             throw new AssertionError(formatMessage(message) + "Expected not equal to: " + unexpected + " but was: " + actual);
@@ -40,6 +46,7 @@ public class Assertions
 
     public static void assertSame(Object expected, Object actual, String ... message)
     {
+        testCount++;
         if (expected != actual)
         {
             throw new AssertionError(formatMessage(message) + "Expected same reference but found different: " + expected + " and " + actual);
@@ -48,6 +55,7 @@ public class Assertions
 
     public static void assertNotSame(Object unexpected, Object actual, String ... message)
     {
+        testCount++;
         if (unexpected == actual)
         {
             throw new AssertionError(formatMessage(message) + "Expected different references, but both point to the same object: " + actual);
@@ -56,6 +64,7 @@ public class Assertions
 
     public static void assertFalse(boolean condition, String ... message)
     {
+        testCount++;
         if (condition)
         {
             throw new AssertionError(formatMessage(message) + "Assertion failed: expected condition to be false, but it was true.");
@@ -64,6 +73,7 @@ public class Assertions
 
     public static void assertTrue(boolean condition, String ... message)
     {
+        testCount++;
         if (!condition)
         {
             throw new AssertionError(formatMessage(message) + "Assertion failed: expected condition to be true, but it was false.");
@@ -71,6 +81,7 @@ public class Assertions
     }
     public static void assertNotNull(Object object, String ... message)
     {
+        testCount++;
         if (object == null)
         {
             throw new AssertionError(formatMessage(message) + "Expected object to be not null, but it was null.");
@@ -79,6 +90,7 @@ public class Assertions
 
     public static void assertNull(Object object, String ... message)
     {
+        testCount++;
         if (object != null)
         {
             throw new AssertionError(formatMessage(message) + "Expected object to be null, but it was not.");

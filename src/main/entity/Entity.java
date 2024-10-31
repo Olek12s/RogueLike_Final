@@ -31,7 +31,7 @@ public abstract class Entity implements Drawable, Updatable
     abstract void setPosition(Position position);
     public void update()
     {
-        updateDirection();
+
     }
 
     public int getMovementSpeed(int speed)
