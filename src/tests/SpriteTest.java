@@ -32,8 +32,8 @@ public class SpriteTest
         int startX = resolution+padding;
         Assertions.assertTrue(Sprite.isSprite(spriteSheet, startX*0, padding, resolution), "[Field 0 was expected to be a sprite.]");
         Assertions.assertTrue(Sprite.isSprite(spriteSheet, startX*1, padding, resolution), "[Field 1 was expected to be a sprite.]");
-        Assertions.assertFalse(Sprite.isSprite(spriteSheet, startX*2, padding, resolution), "[Field 2 was expected to be a sprite.]");
+        Assertions.assertTrue(Sprite.isSprite(spriteSheet, startX*2, padding, resolution), "[Field 2 was expected to be a sprite.]");
         Assertions.assertTrue(Sprite.isSprite(spriteSheet, startX*3, padding, resolution), "[Field 3 was expected to be a sprite.]");
-        Assertions.assertTrue(Sprite.isSprite(spriteSheet, startX*4,padding, resolution), "[Field 4 was expected to not be a sprite.]");
+        Assertions.assertFalse(Sprite.isSprite(spriteSheet, startX*4,padding, resolution), "[Field 4 was expected to not be a sprite.]");
     }
 }

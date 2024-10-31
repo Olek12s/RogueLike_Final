@@ -9,6 +9,7 @@ public class Main
     {
         TestRunner.runTests(TestTest.class);
         TestRunner.runTests(SpriteTest.class);
+
         TestRunner.printSummary();
     }
 }
