@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener
 {
+    GameController gc;
+
     public boolean W_PRESSED = false;
     public boolean A_PRESSED = false;
     public boolean S_PRESSED = false;
@@ -19,6 +21,11 @@ public class KeyHandler implements KeyListener
     public void keyTyped(KeyEvent e)
     {
 
+    }
+
+    public KeyHandler(GameController gc)
+    {
+       this.gc = gc;
     }
 
     @Override

@@ -20,4 +20,10 @@ public abstract class Entity implements Drawable, Updatable
     abstract Position getPosition();
     abstract void setPosition(Position position);
     public abstract void update();
+
+    public int getMovementSpeed(int speed)
+    {
+        int movementSpeed = (int)(speed*2 / (gc.tileManager.tileSize));
+        return Math.max(movementSpeed, 1);
+    }
 }

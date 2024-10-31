@@ -1,6 +1,7 @@
 package main;
 
 import main.entity.Player;
+import main.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +13,12 @@ public class GameController extends JPanel implements Runnable {
     private int targetLogicFrame = 30;
 
     //CLASS INSTANCES
+    public KeyHandler keyHandler = new KeyHandler(this);
+    public TileManager tileManager = new TileManager(this);
+
+    //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables = new ArrayList<>();
     public ArrayList<Updatable> updatables = new ArrayList<>();
-    public KeyHandler keyHandler = new KeyHandler();
 
     public GameController()
     {
