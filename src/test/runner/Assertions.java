@@ -1,99 +1,126 @@
 package test.runner;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Assertions
 {
-    private static int testCount = 0;
+    private static int testCount = 0; // Total assertions count
+    private static int passedCount = 0; // Passed assertions count
+    private static List<String> errorMessages = new ArrayList<>(); // Collect error messages
 
-    public static void resetTestCount() {testCount = 0;}
-    public static int getTestCount() {return testCount;}
-    /*
-    void assertEquals(Object expected, Object actual)
-    void assertNotEquals(Object unexpected, Object actual)
-    void assertSame(Object expected, Object actual)
-    void assertNotSame(Object unexpected, Object actual)
-    void assertFalse(boolean condition)
-    void assertTrue(boolean condition)
-    void assertNotNull(Object object)
-    void assertNull(Object object)
-    */
+    public static void resetCounts() {
+        testCount = 0;
+        passedCount = 0;
+        errorMessages.clear();
+    }
+
+    public static int getTestCount() {
+        return testCount;
+    }
+
+    public static int getPassedCount() {
+        return passedCount;
+    }
+
+    public static List<String> getErrorMessages() {
+        return errorMessages;
+    }
 
     private static String formatMessage(String[] messages)
     {
-        if (messages.length == 0) return  "";
+        if (messages.length == 0) return "";
         else if (messages.length == 1) return messages[0] + ": ";
         else return String.join(", ", messages) + ": "; // concat elements of collection
     }
 
-    public static void assertEquals(Object expected, Object actual, String ... message)
+    public static void assertEquals(Object expected, Object actual, String... message)
     {
         testCount++;
         if (!expected.equals(actual))
         {
-            throw new AssertionError(formatMessage(message) + "Expected: " + expected + " but was: " + actual);
+            errorMessages.add(formatMessage(message) + "Expected: " + expected + " but was: " + actual);
+        } else {
+            passedCount++;
         }
     }
 
-    public static void assertNotEquals(Object unexpected, Object actual, String ... message)
+    public static void assertNotEquals(Object unexpected, Object actual, String... message)
     {
         testCount++;
         if (unexpected.equals(actual))
         {
-            throw new AssertionError(formatMessage(message) + "Expected not equal to: " + unexpected + " but was: " + actual);
+            errorMessages.add(formatMessage(message) + "Expected not equal to: " + unexpected + " but was: " + actual);
+        } else {
+            passedCount++;
         }
     }
 
-    public static void assertSame(Object expected, Object actual, String ... message)
+    public static void assertSame(Object expected, Object actual, String... message)
     {
         testCount++;
         if (expected != actual)
         {
-            throw new AssertionError(formatMessage(message) + "Expected same reference but found different: " + expected + " and " + actual);
+            errorMessages.add(formatMessage(message) + "Expected same reference but found different: " + expected + " and " + actual);
+        } else {
+            passedCount++;
         }
     }
 
-    public static void assertNotSame(Object unexpected, Object actual, String ... message)
+    public static void assertNotSame(Object unexpected, Object actual, String... message)
     {
         testCount++;
         if (unexpected == actual)
         {
-            throw new AssertionError(formatMessage(message) + "Expected different references, but both point to the same object: " + actual);
+            errorMessages.add(formatMessage(message) + "Expected different references, but both point to the same object: " + actual);
+        } else {
+            passedCount++;
         }
     }
 
-    public static void assertFalse(boolean condition, String ... message)
+    public static void assertFalse(boolean condition, String... message)
     {
         testCount++;
+        System.out.println("test");
         if (condition)
         {
-            throw new AssertionError(formatMessage(message) + "Assertion failed: expected condition to be false, but it was true.");
+            errorMessages.add(formatMessage(message) + "Assertion failed: expected condition to be false, but it was true.");
+        } else {
+            passedCount++;
         }
     }
 
-    public static void assertTrue(boolean condition, String ... message)
+    public static void assertTrue(boolean condition, String... message)
     {
         testCount++;
+        System.out.println("test");
         if (!condition)
         {
-            throw new AssertionError(formatMessage(message) + "Assertion failed: expected condition to be true, but it was false.");
+            errorMessages.add(formatMessage(message) + "Assertion failed: expected condition to be true, but it was false.");
+        } else {
+            passedCount++;
         }
     }
-    public static void assertNotNull(Object object, String ... message)
+
+    public static void assertNotNull(Object object, String... message)
     {
         testCount++;
         if (object == null)
         {
-            throw new AssertionError(formatMessage(message) + "Expected object to be not null, but it was null.");
+            errorMessages.add(formatMessage(message) + "Expected object to be not null, but it was null.");
+        } else {
+            passedCount++;
         }
     }
 
-    public static void assertNull(Object object, String ... message)
+    public static void assertNull(Object object, String... message)
     {
         testCount++;
         if (object != null)
         {
-            throw new AssertionError(formatMessage(message) + "Expected object to be null, but it was not.");
+            errorMessages.add(formatMessage(message) + "Expected object to be null, but it was not.");
+        } else {
+            passedCount++;
         }
     }
 }

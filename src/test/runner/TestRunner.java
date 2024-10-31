@@ -6,23 +6,17 @@ import java.lang.reflect.Method;
 
 public class TestRunner
 {
-    //COUNTERS
     private static int globalTotalTests = 0;
-    private static int globalPassedTest = 0;
+    private static int globalPassedTests = 0;
 
-    //COLORS
-    private static final String ANSI_RESET = "\u001B[0m";    // IDE'S standar color
-    private static final String ANSI_BLACK = "\u001B[30m";   // BLACK
-    private static final String ANSI_RED = "\u001B[31m";     // RED
-    private static final String ANSI_GREEN = "\u001B[32m";   // GREEN
-    private static final String ANSI_YELLOW = "\u001B[33m";  // YELLOW
-    private static final String ANSI_BLUE = "\u001B[34m";    // BLUE
-    private static final String ANSI_PURPLE = "\u001B[35m";  // PURPLE
-    private static final String ANSI_CYAN = "\u001B[36m";    // CYAN
-    private static final String ANSI_WHITE = "\u001B[37m";   // WHITE
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_CYAN = "\u001B[36m";
 
     public static void runTests(Class<?> testClass)
     {
+        Assertions.resetCounts(); // Reset assertion counts for the test class
         int localTotalTests = 0;
         int localPassedTests = 0;
         StringBuilder classErrors = new StringBuilder();
@@ -35,7 +29,6 @@ public class TestRunner
                 try
                 {
                     Object testInstance = testClass.getDeclaredConstructor().newInstance();
-
                     for (Method beforeMethod : testClass.getDeclaredMethods())  // @Before
                     {
                         if (beforeMethod.isAnnotationPresent(Before.class))
@@ -44,17 +37,17 @@ public class TestRunner
                         }
                     }
 
-                    try
-                    {
-                        testMethod.invoke(testInstance);    // @Test
-                        globalPassedTest++;
+                    // Execute the test method
+                    testMethod.invoke(testInstance);    // @Test
+
+                    // Collect error messages from assertions
+                    if (!Assertions.getErrorMessages().isEmpty()) {
+                        for (String error : Assertions.getErrorMessages()) {
+                            classErrors.append(testMethod.getName() + " failed: " + error).append("\n");
+                        }
+                    } else {
                         localPassedTests++;
-                        //System.out.println(testMethod.getName() + " passed.");
-                    }
-                    catch (Throwable t)
-                    {
-                        String errorMessage = testMethod.getName() + " failed: " + t.getCause();
-                        classErrors.append(errorMessage).append("\n");
+                        globalPassedTests++;
                     }
 
                     for (Method afterMethod : testClass.getDeclaredMethods())   // @After
@@ -71,6 +64,7 @@ public class TestRunner
                 }
             }
         }
+
         // For currently tested class
         System.out.println(ANSI_RED + classErrors.toString() + ANSI_RESET);
         System.out.println(String.format(ANSI_GREEN + "Class " + ANSI_CYAN +  "%s: " + ANSI_GREEN +  "%d of %d tests passed.\n" + ANSI_RESET,
@@ -79,10 +73,10 @@ public class TestRunner
 
     public static void printSummary()
     {
-            System.out.println(String.format(ANSI_GREEN + "\n✔ Total tests passed: %d of %d" + ANSI_RESET, globalPassedTest, globalTotalTests));
-            if (globalTotalTests != globalPassedTest)
-            {
-                System.out.println(String.format(ANSI_RED + "✖ Total tests failed: %d" + ANSI_RESET, globalTotalTests - globalPassedTest));
-            }
+        System.out.println(String.format(ANSI_GREEN + "\n✔ Total tests passed: %d of %d" + ANSI_RESET, globalPassedTests, globalTotalTests));
+        if (globalTotalTests != globalPassedTests)
+        {
+            System.out.println(String.format(ANSI_RED + "✖ Total tests failed: %d" + ANSI_RESET, globalTotalTests - globalPassedTests));
+        }
     }
 }
