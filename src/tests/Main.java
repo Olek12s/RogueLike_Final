@@ -8,7 +8,6 @@ public class Main
     {
         TestRunner.runTests(TestTest.class);
         TestRunner.runTests(SpriteSheetTest.class);
-
         TestRunner.printSummary();
     }
 }

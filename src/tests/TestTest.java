@@ -51,7 +51,7 @@ public class TestTest
     public void testAssertNull()
     {
         tearDown();
-        Assertions.assertNull(null, "[Checking if myMath object does not exist]");
+        Assertions.assertNull(null, "[Checking if object does not exist]");
     }
 
     @Test
