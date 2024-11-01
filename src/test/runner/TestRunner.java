@@ -61,8 +61,11 @@ public class TestRunner
             }
         }
         // For currently tested class
-        System.out.println(ANSI_RED + classErrors.toString() + ANSI_RESET);
-        System.out.println(String.format(ANSI_GREEN + "Class " + ANSI_CYAN +  "%s: " + ANSI_GREEN +  "%d of %d tests passed.\n" + ANSI_RESET,
+        if (!classErrors.toString().isEmpty())
+        {
+            System.out.print(ANSI_RED + "\n" + classErrors.toString() + ANSI_RESET);
+        }
+        System.out.print(String.format(ANSI_GREEN + "Class " + ANSI_CYAN +  "%s: " + ANSI_GREEN +  "%d of %d tests passed.\n" + ANSI_RESET,
                 testClass.getSimpleName(), Assertions.getPassedCount(), Assertions.getTestCount()));
     }
 
