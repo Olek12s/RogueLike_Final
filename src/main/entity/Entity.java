@@ -19,9 +19,9 @@ import java.util.ArrayList;
 public abstract class Entity implements Drawable, Updatable
 {
     protected GameController gc;
-    protected BufferedImage spriteSheet;
+    protected SpriteSheet spriteSheet;
     protected Sprite currentSprite;
-    protected ArrayList<ArrayList<Sprite>> spriteImages = new ArrayList<>();
+    protected Sprite[][] spriteImages;
 
     protected Direction direction;
     protected Position position;
@@ -32,8 +32,9 @@ public abstract class Entity implements Drawable, Updatable
     {
         this.gc = gc;
         this.direction = Direction.DOWN;
-        loadSpriteSheet("resources/default/SpriteSheet");
-        this.currentSprite = new Sprite(SpriteSheet.extractFirst(spriteSheet, 48), 48);
+        this.spriteSheet = new SpriteSheet(loadSpriteSheet("resources/default/SpriteSheet"), 48);
+        this.currentSprite = spriteSheet.extractFirst(spriteSheet);
+        loadSpriteImages();
     }
 
     //GETTERS AND SETTERS
@@ -64,18 +65,36 @@ public abstract class Entity implements Drawable, Updatable
 
     private void updateCurrentSprite()
     {
-        int rowIndex;
+        if (isMoving)   // if moving, change animation ticks
+        {
+            //int animationTicks =
+        }
         switch (direction)
         {
-            case DOWN:      rowIndex = 0; break;
-            case LEFT:      rowIndex = 1; break;
-            case RIGHT:     rowIndex = 2; break;
-            case UP:        rowIndex = 3; break;
-            case UP_LEFT:   rowIndex = 4; break;
-            case UP_RIGHT:  rowIndex = 5; break;
-            case DOWN_LEFT: rowIndex = 6; break;
-            case DOWN_RIGHT:rowIndex = 7; break;
-            default:        rowIndex = 0;
+            case DOWN:      currentSprite = spriteImages[0][0]; break;
+            case LEFT:      currentSprite = spriteImages[0][1]; break;
+            case RIGHT:     currentSprite = spriteImages[0][2]; break;
+            case UP:        currentSprite = spriteImages[0][3]; break;
+            case UP_LEFT:   currentSprite = spriteImages[0][4]; break;
+            case UP_RIGHT:  currentSprite = spriteImages[0][5]; break;
+            case DOWN_LEFT: currentSprite = spriteImages[0][6]; break;
+            case DOWN_RIGHT:currentSprite = spriteImages[0][7]; break;
+            default:        currentSprite = spriteImages[0][0]; break;
+        }
+    }
+
+    protected void loadSpriteImages()
+    {
+        int ticks = spriteSheet.countAnimationTicks(spriteSheet, 48);
+        int variations = spriteSheet.countSpriteVariations();
+        spriteImages = new Sprite[ticks][variations];
+
+        for (int tick = 0; tick < ticks; tick++)
+        {
+            for (int variation = 0; variation < variations; variation++)
+            {
+                spriteImages[tick][variation] = spriteSheet.extractSprite(spriteSheet, tick, variation);
+            }
         }
     }
 
@@ -128,15 +147,17 @@ public abstract class Entity implements Drawable, Updatable
         return Math.max(movementSpeed, 1);
     }
 
-    protected void loadSpriteSheet(String imagePath)
+    protected BufferedImage loadSpriteSheet(String imagePath)
     {
+        BufferedImage image = null;
         try
         {
-            spriteSheet = ImageIO.read(new File(imagePath + ".png"));
+            image = ImageIO.read(new File(imagePath + ".png"));
         }
         catch (IOException ex)
         {
             ex.printStackTrace();
         }
+        return image;
     }
 }

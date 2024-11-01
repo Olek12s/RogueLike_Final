@@ -29,6 +29,12 @@ public class Player extends Entity
         System.out.println("Player position: " + position.x + " " + position.y);
     }
 
+    @Override
+    public void draw(Graphics g2)
+    {
+        super.draw(g2);
+    }
+
     private void updatePlayerDirection()
     {
         isMoving = false;
@@ -72,13 +78,5 @@ public class Player extends Entity
             direction = Direction.UP;
             isMoving = true;
         }
-    }
-
-    @Override
-    public void draw(Graphics g2)
-    {
-        super.draw(g2);
-        g2.setColor(Color.BLUE);
-        g2.fillRect(position.x, position.y, 30, 30);
     }
 }

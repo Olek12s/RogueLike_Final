@@ -4,10 +4,24 @@ import java.awt.image.BufferedImage;
 
 public class SpriteSheet
 {
+    private BufferedImage spriteSheet;
     public static int spriteSheetPadding = 3;    // padding between sprites
     public static int spriteSheetOffset = 2;     // offset from spritesheet boundaries
+    public int variations;
+    public int ticks;
+    public int textureResolution;
 
-    public static BufferedImage extractSprite(BufferedImage spriteSheet, int textureResolution, int tick, int variation)
+    public BufferedImage getImage() {return spriteSheet;}
+
+    public SpriteSheet(BufferedImage spriteSheet, int textureResolution)
+    {
+        this.spriteSheet = spriteSheet;
+        this.variations = countSpriteVariations();
+        this.ticks = countAnimationTicks(this, textureResolution);
+        this.textureResolution = textureResolution;
+    }
+
+    public Sprite extractSprite(SpriteSheet spriteSheet, int tick, int variation)
     {
         int spriteAndPaddingWidth = textureResolution + spriteSheetPadding;
         int spriteAndPaddingHeight = textureResolution + spriteSheetPadding;
@@ -15,9 +29,10 @@ public class SpriteSheet
         int startX = tick * spriteAndPaddingWidth + spriteSheetOffset;
         int startY = variation * spriteAndPaddingHeight + spriteSheetOffset;
 
-        if (isSprite(spriteSheet, startX, startY, textureResolution))
+        if (isSprite(spriteSheet, startX, startY))
         {
-            return spriteSheet.getSubimage(startX, startY, textureResolution, textureResolution);
+            BufferedImage spriteImage = spriteSheet.getImage().getSubimage(startX, startY, textureResolution, textureResolution);
+            return new Sprite(spriteImage, textureResolution);
         }
         else
         {
@@ -26,14 +41,14 @@ public class SpriteSheet
         }
     }
 
-    public static BufferedImage extractFirst(BufferedImage spriteSheet, int textureResolution)
+    public Sprite extractFirst(SpriteSheet spriteSheet)
     {
-        return extractSprite(spriteSheet, textureResolution, 0, 0);
+        return extractSprite(spriteSheet, 0, 0);
     }
 
-    public static int countAnimationTicks(BufferedImage spriteSheet, int textureResolution)
+    public int countAnimationTicks(SpriteSheet spriteSheet, int textureResolution)
     {
-        int sheetWidth = spriteSheet.getWidth();
+        int sheetWidth = spriteSheet.getImage().getWidth();
 
         int availableWidth = sheetWidth - spriteSheetOffset;
         int spriteAndPaddingWidth = textureResolution + spriteSheetPadding;
@@ -45,7 +60,7 @@ public class SpriteSheet
             int startX = col * spriteAndPaddingWidth + spriteSheetOffset;
             int startY = 0;
 
-            if (isSprite(spriteSheet, startX, startY, textureResolution))
+            if (isSprite(spriteSheet, startX, startY))
             {
                 spriteCounter++;
             }
@@ -57,7 +72,7 @@ public class SpriteSheet
         return spriteCounter;
     }
 
-    public static int countSpriteVariations(BufferedImage spriteSheet, int textureResolution)
+    public int countSpriteVariations()
     {
         int sheetHeight = spriteSheet.getHeight();
 
@@ -70,7 +85,7 @@ public class SpriteSheet
             int startX = 0;
             int startY = row * spriteAndPaddingHeight + spriteSheetOffset;
 
-            if (isSprite(spriteSheet, startX, startY, textureResolution))
+            if (isSprite(this, startX, startY))
             {
                 spriteCounter++;
             }
@@ -83,14 +98,18 @@ public class SpriteSheet
     }
 
     // If the area has a non-transparent pixel, return true
-    public static boolean isSprite(BufferedImage spriteSheet, int startX, int startY, int resolution)
+    public boolean isSprite(SpriteSheet spriteSheet, int startX, int startY)
     {
-        for (int x = startX; x < startX + resolution; x++)
+        BufferedImage image = spriteSheet.getImage();
+        int maxX = startX + textureResolution;
+        int maxY = startY + textureResolution;
+
+        for (int x = startX; x < maxX; x++)
         {
-            for (int y = startY; y < startY + resolution; y++)
+            for (int y = startY; y < maxY; y++)
             {
-                int pixel = spriteSheet.getRGB(x, y);
-                if ((pixel >> 24) != 0x00) // check if pixel is transparent (ARGB, 8 bits for every part)
+                int pixel = image.getRGB(x, y);
+                if ((pixel >> 24) != 0x00)
                 {
                     return true;
                 }
