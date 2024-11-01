@@ -73,7 +73,6 @@ public abstract class Entity implements Drawable, Updatable
             case DOWN_RIGHT:rowIndex = 7; break;
             default:        rowIndex = 0;
         }
-        System.out.println(rowIndex);
     }
 
     public int getMovementSpeed(int speed)

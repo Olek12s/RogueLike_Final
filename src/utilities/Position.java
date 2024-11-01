@@ -15,9 +15,19 @@ public class Position
     {
         this.x = x;
     }
-
     public void setY(int y)
     {
         this.y = y;
+    }
+
+    public void add(Position position)
+    {
+        this.x = x + position.x;
+        this.y = x + position.y;
+    }
+    public void subtract(Position position)
+    {
+        this.x = x - position.x;
+        this.y = x - position.y;
     }
 }
