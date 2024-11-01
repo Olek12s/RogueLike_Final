@@ -4,25 +4,25 @@ import java.awt.image.BufferedImage;
 
 public class Sprite
 {
-    public static BufferedImage extractSprite(BufferedImage spriteSheet, int textureResolution, int col, int row)
+    public static int spriteSheetPadding = 3;    // padding between sprites
+    public static int spriteSheetOffset = 2;     // offset from spritesheet boundaries
+    public static BufferedImage extractSprite(BufferedImage spriteSheet, int textureResolution, int ID)
     {
         return null;
     }
 
     public static int countAnimationTicks(BufferedImage spriteSheet, int textureResolution)
     {
-        int offset = 2;
-        int padding = 3; // padding between sprites
         int sheetWidth = spriteSheet.getWidth();
 
-        int availableWidth = sheetWidth - offset;
-        int spriteAndPaddingWidth = textureResolution + padding;
+        int availableWidth = sheetWidth - spriteSheetOffset;
+        int spriteAndPaddingWidth = textureResolution + spriteSheetPadding;
         int spriteCounter = 0;
 
 
-        for (int col = 0; col * spriteAndPaddingWidth + offset < availableWidth; col++)
+        for (int col = 0; col * spriteAndPaddingWidth + spriteSheetOffset < availableWidth; col++)
         {
-            int startX = col * spriteAndPaddingWidth + offset;
+            int startX = col * spriteAndPaddingWidth + spriteSheetOffset;
             int startY = 0;
 
             if (isSprite(spriteSheet, startX, startY, textureResolution))
@@ -34,7 +34,31 @@ public class Sprite
                 break;
             }
         }
+        return spriteCounter;
+    }
 
+    public static int countSpriteVariations(BufferedImage spriteSheet, int textureResolution)
+    {
+        int sheetHeight = spriteSheet.getHeight();
+
+        int availableHeight = sheetHeight - spriteSheetOffset;
+        int spriteAndPaddingHeight = textureResolution + spriteSheetPadding;
+        int spriteCounter = 0;
+
+        for (int row = 0; row * spriteAndPaddingHeight + spriteSheetOffset < availableHeight; row++)
+        {
+            int startX = 0;
+            int startY = row * spriteAndPaddingHeight + spriteSheetOffset;
+
+            if (isSprite(spriteSheet, startX, startY, textureResolution))
+            {
+                spriteCounter++;
+            }
+            else
+            {
+                break;
+            }
+        }
         return spriteCounter;
     }
 
