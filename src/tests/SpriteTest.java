@@ -50,4 +50,19 @@ public class SpriteTest
         int resolution = 48;
         Assertions.assertEquals(8, Sprite.countSpriteVariations(spriteSheet, 48), "[Unexpected sprite variations count.]");
     }
+
+    @Test
+    public void extractSprite()
+    {
+        int resolution = 48;
+        int animationTicks = 4;
+        int variations = 8;
+        for (int i = 0; i < animationTicks; i++)
+        {
+            for (int j = 0; j < variations; j++)
+            {
+                Assertions.assertNotNull(Sprite.extractSprite(spriteSheet, 48, i, j));
+            }
+        }
+    }
 }
