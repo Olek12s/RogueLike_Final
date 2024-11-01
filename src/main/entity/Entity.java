@@ -26,6 +26,7 @@ public abstract class Entity implements Drawable, Updatable
     protected Direction direction;
     protected Position position;
     protected int speed;
+    protected boolean isMoving;
 
     public Entity(GameController gc)
     {
@@ -35,13 +36,16 @@ public abstract class Entity implements Drawable, Updatable
         this.currentSprite = new Sprite(SpriteSheet.extractFirst(spriteSheet, 48), 48);
     }
 
+    //GETTERS AND SETTERS
+
     public Position getPosition() {
         return position;
     }
     public void setPosition(Position position) {
         this.position = position;
     }
-
+    public int getSpeed() {return speed;}
+    public void setSpeed(int speed) {this.speed = speed;}
 
     @Override
     public void draw(Graphics g2)
@@ -72,6 +76,49 @@ public abstract class Entity implements Drawable, Updatable
             case DOWN_LEFT: rowIndex = 6; break;
             case DOWN_RIGHT:rowIndex = 7; break;
             default:        rowIndex = 0;
+        }
+    }
+
+    protected void updatePosition(Entity entityy)
+    {
+        if (isMoving)
+        {
+            if (direction == Direction.UP_LEFT)
+            {
+                position.x -= Math.max((int)(getMovementSpeed(entityy.speed) / Math.sqrt(2)), 1);
+                position.y -= Math.max((int)(getMovementSpeed(entityy.speed) / Math.sqrt(2)), 1);
+            }
+            else if (direction == Direction.UP_RIGHT)
+            {
+                position.x += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                position.y -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+            }
+            else if (direction == Direction.DOWN_LEFT)
+            {
+                position.x -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                position.y += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+            }
+            else if (direction == Direction.DOWN_RIGHT)
+            {
+                position.x += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                position.y += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+            }
+            else if (direction == Direction.DOWN)
+            {
+                position.y += getMovementSpeed(speed);
+            }
+            else if (direction == Direction.LEFT)
+            {
+                position.x -= getMovementSpeed(speed);
+            }
+            else if (direction == Direction.RIGHT)
+            {
+                position.x += getMovementSpeed(speed);
+            }
+            else if (direction == Direction.UP)
+            {
+                position.y -= getMovementSpeed(speed);
+            }
         }
     }
 

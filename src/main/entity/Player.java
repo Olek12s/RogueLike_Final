@@ -1,5 +1,6 @@
 package main.entity;
 
+import main.Direction;
 import main.GameController;
 import main.Main;
 import utilities.Position;
@@ -8,12 +9,12 @@ import java.awt.*;
 
 public class Player extends Entity
 {
-    private int speed = 100;
 
     public Player(GameController gc)
     {
         super(gc);
         this.position = new Position(gc.getWidth()/2, gc.getHeight()/2);
+        this.speed = 100;
         gc.drawables.add(this);
         gc.updatables.add(this);
         loadSpriteSheet("resources/player/PlayerSpriteSheet");
@@ -23,36 +24,54 @@ public class Player extends Entity
     public void update()
     {
         super.update();
-        updateDirection();
+        updatePlayerDirection();
+        updatePosition(this);
         System.out.println("Player position: " + position.x + " " + position.y);
     }
 
-    private void updateDirection()
+    private void updatePlayerDirection()
     {
+        isMoving = false;
         if (gc.keyHandler.W_PRESSED && gc.keyHandler.A_PRESSED || gc.keyHandler.UP_PRESSED && gc.keyHandler.LEFT_PRESSED)     // Direction Up-Left
         {
-            position.x -= (int)(getMovementSpeed(speed) / Math.sqrt(2));
-            position.y -= (int)(getMovementSpeed(speed) / Math.sqrt(2));
+            direction = Direction.UP_LEFT;
+            isMoving = true;
         }
         else if (gc.keyHandler.W_PRESSED && gc.keyHandler.D_PRESSED || gc.keyHandler.UP_PRESSED && gc.keyHandler.RIGHT_PRESSED)     // Direction Up-Right
         {
-            position.x += (int)(getMovementSpeed(speed) / Math.sqrt(2));
-            position.y -= (int)(getMovementSpeed(speed) / Math.sqrt(2));
+            direction = Direction.UP_RIGHT;
+            isMoving = true;
         }
         else if (gc.keyHandler.S_PRESSED && gc.keyHandler.A_PRESSED || gc.keyHandler.DOWN_PRESSED && gc.keyHandler.LEFT_PRESSED)     // Direction Down-Left
         {
-            position.x -= (int)(getMovementSpeed(speed) / Math.sqrt(2));
-            position.y += (int)(getMovementSpeed(speed) / Math.sqrt(2));
+            direction = Direction.DOWN_LEFT;
+            isMoving = true;
         }
         else if (gc.keyHandler.S_PRESSED && gc.keyHandler.D_PRESSED || gc.keyHandler.DOWN_PRESSED && gc.keyHandler.RIGHT_PRESSED)     // Direction Down-Right
         {
-            position.x += (int)(getMovementSpeed(speed) / Math.sqrt(2));
-            position.y += (int)(getMovementSpeed(speed) / Math.sqrt(2));
+            direction = Direction.DOWN_RIGHT;
+            isMoving = true;
         }
-        else if (gc.keyHandler.S_PRESSED || gc.keyHandler.DOWN_PRESSED) position.y += getMovementSpeed(speed);   // Direction Down
-        else if (gc.keyHandler.A_PRESSED || gc.keyHandler.LEFT_PRESSED) position.x -= getMovementSpeed(speed);   // Direction Left
-        else if (gc.keyHandler.D_PRESSED || gc.keyHandler.RIGHT_PRESSED) position.x += getMovementSpeed(speed);  // Direction right
-        else if (gc.keyHandler.W_PRESSED || gc.keyHandler.UP_PRESSED) position.y -= getMovementSpeed(speed);     // Direction Up
+        else if (gc.keyHandler.S_PRESSED || gc.keyHandler.DOWN_PRESSED)   // Direction Down
+        {
+            direction = Direction.DOWN;
+            isMoving = true;
+        }
+        else if (gc.keyHandler.A_PRESSED || gc.keyHandler.LEFT_PRESSED)  // Direction Left
+        {
+            direction = Direction.LEFT;
+            isMoving = true;
+        }
+        else if (gc.keyHandler.D_PRESSED || gc.keyHandler.RIGHT_PRESSED) // Direction right
+        {
+            direction = Direction.RIGHT;
+            isMoving = true;
+        }
+        else if (gc.keyHandler.W_PRESSED || gc.keyHandler.UP_PRESSED)   // Direction up
+        {
+            direction = Direction.UP;
+            isMoving = true;
+        }
     }
 
     @Override
