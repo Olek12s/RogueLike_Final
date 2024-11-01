@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class GameController extends JPanel implements Runnable {
     private Thread mainThread;
-    private int targetDrawFrame =  999;
-    private int targetLogicFrame = 30;
+    private int targetDrawFrame =  180;
+    private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
     public KeyHandler keyHandler = new KeyHandler(this);
