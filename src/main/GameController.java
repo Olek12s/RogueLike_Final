@@ -102,10 +102,13 @@ public class GameController extends JPanel implements Runnable {
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
 
+        tileManager.draw(g2);
         for (Drawable drawable : drawables)
         {
-            drawable.draw(g);
+            drawable.draw(g2);
         }
+        g.dispose();
     }
 }

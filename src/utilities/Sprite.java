@@ -12,5 +12,4 @@ public class Sprite
         this.image = image;
         this.resolution = resolution;
     }
-
 }
