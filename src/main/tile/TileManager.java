@@ -1,6 +1,8 @@
 package main.tile;
 
+import main.Drawable;
 import main.GameController;
+import utilities.DrawPriorities;
 import utilities.Sprite;
 
 import javax.imageio.ImageIO;
@@ -14,9 +16,10 @@ import java.util.Map;
 
 import static utilities.ImageManipulation.loadImage;
 
-public class TileManager
+public class TileManager implements Drawable
 {
     GameController gc;
+
     public final int tileSize = 64;
     private Map<Integer, Tile> tiles;
 
@@ -33,7 +36,11 @@ public class TileManager
         tiles.put(i, new Tile(new Sprite(loadImage("resources/default/defaultTile"), tileSize), i++));
     }
 
-    public void draw(Graphics2D g2)
+    @Override
+    public int getDrawPriority() {return DrawPriorities.Tile.value;}
+
+    @Override
+    public void draw(Graphics g2)
     {
         g2.drawImage(tiles.get(0).getSprite().image,80, 80, tileSize, tileSize, null);
     }

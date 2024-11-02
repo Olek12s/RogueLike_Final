@@ -2,6 +2,7 @@ package main.tile;
 
 import main.Drawable;
 import main.Updatable;
+import utilities.DrawPriorities;
 import utilities.Sprite;
 
 import java.awt.*;
@@ -21,6 +22,9 @@ public class Tile implements Drawable, Updatable
 
     public int getId() {return id;}
     public Sprite getSprite() {return sprite;}
+
+    @Override
+    public int getDrawPriority() {return DrawPriorities.Tile.value;}
 
     @Override
     public void draw(Graphics g2) {

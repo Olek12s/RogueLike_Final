@@ -5,6 +5,7 @@ import main.Direction;
 import main.Drawable;
 import main.GameController;
 import main.Updatable;
+import utilities.DrawPriorities;
 import utilities.Position;
 import utilities.Sprite;
 import utilities.SpriteSheet;
@@ -31,6 +32,8 @@ public class Entity implements Drawable, Updatable
     private int spriteCounter = 0;
     protected int animationSpeed = 6;
 
+
+
     public Entity(GameController gc)
     {
         this.gc = gc;
@@ -50,6 +53,9 @@ public class Entity implements Drawable, Updatable
     }
     public int getSpeed() {return speed;}
     public void setSpeed(int speed) {this.speed = speed;}
+
+    @Override
+    public int getDrawPriority() {return DrawPriorities.Entity.value;}
 
     @Override
     public void draw(Graphics g2)
