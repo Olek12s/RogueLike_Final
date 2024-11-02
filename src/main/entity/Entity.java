@@ -158,7 +158,7 @@ public class Entity implements Drawable, Updatable
 
     public int getMovementSpeed(int speed)
     {
-        int movementSpeed = (int)(speed*2 / (gc.tileManager.tileSize));
+        int movementSpeed = (int)(speed*2 / 32);
         return Math.max(movementSpeed, 1);
     }
 

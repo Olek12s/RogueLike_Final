@@ -30,7 +30,7 @@ public class TileManager
     private void loadTiles()
     {
         int i = 0;
-        tiles.put(i, new Tile(new Sprite(loadImage("resources/default/SpriteSheet"), tileSize), i++));
+        tiles.put(i, new Tile(new Sprite(loadImage("resources/default/defaultTile"), tileSize), i++));
     }
 
     public void draw(Graphics2D g2)
