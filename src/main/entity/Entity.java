@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public abstract class Entity implements Drawable, Updatable
+public class Entity implements Drawable, Updatable
 {
     protected GameController gc;
     protected SpriteSheet spriteSheet;
@@ -27,6 +27,9 @@ public abstract class Entity implements Drawable, Updatable
     protected Position position;
     protected int speed;
     protected boolean isMoving;
+
+    private int spriteCounter = 0;
+    protected int animationSpeed = 6;
 
     public Entity(GameController gc)
     {
@@ -63,49 +66,41 @@ public abstract class Entity implements Drawable, Updatable
         updateCurrentSprite();
     }
 
-    protected int animationTick = 0;
-    protected int animationSpeed = 12;
-
     private void updateCurrentSprite()
     {
         if (isMoving)
         {
-            animationTick = (animationTick + 1) % (spriteImages.length * animationSpeed);
-
-            int currentFrame = (animationTick / animationSpeed) % spriteImages.length;
-
-            switch (direction)
-            {
-                case DOWN:      currentSprite = spriteImages[currentFrame][0]; break;
-                case LEFT:      currentSprite = spriteImages[currentFrame][1]; break;
-                case RIGHT:     currentSprite = spriteImages[currentFrame][2]; break;
-                case UP:        currentSprite = spriteImages[currentFrame][3]; break;
-                case UP_LEFT:   currentSprite = spriteImages[currentFrame][4]; break;
-                case UP_RIGHT:  currentSprite = spriteImages[currentFrame][5]; break;
-                case DOWN_LEFT: currentSprite = spriteImages[currentFrame][6]; break;
-                case DOWN_RIGHT:currentSprite = spriteImages[currentFrame][7]; break;
-                default:        currentSprite = spriteImages[0][0]; break;
-            }
+            spriteCounter = (spriteCounter + 1) % (spriteImages.length * animationSpeed);
+            int currentAnimationTick = (spriteCounter / animationSpeed);
+            if (currentAnimationTick == 0) currentAnimationTick = 1;
+            changeSprite(direction, currentAnimationTick);
         }
         else
         {
-            switch (direction) {
-                case DOWN:      currentSprite = spriteImages[0][0]; break;
-                case LEFT:      currentSprite = spriteImages[0][1]; break;
-                case RIGHT:     currentSprite = spriteImages[0][2]; break;
-                case UP:        currentSprite = spriteImages[0][3]; break;
-                case UP_LEFT:   currentSprite = spriteImages[0][4]; break;
-                case UP_RIGHT:  currentSprite = spriteImages[0][5]; break;
-                case DOWN_LEFT: currentSprite = spriteImages[0][6]; break;
-                case DOWN_RIGHT:currentSprite = spriteImages[0][7]; break;
-                default:        currentSprite = spriteImages[0][0]; break;
-            }
+            spriteCounter = 0;
+            changeSprite(direction, 0);
+        }
+    }
+
+    protected void changeSprite(Direction direction, int animationTick)
+    {
+        switch (direction)
+        {
+            case DOWN:      currentSprite = spriteImages[animationTick][0]; break;
+            case LEFT:      currentSprite = spriteImages[animationTick][1]; break;
+            case RIGHT:     currentSprite = spriteImages[animationTick][2]; break;
+            case UP:        currentSprite = spriteImages[animationTick][3]; break;
+            case UP_LEFT:   currentSprite = spriteImages[animationTick][4]; break;
+            case UP_RIGHT:  currentSprite = spriteImages[animationTick][5]; break;
+            case DOWN_LEFT: currentSprite = spriteImages[animationTick][6]; break;
+            case DOWN_RIGHT:currentSprite = spriteImages[animationTick][7]; break;
+            default:        currentSprite = spriteImages[0][0]; break;
         }
     }
 
     protected void loadSpriteImages()
     {
-        int ticks = spriteSheet.countAnimationTicks(spriteSheet, 48);
+        int ticks = spriteSheet.countAnimationTicks();
         int variations = spriteSheet.countSpriteVariations();
         spriteImages = new Sprite[ticks][variations];
 

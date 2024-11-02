@@ -17,7 +17,7 @@ public class SpriteSheet
     {
         this.spriteSheet = spriteSheet;
         this.variations = countSpriteVariations();
-        this.ticks = countAnimationTicks(this, textureResolution);
+        this.ticks = countAnimationTicks();
         this.textureResolution = textureResolution;
     }
 
@@ -25,9 +25,6 @@ public class SpriteSheet
     {
         int startX = spriteSheetOffset + (tick * textureResolution);
         int startY = spriteSheetOffset + (variation * textureResolution);
-
-        System.out.println("STARTX: " + startX);
-        System.out.println("STARTY: " + startY);
 
         if (isSprite(spriteSheet, startX, startY))
         {
@@ -46,9 +43,9 @@ public class SpriteSheet
         return extractSprite(spriteSheet, 0, 0);
     }
 
-    public int countAnimationTicks(SpriteSheet spriteSheet, int textureResolution)
+    public int countAnimationTicks()
     {
-        int sheetWidth = spriteSheet.getImage().getWidth();
+        int sheetWidth = spriteSheet.getWidth();
 
         int availableWidth = sheetWidth - spriteSheetOffset;
         int spriteAndPaddingWidth = textureResolution + spriteSheetPadding;
@@ -60,7 +57,7 @@ public class SpriteSheet
             int startX = col * spriteAndPaddingWidth + spriteSheetOffset;
             int startY = 0;
 
-            if (isSprite(spriteSheet, startX, startY))
+            if (isSprite(this, startX, startY))
             {
                 spriteCounter++;
             }

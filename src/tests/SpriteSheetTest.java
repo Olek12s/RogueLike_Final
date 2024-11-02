@@ -39,14 +39,12 @@ public class SpriteSheetTest
     @Test
     public void countAnimationTicks()
     {
-        int resolution = 48;
-        Assertions.assertEquals(4, spriteSheet.countAnimationTicks(spriteSheet, 48), "[Unexpected animation ticks count.]");
+        Assertions.assertEquals(4, spriteSheet.countAnimationTicks(), "[Unexpected animation ticks count.]");
     }
 
     @Test
     public void countSpriteVariations()
     {
-        int resolution = 48;
         Assertions.assertEquals(8, spriteSheet.countSpriteVariations(), "[Unexpected sprite variations count.]");
     }
 

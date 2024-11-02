@@ -1,0 +1,7 @@
+    public int variations;
+    public int ticks;
+
+    w pliku SpriteSheet.Java
+
+    -oba te pole posiadają wartość zero, mimo wczytanego SpriteSheet'u i obliczonej złożoności animacji i jej wariacji.
+    -czy te pola aby na pewno są potrzebne?
