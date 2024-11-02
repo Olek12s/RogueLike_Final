@@ -63,7 +63,7 @@ public class Entity implements Drawable, Updatable
         g2.drawImage(currentSprite.image, position.x, position.y, null);
 
 
-        g2.dispose();
+        //g2.dispose();
     }
 
     @Override

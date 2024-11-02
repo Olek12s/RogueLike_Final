@@ -44,5 +44,7 @@ public class TileManager implements Drawable
     public void draw(Graphics g2)
     {
         g2.drawImage(tiles.get(0).getSprite().image,80, 80, tileSize, tileSize, null);
+
+        //g2.dispose();
     }
 }

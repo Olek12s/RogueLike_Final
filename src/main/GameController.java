@@ -118,10 +118,11 @@ public class GameController extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+        drawables.sort((e1, e2) -> Integer.compare(e1.getDrawPriority(), e2.getDrawPriority()));
         for (Drawable drawable : drawables)
         {
             drawable.draw(g2);
         }
-        g.dispose();
+        g2.dispose();
     }
 }

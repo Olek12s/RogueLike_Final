@@ -28,7 +28,7 @@ public class Tile implements Drawable, Updatable
 
     @Override
     public void draw(Graphics g2) {
-
+        System.out.println("test");
     }
 
     @Override
