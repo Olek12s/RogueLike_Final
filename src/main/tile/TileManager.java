@@ -43,8 +43,13 @@ public class TileManager implements Drawable
     @Override
     public void draw(Graphics g2)
     {
-        g2.drawImage(tiles.get(0).getSprite().image,80, 80, tileSize, tileSize, null);
-
+        for (int i = 0; i < gc.getWidth(); i+=tileSize)
+        {
+            for (int j = 0; j < gc.getHeight(); j+=tileSize)
+            {
+                g2.drawImage(tiles.get(0).getSprite().image, i, j, tileSize, tileSize, null);
+            }
+        }
         //g2.dispose();
     }
 }
