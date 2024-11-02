@@ -23,11 +23,11 @@ public class SpriteSheet
 
     public Sprite extractSprite(SpriteSheet spriteSheet, int tick, int variation)
     {
-        int spriteAndPaddingWidth = textureResolution + spriteSheetPadding;
-        int spriteAndPaddingHeight = textureResolution + spriteSheetPadding;
+        int startX = spriteSheetOffset + (tick * textureResolution);
+        int startY = spriteSheetOffset + (variation * textureResolution);
 
-        int startX = tick * spriteAndPaddingWidth + spriteSheetOffset;
-        int startY = variation * spriteAndPaddingHeight + spriteSheetOffset;
+        System.out.println("STARTX: " + startX);
+        System.out.println("STARTY: " + startY);
 
         if (isSprite(spriteSheet, startX, startY))
         {

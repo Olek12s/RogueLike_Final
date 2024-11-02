@@ -63,23 +63,43 @@ public abstract class Entity implements Drawable, Updatable
         updateCurrentSprite();
     }
 
+    protected int animationTick = 0;
+    protected int animationSpeed = 12;
+
     private void updateCurrentSprite()
     {
-        if (isMoving)   // if moving, change animation ticks
+        if (isMoving)
         {
-            //int animationTicks =
+            animationTick = (animationTick + 1) % (spriteImages.length * animationSpeed);
+
+            int currentFrame = (animationTick / animationSpeed) % spriteImages.length;
+
+            switch (direction)
+            {
+                case DOWN:      currentSprite = spriteImages[currentFrame][0]; break;
+                case LEFT:      currentSprite = spriteImages[currentFrame][1]; break;
+                case RIGHT:     currentSprite = spriteImages[currentFrame][2]; break;
+                case UP:        currentSprite = spriteImages[currentFrame][3]; break;
+                case UP_LEFT:   currentSprite = spriteImages[currentFrame][4]; break;
+                case UP_RIGHT:  currentSprite = spriteImages[currentFrame][5]; break;
+                case DOWN_LEFT: currentSprite = spriteImages[currentFrame][6]; break;
+                case DOWN_RIGHT:currentSprite = spriteImages[currentFrame][7]; break;
+                default:        currentSprite = spriteImages[0][0]; break;
+            }
         }
-        switch (direction)
+        else
         {
-            case DOWN:      currentSprite = spriteImages[0][0]; break;
-            case LEFT:      currentSprite = spriteImages[0][1]; break;
-            case RIGHT:     currentSprite = spriteImages[0][2]; break;
-            case UP:        currentSprite = spriteImages[0][3]; break;
-            case UP_LEFT:   currentSprite = spriteImages[0][4]; break;
-            case UP_RIGHT:  currentSprite = spriteImages[0][5]; break;
-            case DOWN_LEFT: currentSprite = spriteImages[0][6]; break;
-            case DOWN_RIGHT:currentSprite = spriteImages[0][7]; break;
-            default:        currentSprite = spriteImages[0][0]; break;
+            switch (direction) {
+                case DOWN:      currentSprite = spriteImages[0][0]; break;
+                case LEFT:      currentSprite = spriteImages[0][1]; break;
+                case RIGHT:     currentSprite = spriteImages[0][2]; break;
+                case UP:        currentSprite = spriteImages[0][3]; break;
+                case UP_LEFT:   currentSprite = spriteImages[0][4]; break;
+                case UP_RIGHT:  currentSprite = spriteImages[0][5]; break;
+                case DOWN_LEFT: currentSprite = spriteImages[0][6]; break;
+                case DOWN_RIGHT:currentSprite = spriteImages[0][7]; break;
+                default:        currentSprite = spriteImages[0][0]; break;
+            }
         }
     }
 

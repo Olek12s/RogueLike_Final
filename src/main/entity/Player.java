@@ -26,7 +26,6 @@ public class Player extends Entity
         super.update();
         updatePlayerDirection();
         updatePosition(this);
-        System.out.println("Player position: " + position.x + " " + position.y);
     }
 
     @Override

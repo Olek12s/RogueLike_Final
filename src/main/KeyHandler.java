@@ -32,7 +32,7 @@ public class KeyHandler implements KeyListener
     public void keyPressed(KeyEvent e)
     {
         int code = e.getKeyCode();
-
+        System.out.println("Key pressed");
         switch (code)
         {
             case KeyEvent.VK_W: W_PRESSED = true; break;
@@ -51,7 +51,7 @@ public class KeyHandler implements KeyListener
     public void keyReleased(KeyEvent e)
     {
         int code = e.getKeyCode();
-
+        System.out.println("Key released");
         switch (code)
         {
             case KeyEvent.VK_W: W_PRESSED = false; break;
