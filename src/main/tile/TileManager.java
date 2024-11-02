@@ -26,6 +26,7 @@ public class TileManager implements Drawable
     public TileManager(GameController gc)
     {
         this.gc = gc;
+        gc.drawables.add(this);
         tiles = new HashMap<>();
         loadTiles();
     }

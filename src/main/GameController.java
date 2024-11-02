@@ -13,26 +13,40 @@ public class GameController extends JPanel implements Runnable {
     private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
-    public KeyHandler keyHandler = new KeyHandler(this);
-    public TileManager tileManager = new TileManager(this);
+    public KeyHandler keyHandler;
+    public TileManager tileManager;
 
     //ABSTRACT COLLECTIONS
-    public ArrayList<Drawable> drawables = new ArrayList<>();
-    public ArrayList<Updatable> updatables = new ArrayList<>();
+    public ArrayList<Drawable> drawables;
+    public ArrayList<Updatable> updatables;
 
     public GameController()
     {
-        init();
         this.setPreferredSize(new Dimension(getWidth(), getHeight()));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+
+
+        initAbstractCollections();
+        initClassInstances();
+        init();
         this.addKeyListener(keyHandler);
     }
 
     private void init()
     {
         new Player(this);
+    }
+    private void initAbstractCollections()
+    {
+        drawables = new ArrayList<>();
+        updatables = new ArrayList<>();
+    }
+    private void initClassInstances()
+    {
+        tileManager = new TileManager(this);
+        keyHandler = new KeyHandler(this);
     }
 
     public void startThread() {
@@ -104,7 +118,6 @@ public class GameController extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        tileManager.draw(g2);
         for (Drawable drawable : drawables)
         {
             drawable.draw(g2);
