@@ -19,8 +19,8 @@ public class Map implements Drawable
 
     public Map(GameController gc/*, int mapWidth, int mapHeight, String path*/)
     {
-        this.mapWidth = 10;
-        this.mapHeight = 10;
+        this.mapWidth = 13;
+        this.mapHeight = 13;
         this.gc = gc;
         gc.drawables.add(this);
         //this.mapWidth = mapWidth;
@@ -36,18 +36,24 @@ public class Map implements Drawable
             InputStream is = new FileInputStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            //load tile by tile
+            //load tile by tile to the map grid
             for (int row = 0; row < mapHeight; row++)
             {
                 String line = br.readLine();
-                if (line == null) throw new IOException("Incorrect number of tiles in map file.");
+                if(line == null) continue;
                 String[] tiles = line.split(" ");
-                if (tiles.length != mapWidth) throw new IOException("Incorrect number of tiles in map file.");
 
                 for (int col = 0; col < mapWidth; col++)
                 {
-                    int tileID = Integer.parseInt(tiles[col]);
-                    mapGrid[col][row] = gc.tileManager.tiles.get(tileID);
+                    try
+                    {
+                        int tileID = Integer.parseInt(tiles[col]);
+                        mapGrid[col][row] = gc.tileManager.tiles.get(tileID);
+                    }
+                    catch (IndexOutOfBoundsException ex)
+                    {
+                        //Default tile texture in the future?
+                    }
                 }
             }
         }
