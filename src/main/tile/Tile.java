@@ -8,7 +8,7 @@ import utilities.Sprite;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Tile implements Drawable, Updatable
+public class Tile
 {
     private Sprite sprite;
     private final int id;
@@ -22,18 +22,4 @@ public class Tile implements Drawable, Updatable
 
     public int getId() {return id;}
     public Sprite getSprite() {return sprite;}
-
-    @Override
-    public int getDrawPriority() {return DrawPriorities.mapGrid.value;}
-
-    @Override
-    public void draw(Graphics g2) {
-        System.out.println("test");
-    }
-
-    @Override
-    public void update()
-    {
-
-    }
 }
