@@ -24,7 +24,7 @@ public class Tile implements Drawable, Updatable
     public Sprite getSprite() {return sprite;}
 
     @Override
-    public int getDrawPriority() {return DrawPriorities.Tile.value;}
+    public int getDrawPriority() {return DrawPriorities.mapGrid.value;}
 
     @Override
     public void draw(Graphics g2) {

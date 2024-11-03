@@ -16,17 +16,17 @@ import java.util.Map;
 
 import static utilities.ImageManipulation.loadImage;
 
-public class TileManager implements Drawable
+// one instance
+public class TileManager
 {
     GameController gc;
 
     public final int tileSize = 64;
-    private Map<Integer, Tile> tiles;
+    public Map<Integer, Tile> tiles;
 
     public TileManager(GameController gc)
     {
         this.gc = gc;
-        gc.drawables.add(this);
         tiles = new HashMap<>();
         loadTiles();
     }
@@ -34,22 +34,7 @@ public class TileManager implements Drawable
     private void loadTiles()
     {
         int i = 0;
-        tiles.put(i, new Tile(new Sprite(loadImage("resources/default/defaultTile"), tileSize), i++));
-    }
-
-    @Override
-    public int getDrawPriority() {return DrawPriorities.Tile.value;}
-
-    @Override
-    public void draw(Graphics g2)
-    {
-        for (int i = 0; i < gc.getWidth(); i+=tileSize)
-        {
-            for (int j = 0; j < gc.getHeight(); j+=tileSize)
-            {
-                g2.drawImage(tiles.get(0).getSprite().image, i, j, tileSize, tileSize, null);
-            }
-        }
-        //g2.dispose();
+        tiles.put(i, new Tile(new Sprite(loadImage("resources/default/defaultTile0"), tileSize), i++));
+        tiles.put(i, new Tile(new Sprite(loadImage("resources/default/defaultTile1"), tileSize), i++));
     }
 }

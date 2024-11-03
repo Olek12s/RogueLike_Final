@@ -2,6 +2,7 @@ package main;
 
 import main.entity.Player;
 import main.tile.TileManager;
+import main.tile.Map;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,13 @@ import java.util.ArrayList;
 
 public class GameController extends JPanel implements Runnable {
     private Thread mainThread;
-    private int targetDrawFrame =  180;
+    private int targetDrawFrame =  80;
     private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
     public KeyHandler keyHandler;
     public TileManager tileManager;
+    public Map map;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -47,6 +49,7 @@ public class GameController extends JPanel implements Runnable {
     {
         tileManager = new TileManager(this);
         keyHandler = new KeyHandler(this);
+        map = new Map(this);
     }
 
     public void startThread() {

@@ -36,7 +36,7 @@ public class TestRunner
                         }
                     }
                     testMethod.invoke(testInstance);    // execute @Test methods
-
+                    
                     if (!Assertions.getErrorMessages().isEmpty())
                     {
                         for (String error : Assertions.getErrorMessages())

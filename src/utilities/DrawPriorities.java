@@ -2,7 +2,7 @@ package utilities;
 
 public enum DrawPriorities
 {
-    Tile(0),
+    mapGrid(0),
     Entity(1);
 
     public final int value;
