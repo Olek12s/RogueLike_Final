@@ -35,6 +35,7 @@ public class GameController extends JPanel implements Runnable {
         initAbstractCollections();
         initClassInstances();
         this.addKeyListener(keyHandler);
+        //this.addMouseWheelListener(keyHandler);
     }
 
     private void initAbstractCollections()

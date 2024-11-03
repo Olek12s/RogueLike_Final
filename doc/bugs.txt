@@ -5,3 +5,6 @@
 
     -oba te pole posiadają wartość zero, mimo wczytanego SpriteSheet'u i obliczonej złożoności animacji i jej wariacji.
     -czy te pola aby na pewno są potrzebne?
+
+    Kafelki się rysują nawet po za obszarem okna
+    Kafelki aktualnie są wczytywane jako pojedyńcze zdjęcia. Powinny być wczytywane jako cały SpriteSheet (podobnie jak Entity)

@@ -21,7 +21,7 @@ public class TileManager
 {
     GameController gc;
 
-    public final int tileSize = 64;
+    public int tileSize = 64;
     public Map<Integer, Tile> tiles;
 
     public TileManager(GameController gc)

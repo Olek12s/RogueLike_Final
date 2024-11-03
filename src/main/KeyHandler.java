@@ -1,9 +1,13 @@
 package main;
 
+import main.GameController;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
-public class KeyHandler implements KeyListener
+public class KeyHandler implements KeyListener//, MouseWheelListener
 {
     GameController gc;
 
@@ -17,16 +21,16 @@ public class KeyHandler implements KeyListener
     public boolean LEFT_PRESSED = false;
     public boolean RIGHT_PRESSED = false;
 
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-
-    }
+    public boolean SCROLL_UP = false;
+    public boolean SCROLL_DOWN = false;
 
     public KeyHandler(GameController gc)
     {
-       this.gc = gc;
+        this.gc = gc;
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) { }
 
     @Override
     public void keyPressed(KeyEvent e)
@@ -63,4 +67,18 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_RIGHT: RIGHT_PRESSED = false; break;
         }
     }
+
+    /*
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        int rotation = e.getWheelRotation();
+        if (rotation < 0) {
+            System.out.println("ASD");
+            gc.tileManager.tileSize -= 1;
+        } else if (rotation > 0) {
+            gc.tileManager.tileSize += 1;
+        }
+        gc.repaint(); // Odśwież widok po zmianie tileSize
+    }
+     */
 }

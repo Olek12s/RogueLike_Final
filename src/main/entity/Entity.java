@@ -5,10 +5,7 @@ import main.Direction;
 import main.Drawable;
 import main.GameController;
 import main.Updatable;
-import utilities.DrawPriorities;
-import utilities.Position;
-import utilities.Sprite;
-import utilities.SpriteSheet;
+import utilities.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,7 +18,7 @@ public class Entity implements Drawable, Updatable
 {
     protected GameController gc;
     protected SpriteSheet spriteSheet;
-    protected Sprite currentSprite;
+    public Sprite currentSprite;
     protected Sprite[][] spriteImages;
 
     protected Direction direction;
@@ -38,7 +35,7 @@ public class Entity implements Drawable, Updatable
     {
         this.gc = gc;
         this.direction = Direction.DOWN;
-        this.spriteSheet = new SpriteSheet(loadSpriteSheet("resources/default/SpriteSheet"), 48);
+        this.spriteSheet = new SpriteSheet(ImageManipulation.loadImage("resources/default/SpriteSheet"), 48);
         this.currentSprite = spriteSheet.extractFirst(spriteSheet);
         loadSpriteImages();
     }
@@ -167,19 +164,5 @@ public class Entity implements Drawable, Updatable
     {
         int movementSpeed = (int)(speed*2 / 32);
         return Math.max(movementSpeed, 1);
-    }
-
-    protected BufferedImage loadSpriteSheet(String imagePath)
-    {
-        BufferedImage image = null;
-        try
-        {
-            image = ImageIO.read(new File(imagePath + ".png"));
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-        return image;
     }
 }

@@ -3,6 +3,7 @@ package main.entity;
 import main.Direction;
 import main.GameController;
 import main.Main;
+import utilities.ImageManipulation;
 import utilities.Position;
 
 import java.awt.*;
@@ -17,7 +18,7 @@ public class Player extends Entity
         this.speed = 100;
         gc.drawables.add(this);
         gc.updatables.add(this);
-        loadSpriteSheet("resources/player/PlayerSpriteSheet");
+        ImageManipulation.loadImage("resources/player/PlayerSpriteSheet");
     }
 
     @Override

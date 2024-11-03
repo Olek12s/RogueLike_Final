@@ -29,8 +29,8 @@ public class Camera implements Updatable
 
     public void centerOnEntity(Entity entity)
     {
-        cameraPosition.x = entity.getPosition().x;
-        cameraPosition.y = entity.getPosition().y;
+        cameraPosition.x = entity.getPosition().x + entity.currentSprite.resolution/2;
+        cameraPosition.y = entity.getPosition().y + entity.currentSprite.resolution/2;
     }
 
     @Override
