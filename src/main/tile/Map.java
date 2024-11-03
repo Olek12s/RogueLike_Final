@@ -19,8 +19,8 @@ public class Map implements Drawable
 
     public Map(GameController gc/*, int mapWidth, int mapHeight, String path*/)
     {
-        this.mapWidth = 13;
-        this.mapHeight = 13;
+        this.mapWidth = 15;
+        this.mapHeight = 15;
         this.gc = gc;
         gc.drawables.add(this);
         //this.mapWidth = mapWidth;
