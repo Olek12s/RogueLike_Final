@@ -60,11 +60,8 @@ public class Entity implements Drawable, Updatable
     @Override
     public void draw(Graphics g2)
     {
-        int drawX = position.x - gc.camera.cameraPosition.x + gc.getWidth() / 2;
-        int drawY = position.y - gc.camera.cameraPosition.y + gc.getHeight() / 2;
-
-        // Rysowanie obiektu z uwzględnieniem pozycji kamery
-        g2.drawImage(currentSprite.image, drawX, drawY, null);
+        Position screenPosition = gc.camera.applyCameraOffset(position.x, position.y);
+        g2.drawImage(currentSprite.image, screenPosition.x, screenPosition.y, null);
 
 
         //g2.dispose();
