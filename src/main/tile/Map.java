@@ -19,8 +19,8 @@ public class Map implements Drawable
 
     public Map(GameController gc/*, int mapWidth, int mapHeight, String path*/)
     {
-        this.mapWidth = 15;
-        this.mapHeight = 15;
+        this.mapWidth = 30;
+        this.mapHeight = 30;
         this.gc = gc;
         gc.drawables.add(this);
         //this.mapWidth = mapWidth;
@@ -40,19 +40,28 @@ public class Map implements Drawable
             for (int row = 0; row < mapHeight; row++)
             {
                 String line = br.readLine();
-                if(line == null) continue;
+                if(line == null || line.equals("")) continue;
                 String[] tiles = line.split(" ");
 
                 for (int col = 0; col < mapWidth; col++)
                 {
                     try
                     {
-                        int tileID = Integer.parseInt(tiles[col]);
-                        mapGrid[col][row] = gc.tileManager.tiles.get(tileID);
+                        if(tiles[col].equals(""))
+                        {
+                            //mapGrid[col][row] = null;
+                            continue;
+                        }
+                        else
+                        {
+                            int tileID = Integer.parseInt(tiles[col]);
+                            mapGrid[col][row] = gc.tileManager.tiles.get(tileID);
+                        }
                     }
                     catch (IndexOutOfBoundsException ex)
                     {
                         //Default tile texture in the future?
+                        //mapGrid[col][row] = null;
                     }
                 }
             }
