@@ -17,6 +17,8 @@ public class GameController extends JPanel implements Runnable {
     public KeyHandler keyHandler;
     public TileManager tileManager;
     public Map map;
+    public Player player;
+    public Camera camera;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -32,14 +34,9 @@ public class GameController extends JPanel implements Runnable {
 
         initAbstractCollections();
         initClassInstances();
-        init();
         this.addKeyListener(keyHandler);
     }
 
-    private void init()
-    {
-        new Player(this);
-    }
     private void initAbstractCollections()
     {
         drawables = new ArrayList<>();
@@ -50,6 +47,8 @@ public class GameController extends JPanel implements Runnable {
         tileManager = new TileManager(this);
         keyHandler = new KeyHandler(this);
         map = new Map(this);
+        player = new Player(this);
+        camera = new Camera(this);
     }
 
     public void startThread() {

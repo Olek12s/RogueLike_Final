@@ -4,6 +4,7 @@ import main.Drawable;
 import main.GameController;
 import main.tile.Tile;
 import utilities.DrawPriorities;
+import utilities.Position;
 
 import java.awt.*;
 import java.io.*;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class Map implements Drawable
 {
     GameController gc;
-    Tile[][] mapGrid;
+    public Tile[][] mapGrid;
     int mapWidth, mapHeight;
     //Enum level;
 
@@ -87,10 +88,13 @@ public class Map implements Drawable
                 Tile tile = mapGrid[col][row];
                 if (tile != null && tile.getSprite() != null)
                 {
-                    System.out.println("X");
-                    int x = col * tileSize;
-                    int y = row * tileSize;
-                    g2.drawImage(tile.getSprite().image, x, y, tileSize, tileSize, null);   // tileSize - scale
+                    // Tile's world cooridanets * tileSize
+                    int worldX = col * tileSize;
+                    int worldY = row * tileSize;
+
+                    // Adjusting tiles position to the camera
+                    Position screenPosition = gc.camera.applyCameraOffset(worldX, worldY);
+                    g2.drawImage(tile.getSprite().image, screenPosition.x, screenPosition.y, tileSize, tileSize, null);   // tileSize - scale
                 }
             }
         }

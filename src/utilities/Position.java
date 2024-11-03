@@ -30,4 +30,10 @@ public class Position
         this.x = x - position.x;
         this.y = x - position.y;
     }
+
+    @Override
+    public String toString()
+    {
+        return "["+ x + " " + y + "]";
+    }
 }
