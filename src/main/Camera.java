@@ -27,7 +27,13 @@ public class Camera implements Updatable
         return new Position(screenX, screenY);
     }
 
-    public void centerOnEntity(Entity entity)
+    /**
+     * sets the camera's focus to a given position. Updates every tick.
+    *
+    * @Param Position position
+    */
+
+    public void focusOn(Entity entity)
     {
         cameraPosition.x = entity.getPosition().x + entity.currentSprite.resolution/2;
         cameraPosition.y = entity.getPosition().y + entity.currentSprite.resolution/2;
@@ -36,7 +42,7 @@ public class Camera implements Updatable
     @Override
     public void update()
     {
-        centerOnEntity(gc.player);
+        focusOn(gc.player);
         System.out.println(cameraPosition);
     }
 }
