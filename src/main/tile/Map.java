@@ -54,7 +54,7 @@ public class Map implements Drawable
                         else
                         {
                             int tileID = Integer.parseInt(tiles[col]);
-                            mapGrid[col][row] = gc.tileManager.tiles.get(tileID);
+                            mapGrid[col][row] = gc.tileManager.getRandomTile(tileID);
                         }
                     }
                     catch (IndexOutOfBoundsException ex)

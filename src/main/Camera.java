@@ -43,6 +43,5 @@ public class Camera implements Updatable
     public void update()
     {
         focusOn(gc.player);
-        System.out.println(cameraPosition);
     }
 }

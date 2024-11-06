@@ -7,42 +7,38 @@ public class Tile
 {
     private SpriteSheet spriteSheet;
     private Sprite currentSprite;
-    private Sprite[] spriteImages; // animations array
     private final int id;
     public boolean collision = false;
 
     public Tile(SpriteSheet spriteSheet, int id)
     {
-        System.out.println("A");
         this.spriteSheet = spriteSheet;
-        //this.currentSprite = spriteSheet.extractFirst();
-        this.currentSprite = extractRandomVariation();
         this.id = id;
-        loadSpriteImages();
+        this.currentSprite = extractRandomVariation();
     }
 
-    public int getId() {return id;}
-    public Sprite getCurrentSprite() {return currentSprite;}
+    public SpriteSheet getSpriteSheet() {
+        return spriteSheet;
+    }
 
+    public int getId() {
+        return id;
+    }
 
-    protected void loadSpriteImages()
-    {
-        int ticks = spriteSheet.countAnimationTicks();
-        spriteImages = new Sprite[ticks];
-
-        for (int tick = 0; tick < ticks; tick++)
-        {
-            spriteImages[tick] = spriteSheet.extractSprite(tick);
-        }
+    public Sprite getCurrentSprite() {
+        return currentSprite;
     }
 
     private Sprite extractRandomVariation()
     {
-       if (spriteSheet.variations == 1) return spriteSheet.extractFirst();
-       else
-       {
-           int randomTick = (int) (Math.random() * spriteSheet.variations) + 0;
-           return spriteSheet.extractSprite(randomTick);
-       }
+        if (spriteSheet.countSpriteVariations() == 1)
+        {
+            return spriteSheet.extractFirst();
+        }
+        else
+        {
+            int randomVariation = (int) (Math.random() * spriteSheet.countSpriteVariations());
+            return spriteSheet.extractSpriteByVariation(randomVariation);
+        }
     }
 }

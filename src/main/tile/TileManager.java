@@ -38,4 +38,14 @@ public class TileManager
         tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
         tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
     }
+
+    public Tile getRandomTile(int tileID)
+    {
+        Tile templateTile = tiles.get(tileID);
+        if (templateTile != null)
+        {
+            return new Tile(templateTile.getSpriteSheet(), tileID);
+        }
+        return null;
+    }
 }

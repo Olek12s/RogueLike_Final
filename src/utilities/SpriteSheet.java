@@ -7,8 +7,8 @@ public class SpriteSheet
     private BufferedImage spriteSheet;
     public static int spriteSheetPadding = 3;    // padding between sprites
     public static int spriteSheetOffset = 2;     // offset from spritesheet boundaries
-    public int variations;
-    public int ticks;
+    public int variations;  // fix this
+    public int ticks;       // fix this
     public int textureResolution;
 
     public BufferedImage getImage() {return spriteSheet;}
@@ -40,19 +40,19 @@ public class SpriteSheet
     }
 
     // Extracts Sprite from 1D spriteSheet.
-    public Sprite extractSprite(int tick)
+    public Sprite extractSpriteByVariation(int variation)
     {
-        int startX = spriteSheetOffset + (tick * textureResolution);
-        int startY = spriteSheetOffset;
+        int startX = spriteSheetOffset;
+        int startY = spriteSheetOffset + (variation * (textureResolution + spriteSheetPadding));
+
         if (isSprite(this, startX, startY))
         {
-            BufferedImage spriteImage = this.getImage().getSubimage(startX, startY, textureResolution, textureResolution);
+            BufferedImage spriteImage = spriteSheet.getSubimage(startX, startY, textureResolution, textureResolution);
             return new Sprite(spriteImage, textureResolution);
         }
         else
         {
-            //throw new NoSuchElementException("No sprite found at tick: " + tick + ", variation: " + variation);
-            return null;    // Maybe return default Sprite with given textureResolution
+            return null;
         }
     }
 
