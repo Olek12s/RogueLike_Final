@@ -35,8 +35,8 @@ public class Camera implements Updatable
 
     public void focusOn(Entity entity)
     {
-        cameraPosition.x = entity.getPosition().x + entity.currentSprite.resolution/2;
-        cameraPosition.y = entity.getPosition().y + entity.currentSprite.resolution/2;
+        cameraPosition.x = entity.getWorldPosition().x + entity.currentSprite.resolution/2;
+        cameraPosition.y = entity.getWorldPosition().y + entity.currentSprite.resolution/2;
     }
 
     @Override

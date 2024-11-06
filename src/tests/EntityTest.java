@@ -6,11 +6,6 @@ import test.annotations.Before;
 import test.annotations.Test;
 import test.runner.Assertions;
 import utilities.Position;
-import utilities.SpriteSheet;
-
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
 
 public class EntityTest
 {
@@ -35,6 +30,6 @@ public class EntityTest
     {
         Position position = new Position(50, 50);
         entity.setPosition(position);
-        Assertions.assertEquals(entity.getPosition(), position, "[Unexpected entity position]");
+        Assertions.assertEquals(entity.getWorldPosition(), position, "[Unexpected entity position]");
     }
 }

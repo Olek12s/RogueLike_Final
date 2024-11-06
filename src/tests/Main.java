@@ -9,6 +9,8 @@ public class Main
         TestRunner.runTests(TestTest.class);
         TestRunner.runTests(SpriteSheetTest.class);
         TestRunner.runTests(EntityTest.class);
+        TestRunner.runTests(CollisionTest.class);
+        TestRunner.runTests(MapTest.class);
         TestRunner.printSummary();
     }
 }

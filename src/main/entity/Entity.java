@@ -1,18 +1,10 @@
 package main.entity;
 
 
-import main.Direction;
-import main.Drawable;
-import main.GameController;
-import main.Updatable;
+import main.*;
 import utilities.*;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class Entity implements Drawable, Updatable
 {
@@ -20,11 +12,12 @@ public class Entity implements Drawable, Updatable
     protected SpriteSheet spriteSheet;
     public Sprite currentSprite;
     protected Sprite[][] spriteImages;
-
+    public Hitbox hitbox;
     protected Direction direction;
     protected Position position;
     protected int speed;
     protected boolean isMoving;
+    public String name;
 
     private int spriteCounter = 0;
     protected int animationSpeed = 6;
@@ -37,12 +30,14 @@ public class Entity implements Drawable, Updatable
         this.direction = Direction.DOWN;
         this.spriteSheet = new SpriteSheet(ImageManipulation.loadImage("resources/default/SpriteSheet"), 48);
         this.currentSprite = spriteSheet.extractFirst();
+        this.name = "default entity name";
+        //this.hitbox = new Hitbox(this);
         loadSpriteImages();
     }
 
     //GETTERS AND SETTERS
 
-    public Position getPosition() {
+    public Position getWorldPosition() {
         return position;
     }
     public void setPosition(Position position) {
@@ -117,14 +112,14 @@ public class Entity implements Drawable, Updatable
         }
     }
 
-    protected void updatePosition(Entity entityy)
+    protected void updatePosition(Entity entity)
     {
         if (isMoving)
         {
             if (direction == Direction.UP_LEFT)
             {
-                position.x -= Math.max((int)(getMovementSpeed(entityy.speed) / Math.sqrt(2)), 1);
-                position.y -= Math.max((int)(getMovementSpeed(entityy.speed) / Math.sqrt(2)), 1);
+                position.x -= Math.max((int)(getMovementSpeed(entity.speed) / Math.sqrt(2)), 1);
+                position.y -= Math.max((int)(getMovementSpeed(entity.speed) / Math.sqrt(2)), 1);
             }
             else if (direction == Direction.UP_RIGHT)
             {
