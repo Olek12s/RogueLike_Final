@@ -10,11 +10,12 @@ public class Tile
     private final int id;
     public boolean collision = false;
 
-    public Tile(SpriteSheet spriteSheet, int id)
+    public Tile(SpriteSheet spriteSheet, boolean collision, int id)
     {
         this.spriteSheet = spriteSheet;
         this.id = id;
         this.currentSprite = extractRandomVariation();
+        this.collision = collision;
     }
 
     public SpriteSheet getSpriteSheet() {

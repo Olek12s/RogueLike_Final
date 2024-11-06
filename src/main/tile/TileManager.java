@@ -35,8 +35,8 @@ public class TileManager
     private void loadTiles()
     {
         int i = 0;
-        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
-        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
+        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), false, i++));
+        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileCollision"), tileSize), true, i++));
     }
 
     public Tile getRandomTile(int tileID)
@@ -44,7 +44,7 @@ public class TileManager
         Tile templateTile = tiles.get(tileID);
         if (templateTile != null)
         {
-            return new Tile(templateTile.getSpriteSheet(), tileID);
+            return new Tile(templateTile.getSpriteSheet(), templateTile.collision, tileID);
         }
         return null;
     }
