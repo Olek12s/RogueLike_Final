@@ -4,6 +4,7 @@ import main.Drawable;
 import main.GameController;
 import utilities.DrawPriorities;
 import utilities.Sprite;
+import utilities.SpriteSheet;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -34,7 +35,7 @@ public class TileManager
     private void loadTiles()
     {
         int i = 0;
-        tiles.put(i, new Tile(new Sprite(loadImage("resources/default/defaultTile0"), tileSize), i++));
-        tiles.put(i, new Tile(new Sprite(loadImage("resources/default/defaultTile1"), tileSize), i++));
+        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
+        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
     }
 }

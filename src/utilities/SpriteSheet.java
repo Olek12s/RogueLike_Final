@@ -21,6 +21,7 @@ public class SpriteSheet
         this.textureResolution = textureResolution;
     }
 
+    // Extracts Sprite from 2D spriteSheet.
     public Sprite extractSprite(SpriteSheet spriteSheet, int tick, int variation)
     {
         int startX = spriteSheetOffset + (tick * textureResolution);
@@ -38,9 +39,26 @@ public class SpriteSheet
         }
     }
 
-    public Sprite extractFirst(SpriteSheet spriteSheet)
+    // Extracts Sprite from 1D spriteSheet.
+    public Sprite extractSprite(int tick)
     {
-        return extractSprite(spriteSheet, 0, 0);
+        int startX = spriteSheetOffset + (tick * textureResolution);
+        int startY = spriteSheetOffset;
+        if (isSprite(this, startX, startY))
+        {
+            BufferedImage spriteImage = this.getImage().getSubimage(startX, startY, textureResolution, textureResolution);
+            return new Sprite(spriteImage, textureResolution);
+        }
+        else
+        {
+            //throw new NoSuchElementException("No sprite found at tick: " + tick + ", variation: " + variation);
+            return null;    // Maybe return default Sprite with given textureResolution
+        }
+    }
+
+    public Sprite extractFirst()
+    {
+        return extractSprite(this, 0, 0);
     }
 
     public int countAnimationTicks()
@@ -94,7 +112,7 @@ public class SpriteSheet
         return spriteCounter;
     }
 
-    // If the area has a non-transparent pixel, return true
+    // If the area has a non-transparent pixel, return true. Used in 2D SpriteSheets
     public boolean isSprite(SpriteSheet spriteSheet, int startX, int startY)
     {
         BufferedImage image = spriteSheet.getImage();
@@ -104,6 +122,27 @@ public class SpriteSheet
         for (int x = startX; x < maxX; x++)
         {
             for (int y = startY; y < maxY; y++)
+            {
+                int pixel = image.getRGB(x, y);
+                if ((pixel >> 24) != 0x00)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // If the area has a non-transparent pixel, return true. Used in 1D SpriteSheets
+    public boolean isSprite(SpriteSheet spriteSheet, int startX)
+    {
+        BufferedImage image = spriteSheet.getImage();
+        int maxX = startX + textureResolution;
+        int maxY = spriteSheetOffset + textureResolution;
+
+        for (int x = startX; x < maxX; x++)
+        {
+            for (int y = spriteSheetOffset; y < maxY; y++)
             {
                 int pixel = image.getRGB(x, y);
                 if ((pixel >> 24) != 0x00)
