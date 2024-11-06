@@ -40,13 +40,13 @@ public class SpriteSheet
     }
 
     // Extracts Sprite from 1D spriteSheet.
-    public Sprite extractSprite(SpriteSheet spriteSheet, int tick)
+    public Sprite extractSprite(int tick)
     {
         int startX = spriteSheetOffset + (tick * textureResolution);
         int startY = spriteSheetOffset;
-        if (isSprite(spriteSheet, startX, startY))
+        if (isSprite(this, startX, startY))
         {
-            BufferedImage spriteImage = spriteSheet.getImage().getSubimage(startX, startY, textureResolution, textureResolution);
+            BufferedImage spriteImage = this.getImage().getSubimage(startX, startY, textureResolution, textureResolution);
             return new Sprite(spriteImage, textureResolution);
         }
         else
@@ -56,9 +56,9 @@ public class SpriteSheet
         }
     }
 
-    public Sprite extractFirst(SpriteSheet spriteSheet)
+    public Sprite extractFirst()
     {
-        return extractSprite(spriteSheet, 0, 0);
+        return extractSprite(this, 0, 0);
     }
 
     public int countAnimationTicks()

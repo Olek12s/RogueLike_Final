@@ -7,4 +7,3 @@
     -czy te pola aby na pewno są potrzebne?
 
     Kafelki się rysują nawet po za obszarem okna
-    Kafelki aktualnie są wczytywane jako pojedyńcze zdjęcia. Powinny być wczytywane jako cały SpriteSheet (podobnie jak Entity)

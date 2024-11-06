@@ -13,9 +13,12 @@ public class Tile
 
     public Tile(SpriteSheet spriteSheet, int id)
     {
+        System.out.println("A");
         this.spriteSheet = spriteSheet;
-        this.currentSprite = spriteSheet.extractFirst(spriteSheet);
+        //this.currentSprite = spriteSheet.extractFirst();
+        this.currentSprite = extractRandomVariation();
         this.id = id;
+        loadSpriteImages();
     }
 
     public int getId() {return id;}
@@ -29,7 +32,17 @@ public class Tile
 
         for (int tick = 0; tick < ticks; tick++)
         {
-            spriteImages[tick] = spriteSheet.extractSprite(spriteSheet, tick);
+            spriteImages[tick] = spriteSheet.extractSprite(tick);
         }
+    }
+
+    private Sprite extractRandomVariation()
+    {
+       if (spriteSheet.variations == 1) return spriteSheet.extractFirst();
+       else
+       {
+           int randomTick = (int) (Math.random() * spriteSheet.variations) + 0;
+           return spriteSheet.extractSprite(randomTick);
+       }
     }
 }

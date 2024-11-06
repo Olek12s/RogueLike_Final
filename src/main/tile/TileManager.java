@@ -35,7 +35,7 @@ public class TileManager
     private void loadTiles()
     {
         int i = 0;
-        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTile"), tileSize), i++));
-        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTile"), tileSize), i++));
+        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
+        tiles.put(i, new Tile(new SpriteSheet(loadImage("resources/default/defaultTileTest"), tileSize), i++));
     }
 }

@@ -36,7 +36,7 @@ public class Entity implements Drawable, Updatable
         this.gc = gc;
         this.direction = Direction.DOWN;
         this.spriteSheet = new SpriteSheet(ImageManipulation.loadImage("resources/default/SpriteSheet"), 48);
-        this.currentSprite = spriteSheet.extractFirst(spriteSheet);
+        this.currentSprite = spriteSheet.extractFirst();
         loadSpriteImages();
     }
 
