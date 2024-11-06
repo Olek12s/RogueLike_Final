@@ -2,13 +2,11 @@ package main.tile;
 
 import main.Drawable;
 import main.GameController;
-import main.tile.Tile;
 import utilities.DrawPriorities;
 import utilities.Position;
 
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 
 // multiple maps
 public class Map implements Drawable
@@ -86,7 +84,7 @@ public class Map implements Drawable
             for (int row = 0; row < mapHeight; row++)
             {
                 Tile tile = mapGrid[col][row];
-                if (tile != null && tile.getSprite() != null)
+                if (tile != null && tile.getCurrentSprite() != null)
                 {
                     // Tile's world cooridanets * tileSize
                     int worldX = col * tileSize;
@@ -94,7 +92,7 @@ public class Map implements Drawable
 
                     // Adjusting tiles position to the camera
                     Position screenPosition = gc.camera.applyCameraOffset(worldX, worldY);
-                    g2.drawImage(tile.getSprite().image, screenPosition.x, screenPosition.y, tileSize, tileSize, null);   // tileSize - scale
+                    g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, tileSize, tileSize, null);   // tileSize - scale
                 }
             }
         }

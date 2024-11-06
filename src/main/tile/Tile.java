@@ -1,25 +1,35 @@
 package main.tile;
 
-import main.Drawable;
-import main.Updatable;
-import utilities.DrawPriorities;
 import utilities.Sprite;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import utilities.SpriteSheet;
 
 public class Tile
 {
-    private Sprite sprite;
+    private SpriteSheet spriteSheet;
+    private Sprite currentSprite;
+    private Sprite[] spriteImages; // animations array
     private final int id;
     public boolean collision = false;
 
-    public Tile(Sprite sprite, int id)
+    public Tile(SpriteSheet spriteSheet, int id)
     {
-        this.sprite = sprite;
+        this.spriteSheet = spriteSheet;
+        this.currentSprite = spriteSheet.extractFirst(spriteSheet);
         this.id = id;
     }
 
     public int getId() {return id;}
-    public Sprite getSprite() {return sprite;}
+    public Sprite getCurrentSprite() {return currentSprite;}
+
+
+    protected void loadSpriteImages()
+    {
+        int ticks = spriteSheet.countAnimationTicks();
+        spriteImages = new Sprite[ticks];
+
+        for (int tick = 0; tick < ticks; tick++)
+        {
+            spriteImages[tick] = spriteSheet.extractSprite(spriteSheet, tick);
+        }
+    }
 }
