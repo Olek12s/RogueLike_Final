@@ -24,7 +24,7 @@ public class Item implements Drawable
     public Item(GameController gc)
     {
         this.gc = gc;
-        this.currentSprite = new SpriteSheet(ImageManipulation.loadImage("resources/default/Item"), 48).extractFirst(); // default sprite
+        this.currentSprite = new SpriteSheet(FileManipulation.loadImage("resources/default/Item"), 48).extractFirst(); // default sprite
         //this.hitbox = new Hitbox(this);
         this.name = "default";
     }

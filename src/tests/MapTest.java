@@ -3,7 +3,6 @@ package tests;
 import main.GameController;
 import main.entity.Entity;
 import main.item.Item;
-import main.tile.Tile;
 import test.annotations.Before;
 import test.annotations.Test;
 import test.runner.Assertions;
@@ -25,7 +24,7 @@ public class MapTest
         entity = new Entity(gc);
 
         item.setWorldPosition(new Position(0*gc.tileManager.tileSize, 0*gc.tileManager.tileSize)); // Tile (0, 0)
-        entity.setPosition(new Position(0*gc.tileManager.tileSize, 1*gc.tileManager.tileSize));    // Tile (0, 1)
+        entity.setWorldPosition(new Position(0*gc.tileManager.tileSize, 1*gc.tileManager.tileSize));    // Tile (0, 1)
 
         gc.map.lyingItems.add(item);
         gc.map.entities.add(entity);

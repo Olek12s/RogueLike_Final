@@ -5,15 +5,17 @@ import main.entity.Entity;
 import main.item.Item;
 import main.tile.Tile;
 
-public class Collision
+import static main.Direction.*;
+
+public class Collisions
 {
     GameController gc;
-    public Collision(GameController gc)
+    public Collisions(GameController gc)
     {
         this.gc = gc;
     }
-    /*
-    private boolean isColliding()
+
+    public static boolean isColliding(Entity entity)
     {
         int predictedX = position.x;
         int predictedY = position.y;
@@ -47,7 +49,7 @@ public class Collision
         Tile tile = gc.map.getMapTile(tileX, tileY);
         return tile != null && tile.collision;
     }
-    */
+
 
     public boolean canPutItemOnTile(Item item, Tile tile)
     {

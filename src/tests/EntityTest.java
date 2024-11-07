@@ -29,7 +29,7 @@ public class EntityTest
     public void moveTest()
     {
         Position position = new Position(50, 50);
-        entity.setPosition(position);
+        entity.setWorldPosition(position);
         Assertions.assertEquals(entity.getWorldPosition(), position, "[Unexpected entity position]");
     }
 }

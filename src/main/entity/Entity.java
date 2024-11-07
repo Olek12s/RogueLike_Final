@@ -28,7 +28,7 @@ public class Entity implements Drawable, Updatable
     {
         this.gc = gc;
         this.direction = Direction.DOWN;
-        this.spriteSheet = new SpriteSheet(ImageManipulation.loadImage("resources/default/SpriteSheet"), 48);
+        this.spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/SpriteSheet"), 48);
         this.currentSprite = spriteSheet.extractFirst();
         this.name = "default entity name";
         //this.hitbox = new Hitbox(this);
@@ -40,7 +40,7 @@ public class Entity implements Drawable, Updatable
     public Position getWorldPosition() {
         return position;
     }
-    public void setPosition(Position position) {
+    public void setWorldPosition(Position position) {
         this.position = position;
     }
     public int getSpeed() {return speed;}
@@ -112,14 +112,14 @@ public class Entity implements Drawable, Updatable
         }
     }
 
-    protected void updatePosition(Entity entity)
+    protected void updatePosition()
     {
-        if (isMoving)
+        if (isMoving && !Collisions.isColliding(this))
         {
             if (direction == Direction.UP_LEFT)
             {
-                position.x -= Math.max((int)(getMovementSpeed(entity.speed) / Math.sqrt(2)), 1);
-                position.y -= Math.max((int)(getMovementSpeed(entity.speed) / Math.sqrt(2)), 1);
+                position.x -= Math.max((int)(getMovementSpeed(this.speed) / Math.sqrt(2)), 1);
+                position.y -= Math.max((int)(getMovementSpeed(this.speed) / Math.sqrt(2)), 1);
             }
             else if (direction == Direction.UP_RIGHT)
             {
