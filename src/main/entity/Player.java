@@ -12,8 +12,7 @@ public class Player extends Entity
 
     public Player(GameController gc)
     {
-        super(gc);
-        this.position = new Position(400,400);
+        super(gc, new Position(400, 400));
         this.speed = 100;
         gc.drawables.add(this);
         gc.updatables.add(this);
@@ -25,7 +24,6 @@ public class Player extends Entity
     {
         super.update();
         updatePlayerDirection();
-        updatePosition(this);
     }
 
     @Override

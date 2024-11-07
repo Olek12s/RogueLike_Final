@@ -21,10 +21,9 @@ public class MapTest
     {
         gc = new GameController();
         item = new Item(gc);
-        entity = new Entity(gc);
+        entity = new Entity(gc,new Position(0*gc.tileManager.tileSize, 1*gc.tileManager.tileSize)); // Tile (0, 0)// Tile (0, 1)
 
-        item.setWorldPosition(new Position(0*gc.tileManager.tileSize, 0*gc.tileManager.tileSize)); // Tile (0, 0)
-        entity.setWorldPosition(new Position(0*gc.tileManager.tileSize, 1*gc.tileManager.tileSize));    // Tile (0, 1)
+        item.setWorldPosition(new Position(0*gc.tileManager.tileSize, 0*gc.tileManager.tileSize));
 
         gc.map.lyingItems.add(item);
         gc.map.entities.add(entity);

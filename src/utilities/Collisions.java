@@ -9,7 +9,7 @@ import static main.Direction.*;
 
 public class Collisions
 {
-    GameController gc;
+    static GameController gc;
     public Collisions(GameController gc)
     {
         this.gc = gc;
@@ -17,48 +17,49 @@ public class Collisions
 
     public static boolean isColliding(Entity entity)
     {
-        int predictedX = position.x;
-        int predictedY = position.y;
+        Position startPosition = entity.getWorldPosition();
+        boolean isColliding = false;
 
-        switch (direction)
+        switch (entity.direction)
         {
-            case DOWN: predictedY += getMovementSpeed(speed);break;
-            case UP: predictedY -= getMovementSpeed(speed);break;
-            case LEFT: predictedX -= getMovementSpeed(speed);break;
-            case RIGHT: predictedX += getMovementSpeed(speed);break;
+
+            case DOWN: startPosition.y += entity.getMovementSpeed(); break;
+            case UP: startPosition.y -= entity.getMovementSpeed(); break;
+            case LEFT: startPosition.x -= entity.getMovementSpeed(); break;
+            case RIGHT: startPosition.x += entity.getMovementSpeed(); break;
             case UP_LEFT:
-                predictedX -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
-                predictedY -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                startPosition.x -=  Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                startPosition.y -=  Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
                 break;
             case UP_RIGHT:
-                predictedX += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
-                predictedY -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                startPosition.x += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                startPosition.y -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
                 break;
             case DOWN_LEFT:
-                predictedX -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
-                predictedY += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                startPosition.x -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                startPosition.y += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
                 break;
             case DOWN_RIGHT:
-                predictedX += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
-                predictedY += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                startPosition.x += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                startPosition.y += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
                 break;
         }
-        int tileX = predictedX / gc.tileManager.tileSize;
-        int tileY = predictedY / gc.tileManager.tileSize;
-
+        int tileX = startPosition.x / gc.tileManager.tileSize;
+        int tileY = startPosition.y / gc.tileManager.tileSize;
         Tile tile = gc.map.getMapTile(tileX, tileY);
-        return tile != null && tile.collision;
+
+        return tile.collision;
     }
 
 
-    public boolean canPutItemOnTile(Item item, Tile tile)
+    public static boolean canPutItemOnTile(Item item, Tile tile)
     {
         // in future - check by hitbox overlapping
 
         return !tile.collision;
     }
 
-    public boolean canPutEntityOnTile(Entity entity, Tile tile)
+    public static boolean canPutEntityOnTile(Entity entity, Tile tile)
     {
         // in future - check by hitbox overlapping
 
