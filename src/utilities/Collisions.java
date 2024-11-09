@@ -5,6 +5,8 @@ import main.entity.Entity;
 import main.item.Item;
 import main.tile.Tile;
 
+import java.awt.*;
+
 import static main.Direction.*;
 
 public class Collisions
@@ -15,43 +17,94 @@ public class Collisions
         this.gc = gc;
     }
 
-    public static boolean isColliding(Entity entity)
-    {
-        Position startPosition = entity.getWorldPosition();
+    public static boolean isColliding(Entity entity) {
+        Rectangle hitbox = entity.hitbox.hitboxRect;
+        Rectangle predictedHitboxPosition = new Rectangle(hitbox);
         boolean isColliding = false;
 
+        switch (entity.direction)   // finding out future hitbox position
+        {
+            case DOWN:
+                predictedHitboxPosition.y += entity.getMovementSpeed();
+                break;
+            case UP:
+                predictedHitboxPosition.y -= entity.getMovementSpeed();
+                break;
+            case LEFT:
+                predictedHitboxPosition.x -= entity.getMovementSpeed();
+                break;
+            case RIGHT:
+                predictedHitboxPosition.x += entity.getMovementSpeed();
+                break;
+            case UP_LEFT:
+                predictedHitboxPosition.x -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                predictedHitboxPosition.y -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                break;
+            case UP_RIGHT:
+                predictedHitboxPosition.x += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                predictedHitboxPosition.y -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                break;
+            case DOWN_LEFT:
+                predictedHitboxPosition.x -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                predictedHitboxPosition.y += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                break;
+            case DOWN_RIGHT:
+                predictedHitboxPosition.x += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                predictedHitboxPosition.y += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                break;
+        }
 
-            if (entity.isMoving)
+        // checking tile's collision in predicted hitbox position
+        int leftCol = predictedHitboxPosition.x / gc.tileManager.tileSize;
+        int rightCol = (predictedHitboxPosition.x + predictedHitboxPosition.width) / gc.tileManager.tileSize;
+        int topRow = predictedHitboxPosition.y / gc.tileManager.tileSize;
+        int bottomRow = (predictedHitboxPosition.y + predictedHitboxPosition.height) / gc.tileManager.tileSize;
+
+        // checking UP
+        if (entity.direction == UP || entity.direction == UP_LEFT || entity.direction == UP_RIGHT)
+        {
+            Tile tileLeftTop = gc.map.getMapTile(leftCol, topRow);
+            Tile tileLeftBottom = gc.map.getMapTile(leftCol, bottomRow);
+
+            if ((tileLeftTop != null && tileLeftTop.collision) || (tileLeftBottom != null && tileLeftBottom.collision))
             {
-                switch (entity.direction)
-                {
-                case DOWN: startPosition.y += entity.getMovementSpeed(); break;
-                case UP: startPosition.y -= entity.getMovementSpeed(); break;
-                case LEFT: startPosition.x -= entity.getMovementSpeed(); break;
-                case RIGHT: startPosition.x += entity.getMovementSpeed(); break;
-                case UP_LEFT:
-                    startPosition.x -=  Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    startPosition.y -=  Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    break;
-                case UP_RIGHT:
-                    startPosition.x += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    startPosition.y -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    break;
-                case DOWN_LEFT:
-                    startPosition.x -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    startPosition.y += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    break;
-                case DOWN_RIGHT:
-                    startPosition.x += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    startPosition.y += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                    break;
+                isColliding = true;
             }
-            }
-        int tileX = startPosition.x / gc.tileManager.tileSize;
-        int tileY = startPosition.y / gc.tileManager.tileSize;
-        boolean tileCollision = gc.map.getMapTile(tileX, tileY).collision;
+        }
 
-        return !tileCollision;
+        // checking DOWN
+        if (entity.direction == DOWN || entity.direction == DOWN_LEFT || entity.direction == DOWN_RIGHT)
+        {
+            Tile tileLeftBottom = gc.map.getMapTile(leftCol, bottomRow);
+            Tile tileRightBottom = gc.map.getMapTile(rightCol, bottomRow);
+            if ((tileLeftBottom != null && tileLeftBottom.collision) || (tileRightBottom != null && tileRightBottom.collision))
+            {
+                isColliding = true;
+            }
+        }
+
+        // checking LEFT
+        if (entity.direction == LEFT || entity.direction == UP_LEFT || entity.direction == DOWN_LEFT)
+        {
+            Tile tileLeftTop = gc.map.getMapTile(leftCol, topRow);
+            Tile tileLeftBottom = gc.map.getMapTile(leftCol, bottomRow);
+            if ((tileLeftTop != null && tileLeftTop.collision) || (tileLeftBottom != null && tileLeftBottom.collision))
+            {
+                isColliding = true;
+            }
+        }
+
+        // checking RIGHT
+        if (entity.direction == RIGHT || entity.direction == UP_RIGHT || entity.direction == DOWN_RIGHT)
+        {
+            Tile tileRightTop = gc.map.getMapTile(rightCol, topRow);
+            Tile tileRightBottom = gc.map.getMapTile(rightCol, bottomRow);
+            if ((tileRightTop != null && tileRightTop.collision) || (tileRightBottom != null && tileRightBottom.collision))
+            {
+                isColliding = true;
+            }
+        }
+        return isColliding;
     }
 
 

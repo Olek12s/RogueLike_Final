@@ -129,7 +129,7 @@ public class Entity implements Drawable, Updatable
 
     protected void move()
     {
-        if (isMoving /*&& !Collisions.isColliding(this)*/)
+        if (isMoving && !Collisions.isColliding(this))
         {
             if (direction == Direction.UP_LEFT)
             {
