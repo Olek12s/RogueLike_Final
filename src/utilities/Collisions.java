@@ -104,6 +104,7 @@ public class Collisions
                 isColliding = true;
             }
         }
+        //bugFix #3: before returning check when isColliding == true how many pixels are between hitbox and colliding tile, move Entity by this difference
         return isColliding;
     }
 

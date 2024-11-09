@@ -17,7 +17,8 @@ public class Item implements Drawable
 
     public Position getWorldPosition() {return worldPosition;}
 
-    public void setWorldPosition(Position worldPosition) {
+    public void setWorldPosition(Position worldPosition)
+    {
         this.worldPosition = worldPosition;
     }
 
@@ -25,7 +26,7 @@ public class Item implements Drawable
     {
         this.gc = gc;
         this.currentSprite = new SpriteSheet(FileManipulation.loadImage("resources/default/Item"), 48).extractFirst(); // default sprite
-        //this.hitbox = new Hitbox(this);
+        this.hitbox = new Hitbox(this);
         this.name = "default";
     }
 

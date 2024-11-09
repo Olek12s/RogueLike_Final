@@ -49,7 +49,7 @@ public class Map implements Drawable {
                             continue;
                         } else {
                             int tileID = Integer.parseInt(tiles[col]);
-                            mapGrid[col][row] = gc.tileManager.getRandomTile(tileID);
+                            mapGrid[col][row] = gc.tileManager.getTile(tileID);
                         }
                     } catch (IndexOutOfBoundsException ex) {
                         //Default tile texture in the future?

@@ -6,6 +6,7 @@
     -oba te pole posiadają wartość zero, mimo wczytanego SpriteSheet'u i obliczonej złożoności animacji i jej wariacji.
     -czy te pola aby na pewno są potrzebne?
 
-    Kafelki się rysują nawet po za obszarem okna
-    sprite w defaultSpriteSheet ma rozmiar 45x45 a powinien mieć 48x48
-    użycie isColliding() dla bardzo szybkich entity może skutkować zatrzymaniem entity kilka pikseli przed faktyczną przeszkodą
+    #1 Kafelki się rysują nawet po za obszarem okna
+    #2 sprite w defaultSpriteSheet ma rozmiar 45x45 a powinien mieć 48x48
+    #3 użycie isColliding() dla bardzo szybkich entity może skutkować zatrzymaniem entity kilka pikseli przed faktyczną przeszkodą
+        (rozwiązanie: przed zwróceniem isColliding sprawdzić odległość pomiędzy tile a hitBoxem entity, i przesunąć entity o różnicę w określonych przypadkach)

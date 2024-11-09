@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class GameController extends JPanel implements Runnable {
     private Thread mainThread;
-    private int targetDrawFrame =  80;
+    private int targetDrawFrame =  120;
     private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
@@ -48,8 +48,8 @@ public class GameController extends JPanel implements Runnable {
     private void initClassInstances()
     {
         tileManager = new TileManager(this);
-        keyHandler = new KeyHandler(this);
         map = new Map(this);
+        keyHandler = new KeyHandler(this);
         player = new Player(this);
         camera = new Camera(this);
         collision = new Collisions(this);
