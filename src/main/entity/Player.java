@@ -13,7 +13,7 @@ public class Player extends Entity
     public Player(GameController gc)
     {
         super(gc, new Position(400, 400));
-        setMovementSpeed(100);
+        setMovementSpeed(120);
         gc.drawables.add(this);
         gc.updatables.add(this);
         FileManipulation.loadImage("resources/player/PlayerSpriteSheet");

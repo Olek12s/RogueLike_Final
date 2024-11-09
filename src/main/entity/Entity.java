@@ -52,6 +52,13 @@ public class Entity implements Drawable, Updatable
         movementSpeed = Math.max((int)(speed *2 / 32), 1);
     }
 
+    private void drawHitbox(Graphics g2)
+    {
+        Position screenPosition = gc.camera.applyCameraOffset(worldPosition.x, worldPosition.y);
+        g2.setColor(Color.ORANGE);
+        g2.drawRect(screenPosition.x, screenPosition.y, hitbox.width, hitbox.height);
+    }
+
     @Override
     public int getDrawPriority() {return DrawPriorities.Entity.value;}
 
@@ -60,10 +67,7 @@ public class Entity implements Drawable, Updatable
     {
         Position screenPosition = gc.camera.applyCameraOffset(worldPosition.x, worldPosition.y);
         g2.drawImage(currentSprite.image, screenPosition.x, screenPosition.y, null);
-        g2.setColor(Color.ORANGE);
-        g2.drawRect(screenPosition.x, screenPosition.y, hitbox.width, hitbox.height);
-
-
+        drawHitbox(g2);
         //g2.dispose();
     }
 

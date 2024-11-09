@@ -64,7 +64,7 @@ public class Collisions
         if (entity.direction == UP || entity.direction == UP_LEFT || entity.direction == UP_RIGHT)
         {
             Tile tileLeftTop = gc.map.getMapTile(leftCol, topRow);
-            Tile tileLeftBottom = gc.map.getMapTile(leftCol, bottomRow);
+            Tile tileLeftBottom = gc.map.getMapTile(rightCol, topRow);
 
             if ((tileLeftTop != null && tileLeftTop.collision) || (tileLeftBottom != null && tileLeftBottom.collision))
             {
