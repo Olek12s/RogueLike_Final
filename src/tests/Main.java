@@ -11,6 +11,7 @@ public class Main
         TestRunner.runTests(EntityTest.class);
         TestRunner.runTests(CollisionTest.class);
         TestRunner.runTests(MapTest.class);
+        TestRunner.runTests(FileManipulationTest.class);
         TestRunner.printSummary();
     }
 }
