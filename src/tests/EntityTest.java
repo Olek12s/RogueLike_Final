@@ -16,7 +16,7 @@ public class EntityTest
     public void initialize()
     {
         gc = new GameController();
-        entity = new Entity(gc);
+        entity = new Entity(gc, new Position(0, 0));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class EntityTest
     public void moveTest()
     {
         Position position = new Position(50, 50);
-        entity.setPosition(position);
+        entity.setWorldPosition(position);
         Assertions.assertEquals(entity.getWorldPosition(), position, "[Unexpected entity position]");
     }
 }

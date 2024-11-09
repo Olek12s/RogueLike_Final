@@ -3,7 +3,7 @@ package main;
 import main.entity.Player;
 import main.tile.TileManager;
 import main.tile.Map;
-import utilities.Collision;
+import utilities.Collisions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class GameController extends JPanel implements Runnable {
     public Map map;
     public Player player;
     public Camera camera;
-    public Collision collision;
+    public Collisions collision;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -52,7 +52,7 @@ public class GameController extends JPanel implements Runnable {
         map = new Map(this);
         player = new Player(this);
         camera = new Camera(this);
-        collision = new Collision(this);
+        collision = new Collisions(this);
     }
 
     public void startThread() {

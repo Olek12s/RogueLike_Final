@@ -8,15 +8,15 @@ import java.awt.*;
 
 public class Entity implements Drawable, Updatable
 {
-    protected GameController gc;
+    public GameController gc;
     protected SpriteSheet spriteSheet;
     public Sprite currentSprite;
     protected Sprite[][] spriteImages;
     public Hitbox hitbox;
-    protected Direction direction;
-    protected Position position;
-    protected int speed;
-    protected boolean isMoving;
+    public Direction direction;
+    public Position worldPosition;
+    protected int movementSpeed;
+    public boolean isMoving;
     public String name;
 
     private int spriteCounter = 0;
@@ -24,27 +24,33 @@ public class Entity implements Drawable, Updatable
 
 
 
-    public Entity(GameController gc)
+    public Entity(GameController gc, Position position)
     {
         this.gc = gc;
         this.direction = Direction.DOWN;
-        this.spriteSheet = new SpriteSheet(ImageManipulation.loadImage("resources/default/SpriteSheet"), 48);
+        this.spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/SpriteSheet"), 48);
         this.currentSprite = spriteSheet.extractFirst();
+        this.worldPosition = position;
+        this.hitbox = new Hitbox(this); // default hitbox
         this.name = "default entity name";
-        //this.hitbox = new Hitbox(this);
+        //setMovementSpeed(100);
         loadSpriteImages();
     }
 
     //GETTERS AND SETTERS
 
     public Position getWorldPosition() {
-        return position;
+        return worldPosition;
     }
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setWorldPosition(Position position) {
+        this.worldPosition = position;
     }
-    public int getSpeed() {return speed;}
-    public void setSpeed(int speed) {this.speed = speed;}
+    public int getMovementSpeed() {return movementSpeed;}
+    public void setMovementSpeed(int speed)
+    {
+        System.out.println("movement speed set");
+        movementSpeed = Math.max((int)(speed *2 / 32), 1);
+    }
 
     @Override
     public int getDrawPriority() {return DrawPriorities.Entity.value;}
@@ -52,8 +58,10 @@ public class Entity implements Drawable, Updatable
     @Override
     public void draw(Graphics g2)
     {
-        Position screenPosition = gc.camera.applyCameraOffset(position.x, position.y);
+        Position screenPosition = gc.camera.applyCameraOffset(worldPosition.x, worldPosition.y);
         g2.drawImage(currentSprite.image, screenPosition.x, screenPosition.y, null);
+        g2.setColor(Color.ORANGE);
+        g2.drawRect(screenPosition.x, screenPosition.y, hitbox.width, hitbox.height);
 
 
         //g2.dispose();
@@ -63,6 +71,8 @@ public class Entity implements Drawable, Updatable
     public void update()
     {
         updateCurrentSprite();
+        move();
+        updateHitbox();
     }
 
     private void updateCurrentSprite()
@@ -79,6 +89,11 @@ public class Entity implements Drawable, Updatable
             spriteCounter = 0;
             changeSprite(direction, 0);
         }
+    }
+
+    private void updateHitbox()
+    {
+        hitbox.setNewPosition(this);
     }
 
     protected void changeSprite(Direction direction, int animationTick)
@@ -112,52 +127,46 @@ public class Entity implements Drawable, Updatable
         }
     }
 
-    protected void updatePosition(Entity entity)
+    protected void move()
     {
-        if (isMoving)
+        if (isMoving /*&& !Collisions.isColliding(this)*/)
         {
             if (direction == Direction.UP_LEFT)
             {
-                position.x -= Math.max((int)(getMovementSpeed(entity.speed) / Math.sqrt(2)), 1);
-                position.y -= Math.max((int)(getMovementSpeed(entity.speed) / Math.sqrt(2)), 1);
+                worldPosition.x -= Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
+                worldPosition.y -= Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
             }
             else if (direction == Direction.UP_RIGHT)
             {
-                position.x += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
-                position.y -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                worldPosition.x += Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
+                worldPosition.y -= Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
             }
             else if (direction == Direction.DOWN_LEFT)
             {
-                position.x -= Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
-                position.y += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                worldPosition.x -= Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
+                worldPosition.y += Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
             }
             else if (direction == Direction.DOWN_RIGHT)
             {
-                position.x += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
-                position.y += Math.max((int)(getMovementSpeed(speed) / Math.sqrt(2)), 1);
+                worldPosition.x += Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
+                worldPosition.y += Math.max((int)(getMovementSpeed() / Math.sqrt(2)), 1);
             }
             else if (direction == Direction.DOWN)
             {
-                position.y += getMovementSpeed(speed);
+                worldPosition.y += getMovementSpeed();
             }
             else if (direction == Direction.LEFT)
             {
-                position.x -= getMovementSpeed(speed);
+                worldPosition.x -= getMovementSpeed();
             }
             else if (direction == Direction.RIGHT)
             {
-                position.x += getMovementSpeed(speed);
+                worldPosition.x += getMovementSpeed();
             }
             else if (direction == Direction.UP)
             {
-                position.y -= getMovementSpeed(speed);
+                worldPosition.y -= getMovementSpeed();
             }
         }
-    }
-
-    public int getMovementSpeed(int speed)
-    {
-        int movementSpeed = (int)(speed*2 / 32);
-        return Math.max(movementSpeed, 1);
     }
 }

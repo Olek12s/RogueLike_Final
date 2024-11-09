@@ -1,21 +1,12 @@
 package main.tile;
 
-import main.Drawable;
 import main.GameController;
-import utilities.DrawPriorities;
-import utilities.Sprite;
 import utilities.SpriteSheet;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static utilities.ImageManipulation.loadImage;
+import static utilities.FileManipulation.loadImage;
 
 // one instance
 public class TileManager

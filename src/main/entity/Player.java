@@ -2,8 +2,7 @@ package main.entity;
 
 import main.Direction;
 import main.GameController;
-import main.Main;
-import utilities.ImageManipulation;
+import utilities.FileManipulation;
 import utilities.Position;
 
 import java.awt.*;
@@ -13,12 +12,11 @@ public class Player extends Entity
 
     public Player(GameController gc)
     {
-        super(gc);
-        this.position = new Position(400,400);
-        this.speed = 100;
+        super(gc, new Position(400, 400));
+        setMovementSpeed(100);
         gc.drawables.add(this);
         gc.updatables.add(this);
-        ImageManipulation.loadImage("resources/player/PlayerSpriteSheet");
+        FileManipulation.loadImage("resources/player/PlayerSpriteSheet");
     }
 
     @Override
@@ -26,7 +24,6 @@ public class Player extends Entity
     {
         super.update();
         updatePlayerDirection();
-        updatePosition(this);
     }
 
     @Override

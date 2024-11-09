@@ -7,3 +7,4 @@
     -czy te pola aby na pewno są potrzebne?
 
     Kafelki się rysują nawet po za obszarem okna
+    sprite w defaultSpriteSheet ma rozmiar 45x45 a powinien mieć 48x48

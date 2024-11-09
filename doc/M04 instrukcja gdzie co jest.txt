@@ -1,0 +1,31 @@
+klasa Mapa (+ ewentualne klasy pomocnicze) :
+
+sprawdzenie czy umieszczenie przedmiotu w podanym miejscu jest możliwe
+sprawdzenie czy umieszczenie istoty w podanym miejscu jest możliwe
+umieszczenie przemiotu na podanym miejscu
+umieszczenie istoty na podanym miejscu
+usunięcie przemiotu z podanego miejsca
+usunięcie istoty z podanego miejsca
+spis istot i przedmiotów na mapie (wraz z ich miejscami) -- w postaci raportu tekstowego
+co najmniej jeden ze sposobów ręcznej konstrukcji/budowy nowego obiektu (ale najlepiej oba) z:
+
+wczytywanie (gorąco zalecane) — czyli konstruowanie nowego obiuektu Mapy na podstawie opisu w pliku
+konstruowanie pustego (to jest złożonego z samych podłóg lub samych ścian) obiektu Mapy i metody do manipulowania nim -- zamienianie rodzajów podanych pól na inne (czyli wstawianie przewidzianych elementów scenografii)
+
+
+sprawdzenie czy umieszczenie przedmiotu w podanym miejscu jest możliwe		pakiet utilities -> klasa Collision -> metoda canPutItemOnTile(Item item, Tile tile)
+sprawdzenie czy umieszczenie istoty w podanym miejscu jest możliwe		pakiet utilities -> klasa Collision -> metoda canPutEntityOnTile(Entity entity, Tile tile)
+umieszczenie przemiotu na podanym miejscu					pakiet item -> klasa Item -> metoda draw
+umieszczenie istoty na podanym miejscu						pakiet entity -> klasa entity -> metoda draw
+usunięcie przemiotu z podanego miejsca		            			pakiet tile -> klasa Map -> metoda removeEntityFromTile(Position position)
+usunięcie istoty z podanego miejsca						pakiet tile -> klasa Map -> metoda removeItemFromTile(Position position)				
+spis istot i przedmiotów na mapie (wraz z ich miejscami)			pakiet tile -> klasa Map -> metoda printEntitiesOnMap oraz printItemsOnMap
+
+Testy:
+
+pakiet tests -> klasa CollisionTest	- testy z umieszczalniem w podanym miejscu
+
+puttingItemOnTileTest()	        - testy czy można umieścić przedmiot
+puttingEntityOnTileTest()	- testy czy można umieścić istote
+
+pakiet tests -> klasa MapTests - testy z usuwaniem z podanego miejsca

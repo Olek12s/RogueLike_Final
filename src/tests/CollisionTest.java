@@ -23,7 +23,7 @@ public class CollisionTest
     {
         gc = new GameController();
         item = new Item(gc);
-        entity = new Entity(gc);
+        entity = new Entity(gc, new Position(0, 0));
 
         collidableTile = gc.map.getMapTile(0,0);
         nonCollidableTile = gc.map.getMapTile(1,2);
