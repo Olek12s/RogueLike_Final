@@ -16,7 +16,8 @@ public class EntityTest
     public void initialize()
     {
         gc = new GameController();
-        entity = new Entity(gc, new Position(0, 0));
+        entity = new Entity(gc);
+        entity.setWorldPosition(new Position(0,0));
     }
 
     @Test

@@ -18,6 +18,7 @@ public class AssetSetter
         Item item = new Item(gc);
         item.setWorldPosition(new Position(350, 350));
 
-        Entity entity = new Entity(gc, new Position(380, 380));
+        Entity entity = new Entity(gc);
+        entity.setWorldPosition(new Position(380, 380));
     }
 }

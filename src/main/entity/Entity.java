@@ -24,13 +24,14 @@ public class Entity implements Drawable, Updatable
 
 
 
-    public Entity(GameController gc, Position position)
+    public Entity(GameController gc)
     {
         this.gc = gc;
         this.direction = Direction.DOWN;
         this.spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/SpriteSheet"), 48);
         this.currentSprite = spriteSheet.extractFirst();
-        this.worldPosition = position;
+        //this.worldPosition = position;
+        this.worldPosition = new Position(0,0);
         this.hitbox = new Hitbox(this); // default hitbox
         this.name = "default entity name";
         //setMovementSpeed(100);
