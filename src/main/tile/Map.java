@@ -127,28 +127,31 @@ public class Map implements Drawable {
     public int getDrawPriority() {return DrawPriorities.mapGrid.value;}
 
     @Override
-    public void draw(Graphics g2)
-    {
+    public void draw(Graphics g2) {
         int tileSize = gc.tileManager.tileSize;
+        double scaleFactor = gc.camera.getScaleFactor();
+        int scaledTileSize = (int) (tileSize * scaleFactor);
 
-        for (int col = 0; col < mapWidth; col++)
-        {
-            for (int row = 0; row < mapHeight; row++)
-            {
+        for (int col = 0; col < mapWidth; col++) {
+            for (int row = 0; row < mapHeight; row++) {
                 Tile tile = mapGrid[col][row];
-                if (tile != null && tile.getCurrentSprite() != null)
-                {
-                    // Tile's world cooridanets * tileSize
+                if (tile != null && tile.getCurrentSprite() != null) {
+                    // Calculate world position for each tile
                     int worldX = col * tileSize;
                     int worldY = row * tileSize;
 
-                    // Adjusting tiles position to the camera
-                    Position screenPosition = gc.camera.applyCameraOffset(worldX, worldY);
-                    g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, tileSize, tileSize, null);   // tileSize - scale
+                    // Scale the world position relative to the camera
+                    int scaledWorldX = (int)(worldX * scaleFactor);
+                    int scaledWorldY = (int)(worldY * scaleFactor);
+
+                    // Apply camera offset for smooth camera movement
+                    Position screenPosition = gc.camera.applyCameraOffset(scaledWorldX, scaledWorldY);
+
+                    // Draw the tile with the scaled size
+                    g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, scaledTileSize, scaledTileSize, null);
                 }
             }
         }
-        //g2.dispose();
     }
 
     public Tile getTileAt(int col, int row)

@@ -14,7 +14,7 @@ public class TileManager
 {
     GameController gc;
 
-    public int tileSize = 64;
+    public static int tileSize = 64;
     public Map<Integer, Tile> tiles;
     public Map<Integer, SpriteSheet> spriteSheets;
 

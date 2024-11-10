@@ -54,9 +54,9 @@ public class GameController extends JPanel implements Runnable {
     {
         tileManager = new TileManager(this);
         map = new Map(this);
+        camera = new Camera(this);
         keyHandler = new KeyHandler(this);
         player = new Player(this);
-        camera = new Camera(this);
         collision = new Collisions(this);
         this.assetSetter = new AssetSetter(this);
     }

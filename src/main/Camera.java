@@ -7,6 +7,10 @@ public class Camera implements Updatable
 {
     public GameController gc;
     public Position cameraPosition;
+    private double scaleFactor = 0.5;
+
+    public void setScaleFactor(double scaleFactor) {this.scaleFactor = scaleFactor;}
+    public double getScaleFactor() {return scaleFactor;}
 
     public Camera(GameController gc)
     {
@@ -21,8 +25,8 @@ public class Camera implements Updatable
     public Position applyCameraOffset(int worldX, int worldY)
     {
         // object's world cooridanets - camera position"
-        int screenX = worldX - (cameraPosition.x - gc.getWidth() / 2);
-        int screenY = worldY - (cameraPosition.y - gc.getHeight() / 2);
+        int screenX = (int)(worldX - (cameraPosition.x - gc.getWidth() / 2) * scaleFactor);
+        int screenY = (int)(worldY - (cameraPosition.y - gc.getHeight() / 2) * scaleFactor);
 
         return new Position(screenX, screenY);
     }
