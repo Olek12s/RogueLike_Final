@@ -59,9 +59,14 @@ public class Entity implements Drawable, Updatable
 
     protected void drawHitbox(Graphics g2)
     {
+        double scaleFactor = gc.camera.getScaleFactor();
         Position screenPosition = gc.camera.applyCameraOffset(worldPosition.x, worldPosition.y);
+
+        int scaledHitboxWidth = (int) (currentSprite.image.getWidth() * scaleFactor);
+        int scaledHitboxHeight = (int) (currentSprite.image.getHeight() * scaleFactor);
+
         g2.setColor(Color.ORANGE);
-        g2.drawRect(screenPosition.x, screenPosition.y, hitbox.width, hitbox.height);
+        g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);
     }
 
     @Override
@@ -70,8 +75,14 @@ public class Entity implements Drawable, Updatable
     @Override
     public void draw(Graphics g2)
     {
+        double scaleFactor = gc.camera.getScaleFactor();
         Position screenPosition = gc.camera.applyCameraOffset(worldPosition.x, worldPosition.y);
-        g2.drawImage(currentSprite.image, screenPosition.x, screenPosition.y, null);
+
+        int scaledWidth = (int) (currentSprite.image.getWidth() * scaleFactor);
+        int scaledHeight = (int) (currentSprite.image.getHeight() * scaleFactor);
+
+
+        g2.drawImage(currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
         //g2.dispose();
     }
 
