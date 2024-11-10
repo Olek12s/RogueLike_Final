@@ -18,16 +18,16 @@ public class AssetSetter    // FULL STATIC
     public static void initAssets()
     {
         BitingSlime bitingSlime = new BitingSlime(gc);
-        bitingSlime.setWorldPosition(new Position(435, 450));
+        bitingSlime.setWorldPosition(new Position(335, 400));
         BitingSlime bitingSlime2 = new BitingSlime(gc);
-        bitingSlime2.setWorldPosition(new Position(435, 450));
+        bitingSlime2.setWorldPosition(new Position(335, 350));
         BitingSlime bitingSlime3 = new BitingSlime(gc);
-        bitingSlime3.setWorldPosition(new Position(435, 450));
+        bitingSlime3.setWorldPosition(new Position(335, 500));
         BitingSlime bitingSlime4 = new BitingSlime(gc);
-        bitingSlime4.setWorldPosition(new Position(435, 450));
+        bitingSlime4.setWorldPosition(new Position(335, 550));
         BitingSlime bitingSlime5 = new BitingSlime(gc);
         bitingSlime5.setWorldPosition(new Position(435, 450));
         BitingSlime bitingSlime6 = new BitingSlime(gc);
-        bitingSlime6.setWorldPosition(new Position(435, 450));
+        bitingSlime6.setWorldPosition(new Position(470, 400));
     }
 }

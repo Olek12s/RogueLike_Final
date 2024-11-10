@@ -31,6 +31,7 @@ public class Entity implements Drawable, Updatable
 
     public Entity(GameController gc)
     {
+        gc.map.entities.add(this);
         this.gc = gc;
         this.direction = Direction.DOWN;
         this.spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/SpriteSheet"), 48);

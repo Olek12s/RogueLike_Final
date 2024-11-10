@@ -17,7 +17,8 @@ public class Collisions
         this.gc = gc;
     }
 
-    public static boolean isColliding(Entity entity) {
+    private static boolean isCollidingWithTile(Entity entity)
+    {
         Rectangle hitbox = entity.hitbox.hitboxRect;
         Rectangle predictedHitboxPosition = new Rectangle(hitbox);
         boolean isColliding = false;
@@ -106,6 +107,27 @@ public class Collisions
         }
         //bugFix #3: before returning check when isColliding == true how many pixels are between hitbox and colliding tile, move Entity by this difference
         return isColliding;
+    }
+
+    public static boolean isCollidingWithEntity(Entity entityOther)
+    {
+        System.out.println(gc.map.entities.size());
+        for (Entity entity : gc.map.entities)
+        {
+            if (entity != entityOther && entity.hitbox.hitboxRect.intersects(entityOther.hitbox.hitboxRect))
+            {
+                System.out.println("collision with other entity");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isColliding(Entity entity)
+    {
+        //boolean isColliding = false;
+        isCollidingWithTile(entity);
+        return isCollidingWithTile(entity) || isCollidingWithEntity(entity);
     }
 
 

@@ -74,11 +74,11 @@ public class KeyHandler implements KeyListener, MouseWheelListener
         int rotation = e.getWheelRotation();
         if (rotation < 0)
         {
-            gc.camera.setScaleFactor(gc.camera.getScaleFactor() / 1.2);
+            gc.camera.setScaleFactor(gc.camera.getScaleFactor() * 1.05);
         }
         else if (rotation > 0)
         {
-            gc.camera.setScaleFactor(gc.camera.getScaleFactor() * 1.2);
+            gc.camera.setScaleFactor(gc.camera.getScaleFactor() / 1.05);
         }
         gc.repaint();
     }
