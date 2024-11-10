@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-public class KeyHandler implements KeyListener//, MouseWheelListener
+public class KeyHandler implements KeyListener, MouseWheelListener
 {
     GameController gc;
 
@@ -68,17 +68,19 @@ public class KeyHandler implements KeyListener//, MouseWheelListener
         }
     }
 
-    /*
+
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         int rotation = e.getWheelRotation();
-        if (rotation < 0) {
-            System.out.println("ASD");
-            gc.tileManager.tileSize -= 1;
-        } else if (rotation > 0) {
-            gc.tileManager.tileSize += 1;
+        if (rotation < 0)
+        {
+            gc.camera.setScaleFactor(gc.camera.getScaleFactor() / 1.2);
         }
-        gc.repaint(); // Odśwież widok po zmianie tileSize
+        else if (rotation > 0)
+        {
+            gc.camera.setScaleFactor(gc.camera.getScaleFactor() * 1.2);
+        }
+        gc.repaint();
     }
-     */
+
 }
