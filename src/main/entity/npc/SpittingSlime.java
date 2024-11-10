@@ -6,7 +6,8 @@ import utilities.Position;
 
 public class SpittingSlime extends Entity
 {
-    public SpittingSlime(GameController gc, Position position) {
+    public SpittingSlime(GameController gc)
+    {
         super(gc);
     }
 }

@@ -2,6 +2,7 @@ package main.entity;
 
 import main.Direction;
 import main.GameController;
+import utilities.DrawPriorities;
 import utilities.FileManipulation;
 import utilities.Position;
 
@@ -28,9 +29,13 @@ public class Player extends Entity
     }
 
     @Override
+    public int getDrawPriority() {return DrawPriorities.Player.value;}
+
+    @Override
     public void draw(Graphics g2)
     {
         super.draw(g2);
+        drawHitbox(g2);
     }
 
     private void updatePlayerDirection()

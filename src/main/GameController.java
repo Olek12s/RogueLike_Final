@@ -3,6 +3,7 @@ package main;
 import main.entity.Player;
 import main.tile.TileManager;
 import main.tile.Map;
+import utilities.AssetSetter;
 import utilities.Collisions;
 
 import javax.swing.*;
@@ -21,10 +22,14 @@ public class GameController extends JPanel implements Runnable {
     public Player player;
     public Camera camera;
     public Collisions collision;
+    public AssetSetter assetSetter;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
     public ArrayList<Updatable> updatables;
+
+    public int getTargetDrawFrame() {return targetDrawFrame;}
+    public int getTargetLogicFrame() {return targetLogicFrame;}
 
     public GameController()
     {
@@ -53,6 +58,7 @@ public class GameController extends JPanel implements Runnable {
         player = new Player(this);
         camera = new Camera(this);
         collision = new Collisions(this);
+        this.assetSetter = new AssetSetter(this);
     }
 
     public void startThread() {

@@ -2,23 +2,22 @@ package utilities;
 
 import main.GameController;
 import main.entity.Entity;
+import main.entity.npc.BitingSlime;
 import main.item.Item;
 
-public class AssetSetter
+public class AssetSetter    // FULL STATIC
 {
-    public GameController gc;
+    public static GameController gc;
 
     public AssetSetter(GameController gc)
     {
         this.gc = gc;
+        initAssets();
     }
 
-    public void initAssets()
+    public static void initAssets()
     {
-        Item item = new Item(gc);
-        item.setWorldPosition(new Position(350, 350));
-
-        Entity entity = new Entity(gc);
-        entity.setWorldPosition(new Position(380, 380));
+        BitingSlime bitingSlime = new BitingSlime(gc);
+        bitingSlime.setWorldPosition(new Position(435, 450));
     }
 }

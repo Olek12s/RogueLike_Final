@@ -15,9 +15,14 @@ public class Entity implements Drawable, Updatable
     public Hitbox hitbox;
     public Direction direction;
     public Position worldPosition;
-    protected int movementSpeed;
     public boolean isMoving;
+
+    //STATISTICS
     public String name;
+    public int hitPoints;
+    public int maxHitPoints;
+    private int movementSpeed;
+    //STATISTICS
 
     private int spriteCounter = 0;
     protected int animationSpeed = 6;
@@ -49,11 +54,10 @@ public class Entity implements Drawable, Updatable
     public int getMovementSpeed() {return movementSpeed;}
     public void setMovementSpeed(int speed)
     {
-        System.out.println("movement speed set");
         movementSpeed = Math.max((int)(speed *2 / 32), 1);
     }
 
-    private void drawHitbox(Graphics g2)
+    protected void drawHitbox(Graphics g2)
     {
         Position screenPosition = gc.camera.applyCameraOffset(worldPosition.x, worldPosition.y);
         g2.setColor(Color.ORANGE);
@@ -68,7 +72,6 @@ public class Entity implements Drawable, Updatable
     {
         Position screenPosition = gc.camera.applyCameraOffset(worldPosition.x, worldPosition.y);
         g2.drawImage(currentSprite.image, screenPosition.x, screenPosition.y, null);
-        drawHitbox(g2);
         //g2.dispose();
     }
 
