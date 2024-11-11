@@ -1,7 +1,5 @@
 package main;
 
-//import utilities.shapes.Polygon;
-
 import javax.swing.*;
 import java.awt.*;
 

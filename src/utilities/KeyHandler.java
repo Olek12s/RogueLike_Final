@@ -1,4 +1,4 @@
-package main;
+package utilities;
 
 import main.GameController;
 
@@ -21,8 +21,7 @@ public class KeyHandler implements KeyListener, MouseWheelListener
     public boolean LEFT_PRESSED = false;
     public boolean RIGHT_PRESSED = false;
 
-    public boolean SCROLL_UP = false;
-    public boolean SCROLL_DOWN = false;
+    public int scrollCount = 0;
 
     public KeyHandler(GameController gc)
     {
@@ -70,17 +69,10 @@ public class KeyHandler implements KeyListener, MouseWheelListener
 
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
+    public void mouseWheelMoved(MouseWheelEvent e)
+    {
         int rotation = e.getWheelRotation();
-        if (rotation < 0)
-        {
-            gc.camera.setScaleFactor(gc.camera.getScaleFactor() * 1.05);
-        }
-        else if (rotation > 0)
-        {
-            gc.camera.setScaleFactor(gc.camera.getScaleFactor() / 1.05);
-        }
-        gc.repaint();
+        scrollCount += rotation;
     }
 
 }

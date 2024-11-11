@@ -4,18 +4,18 @@ import java.awt.image.BufferedImage;
 
 public class SpriteSheet
 {
-    private BufferedImage spriteSheet;
+    private BufferedImage spriteSheetImage;
     public static int spriteSheetPadding = 3;    // padding between sprites
     public static int spriteSheetOffset = 2;     // offset from spritesheet boundaries
-    public int variations;  // fix this
-    public int ticks;       // fix this
+    public int variations;
+    public int ticks;
     public int textureResolution;
 
-    public BufferedImage getImage() {return spriteSheet;}
+    public BufferedImage getSpriteSheetImage() {return spriteSheetImage;}
 
-    public SpriteSheet(BufferedImage spriteSheet, int textureResolution)
+    public SpriteSheet(BufferedImage spriteSheetImage, int textureResolution)
     {
-        this.spriteSheet = spriteSheet;
+        this.spriteSheetImage = spriteSheetImage;
         this.variations = countSpriteVariations();
         this.ticks = countAnimationTicks();
         this.textureResolution = textureResolution;
@@ -29,7 +29,7 @@ public class SpriteSheet
 
         if (isSprite(spriteSheet, startX, startY))
         {
-            BufferedImage spriteImage = spriteSheet.getImage().getSubimage(startX, startY, textureResolution, textureResolution);
+            BufferedImage spriteImage = spriteSheet.getSpriteSheetImage().getSubimage(startX, startY, textureResolution, textureResolution);
             return new Sprite(spriteImage, textureResolution);
         }
         else
@@ -47,7 +47,7 @@ public class SpriteSheet
 
         if (isSprite(this, startX, startY))
         {
-            BufferedImage spriteImage = spriteSheet.getSubimage(startX, startY, textureResolution, textureResolution);
+            BufferedImage spriteImage = spriteSheetImage.getSubimage(startX, startY, textureResolution, textureResolution);
             return new Sprite(spriteImage, textureResolution);
         }
         else
@@ -63,7 +63,7 @@ public class SpriteSheet
 
     public int countAnimationTicks()
     {
-        int sheetWidth = spriteSheet.getWidth();
+        int sheetWidth = spriteSheetImage.getWidth();
 
         int availableWidth = sheetWidth - spriteSheetOffset;
         int spriteAndPaddingWidth = textureResolution + spriteSheetPadding;
@@ -89,7 +89,7 @@ public class SpriteSheet
 
     public int countSpriteVariations()
     {
-        int sheetHeight = spriteSheet.getHeight();
+        int sheetHeight = spriteSheetImage.getHeight();
 
         int availableHeight = sheetHeight - spriteSheetOffset;
         int spriteAndPaddingHeight = textureResolution + spriteSheetPadding;
@@ -115,34 +115,13 @@ public class SpriteSheet
     // If the area has a non-transparent pixel, return true. Used in 2D SpriteSheets
     public boolean isSprite(SpriteSheet spriteSheet, int startX, int startY)
     {
-        BufferedImage image = spriteSheet.getImage();
+        BufferedImage image = spriteSheet.getSpriteSheetImage();
         int maxX = startX + textureResolution;
         int maxY = startY + textureResolution;
 
         for (int x = startX; x < maxX; x++)
         {
             for (int y = startY; y < maxY; y++)
-            {
-                int pixel = image.getRGB(x, y);
-                if ((pixel >> 24) != 0x00)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    // If the area has a non-transparent pixel, return true. Used in 1D SpriteSheets
-    public boolean isSprite(SpriteSheet spriteSheet, int startX)
-    {
-        BufferedImage image = spriteSheet.getImage();
-        int maxX = startX + textureResolution;
-        int maxY = spriteSheetOffset + textureResolution;
-
-        for (int x = startX; x < maxX; x++)
-        {
-            for (int y = spriteSheetOffset; y < maxY; y++)
             {
                 int pixel = image.getRGB(x, y);
                 if ((pixel >> 24) != 0x00)

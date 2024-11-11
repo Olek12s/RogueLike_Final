@@ -1,35 +1,34 @@
 package main;
 
+import main.entity.Entity;
 import main.entity.Player;
-import main.tile.TileManager;
-import main.tile.Map;
-import utilities.AssetSetter;
-import utilities.Collisions;
+import utilities.camera.Camera;
+import utilities.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GameController extends JPanel implements Runnable {
+public class GameController extends JPanel implements Runnable
+{
     private Thread mainThread;
     private int targetDrawFrame =  120;
     private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
     public KeyHandler keyHandler;
-    public TileManager tileManager;
-    public Map map;
-    public Player player;
     public Camera camera;
-    public Collisions collision;
-    public AssetSetter assetSetter;
+    public Entity player;
+
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
     public ArrayList<Updatable> updatables;
 
-    public int getTargetDrawFrame() {return targetDrawFrame;}
-    public int getTargetLogicFrame() {return targetLogicFrame;}
+
+    //GETTERS AND SETTERS
+
+
 
     public GameController()
     {
@@ -52,16 +51,14 @@ public class GameController extends JPanel implements Runnable {
     }
     private void initClassInstances()
     {
-        tileManager = new TileManager(this);
-        map = new Map(this);
-        camera = new Camera(this);
         keyHandler = new KeyHandler(this);
+        camera = new Camera(this);
         player = new Player(this);
-        collision = new Collisions(this);
-        this.assetSetter = new AssetSetter(this);
     }
 
-    public void startThread() {
+
+    public void startThread()
+    {
         mainThread = new Thread(this);
         mainThread.start();
     }
@@ -73,45 +70,45 @@ public class GameController extends JPanel implements Runnable {
         long drawInterval = 1000000000 / targetDrawFrame;     // draw ns
         int maxLogicUpdatesPerFrame = Math.max(targetDrawFrame / targetLogicFrame, 1);
 
-       long lastTime = System.nanoTime();
-       long accumulator = 0;
-       long maxAccumulator = logicInterval * maxLogicUpdatesPerFrame;
+        long lastTime = System.nanoTime();
+        long accumulator = 0;
+        long maxAccumulator = logicInterval * maxLogicUpdatesPerFrame;
 
-       while (mainThread != null)
-       {
-           long currentTime = System.nanoTime();
-           long deltaT = currentTime - lastTime;
-           lastTime = currentTime;
+        while (mainThread != null)
+        {
+            long currentTime = System.nanoTime();
+            long deltaT = currentTime - lastTime;
+            lastTime = currentTime;
 
-           accumulator += deltaT;
+            accumulator += deltaT;
 
-           if (accumulator > maxAccumulator)
-           {
-               accumulator = maxAccumulator;
-           }
+            if (accumulator > maxAccumulator)
+            {
+                accumulator = maxAccumulator;
+            }
 
-           int logicUpdates = 0;
+            int logicUpdates = 0;
 
-           while (accumulator >= logicInterval && logicUpdates < maxLogicUpdatesPerFrame)
-           {
-               updateLogic();
-               accumulator -= logicInterval;
-               logicUpdates++;
-           }
-           repaint();
-           try
-           {
-               long sleepTime = drawInterval - (System.nanoTime() - currentTime);
-               if (sleepTime > 0)
-               {
-                   Thread.sleep(sleepTime / 1000000);  // ns -> ms
-               }
-           }
-           catch (InterruptedException e)
-           {
-               e.printStackTrace();
-           }
-       }
+            while (accumulator >= logicInterval && logicUpdates < maxLogicUpdatesPerFrame)
+            {
+                updateLogic();
+                accumulator -= logicInterval;
+                logicUpdates++;
+            }
+            repaint();
+            try
+            {
+                long sleepTime = drawInterval - (System.nanoTime() - currentTime);
+                if (sleepTime > 0)
+                {
+                    Thread.sleep(sleepTime / 1000000);  // ns -> ms
+                }
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void updateLogic()    // UPDATE LOGIC
