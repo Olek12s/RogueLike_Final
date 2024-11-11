@@ -12,10 +12,15 @@ public class EntityRenderer implements Drawable
     private Entity entity;
     protected SpriteSheet spriteSheet;
 
+    public Entity getEntity() {return entity;}
+    public SpriteSheet getSpriteSheet() {return spriteSheet;}
+
     public EntityRenderer(Entity entity, SpriteSheet spriteSheet)
     {
         this.entity = entity;
         this.spriteSheet = spriteSheet;
+
+        entity.gc.drawables.add(this);
     }
 
     @Override

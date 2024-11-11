@@ -1,7 +1,7 @@
 package main;
 
 import main.entity.Entity;
-import main.entity.Player;
+import main.entity.player.Player;
 import utilities.camera.Camera;
 import utilities.KeyHandler;
 

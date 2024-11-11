@@ -9,8 +9,8 @@ import javax.swing.*;
 public abstract class Entity
 {
     public GameController gc;
-    protected EntityRenderer renderer = setRenderer();
-    protected EntityUpdater updater = setUpdater();
+    protected EntityRenderer renderer;
+    protected EntityUpdater updater;
 
     protected Sprite currentSprite;
     protected Hitbox hitbox;
@@ -29,10 +29,14 @@ public abstract class Entity
     public Entity(GameController gc)
     {
         this.gc = gc;
+        renderer = setRenderer();
+        updater = setUpdater();
+
+
         this.currentSprite = renderer.spriteSheet.extractFirst();
-        setHitbox();
-        setDirection();
         setWorldPosition();
+        setDirection();
+        setHitbox();
         this.isMoving = false;
 
         gc.updatables.add(this.updater);
@@ -52,10 +56,12 @@ public abstract class Entity
     {
         movementSpeed = Math.max((int)(speed *2 / 32), 1);
     }
+    public Direction getDirection() {return direction;}
+    public void setDirection(Direction direction) {this.direction = direction;}
 
     private EntityRenderer setRenderer()
     {
-        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/SpriteSheet"), 48);
+        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 48);
         return new EntityRenderer(this, spriteSheet);
     }
 
