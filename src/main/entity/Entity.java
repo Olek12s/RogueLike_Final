@@ -55,7 +55,8 @@ public class Entity implements Drawable, Updatable
     public int getMovementSpeed() {return movementSpeed;}
     public void setMovementSpeed(int speed)
     {
-        movementSpeed = Math.max((int)(speed *2 / 32), 1);
+        if (speed == 0) movementSpeed = 0;
+        else movementSpeed = Math.max((int)(speed *2 / 32), 1);
     }
 
     protected void drawHitbox(Graphics g2)

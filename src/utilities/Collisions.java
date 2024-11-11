@@ -111,13 +111,12 @@ public class Collisions
 
     public static boolean isCollidingWithEntity(Entity entityOther)
     {
-        System.out.println(gc.map.entities.size());
         for (Entity entity : gc.map.entities)
         {
             if (entity != entityOther && entity.hitbox.hitboxRect.intersects(entityOther.hitbox.hitboxRect))
             {
                 System.out.println("collision with other entity");
-                return true;
+                return false;
             }
         }
         return false;

@@ -14,7 +14,7 @@ public class Player extends Entity
     public Player(GameController gc)
     {
         super(gc);
-        setMovementSpeed(80);
+        setMovementSpeed(10);
         setWorldPosition(new Position(400, 400));
         gc.drawables.add(this);
         gc.updatables.add(this);

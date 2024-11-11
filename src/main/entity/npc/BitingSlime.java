@@ -24,7 +24,7 @@ public class BitingSlime extends Entity
         name = "Biting Slime";
         hitPoints = 10;
         maxHitPoints = hitPoints;
-        setMovementSpeed(20);
+        setMovementSpeed(0);
         isMoving = true;
     }
 
@@ -50,6 +50,7 @@ public class BitingSlime extends Entity
             int randomNum = (int) (Math.random() * 8);
             switch (randomNum)
             {
+                /*
                 case 0: direction = Direction.DOWN;break;
                 case 1: direction = Direction.UP;break;
                 case 2: direction = Direction.LEFT;break;
@@ -58,6 +59,8 @@ public class BitingSlime extends Entity
                 case 5: direction = Direction.UP_RIGHT;break;
                 case 6: direction = Direction.DOWN_LEFT;break;
                 case 7: direction = Direction.DOWN_RIGHT;break;
+                
+                 */
             }
             randomDirectionCounter = 0;
         }
