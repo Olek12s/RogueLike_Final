@@ -17,25 +17,25 @@ public class Player extends Entity
         super(gc);
         renderer = setRenderer();
         updater = setUpdater();
-
-
-        setMovementSpeed(80);
-
-
+        setMovementSpeed(1);
+        //gc.updatables.add(updater);
+        gc.drawables.add(renderer);
     }
 
-    private PlayerRenderer setRenderer()
+    @Override
+    public PlayerRenderer setRenderer()
     {
         SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 48);
         return new PlayerRenderer(this, spriteSheet);
     }
 
-    private PlayerUpdater setUpdater()
+    @Override
+    public PlayerUpdater setUpdater()
     {
         return new PlayerUpdater(this);
     }
     @Override
-    public void setCurrentSprite()
+    public void setDefaultSprite()
     {
         currentSprite = renderer.getSpriteSheet().extractFirst();
     }

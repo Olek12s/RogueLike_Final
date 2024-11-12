@@ -24,8 +24,8 @@ public class SpriteSheet
     // Extracts Sprite from 2D spriteSheet.
     public Sprite extractSprite(SpriteSheet spriteSheet, int tick, int variation)
     {
-        int startX = spriteSheetOffset + (tick * textureResolution);
-        int startY = spriteSheetOffset + (variation * textureResolution);
+        int startX = spriteSheetOffset + tick * (textureResolution + spriteSheetPadding);
+        int startY = spriteSheetOffset + variation * (textureResolution + spriteSheetPadding);
 
         if (isSprite(spriteSheet, startX, startY))
         {

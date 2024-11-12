@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class GameController extends JPanel implements Runnable
 {
     private Thread mainThread;
-    private int targetDrawFrame =  120;
+    private int targetDrawFrame =  240;
     private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
@@ -28,7 +28,7 @@ public class GameController extends JPanel implements Runnable
 
     //GETTERS AND SETTERS
 
-
+    private static GameController instance;
 
     public GameController()
     {

@@ -23,7 +23,7 @@ public abstract class Entity
     protected String name = "";
     protected int maxHitPoints = 1;
     protected int hitPoints = maxHitPoints;
-    protected int movementSpeed = 5;
+    protected int movementSpeed;
     //STATISTICS
 
     public Entity(GameController gc)
@@ -37,14 +37,15 @@ public abstract class Entity
         setWorldPosition();
         setDirection();
         setHitbox();
+        //setMovementSpeed(20);
         this.isMoving = false;
 
-        gc.updatables.add(this.updater);
-        gc.drawables.add(this.renderer);
+        //gc.updatables.add(this.updater);
+        //gc.drawables.add(this.renderer);
     }
 
     //ABSTRACTS
-    public abstract void setCurrentSprite();
+    public abstract void setDefaultSprite();
     public abstract void setHitbox();
     public abstract void setDirection();
     public abstract void setWorldPosition();
@@ -54,19 +55,17 @@ public abstract class Entity
     public Sprite getCurrentSprite() {return currentSprite;}
     public void setMovementSpeed(int speed)
     {
-        movementSpeed = Math.max((int)(speed *2 / 32), 1);
+        if (speed == 0) movementSpeed = 0;
+        else
+        {
+            movementSpeed = Math.max((int)(speed  / 128), 1);
+        }
     }
     public Direction getDirection() {return direction;}
     public void setDirection(Direction direction) {this.direction = direction;}
+    public int getMovementSpeed() {return movementSpeed;}
 
-    private EntityRenderer setRenderer()
-    {
-        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 48);
-        return new EntityRenderer(this, spriteSheet);
-    }
+    public abstract EntityRenderer setRenderer();
+    public abstract EntityUpdater setUpdater();
 
-    private EntityUpdater setUpdater()
-    {
-        return new EntityUpdater(this);
-    }
 }
