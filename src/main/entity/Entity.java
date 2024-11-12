@@ -37,11 +37,9 @@ public abstract class Entity
         setWorldPosition();
         setDirection();
         setHitbox();
-        //setMovementSpeed(20);
+        setMovementSpeed(10);
         this.isMoving = false;
 
-        //gc.updatables.add(this.updater);
-        //gc.drawables.add(this.renderer);
     }
 
     //ABSTRACTS

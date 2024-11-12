@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import main.map.Map;
+
 public class FileManipulation
 {
     public static BufferedImage loadImage(String path)
@@ -19,5 +21,10 @@ public class FileManipulation
             ex.printStackTrace();
         }
         return image;
+    }
+
+    public static void loadMapFromFile(Map map, String path)
+    {
+
     }
 }

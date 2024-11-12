@@ -2,12 +2,14 @@ package main;
 
 import main.entity.Entity;
 import main.entity.player.Player;
+import main.map.MapController;
 import utilities.camera.Camera;
 import utilities.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import main.map.Map;
 
 public class GameController extends JPanel implements Runnable
 {
@@ -19,6 +21,7 @@ public class GameController extends JPanel implements Runnable
     public KeyHandler keyHandler;
     public Entity player;
     public Camera camera;
+    public MapController mapController;
 
 
     //ABSTRACT COLLECTIONS
@@ -54,6 +57,7 @@ public class GameController extends JPanel implements Runnable
         keyHandler = new KeyHandler(this);
         player = new Player(this);
         camera = new Camera(this);
+        mapController = new MapController(this);
     }
 
 
