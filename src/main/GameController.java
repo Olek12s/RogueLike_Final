@@ -17,8 +17,8 @@ public class GameController extends JPanel implements Runnable
 
     //CLASS INSTANCES
     public KeyHandler keyHandler;
-    public Camera camera;
     public Entity player;
+    public Camera camera;
 
 
     //ABSTRACT COLLECTIONS
@@ -52,8 +52,8 @@ public class GameController extends JPanel implements Runnable
     private void initClassInstances()
     {
         keyHandler = new KeyHandler(this);
-        camera = new Camera(this);
         player = new Player(this);
+        camera = new Camera(this);
     }
 
 

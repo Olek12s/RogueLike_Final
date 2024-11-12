@@ -18,8 +18,6 @@ public class Player extends Entity
         renderer = setRenderer();
         updater = setUpdater();
         setMovementSpeed(1);
-        //gc.updatables.add(updater);
-        gc.drawables.add(renderer);
     }
 
     @Override

@@ -22,8 +22,6 @@ public class EntityRenderer implements Drawable
         this.entity = entity;
         this.spriteSheet = spriteSheet;
         loadSpriteImages();
-
-        //entity.gc.drawables.add(this);
     }
 
     @Override
@@ -40,7 +38,7 @@ public class EntityRenderer implements Drawable
         int scaledHeight = (int) (entity.currentSprite.image.getHeight() * scaleFactor);
 
 
-        g2.drawImage(entity.currentSprite.image, entity.getWorldPosition().x, entity.getWorldPosition().y, scaledWidth, scaledHeight, null);
+        g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
     }
 
     protected void loadSpriteImages()

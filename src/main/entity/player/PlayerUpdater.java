@@ -17,12 +17,10 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         entity.gc.updatables.add(this);
     }
 
-    int counter;
     @Override
     public void update()
     {
         super.update();
-        System.out.println(counter++);
         updatePlayerDirection();
     }
 

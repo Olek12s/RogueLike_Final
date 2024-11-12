@@ -14,7 +14,6 @@ public class EntityUpdater implements Updatable
     public EntityUpdater(Entity entity)
     {
         this.entity = entity;
-        //entity.gc.updatables.add(this);
     }
 
     @Override
