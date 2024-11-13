@@ -5,6 +5,7 @@ import utilities.SpriteSheet;
 
 public class Tile
 {
+    public static int tileSize = 64;
     private Sprite currentSprite;
     private boolean isColliding;
 
