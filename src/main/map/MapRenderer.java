@@ -45,7 +45,6 @@ public class MapRenderer implements Drawable
                         int worldY = chunkWorldPosition.y + (tileY * tileSize);
                         Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);
 
-
                         g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, tileSize, tileSize, null);
                     }
                 }

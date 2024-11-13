@@ -65,7 +65,7 @@ public class Map
         {
             for (int y = 0; y < Chunk.getChunkSize(); y++)
             {
-                tiles[x][y] = new Tile();
+                tiles[x][y] = Tile.defaultTileObject;   // static object
             }
         }
         return tiles;

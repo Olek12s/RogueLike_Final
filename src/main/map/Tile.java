@@ -9,6 +9,7 @@ public class Tile
     public static int tileSize = 64;
     private Sprite currentSprite;
     private boolean isColliding;
+    public static final Tile defaultTileObject = new Tile();
 
     public Tile(SpriteSheet spriteSheet, boolean isColliding)
     {

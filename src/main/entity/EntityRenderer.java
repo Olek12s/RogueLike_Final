@@ -39,6 +39,7 @@ public class EntityRenderer implements Drawable
 
 
         g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
+        g2.dispose();
     }
 
     protected void loadSpriteImages()
