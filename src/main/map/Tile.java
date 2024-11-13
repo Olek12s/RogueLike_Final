@@ -1,5 +1,6 @@
 package main.map;
 
+import utilities.FileManipulation;
 import utilities.Sprite;
 import utilities.SpriteSheet;
 
@@ -13,6 +14,12 @@ public class Tile
     {
         this.currentSprite = extractRandomVariation(spriteSheet);
         this.isColliding = isColliding;
+    }
+
+    public Tile()
+    {
+        SpriteSheet defaultSS = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultTile"), 64);
+        this.currentSprite = defaultSS.extractFirst();
     }
 
     public Sprite getCurrentSprite() {return currentSprite;}

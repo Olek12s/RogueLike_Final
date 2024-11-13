@@ -28,7 +28,6 @@ public class Map
         this.mapHeight = mapHeight;
 
         createChunks();         //Fills map with empty new Chunk objects
-        loadChunksFromFile(path);
     }
 
     public Chunk[][] getChunks() {return chunks;}
@@ -52,32 +51,44 @@ public class Map
             {
                 int worldX = x * chunkPixelSize - halfMapWidthInPixels;
                 int worldY = y * chunkPixelSize - halfMapHeightInPixels;
-                chunks[x][y] = new Chunk(new Position(worldX, worldY));
+                Tile[][] chunkTiles = createDefaultChunkTiles();
+
+                chunks[x][y] = new Chunk(new Position(worldX, worldY), chunkTiles);
             }
         }
     }
 
+    private Tile[][] createDefaultChunkTiles()
+    {
+        Tile[][] tiles = new Tile[Chunk.getChunkSize()][Chunk.getChunkSize()];
+        for (int x = 0; x < Chunk.getChunkSize(); x++)
+        {
+            for (int y = 0; y < Chunk.getChunkSize(); y++)
+            {
+                tiles[x][y] = new Tile();
+            }
+        }
+        return tiles;
+    }
 
-    /**
-     * Loads map from .txt format. Fills current map with freshly made 2D chunk objects matrix.
-     * Chunk objects are filled within same function with new 2D tile objects matrix.
-     *
-     */
-    public void loadChunksFromFile(String path)
+
+    public void loadTilesToChunkFromFile(String path, Chunk chunk)
     {
         try
         {
             InputStream is = new FileInputStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            Tile[][] tiles = new Tile[Chunk.getChunkSize()][Chunk.getChunkSize()];
 
-            // gets chunk from collection, and fills it from file with new tiles
+            // gets chunk from collection, and fills it from file with new 64 tiles
             for (int x = 0; x < chunkCountX; x++)
             {
                 for (int y = 0; y < chunkCountY; y++)
                 {
                     int chunkWorldPositionX = x * Chunk.getChunkSize() * Tile.tileSize;
                     int chunkWorldPositionY = y * Chunk.getChunkSize() * Tile.tileSize;
-                    chunks[x][y] = new Chunk(new Position(chunkWorldPositionX, chunkWorldPositionY));
+
+                    chunk.setTiles(tiles);  // fills one chunk
                 }
             }
         }

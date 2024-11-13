@@ -15,23 +15,22 @@ public class Chunk
     private List<Entity> entities;
     private List<Item> items;
 
-    public Chunk(Position chunkWorldPosition)
+    public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles)
     {
         this.chunkWorldPosition = chunkWorldPosition;
         this.tiles = new Tile[chunkSize][chunkSize];
         this.entities = new ArrayList<>();
         this.items = new ArrayList<>();
-
-        for (int x = 0; x < chunkSize; x++)
-        {
-            for (int y = 0; y < chunkSize; y++)
-            {
-                tiles[x][y] = new Tile();
-            }
-        }
+        this.tiles = chunkTiles;
     }
 
     public Tile[][] getTiles() {return tiles;}
+
+    public void setTiles(Tile[][] tiles)
+    {
+        this.tiles = tiles;
+    }
+
     public Position getChunkWorldPosition() {return chunkWorldPosition;}
     public List<Entity> getEntities() {return entities;}
     public List<Item> getItems() {return items;}
