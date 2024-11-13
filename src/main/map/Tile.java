@@ -7,18 +7,23 @@ import utilities.SpriteSheet;
 public class Tile
 {
     public static int tileSize = 64;
+    private final int id;
     private Sprite currentSprite;
     private boolean isColliding;
     public static final Tile defaultTileObject = new Tile();
 
-    public Tile(SpriteSheet spriteSheet, boolean isColliding)
+    public Tile(int id)
     {
+        this.id = id;
+        String spriteSheetPath = getSpriteSheetPathById(id);
+        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), tileSize);
         this.currentSprite = extractRandomVariation(spriteSheet);
-        this.isColliding = isColliding;
+        this.isColliding = false;
     }
 
     public Tile()
     {
+        this.id = 0;
         SpriteSheet defaultSS = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultTile"), 64);
         this.currentSprite = defaultSS.extractFirst();
     }
@@ -38,6 +43,20 @@ public class Tile
         {
             int randomVariation = (int) (Math.random() * spriteSheet.countSpriteVariations());
             return spriteSheet.extractSpriteByVariation(randomVariation);
+        }
+    }
+
+    private String getSpriteSheetPathById(int id)
+    {
+        switch (id)
+        {
+            case 0:
+                return "resources/default/defaultTile";
+            case 1:
+                return "resources/default/defaultTileCollision";
+
+            default:
+                return "resources/default/defaultTile";
         }
     }
 }

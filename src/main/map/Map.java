@@ -51,7 +51,9 @@ public class Map
             {
                 int worldX = x * chunkPixelSize - halfMapWidthInPixels;
                 int worldY = y * chunkPixelSize - halfMapHeightInPixels;
-                Tile[][] chunkTiles = createDefaultChunkTiles();
+
+
+                Tile[][] chunkTiles = createDefaultChunkTiles();    // load chunk from map file in here
 
                 chunks[x][y] = new Chunk(new Position(worldX, worldY), chunkTiles);
             }
@@ -72,30 +74,9 @@ public class Map
     }
 
 
-    public void loadTilesToChunkFromFile(String path, Chunk chunk)
+    public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY)
     {
-        try
-        {
-            InputStream is = new FileInputStream(path);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            Tile[][] tiles = new Tile[Chunk.getChunkSize()][Chunk.getChunkSize()];
-
-            // gets chunk from collection, and fills it from file with new 64 tiles
-            for (int x = 0; x < chunkCountX; x++)
-            {
-                for (int y = 0; y < chunkCountY; y++)
-                {
-                    int chunkWorldPositionX = x * Chunk.getChunkSize() * Tile.tileSize;
-                    int chunkWorldPositionY = y * Chunk.getChunkSize() * Tile.tileSize;
-
-                    chunk.setTiles(tiles);  // fills one chunk
-                }
-            }
-        }
-        catch(IOException ex)
-        {
-            ex.printStackTrace();
-        }
+        return null;
     }
 
 }
