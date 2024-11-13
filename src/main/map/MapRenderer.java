@@ -2,6 +2,7 @@ package main.map;
 
 import main.DrawPriorities;
 import main.Drawable;
+import utilities.Position;
 
 import java.awt.*;
 
@@ -21,7 +22,11 @@ public class MapRenderer implements Drawable
     public void draw(Graphics g2)   // drawing chunks (tiles)
     {
         Chunk[][] chunks = mapController.getCurrentMap().getChunks();
-        g2.drawRect(50,50,50,50);
+
+        int worldX = 0;
+        int worldY = 0;
+        Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);
+        g2.drawRect(screenPosition.x, screenPosition.y, 50,50);
 
 
     }
