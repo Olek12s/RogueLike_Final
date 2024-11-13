@@ -26,8 +26,25 @@ public class MapRenderer implements Drawable
         int worldX = 0;
         int worldY = 0;
         Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);
-        g2.drawRect(screenPosition.x, screenPosition.y, 50,50);
 
+        for (int i = 0; i < mapController.getCurrentMap().getChunkCountX(); i++)
+        {
+            for (int j = 0; j < mapController.getCurrentMap().getChunkCountY(); i++)
+            {
+                for (int k = 0; k < chunks[1].length; k++)
+                {
+                    for (int l = 0; l < chunks.length; l++)
+                    {
+                        g2.drawImage(chunks[i][j].getTiles()[k][l].getCurrentSprite().image, worldX, worldY, null);
+                    }
+                }
+            }
+        }
+        g2.drawRect(screenPosition.x, screenPosition.y, 50,50);
+    }
+
+    private void drawChunk(int worldX, int worldY, Graphics g2)
+    {
 
     }
 }

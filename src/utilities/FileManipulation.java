@@ -22,9 +22,4 @@ public class FileManipulation
         }
         return image;
     }
-
-    public static void loadMapFromFile(Map map, String path)
-    {
-
-    }
 }

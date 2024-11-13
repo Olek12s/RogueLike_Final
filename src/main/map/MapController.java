@@ -19,4 +19,6 @@ public class MapController
         gc.updatables.add(updater);
         gc.drawables.add(renderer);
     }
+
+
 }

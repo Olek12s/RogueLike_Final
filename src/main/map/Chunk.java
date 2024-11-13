@@ -21,6 +21,14 @@ public class Chunk
         this.tiles = new Tile[chunkSize][chunkSize];
         this.entities = new ArrayList<>();
         this.items = new ArrayList<>();
+
+        for (int x = 0; x < chunkSize; x++)
+        {
+            for (int y = 0; y < chunkSize; y++)
+            {
+                tiles[x][y] = new Tile();
+            }
+        }
     }
 
     public Tile[][] getTiles() {return tiles;}
