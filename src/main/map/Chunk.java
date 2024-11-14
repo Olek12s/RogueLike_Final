@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Chunk
 {
-    private static final int chunkSize = 16;
+    private static final int chunkSize = 8;
     private Tile[][] tiles;
     private Position chunkWorldPosition;
     private List<Entity> entities;

@@ -13,6 +13,7 @@ public class Map
     private int chunkCountY;
     private int mapWidth;
     private int mapHeight;
+    private String filePath;
 
     public int getChunkCountX() {return chunkCountX;}
     public int getChunkCountY() {return chunkCountY;}
@@ -21,8 +22,11 @@ public class Map
 
     public Map(int mapWidth, int mapHeight, String path)
     {
-        this.chunkCountX = (int) Math.ceil((double) mapWidth / Chunk.getChunkSize());
-        this.chunkCountY = (int) Math.ceil((double) mapHeight / Chunk.getChunkSize());
+        this.chunkCountX = mapWidth;
+        this.chunkCountY = mapHeight;
+        this.filePath = path;
+        System.out.println(chunkCountX);
+        System.out.println(chunkCountY);
         chunks = new Chunk[chunkCountX][chunkCountY];
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
@@ -41,6 +45,7 @@ public class Map
 
     private void createChunks()
     {
+        int chunkSize = Chunk.getChunkSize();
         int chunkPixelSize = Chunk.getChunkSize() * Tile.tileSize;
         int halfMapWidthInPixels = (chunkCountX / 2) * chunkPixelSize;
         int halfMapHeightInPixels = (chunkCountY / 2) * chunkPixelSize;
@@ -53,9 +58,13 @@ public class Map
                 int worldY = y * chunkPixelSize - halfMapHeightInPixels;
 
 
-                Tile[][] chunkTiles = createDefaultChunkTiles();    // load chunk from map file in here
+                //Tile[][] chunkTiles = createDefaultChunkTiles();    // load chunk from map file in here
+                Tile[][] chunkTiles = loadChunkTilesFromFile(filePath, x*chunkSize, y*chunkSize);
 
-                chunks[x][y] = new Chunk(new Position(worldX, worldY), chunkTiles);
+                Position chunkPosition = new Position(worldX, worldY);
+                chunks[x][y] = new Chunk(chunkPosition, chunkTiles);
+
+                System.out.println("Chunk" + "(" + x + ", " + y + ") created at: " + chunkPosition);   // TEMP DEBUG
             }
         }
     }
@@ -76,7 +85,51 @@ public class Map
 
     public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY)
     {
-        return null;
+        int chunkSize = Chunk.getChunkSize();
+
+        Tile[][] chunkTiles = new Tile[chunkSize][chunkSize];
+
+        try
+        {
+            FileReader fr = new FileReader(path);
+            BufferedReader br = new BufferedReader(fr);
+            int defaultTilesCounter = 0;
+
+            for (int i = 0; i < startY; i++)    // skip first Y lines
+            {
+                br.readLine();
+            }
+
+            for (int y = 0; y < chunkSize; y++)
+            {
+                String line = br.readLine();
+
+                for (int x = 0; x < chunkSize; x++)
+                {
+                    try
+                    {
+                        String[] lineTiles = line.trim().split(" ");
+                        int tileX = startX + x;
+                        int id = Integer.parseInt(lineTiles[tileX]);
+
+                        chunkTiles[x][y] = new Tile(id);    // <--- Add TileManager and pass references to the tiles in here to prevent memory leaks
+                        //chunkTiles[x][y] = Tile.defaultTileObject;
+                    }
+                    catch(Exception ex)
+                    {
+                        chunkTiles[x][y] = new Tile();     // <--- Add TileManager and pass references to the tiles in here to prevent memory leaks
+                        defaultTilesCounter++;
+                    }
+                }
+            }
+            if (defaultTilesCounter != 0) System.err.println("Created " + defaultTilesCounter + " default tiles for chunk (" + startX / chunkSize + ", " + startY / chunkSize + ")");
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return chunkTiles;
     }
 
 }
