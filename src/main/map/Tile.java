@@ -14,10 +14,6 @@ public class Tile
     public Tile(int id)
     {
         this.id = id;
-        //String spriteSheetPath = getSpriteSheetPathById(id);
-        //SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), tileSize);
-        //SpriteSheet spriteSheet = new SpriteSheet(TileManager.getTileObject(id).getSpriteSheet().getSpriteSheetImage(), tileSize);
-        //this.currentSprite = extractRandomVariation(spriteSheet);
         this.currentSprite = extractRandomVariation(TileManager.getTileObject(id).getSpriteSheet());
         this.isColliding = false;
     }
