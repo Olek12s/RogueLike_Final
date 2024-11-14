@@ -11,8 +11,6 @@ public class Map
     private final Chunk[][] chunks;
     private int chunkCountX;
     private int chunkCountY;
-    private int mapWidth;
-    private int mapHeight;
     private String filePath;
 
     public int getChunkCountX() {return chunkCountX;}
@@ -25,11 +23,7 @@ public class Map
         this.chunkCountX = mapWidth;
         this.chunkCountY = mapHeight;
         this.filePath = path;
-        System.out.println(chunkCountX);
-        System.out.println(chunkCountY);
         chunks = new Chunk[chunkCountX][chunkCountY];
-        this.mapWidth = mapWidth;
-        this.mapHeight = mapHeight;
 
         createChunks();         //Fills map with empty new Chunk objects
     }
@@ -63,8 +57,6 @@ public class Map
 
                 Position chunkPosition = new Position(worldX, worldY);
                 chunks[x][y] = new Chunk(chunkPosition, chunkTiles);
-
-                System.out.println("Chunk" + "(" + x + ", " + y + ") created at: " + chunkPosition);   // TEMP DEBUG
             }
         }
     }
@@ -76,7 +68,7 @@ public class Map
         {
             for (int y = 0; y < Chunk.getChunkSize(); y++)
             {
-                tiles[x][y] = Tile.defaultTileObject;   // static object
+                tiles[x][y] = TileManager.defaultTileObject;   // static object
             }
         }
         return tiles;
@@ -113,11 +105,11 @@ public class Map
                         int id = Integer.parseInt(lineTiles[tileX]);
 
                         chunkTiles[x][y] = new Tile(id);    // <--- Add TileManager and pass references to the tiles in here to prevent memory leaks
-                        //chunkTiles[x][y] = Tile.defaultTileObject;
+                        //chunkTiles[x][y] = TileManager.defaultTileObject;
                     }
                     catch(Exception ex)
                     {
-                        chunkTiles[x][y] = new Tile();     // <--- Add TileManager and pass references to the tiles in here to prevent memory leaks
+                        chunkTiles[x][y] = TileManager.defaultTileObject;     // <--- Add TileManager and pass references to the tiles in here to prevent memory leaks
                         defaultTilesCounter++;
                     }
                 }

@@ -3,6 +3,7 @@ package main;
 import main.entity.Entity;
 import main.entity.player.Player;
 import main.map.MapController;
+import main.map.TileManager;
 import utilities.camera.Camera;
 import utilities.KeyHandler;
 
@@ -21,6 +22,7 @@ public class GameController extends JPanel implements Runnable
     public KeyHandler keyHandler;
     public Entity player;
     public Camera camera;
+    public TileManager tileManager;
     public MapController mapController;
 
 
@@ -57,6 +59,7 @@ public class GameController extends JPanel implements Runnable
         keyHandler = new KeyHandler(this);
         player = new Player(this);
         camera = new Camera(this);
+        tileManager = new TileManager(this);
         mapController = new MapController(this);
     }
 

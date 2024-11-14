@@ -10,13 +10,13 @@ public class Tile
     private final int id;
     private Sprite currentSprite;
     private boolean isColliding;
-    public static final Tile defaultTileObject = new Tile();
 
     public Tile(int id)
     {
         this.id = id;
-        String spriteSheetPath = getSpriteSheetPathById(id);
-        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), tileSize);
+        //String spriteSheetPath = getSpriteSheetPathById(id);
+        //SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), tileSize);
+        SpriteSheet spriteSheet = new SpriteSheet(TileManager.getTileObject(id).getSpriteSheet().getSpriteSheetImage(), tileSize);
         this.currentSprite = extractRandomVariation(spriteSheet);
         this.isColliding = false;
     }
