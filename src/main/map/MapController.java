@@ -14,7 +14,7 @@ public class MapController
     public MapController(GameController gc)
     {
         this.gc = gc;
-        this.currentMap = new Map(3, 3, "resources/maps/world0-0.txt");   // temporary
+        this.currentMap = new Map(8, 8, "resources/maps/world0-0.txt");   // temporary
 
         gc.updatables.add(updater);
         gc.drawables.add(renderer);
