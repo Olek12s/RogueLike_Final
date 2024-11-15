@@ -12,7 +12,7 @@ public class Camera
     private CameraUpdater updater = new CameraUpdater(this);
 
     private Position cameraPosition;
-    private double scaleFactor = 1;
+    private static double scaleFactor = 1;
 
     public Camera(GameController gc)
     {
@@ -22,7 +22,7 @@ public class Camera
     }
 
     public Position getCameraPosition() {return cameraPosition;}
-    public double getScaleFactor() {return scaleFactor;}
+    public static double getScaleFactor() {return scaleFactor;}
 
     public Position applyCameraOffset(int worldX, int worldY)
     {
@@ -37,5 +37,21 @@ public class Camera
     {
         cameraPosition.x = entity.getWorldPosition().x + entity.getCurrentSprite().resolutionX/2;
         cameraPosition.y = entity.getWorldPosition().y + entity.getCurrentSprite().resolutionY/2;
+    }
+
+    public void checkScroll()
+    {
+        if (gc.keyHandler.scrollCount != 0)
+        {
+            if (gc.keyHandler.scrollCount > 0)
+            {
+                scaleFactor = Math.max(0.5, scaleFactor - 0.05);
+            }
+            else if (gc.keyHandler.scrollCount < 0)
+            {
+                scaleFactor = Math.min(2, scaleFactor + 0.05);
+            }
+            gc.keyHandler.scrollCount = 0;
+        }
     }
 }

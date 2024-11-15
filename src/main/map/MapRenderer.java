@@ -3,6 +3,7 @@ package main.map;
 import main.DrawPriorities;
 import main.Drawable;
 import utilities.Position;
+import utilities.camera.Camera;
 
 import java.awt.*;
 
@@ -41,7 +42,9 @@ public class MapRenderer implements Drawable
                         int worldX = chunkWorldPosition.x + (tileX * tileSize);
                         int worldY = chunkWorldPosition.y + (tileY * tileSize);
                         Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);
-                        g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, tileSize, tileSize, null);
+
+                        int scaleFactor = (int) Math.ceil(Camera.getScaleFactor() * tileSize);
+                        g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, scaleFactor, scaleFactor, null);
                     }
                 }
             }

@@ -16,5 +16,6 @@ public class CameraUpdater implements Updatable
     public void update()    // by default - focus is on player
     {
         camera.focusOn(camera.gc.player);
+        camera.checkScroll();
     }
 }

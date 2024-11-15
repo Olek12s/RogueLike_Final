@@ -28,6 +28,7 @@ public class Hitbox
 
     public void centerPositionToEntity(Entity entity)
     {
+
         int entityX = entity.getWorldPosition().x;
         int entityY = entity.getWorldPosition().y;
 
@@ -35,8 +36,12 @@ public class Hitbox
         float spriteWidth = currentSprite.resolutionX;
         float spriteHeight = currentSprite.resolutionY;
 
-        hitboxRect.x = (int)(entityX + (spriteWidth / 2) - (hitboxRect.width / 2));
-        hitboxRect.y = (int)(entityY + (spriteHeight / 2) - (hitboxRect.height / 2));
+
+        int spriteCenterX = entityX + (int)(spriteWidth / 2);
+        int spriteCenterY = entityY + (int)(spriteHeight / 2);
+
+        hitboxRect.x = spriteCenterX - (int)(hitboxRect.getWidth() / 2);
+        hitboxRect.y = spriteCenterY - (int)(hitboxRect.getHeight() / 2);
     }
 
 
