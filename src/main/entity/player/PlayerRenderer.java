@@ -10,10 +10,12 @@ import java.awt.*;
 
 public class PlayerRenderer extends EntityRenderer implements Drawable
 {
+    Entity entity;
 
     public PlayerRenderer(Entity entity, SpriteSheet spriteSheet)
     {
         super(entity, spriteSheet);
+        this.entity = entity;
 
         entity.gc.drawables.add(this);
     }
@@ -22,7 +24,7 @@ public class PlayerRenderer extends EntityRenderer implements Drawable
     public void draw(Graphics g2)
     {
         super.draw(g2);
-
-        g2.dispose();
+        drawEntityHitbox(g2);
+        //g2.dispose();
     }
 }

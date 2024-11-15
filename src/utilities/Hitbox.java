@@ -13,13 +13,22 @@ public class Hitbox
     public Rectangle getHitboxRect() {return hitboxRect;}
     public void setHitboxRect(Rectangle hitboxRect) {this.hitboxRect = hitboxRect;}
     public int getWidth() {return width;}
-    public void setWidth(int width) {this.width = width;}
+    public void setWidth(int width)
+    {
+        this.width = width;
+        this.hitboxRect.setSize(width, height);
+    }
     public int getHeight() {return height;}
-    public void setHeight(int height) {this.height = height;}
+    public void setHeight(int height)
+    {
+        this.height = height;
+        this.hitboxRect.setSize(width, height);
+    }
 
     public Hitbox(Position worldPosition, int width, int height)
     {
         hitboxRect = new Rectangle(worldPosition.x, worldPosition.y, width, height);
+        this.hitboxRect.setSize(width, height);
     }
 
     public void setNewPosition(Entity entity)
@@ -34,6 +43,6 @@ public class Hitbox
     @Override
     public String toString()
     {
-        return "[" +  hitboxRect.getBounds().x + " " + hitboxRect.getBounds().y + "]";
+        return "[" +  hitboxRect.getBounds().x + " " + hitboxRect.getBounds().y + "] [" + hitboxRect.getWidth() + ", " + hitboxRect.getHeight() + "]";
     }
 }

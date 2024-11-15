@@ -39,7 +39,7 @@ public class EntityRenderer implements Drawable
 
 
         g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
-        g2.dispose();
+        //g2.dispose();
     }
 
     protected void loadSpriteImages()
@@ -55,5 +55,16 @@ public class EntityRenderer implements Drawable
                 spriteImages[tick][variation] = spriteSheet.extractSprite(spriteSheet, tick, variation);
             }
         }
+    }
+
+    protected void drawEntityHitbox(Graphics g2)
+    {
+        double scaleFactor = entity.gc.camera.getScaleFactor();
+        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.worldPosition.x, entity.worldPosition.y);
+
+        int scaledHitboxWidth = (int) (entity.getHitbox().getHitboxRect().width * scaleFactor);
+        int scaledHitboxHeight = (int) (entity.getHitbox().getHitboxRect().height * scaleFactor);
+        g2.setColor(Color.ORANGE);
+        g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);
     }
 }

@@ -22,6 +22,12 @@ public class EntityUpdater implements Updatable
     {
         updateCurrentSprite();
         move();
+        updateHitbox();
+    }
+
+    private void updateHitbox()
+    {
+        entity.getHitbox().setNewPosition(entity);
     }
 
     private void updateCurrentSprite()

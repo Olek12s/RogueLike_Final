@@ -22,8 +22,6 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     {
         super.update();
         updatePlayerDirection();
-        System.out.println(entity.gc.mapController.getCurrentMap().getChunk(entity.getWorldPosition()).toString());
-        System.out.println(entity.gc.mapController.getCurrentMap().getTile(entity.getWorldPosition()).isColliding());
     }
 
     private void updatePlayerDirection()
