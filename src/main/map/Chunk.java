@@ -37,4 +37,13 @@ public class Chunk
     public void removeEntity(Entity entity) {entities.remove(entity);}
     public void removeItem(Item item) {items.remove(item);}
     public static int getChunkSize() {return chunkSize;}
+
+    @Override
+    public String toString()
+    {
+        int chunkPixelSize = chunkSize * Tile.tileSize;
+        int chunkX = chunkWorldPosition.x / chunkPixelSize;
+        int chunkY = chunkWorldPosition.y / chunkPixelSize;
+        return "(" + chunkX + ", " + chunkY + ")";
+    }
 }

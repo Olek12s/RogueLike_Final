@@ -32,21 +32,49 @@ public class Map
 
     public Chunk getChunk(int worldX, int worldY)
     {
-        int chunkX = worldX / Chunk.getChunkSize();
-        int chunkY = worldY / Chunk.getChunkSize();
+        int chunkPixelSize = Chunk.getChunkSize() * Tile.tileSize;
+
+        // aligning to the middle of the map
+        int halfMapWidthInPixels = (chunkCountX / 2) * chunkPixelSize;
+        int halfMapHeightInPixels = (chunkCountY / 2) * chunkPixelSize;
+        int adjustedX = worldX + halfMapWidthInPixels;
+        int adjustedY = worldY + halfMapHeightInPixels;
+
+        int chunkX = adjustedX / chunkPixelSize;
+        int chunkY = adjustedY / chunkPixelSize;
+
+        if (adjustedX < 0) chunkX--;
+        if (adjustedY < 0) chunkY--;
+
+        if (chunkX < 0 || chunkX >= chunkCountX || chunkY < 0 || chunkY >= chunkCountY) {
+
+            throw new IndexOutOfBoundsException("Position out of map: (" + worldX + ", " + worldY + ")");
+        }
         return chunks[chunkX][chunkY];
     }
+    public Chunk getChunk(Position worldPosition) {return getChunk(worldPosition.x, worldPosition.y);}
 
     public Tile getTile(int worldX, int worldY)
     {
         Chunk chunk = getChunk(worldX, worldY);
-        int tileXInChunk = worldX % Chunk.getChunkSize();
-        int tileYInChunk = worldY % Chunk.getChunkSize();
+        int chunkPixelSize = Chunk.getChunkSize() * Tile.tileSize;
 
+        // aligning to the middle of the map
+        int halfMapWidthInPixels = (chunkCountX / 2) * chunkPixelSize;
+        int halfMapHeightInPixels = (chunkCountY / 2) * chunkPixelSize;
+        int adjustedX = worldX + halfMapWidthInPixels;
+        int adjustedY = worldY + halfMapHeightInPixels;
+
+        int tileXInChunk = (adjustedX % chunkPixelSize) / Tile.tileSize;
+        int tileYInChunk = (adjustedY % chunkPixelSize) / Tile.tileSize;
+
+        if (tileXInChunk < 0) tileXInChunk += Chunk.getChunkSize();
+        if (tileYInChunk < 0) tileYInChunk += Chunk.getChunkSize();
 
         Tile tile = chunk.getTiles()[tileXInChunk][tileYInChunk];
         return tile;
     }
+    public Tile getTile(Position position) {return getTile(position.x, position.y);}
 
     private void createChunks()
     {

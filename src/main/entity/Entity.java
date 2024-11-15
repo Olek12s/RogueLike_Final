@@ -37,7 +37,7 @@ public abstract class Entity
         setWorldPosition();
         setDirection();
         setHitbox();
-        setMovementSpeed(10);
+        setMovementSpeed(1);
         this.isMoving = false;
 
     }
@@ -56,7 +56,7 @@ public abstract class Entity
         if (speed == 0) movementSpeed = 0;
         else
         {
-            movementSpeed = Math.max((int)(speed  / 128), 1);
+            movementSpeed = Math.max((int)(speed  / 16), 1);
         }
     }
     public Direction getDirection() {return direction;}
