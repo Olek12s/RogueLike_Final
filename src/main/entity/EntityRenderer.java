@@ -60,11 +60,11 @@ public class EntityRenderer implements Drawable
     protected void drawEntityHitbox(Graphics g2)
     {
         double scaleFactor = entity.gc.camera.getScaleFactor();
-        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.worldPosition.x, entity.worldPosition.y);
+        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
 
         int scaledHitboxWidth = (int) (entity.getHitbox().getHitboxRect().width * scaleFactor);
         int scaledHitboxHeight = (int) (entity.getHitbox().getHitboxRect().height * scaleFactor);
-        g2.setColor(Color.ORANGE);
+        g2.setColor (Color.ORANGE);
         g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);
     }
 }
