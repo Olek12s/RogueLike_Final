@@ -14,8 +14,10 @@ public class Tile
     public Tile(int id)
     {
         this.id = id;
-        this.currentSprite = extractRandomVariation(TileManager.getTileObject(id).getSpriteSheet());
-        this.isColliding = false;
+        this.currentSprite = TileManager.getTileObject(id).getRandomVariation(0);
+        this.isColliding = TileManager.getTileObject(id).isColliding();
+        //this.currentSprite = extractRandomVariation(TileManager.getTileObject(id).getSpriteSheet());
+        //this.isColliding = false;
     }
 
     public Tile()
@@ -40,20 +42,6 @@ public class Tile
         {
             int randomVariation = (int) (Math.random() * spriteSheet.countSpriteVariations());
             return spriteSheet.extractSpriteByVariation(randomVariation);
-        }
-    }
-
-    private String getSpriteSheetPathById(int id)
-    {
-        switch (id)
-        {
-            case 0:
-                return "resources/default/defaultTile";
-            case 1:
-                return "resources/default/defaultTileCollision";
-
-            default:
-                return "resources/default/defaultTile";
         }
     }
 }

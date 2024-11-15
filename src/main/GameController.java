@@ -4,6 +4,7 @@ import main.entity.Entity;
 import main.entity.player.Player;
 import main.map.MapController;
 import main.map.TileManager;
+import utilities.Collisions;
 import utilities.camera.Camera;
 import utilities.KeyHandler;
 
@@ -24,7 +25,7 @@ public class GameController extends JPanel implements Runnable
     public Camera camera;
     public TileManager tileManager;
     public MapController mapController;
-
+    public Collisions collisions;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -61,6 +62,7 @@ public class GameController extends JPanel implements Runnable
         camera = new Camera(this);
         tileManager = new TileManager(this);
         mapController = new MapController(this);
+        collisions = new Collisions(this);
     }
 
 

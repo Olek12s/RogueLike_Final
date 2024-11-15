@@ -2,6 +2,7 @@ package main.entity;
 
 import main.Direction;
 import main.Updatable;
+import utilities.Collisions;
 
 public class EntityUpdater implements Updatable
 {
@@ -57,7 +58,7 @@ public class EntityUpdater implements Updatable
 
     protected void move()
     {
-        if (entity.isMoving /*&& !Collisions.isColliding(this)*/)
+        if (entity.isMoving && !Collisions.isColliding(entity))
         {
             if (entity.direction == Direction.UP_LEFT)
             {

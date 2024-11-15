@@ -2,9 +2,12 @@
 
     import main.GameController;
     import utilities.FileManipulation;
+    import utilities.Sprite;
     import utilities.SpriteSheet;
 
+    import java.util.ArrayList;
     import java.util.HashMap;
+    import java.util.List;
     import java.util.Map;
 
 
@@ -25,6 +28,7 @@
 
         public static class TileObject
         {
+            private Sprite[][] sprites;
             private SpriteSheet spriteSheet;
             private boolean isColliding;
             private int id;
@@ -32,12 +36,30 @@
             public SpriteSheet getSpriteSheet() {return spriteSheet;}
             public boolean isColliding() {return isColliding;}
             public int getId() {return id;}
+            public Sprite[][] getSprites() {return sprites;}
+
+            public Sprite getRandomVariation(int animationTick)
+            {
+                int variation = (int) (Math.random() * (spriteSheet.variations));
+
+                return sprites[variation][animationTick];
+            }
 
             public TileObject(SpriteSheet spriteSheet, boolean isColliding, int id)
             {
+                this.sprites = new Sprite[spriteSheet.variations][spriteSheet.ticks];
                 this.spriteSheet = spriteSheet;
                 this.isColliding = isColliding;
                 this.id = id;
+
+                //System.out.println("Variations and ticks for id [" + id + "]: " + spriteSheet.variations + " " + spriteSheet.ticks);
+                for (int variation = 0; variation < spriteSheet.variations; variation++)
+                {
+                    for (int tick = 0; tick < spriteSheet.ticks; tick++)
+                    {
+                        sprites[variation][tick] = spriteSheet.extractSprite(spriteSheet, tick, variation);
+                    }
+                }
             }
         }
 

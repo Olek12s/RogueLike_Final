@@ -16,9 +16,9 @@ public class SpriteSheet
     public SpriteSheet(BufferedImage spriteSheetImage, int textureResolution)
     {
         this.spriteSheetImage = spriteSheetImage;
+        this.textureResolution = textureResolution;
         this.variations = countSpriteVariations();
         this.ticks = countAnimationTicks();
-        this.textureResolution = textureResolution;
     }
 
     // Extracts Sprite from 2D spriteSheet.
@@ -113,7 +113,7 @@ public class SpriteSheet
     }
 
     // If the area has a non-transparent pixel, return true. Used in 2D SpriteSheets
-    public boolean isSprite(SpriteSheet spriteSheet, int startX, int startY)
+    private boolean isSprite(SpriteSheet spriteSheet, int startX, int startY)
     {
         BufferedImage image = spriteSheet.getSpriteSheetImage();
         int maxX = startX + textureResolution;

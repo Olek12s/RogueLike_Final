@@ -62,6 +62,7 @@ public abstract class Entity
     public Direction getDirection() {return direction;}
     public void setDirection(Direction direction) {this.direction = direction;}
     public int getMovementSpeed() {return movementSpeed;}
+    public Hitbox getHitbox() {return hitbox;}
 
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();

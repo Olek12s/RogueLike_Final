@@ -37,6 +37,17 @@ public class Map
         return chunks[chunkX][chunkY];
     }
 
+    public Tile getTile(int worldX, int worldY)
+    {
+        Chunk chunk = getChunk(worldX, worldY);
+        int tileXInChunk = worldX % Chunk.getChunkSize();
+        int tileYInChunk = worldY % Chunk.getChunkSize();
+
+
+        Tile tile = chunk.getTiles()[tileXInChunk][tileYInChunk];
+        return tile;
+    }
+
     private void createChunks()
     {
         int chunkSize = Chunk.getChunkSize();

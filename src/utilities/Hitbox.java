@@ -1,5 +1,7 @@
 package utilities;
 
+import main.entity.Entity;
+
 import java.awt.*;
 
 public class Hitbox
@@ -18,6 +20,14 @@ public class Hitbox
     public Hitbox(Position worldPosition, int width, int height)
     {
         hitboxRect = new Rectangle(worldPosition.x, worldPosition.y, width, height);
+    }
+
+    public void setNewPosition(Entity entity)
+    {
+        hitboxRect.x = entity.getWorldPosition().x;
+        hitboxRect.y = entity.getWorldPosition().y;
+        width = entity.getCurrentSprite().image.getWidth();
+        height = entity.getCurrentSprite().image.getHeight();
     }
 
 
