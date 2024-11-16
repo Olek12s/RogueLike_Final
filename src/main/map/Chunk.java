@@ -14,14 +14,18 @@ public class Chunk
     private Position chunkWorldPosition;
     private List<Entity> entities;
     private List<Item> items;
+    private int xIndex;
+    private int yIndex;
 
-    public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles)
+    public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles, int xIndex, int yIndex)
     {
         this.chunkWorldPosition = chunkWorldPosition;
         this.tiles = new Tile[chunkSize][chunkSize];
         this.entities = new ArrayList<>();
         this.items = new ArrayList<>();
         this.tiles = chunkTiles;
+        this.xIndex = xIndex;
+        this.yIndex = yIndex;
     }
 
     public Tile[][] getTiles() {return tiles;}
@@ -37,6 +41,20 @@ public class Chunk
     public void removeEntity(Entity entity) {entities.remove(entity);}
     public void removeItem(Item item) {items.remove(item);}
     public static int getChunkSize() {return chunkSize;}
+
+    public int getxIndex() {return xIndex;}
+    public int getyIndex() {return yIndex;}
+
+    public int getChunkNumX()
+    {
+        int chunkPixelSize = chunkSize * Tile.tileSize;
+        return  chunkWorldPosition.x / chunkPixelSize;
+    }
+    public int getChunkNumY()
+    {
+        int chunkPixelSize = chunkSize * Tile.tileSize;
+        return  chunkWorldPosition.y / chunkPixelSize;
+    }
 
     @Override
     public String toString()

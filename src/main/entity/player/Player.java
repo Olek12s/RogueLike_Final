@@ -17,7 +17,7 @@ public class Player extends Entity
         super(gc);
         renderer = setRenderer();
         updater = setUpdater();
-        setMovementSpeed(37);
+        setMovementSpeed(70);
     }
 
     @Override

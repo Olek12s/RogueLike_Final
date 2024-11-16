@@ -45,11 +45,11 @@ public class Camera
         {
             if (gc.keyHandler.scrollCount > 0)
             {
-                scaleFactor = Math.max(0.5, scaleFactor - 0.05);
+                scaleFactor = Math.max(0.05, scaleFactor - 0.05); // further
             }
             else if (gc.keyHandler.scrollCount < 0)
             {
-                scaleFactor = Math.min(2, scaleFactor + 0.05);
+                scaleFactor = Math.min(2, scaleFactor + 0.05);  // closer
             }
             gc.keyHandler.scrollCount = 0;
         }

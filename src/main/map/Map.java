@@ -53,6 +53,7 @@ public class Map
         return chunks[chunkX][chunkY];
     }
     public Chunk getChunk(Position worldPosition) {return getChunk(worldPosition.x, worldPosition.y);}
+    public Chunk getChunkByIndex(int chunkX, int chunkY) {return chunks[chunkX][chunkY];}
 
     public Tile getTile(int worldX, int worldY)
     {
@@ -95,7 +96,7 @@ public class Map
                 Tile[][] chunkTiles = loadChunkTilesFromFile(filePath, x*chunkSize, y*chunkSize);
 
                 Position chunkPosition = new Position(worldX, worldY);
-                chunks[x][y] = new Chunk(chunkPosition, chunkTiles);
+                chunks[x][y] = new Chunk(chunkPosition, chunkTiles, x, y);
             }
         }
     }
