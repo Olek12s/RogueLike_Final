@@ -1,5 +1,6 @@
 package main.entity.player;
 
+import main.DrawPriorities;
 import main.Drawable;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
@@ -17,8 +18,10 @@ public class PlayerRenderer extends EntityRenderer implements Drawable
         super(entity, spriteSheet);
         this.entity = entity;
 
-        entity.gc.drawables.add(this);
     }
+
+    @Override
+    public int getDrawPriority() {return DrawPriorities.Player.value;}
 
     @Override
     public void draw(Graphics g2)

@@ -5,13 +5,11 @@ import main.GameController;
 import main.map.Chunk;
 import utilities.*;
 
-import javax.swing.*;
-
 public abstract class Entity
 {
     public GameController gc;
-    protected EntityRenderer renderer;
-    protected EntityUpdater updater;
+    protected EntityRenderer entityRenderer;
+    protected EntityUpdater entityUpdater;
 
     protected Sprite currentSprite;
     protected Hitbox hitbox;
@@ -31,11 +29,11 @@ public abstract class Entity
     public Entity(GameController gc, Position worldPosition)
     {
         this.gc = gc;
-        renderer = setRenderer();
-        updater = setUpdater();
+        entityRenderer = setRenderer();
+        entityUpdater = setUpdater();
 
 
-        this.currentSprite = renderer.spriteSheet.extractFirst();
+        this.currentSprite = entityRenderer.spriteSheet.extractFirst();
         setWorldPosition(worldPosition);
         setDirection();
         setHitbox();

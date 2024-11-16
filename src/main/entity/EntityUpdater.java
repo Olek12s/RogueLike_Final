@@ -16,6 +16,8 @@ public class EntityUpdater implements Updatable
     public EntityUpdater(Entity entity)
     {
         this.entity = entity;
+
+        entity.gc.updatables.add(this);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class EntityUpdater implements Updatable
     {
         if (entity.isMoving)
         {
-            spriteCounter = (spriteCounter + 1) % (entity.renderer.spriteImages.length * animationSpeed);
+            spriteCounter = (spriteCounter + 1) % (entity.entityRenderer.spriteImages.length * animationSpeed);
             int currentAnimationTick = (spriteCounter / animationSpeed);
             if (currentAnimationTick == 0) currentAnimationTick = 1;
             changeSprite(entity.direction, currentAnimationTick);
@@ -52,15 +54,15 @@ public class EntityUpdater implements Updatable
     {
         switch (direction)
         {
-            case DOWN:      entity.currentSprite = entity.renderer.spriteImages[animationTick][0]; break;
-            case LEFT:      entity.currentSprite = entity.renderer.spriteImages[animationTick][1]; break;
-            case RIGHT:     entity.currentSprite = entity.renderer.spriteImages[animationTick][2]; break;
-            case UP:        entity.currentSprite = entity.renderer.spriteImages[animationTick][3]; break;
-            case UP_LEFT:   entity.currentSprite = entity.renderer.spriteImages[animationTick][4]; break;
-            case UP_RIGHT:  entity.currentSprite = entity.renderer.spriteImages[animationTick][5]; break;
-            case DOWN_LEFT: entity.currentSprite = entity.renderer.spriteImages[animationTick][6]; break;
-            case DOWN_RIGHT:entity.currentSprite = entity.renderer.spriteImages[animationTick][7]; break;
-            default:        entity.currentSprite = entity.renderer.spriteImages[0][0]; break;
+            case DOWN:      entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][0]; break;
+            case LEFT:      entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][1]; break;
+            case RIGHT:     entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][2]; break;
+            case UP:        entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][3]; break;
+            case UP_LEFT:   entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][4]; break;
+            case UP_RIGHT:  entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][5]; break;
+            case DOWN_LEFT: entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][6]; break;
+            case DOWN_RIGHT:entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][7]; break;
+            default:        entity.currentSprite = entity.entityRenderer.spriteImages[0][0]; break;
         }
     }
 

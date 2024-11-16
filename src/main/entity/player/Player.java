@@ -16,9 +16,7 @@ public class Player extends Entity
     public Player(GameController gc)
     {
         super(gc, startingPosition);
-        renderer = setRenderer();
-        updater = setUpdater();
-        setMovementSpeed(70);
+        setMovementSpeed(120);
     }
 
     @Override
@@ -42,7 +40,7 @@ public class Player extends Entity
     @Override
     public void setHitbox()
     {
-        hitbox = new Hitbox(new Position(worldPosition.x, worldPosition.y), (int)(currentSprite.resolutionX*1), (int)(currentSprite.resolutionY*1));
+        hitbox = new Hitbox(new Position(worldPosition.x, worldPosition.y), (int)(currentSprite.resolutionX*0.4), (int)(currentSprite.resolutionY*0.4));
     }
 
     @Override

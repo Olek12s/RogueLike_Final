@@ -14,7 +14,6 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         super(entity);
         this.entity = entity;
 
-        entity.gc.updatables.add(this);
     }
 
     @Override

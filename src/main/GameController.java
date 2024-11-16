@@ -4,6 +4,7 @@ import main.entity.Entity;
 import main.entity.player.Player;
 import main.map.MapController;
 import main.map.TileManager;
+import utilities.AssetSetter;
 import utilities.Collisions;
 import utilities.camera.Camera;
 import utilities.KeyHandler;
@@ -26,6 +27,7 @@ public class GameController extends JPanel implements Runnable
     public TileManager tileManager;
     public MapController mapController;
     public Collisions collisions;
+    public AssetSetter assetSetter;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -63,6 +65,7 @@ public class GameController extends JPanel implements Runnable
         tileManager = new TileManager(this);
         mapController = new MapController(this);
         collisions = new Collisions(this);
+        assetSetter = new AssetSetter(this);
     }
 
 
