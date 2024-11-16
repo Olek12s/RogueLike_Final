@@ -11,10 +11,11 @@ public class Player extends Entity
 {
     protected PlayerRenderer renderer;
     protected PlayerUpdater updater;
+    private static Position startingPosition = new Position(0,0);
 
     public Player(GameController gc)
     {
-        super(gc);
+        super(gc, startingPosition);
         renderer = setRenderer();
         updater = setUpdater();
         setMovementSpeed(70);
@@ -51,8 +52,8 @@ public class Player extends Entity
     }
 
     @Override
-    public void setWorldPosition()
+    public void setWorldPosition(Position worldPosition)
     {
-        worldPosition = new Position(0, 0);
+        this.worldPosition = worldPosition;
     }
 }

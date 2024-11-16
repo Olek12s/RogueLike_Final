@@ -2,6 +2,7 @@ package main.entity;
 
 import main.Direction;
 import main.Updatable;
+import main.map.Chunk;
 import utilities.Collisions;
 
 public class EntityUpdater implements Updatable
@@ -23,6 +24,7 @@ public class EntityUpdater implements Updatable
         updateCurrentSprite();
         move();
         updateHitbox();
+        updateChunkAssociation();
     }
 
     private void updateHitbox()
@@ -103,5 +105,24 @@ public class EntityUpdater implements Updatable
                 entity.worldPosition.y -= entity.getMovementSpeed();
             }
         }
+    }
+
+    private void updateChunkAssociation()
+    {
+        Chunk currentChunk = entity.getCurrentChunk();
+        Chunk newChunk = entity.gc.mapController.getCurrentMap().getChunk(entity.getWorldPosition());
+
+        if (newChunk != currentChunk)   // move entity to the new chunk
+        {
+            System.out.println("moved entity to the chunk: " + newChunk.toString());
+            if (currentChunk != null)
+            {
+                currentChunk.removeEntity(entity);
+            }
+            newChunk.getEntities().add(entity);
+            entity.setCurrentChunk(newChunk);
+        }
+
+
     }
 }

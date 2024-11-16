@@ -2,6 +2,7 @@ package main.entity;
 
 import main.Direction;
 import main.GameController;
+import main.map.Chunk;
 import utilities.*;
 
 import javax.swing.*;
@@ -16,6 +17,7 @@ public abstract class Entity
     protected Hitbox hitbox;
     protected Direction direction;
     protected Position worldPosition;
+    private Chunk currentChunk;
     public boolean isMoving;
 
 
@@ -26,7 +28,7 @@ public abstract class Entity
     protected int movementSpeed;
     //STATISTICS
 
-    public Entity(GameController gc)
+    public Entity(GameController gc, Position worldPosition)
     {
         this.gc = gc;
         renderer = setRenderer();
@@ -34,7 +36,7 @@ public abstract class Entity
 
 
         this.currentSprite = renderer.spriteSheet.extractFirst();
-        setWorldPosition();
+        setWorldPosition(worldPosition);
         setDirection();
         setHitbox();
         setMovementSpeed(1);
@@ -46,7 +48,7 @@ public abstract class Entity
     public abstract void setDefaultSprite();
     public abstract void setHitbox();
     public abstract void setDirection();
-    public abstract void setWorldPosition();
+    public abstract void setWorldPosition(Position worldPosition);
     //ABSTRACTS
 
     public Position getWorldPosition() {return worldPosition;}
@@ -63,6 +65,8 @@ public abstract class Entity
     public void setDirection(Direction direction) {this.direction = direction;}
     public int getMovementSpeed() {return movementSpeed;}
     public Hitbox getHitbox() {return hitbox;}
+    public Chunk getCurrentChunk() {return currentChunk;}
+    public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}
 
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();

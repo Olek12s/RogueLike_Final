@@ -20,6 +20,12 @@ public class Hitbox
     {
         this.hitboxRect.setSize(hitboxRect.width, height);
     }
+    public Position getCenterPosition()
+    {
+        Position centerPosition = new Position(hitboxRect.x/2, hitboxRect.y/2);
+
+        return centerPosition;
+    }
 
     public Hitbox(Position worldPosition, int width, int height)
     {
