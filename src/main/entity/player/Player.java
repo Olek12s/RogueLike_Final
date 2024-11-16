@@ -24,7 +24,7 @@ public class Player extends Entity
     @Override
     public PlayerRenderer setRenderer()
     {
-        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 48);
+        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime"), 48);
         return new PlayerRenderer(this, spriteSheet);
     }
 

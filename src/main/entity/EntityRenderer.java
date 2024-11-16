@@ -38,7 +38,7 @@ public class EntityRenderer implements Drawable
         int scaledHeight = (int) (entity.currentSprite.image.getHeight() * scaleFactor);
 
 
-        g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
+        g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth*2, scaledHeight*2, null);
         //g2.dispose();
     }
 

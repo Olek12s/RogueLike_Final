@@ -9,7 +9,7 @@ public class EntityUpdater implements Updatable
 {
     private Entity entity;
     private int spriteCounter = 0;
-    private int animationSpeed = 6;
+    private int animationSpeed = 8;
 
     public Entity getEntity() {return entity;}
 
@@ -32,7 +32,7 @@ public class EntityUpdater implements Updatable
         entity.getHitbox().centerPositionToEntity(entity);
     }
 
-    private void updateCurrentSprite()
+    public void updateCurrentSprite()
     {
         if (entity.isMoving)
         {

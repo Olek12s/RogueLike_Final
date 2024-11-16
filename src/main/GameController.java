@@ -16,7 +16,7 @@ import main.map.Map;
 public class GameController extends JPanel implements Runnable
 {
     private Thread mainThread;
-    private int targetDrawFrame =  240;
+    private int targetDrawFrame =  440;
     private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
