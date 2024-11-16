@@ -11,18 +11,18 @@ public class Player extends Entity
 {
     protected PlayerRenderer renderer;
     protected PlayerUpdater updater;
-    private static Position startingPosition = new Position(0,0);
+    private static Position startingPosition = new Position(-5632,-5632);
 
     public Player(GameController gc)
     {
         super(gc, startingPosition);
-        setMovementSpeed(120);
+        setMovementSpeed(70);
     }
 
     @Override
     public PlayerRenderer setRenderer()
     {
-        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime"), 48);
+        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
         return new PlayerRenderer(this, spriteSheet);
     }
 
@@ -40,7 +40,7 @@ public class Player extends Entity
     @Override
     public void setHitbox()
     {
-        hitbox = new Hitbox(new Position(worldPosition.x, worldPosition.y), (int)(currentSprite.resolutionX*0.4), (int)(currentSprite.resolutionY*0.4));
+        hitbox = new Hitbox(worldPosition, (int)(currentSprite.resolutionX), (int)(currentSprite.resolutionY));
     }
 
     @Override

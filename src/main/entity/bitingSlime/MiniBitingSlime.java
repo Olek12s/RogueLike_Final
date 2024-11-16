@@ -12,7 +12,7 @@ import utilities.SpriteSheet;
 
 public class MiniBitingSlime extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime"), 48);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
 
     public MiniBitingSlime(GameController gc, Position worldPosition, SpriteSheet spriteSheet)
     {
@@ -29,7 +29,7 @@ public class MiniBitingSlime extends Entity
     @Override
     public void setHitbox()
     {
-        hitbox = new Hitbox(new Position(worldPosition.x, worldPosition.y), (int)(currentSprite.resolutionX*0.4), (int)(currentSprite.resolutionY*0.4));
+        hitbox = new Hitbox(worldPosition, (int)(currentSprite.resolutionX*0.4), (int)(currentSprite.resolutionY*0.4));
     }
 
     @Override
