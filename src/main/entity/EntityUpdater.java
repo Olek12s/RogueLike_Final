@@ -9,7 +9,7 @@ public class EntityUpdater implements Updatable
 {
     private Entity entity;
     private int spriteCounter = 0;
-    private int animationSpeed = 8;
+    private int animationSpeed = 20;
 
     public Entity getEntity() {return entity;}
 

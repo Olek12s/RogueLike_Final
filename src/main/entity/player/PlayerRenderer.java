@@ -27,7 +27,7 @@ public class PlayerRenderer extends EntityRenderer implements Drawable
     public void draw(Graphics g2)
     {
         super.draw(g2);
-        drawEntityHitbox(g2);
+        //drawEntityHitbox(g2);
         //g2.dispose();
     }
 }

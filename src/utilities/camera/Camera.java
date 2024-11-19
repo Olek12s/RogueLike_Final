@@ -49,7 +49,7 @@ public class Camera
             }
             else if (gc.keyHandler.scrollCount < 0)
             {
-                scaleFactor = Math.min(2, scaleFactor + 0.05);  // closer
+                scaleFactor = Math.min(4, scaleFactor + 0.15);  // closer
             }
             gc.keyHandler.scrollCount = 0;
         }
