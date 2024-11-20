@@ -15,7 +15,7 @@ public class AssetSetter
 
     public void setAssets()
     {
-        MiniBitingSlime miniBitingSlime = new MiniBitingSlime(gc, new Position(500, 500), new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime"), 48));
+        MiniBitingSlime miniBitingSlime = new MiniBitingSlime(gc, new Position(-5632,-5632));
 
         gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime);
     }

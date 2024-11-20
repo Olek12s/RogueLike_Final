@@ -10,6 +10,7 @@ public abstract class Entity
     public GameController gc;
     protected EntityRenderer entityRenderer;
     protected EntityUpdater entityUpdater;
+    public int entityID;
 
     protected Sprite currentSprite;
     protected Hitbox hitbox;
@@ -26,14 +27,17 @@ public abstract class Entity
     protected int movementSpeed;
     //STATISTICS
 
-    public Entity(GameController gc, Position worldPosition)
+    public Entity(GameController gc, Position worldPosition, int entityID)
     {
         this.gc = gc;
+        initializeEntitySpriteAssets(entityID);
+        this.entityID = entityID;
         entityRenderer = setRenderer();
         entityUpdater = setUpdater();
 
 
-        this.currentSprite = entityRenderer.spriteSheet.extractFirst();
+        //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
+        this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
         setWorldPosition(worldPosition);
         setDirection();
         setHitbox();
@@ -65,8 +69,15 @@ public abstract class Entity
     public Hitbox getHitbox() {return hitbox;}
     public Chunk getCurrentChunk() {return currentChunk;}
     public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}
+    public int getID() {return entityID;}
 
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();
+
+    public void initializeEntitySpriteAssets(int id)
+    {
+         EntityRenderer.putSpriteSheet(new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22), id);
+         //EntityRenderer = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 22);
+    }
 
 }

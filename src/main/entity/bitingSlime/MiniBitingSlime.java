@@ -14,16 +14,22 @@ public class MiniBitingSlime extends Entity
 {
     static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
 
-    public MiniBitingSlime(GameController gc, Position worldPosition, SpriteSheet spriteSheet)
+    public MiniBitingSlime(GameController gc, Position worldPosition)
     {
-        super(gc, worldPosition);
+        super(gc, worldPosition, 1);
         this.worldPosition = worldPosition;
     }
+
+    //@Override
+    //public void setDefaultSprite()
+    //{
+    //    currentSprite = entityRenderer.getSpriteSheet().extractFirst();
+    //}
 
     @Override
     public void setDefaultSprite()
     {
-        currentSprite = entityRenderer.getSpriteSheet().extractFirst();
+        currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
     }
 
     @Override

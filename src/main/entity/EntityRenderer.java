@@ -8,21 +8,34 @@ import utilities.SpriteSheet;
 import utilities.camera.Camera;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EntityRenderer implements Drawable
 {
     private Entity entity;
-    protected SpriteSheet spriteSheet;
-    public Sprite[][] spriteImages;
+    //protected SpriteSheet spriteSheet;  // rendundant. replaced with static hashmap of spriteSheets
+    private static final Map<Integer, SpriteSheet> spriteSheetsMap = new HashMap<>();
+    private static final Map<Integer, Sprite[][]> spriteImagesMap = new HashMap<>();
 
     public Entity getEntity() {return entity;}
-    public SpriteSheet getSpriteSheet() {return spriteSheet;}
+    //public SpriteSheet getSpriteSheet() {return spriteSheet;}
+    public static SpriteSheet getSpriteSheetByID(int id) {return spriteSheetsMap.get(id);}
+    public static Sprite[][] getSpriteImagesByID(int id) {return spriteImagesMap.get(id);}
+    public static void putSpriteSheet(SpriteSheet spriteSheet, int id)
+    {
+        spriteSheetsMap.put(id, spriteSheet);
+        loadSpriteImagesToMap(id, spriteSheet);
+    }
+
 
     public EntityRenderer(Entity entity, SpriteSheet spriteSheet)
     {
         this.entity = entity;
-        this.spriteSheet = spriteSheet;
-        loadSpriteImages();
+        //this.spriteSheet = spriteSheet;
+        spriteSheetsMap.put(entity.entityID, spriteSheet);
+        loadSpriteImagesToMap(entity.entityID, spriteSheet);
+        //loadSpriteImages();
 
         entity.gc.drawables.add(this);
     }
@@ -44,6 +57,7 @@ public class EntityRenderer implements Drawable
         //g2.dispose();
     }
 
+    /*
     protected void loadSpriteImages()
     {
         int ticks = spriteSheet.countAnimationTicks();
@@ -57,6 +71,22 @@ public class EntityRenderer implements Drawable
                 spriteImages[tick][variation] = spriteSheet.extractSprite(spriteSheet, tick, variation);
             }
         }
+    }
+     */
+    protected static void loadSpriteImagesToMap(int entityID, SpriteSheet spriteSheet)
+    {
+        int ticks = spriteSheet.countAnimationTicks();
+        int variations = spriteSheet.countSpriteVariations();
+        Sprite[][] spriteImages = new Sprite[ticks][variations];
+
+        for (int tick = 0; tick < ticks; tick++)
+        {
+            for (int variation = 0; variation < variations; variation++)
+            {
+                spriteImages[tick][variation] = spriteSheet.extractSprite(spriteSheet, tick, variation);
+            }
+        }
+        spriteImagesMap.put(entityID, spriteImages);
     }
 
     protected void drawEntityHitbox(Graphics g2)

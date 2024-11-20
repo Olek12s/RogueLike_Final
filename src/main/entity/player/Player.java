@@ -15,7 +15,7 @@ public class Player extends Entity
 
     public Player(GameController gc)
     {
-        super(gc, startingPosition);
+        super(gc, startingPosition, 0); // player's entityID is 0!
         setMovementSpeed(70);
     }
 
@@ -34,7 +34,8 @@ public class Player extends Entity
     @Override
     public void setDefaultSprite()
     {
-        currentSprite = renderer.getSpriteSheet().extractFirst();
+        //currentSprite = renderer.getSpriteSheet().extractFirst();
+        currentSprite = PlayerRenderer.getSpriteSheetByID(entityID).extractFirst();
     }
 
     @Override
