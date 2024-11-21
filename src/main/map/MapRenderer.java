@@ -13,6 +13,7 @@ import static java.lang.Math.min;
 public class MapRenderer implements Drawable
 {
     MapController mapController;
+    public static int chunkRenderDistance = 3;
 
     public MapRenderer(MapController mapController)
     {
@@ -29,19 +30,18 @@ public class MapRenderer implements Drawable
         int chunkSize = Chunk.getChunkSize();
         int tileSize = Tile.tileSize;
 
-
-        int chunksToRender = 3;
-
         Position cameraPosition = mapController.gc.camera.getCameraPosition();
         Chunk cameraChunk = mapController.getCurrentMap().getChunk(cameraPosition);
 
 
         int cameraChunkX = cameraChunk.getxIndex();
         int cameraChunkY = cameraChunk.getyIndex();
-        int startChunkX = max(0, cameraChunkX - chunksToRender);
-        int startChunkY = max(0, cameraChunkY - chunksToRender);
-        int endChunkX = min(mapController.getCurrentMap().getChunkCountX(), cameraChunkX + chunksToRender + 1);
-        int endChunkY = min(mapController.getCurrentMap().getChunkCountY(), cameraChunkY + chunksToRender + 1);
+        int startChunkX = max(0, cameraChunkX - chunkRenderDistance);
+        int startChunkY = max(0, cameraChunkY - chunkRenderDistance);
+        int endChunkX = min(mapController.getCurrentMap().getChunkCountX(), cameraChunkX + chunkRenderDistance + 1);
+        int endChunkY = min(mapController.getCurrentMap().getChunkCountY(), cameraChunkY + chunkRenderDistance + 1);
+
+
 
 
         // for each chunk in range of the camera
