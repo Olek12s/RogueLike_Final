@@ -57,18 +57,6 @@ public class EntityUpdater implements Updatable
     {
         switch (direction)
         {
-            /*
-            case DOWN:      entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][0]; break;
-            case LEFT:      entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][1]; break;
-            case RIGHT:     entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][2]; break;
-            case UP:        entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][3]; break;
-            case UP_LEFT:   entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][4]; break;
-            case UP_RIGHT:  entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][5]; break;
-            case DOWN_LEFT: entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][6]; break;
-            case DOWN_RIGHT:entity.currentSprite = entity.entityRenderer.spriteImages[animationTick][7]; break;
-            default:        entity.currentSprite = entity.entityRenderer.spriteImages[0][0]; break;
-             */
-
             case DOWN: entity.currentSprite = EntityRenderer.getSpriteImagesByID(entity.getID())[animationTick][0]; break;
             case LEFT: entity.currentSprite = EntityRenderer.getSpriteImagesByID(entity.getID())[animationTick][1]; break;
             case RIGHT: entity.currentSprite = EntityRenderer.getSpriteImagesByID(entity.getID())[animationTick][2]; break;
@@ -83,7 +71,7 @@ public class EntityUpdater implements Updatable
 
     protected void move()
     {
-        if (entity.isMoving && !Collisions.isColliding(entity))
+        if (entity.isMoving && !Collisions.isColliding(entity) && !Collisions.isCollidingWithOtherHitbox(entity))
         {
             if (entity.direction == Direction.UP_LEFT)
             {

@@ -1,7 +1,10 @@
 package utilities;
 
 import main.GameController;
+import main.entity.Entity;
 import main.entity.bitingSlime.MiniBitingSlime;
+
+import java.util.List;
 
 public class AssetSetter
 {
@@ -16,20 +19,34 @@ public class AssetSetter
     public void setAssets()
     {
         int v = 500;
-        MiniBitingSlime miniBitingSlime1 = new MiniBitingSlime(gc, new Position(-5632+v,-5632+v));
-        MiniBitingSlime miniBitingSlime2 = new MiniBitingSlime(gc, new Position(-5600+v,-5632+v));
-        MiniBitingSlime miniBitingSlime3 = new MiniBitingSlime(gc, new Position(-5550+v,-5632+v));
-        MiniBitingSlime miniBitingSlime4 = new MiniBitingSlime(gc, new Position(-5632+v,-5600+v));
-        MiniBitingSlime miniBitingSlime5 = new MiniBitingSlime(gc, new Position(-5632+v,-5500+v));
-        MiniBitingSlime miniBitingSlime6 = new MiniBitingSlime(gc, new Position(-5232+v,-5200+v));
-        MiniBitingSlime miniBitingSlime7 = new MiniBitingSlime(gc, new Position(-5432+v,-5400+v));
+        int startX = -5632 + v;
+        int startY = -6032 + v;
+        int offset = 50;
 
-        gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime1);
-        gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime2);
-        gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime3);
-        gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime4);
-        gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime5);
-        gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime6);
-        gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities().add(miniBitingSlime7);
+        List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();
+
+        for (int i = 0; i < 800; i++)
+        {
+            int x = startX + (i % 10) * offset;
+            int y = startY + (i / 10) * offset;
+            // temp solution:
+
+            if (gc.mapController.getCurrentMap().getTile(x, y).isColliding() == false)
+            {
+                if (gc.mapController.getCurrentMap().getTile(x+22, y).isColliding() == false)
+                {
+                    if (gc.mapController.getCurrentMap().getTile(x, y+22).isColliding() == false)
+                    {
+                        if (gc.mapController.getCurrentMap().getTile(x+22, y+22).isColliding() == false)
+                        {
+                            MiniBitingSlime miniBitingSlime = new MiniBitingSlime(gc, new Position(x, y));
+                            currentChunkEntities.add(miniBitingSlime);
+                        }
+                    }
+
+                }
+            }
+        }
     }
+
 }

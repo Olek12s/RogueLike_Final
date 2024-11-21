@@ -5,6 +5,7 @@ import utilities.FileManipulation;
 import utilities.Position;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Map
 {
@@ -164,4 +165,32 @@ public class Map
         return chunkTiles;
     }
 
+    public ArrayList<Chunk> getChunkNeighborsNotDiagonals(Chunk sourceChunk)
+    {
+        ArrayList<Chunk> resultChunks = new ArrayList<>();
+        int sourceChunkXIndex = sourceChunk.getxIndex();
+        int sourceChunkYIndex = sourceChunk.getyIndex();
+
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                if ((i == 0 && j == 0) || (i != 0 && j != 0)) continue; // ignore source chunks and diagonlas
+
+                int neighborX = sourceChunkXIndex + i;
+                int neighborY = sourceChunkYIndex + j;
+
+                if (neighborX >= 0 && neighborY >= 0 && neighborX < chunks.length && neighborY < chunks[0].length)
+                {
+                    Chunk neighbor = chunks[neighborX][neighborY];
+                    if (neighbor != null)
+                    {
+                        resultChunks.add(neighbor);
+                    }
+                }
+
+            }
+        }
+        return resultChunks;
+    }
 }

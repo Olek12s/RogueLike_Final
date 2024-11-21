@@ -56,6 +56,8 @@ public class EntityRenderer implements Drawable
         g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
         drawEntityHitbox(g2);
         //g2.dispose();
+        System.out.println(spriteSheetsMap.size());
+        System.out.println(spriteImagesMap.size());
     }
 
     /*
