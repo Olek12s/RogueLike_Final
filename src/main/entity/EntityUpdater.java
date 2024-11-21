@@ -10,6 +10,7 @@ public class EntityUpdater implements Updatable
     private Entity entity;
     private int spriteCounter = 0;
     private int animationSpeed = 8;
+    private int movementCounter = 0;
 
     public Entity getEntity() {return entity;}
 
@@ -24,6 +25,7 @@ public class EntityUpdater implements Updatable
     public void update()
     {
         updateCurrentSprite();
+        updateRandomizedMovement();
         move();
         updateHitbox();
         updateChunkAssociation();
@@ -120,6 +122,36 @@ public class EntityUpdater implements Updatable
                 entity.worldPosition.y -= entity.getMovementSpeed();
             }
         }
+    }
+
+    private void updateRandomizedMovement()
+    {
+        int randomCounterOffset = (int) (Math.random() * 11) - 5;   // <-5, 5>
+        if (movementCounter == 60 + randomCounterOffset)  // 60 - once per second
+        {
+            if (!getClass().getCanonicalName().contains("Player"))
+            {
+                int randomDirection = (int) (Math.random() * 8);    // 1/8 chance to not change direction to other
+                int randomIsMoving = (int) (Math.random() * 8);     // 1/8 chance to change to not moving
+
+                switch (randomDirection)
+                {
+                    case 0: entity.direction = Direction.DOWN; break;
+                    case 1: entity.direction = Direction.LEFT; break;
+                    case 2: entity.direction = Direction.RIGHT; break;
+                    case 3: entity.direction = Direction.UP; break;
+                    case 4: entity.direction = Direction.UP_LEFT; break;
+                    case 5: entity.direction = Direction.UP_RIGHT; break;
+                    case 6: entity.direction = Direction.DOWN_LEFT; break;
+                    case 7: entity.direction = Direction.DOWN_RIGHT; break;
+                }
+
+                if (randomIsMoving == 0) entity.isMoving = false;
+                else entity.isMoving = true;
+            }
+        }
+        movementCounter++;
+        if (movementCounter > 60 + randomCounterOffset) movementCounter = 0;
     }
 
     private void updateChunkAssociation()

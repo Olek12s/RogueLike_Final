@@ -35,7 +35,7 @@ public class MiniBitingSlime extends Entity
     @Override
     public void setHitbox()
     {
-        hitbox = new Hitbox(worldPosition, (int)(currentSprite.resolutionX*0.4), (int)(currentSprite.resolutionY*0.4));
+        hitbox = new Hitbox(worldPosition, (int)(currentSprite.resolutionX), (int)(currentSprite.resolutionY));
     }
 
     @Override

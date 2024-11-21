@@ -11,7 +11,7 @@ public class Player extends Entity
 {
     protected PlayerRenderer renderer;
     protected PlayerUpdater updater;
-    private static Position startingPosition = new Position(-5632,-5632);
+    private static Position startingPosition = new Position(-5632+500,-5632+680);
 
     public Player(GameController gc)
     {

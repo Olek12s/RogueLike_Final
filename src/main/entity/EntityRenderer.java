@@ -54,6 +54,7 @@ public class EntityRenderer implements Drawable
         int scaledHeight = (int) (entity.currentSprite.image.getHeight() * scaleFactor);
 
         g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
+        drawEntityHitbox(g2);
         //g2.dispose();
     }
 
