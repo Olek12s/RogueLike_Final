@@ -1,5 +1,6 @@
 package main;
 
+import main.cursor.CursorHUD;
 import main.entity.Entity;
 import main.entity.player.Player;
 import main.map.MapController;
@@ -10,11 +11,11 @@ import utilities.MouseHandler;
 import utilities.camera.Camera;
 import utilities.KeyHandler;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import main.map.Map;
 
 public class GameController extends JPanel implements Runnable
 {
@@ -31,6 +32,7 @@ public class GameController extends JPanel implements Runnable
     public MapController mapController;
     public Collisions collisions;
     public AssetSetter assetSetter;
+    public CursorHUD cursor;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -73,6 +75,7 @@ public class GameController extends JPanel implements Runnable
         mapController = new MapController(this);
         collisions = new Collisions(this);
         assetSetter = new AssetSetter(this);
+        cursor = new CursorHUD(this);
     }
 
 
@@ -151,20 +154,6 @@ public class GameController extends JPanel implements Runnable
         {
             drawable.draw(g2);
         }
-
-
-        // TEMP - move to the Cursor class
-        if (mouseHandler.mouseX >= 0 && mouseHandler.mouseY >= 0)
-        {
-            g2.setColor(Color.LIGHT_GRAY);
-
-            // Vertical lines
-            g2.fillRect(mouseHandler.mouseX - 1, mouseHandler.mouseY - 10, 3, 21);
-
-            // Horizontal lines
-            g2.fillRect(mouseHandler.mouseX - 10, mouseHandler.mouseY - 1, 21, 3);
-        }
-
         g2.dispose();
     }
 
