@@ -41,17 +41,17 @@ public class Camera
 
     public void checkScroll()
     {
-        if (gc.keyHandler.scrollCount != 0)
+        if (gc.mouseHandler.scrollCount != 0)
         {
-            if (gc.keyHandler.scrollCount > 0)
+            if (gc.mouseHandler.scrollCount > 0)
             {
                 scaleFactor = Math.max(0.05, scaleFactor - 0.05); // further
             }
-            else if (gc.keyHandler.scrollCount < 0)
+            else if (gc.mouseHandler.scrollCount < 0)
             {
                 scaleFactor = Math.min(4, scaleFactor + 0.15);  // closer
             }
-            gc.keyHandler.scrollCount = 0;
+            gc.mouseHandler.scrollCount = 0;
         }
     }
 }

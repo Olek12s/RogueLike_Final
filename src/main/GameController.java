@@ -6,11 +6,13 @@ import main.map.MapController;
 import main.map.TileManager;
 import utilities.AssetSetter;
 import utilities.Collisions;
+import utilities.MouseHandler;
 import utilities.camera.Camera;
 import utilities.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import main.map.Map;
 
@@ -22,6 +24,7 @@ public class GameController extends JPanel implements Runnable
 
     //CLASS INSTANCES
     public KeyHandler keyHandler;
+    public MouseHandler mouseHandler;
     public Entity player;
     public Camera camera;
     public TileManager tileManager;
@@ -49,7 +52,10 @@ public class GameController extends JPanel implements Runnable
         initAbstractCollections();
         initClassInstances();
         this.addKeyListener(keyHandler);
-        this.addMouseWheelListener(keyHandler);
+        this.addMouseWheelListener(mouseHandler);
+        this.addMouseListener(mouseHandler);
+        this.addMouseMotionListener(mouseHandler);
+        hideCursor();
     }
 
     private void initAbstractCollections()
@@ -60,6 +66,7 @@ public class GameController extends JPanel implements Runnable
     private void initClassInstances()
     {
         keyHandler = new KeyHandler(this);
+        mouseHandler = new MouseHandler(this);
         player = new Player(this);
         camera = new Camera(this);
         tileManager = new TileManager(this);
@@ -144,6 +151,28 @@ public class GameController extends JPanel implements Runnable
         {
             drawable.draw(g2);
         }
+
+
+        // TEMP - move to the Cursor class
+        if (mouseHandler.mouseX >= 0 && mouseHandler.mouseY >= 0)
+        {
+            g2.setColor(Color.LIGHT_GRAY);
+
+            // Vertical lines
+            g2.fillRect(mouseHandler.mouseX - 1, mouseHandler.mouseY - 10, 3, 21);
+
+            // Horizontal lines
+            g2.fillRect(mouseHandler.mouseX - 10, mouseHandler.mouseY - 1, 21, 3);
+        }
+
         g2.dispose();
+    }
+
+    private void hideCursor()
+    {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        BufferedImage cursorImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB); // Transparent image
+        Cursor blankCursor = toolkit.createCustomCursor(cursorImg, new Point(0, 0), "cursor");
+        this.setCursor(blankCursor);
     }
 }

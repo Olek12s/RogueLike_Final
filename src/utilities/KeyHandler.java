@@ -2,12 +2,9 @@ package utilities;
 
 import main.GameController;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 
-public class KeyHandler implements KeyListener, MouseWheelListener
+public class KeyHandler implements KeyListener
 {
     GameController gc;
 
@@ -21,7 +18,6 @@ public class KeyHandler implements KeyListener, MouseWheelListener
     public boolean LEFT_PRESSED = false;
     public boolean RIGHT_PRESSED = false;
 
-    public int scrollCount = 0;
 
     public KeyHandler(GameController gc)
     {
@@ -66,13 +62,4 @@ public class KeyHandler implements KeyListener, MouseWheelListener
             case KeyEvent.VK_RIGHT: RIGHT_PRESSED = false; break;
         }
     }
-
-
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e)
-    {
-        int rotation = e.getWheelRotation();
-        scrollCount += rotation;
-    }
-
 }
