@@ -4,6 +4,7 @@ import main.Direction;
 import main.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
+import utilities.Collisions;
 
 public class PlayerUpdater extends EntityUpdater implements Updatable
 {
@@ -20,6 +21,11 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     {
         super.update();
         updatePlayerDirection();
+        if (Collisions.isCollidingWithOtherHitbox(entity))
+        {
+            System.out.println("COLLISION");
+            entity.hitPoints--;
+        }
     }
 
     private void updatePlayerDirection()

@@ -28,6 +28,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
     {
         mouseX = e.getX();
         mouseY = e.getY();
+        System.out.println("mouse clicked at: [" + mouseX + ", " + mouseY + "]");
     }
 
     @Override

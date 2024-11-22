@@ -23,7 +23,8 @@ public abstract class Entity
     //STATISTICS
     protected String name = "";
     protected int maxHitPoints = 1;
-    protected int hitPoints = maxHitPoints;
+
+    public int hitPoints = maxHitPoints;
     protected int movementSpeed;
     //STATISTICS
 
@@ -70,6 +71,7 @@ public abstract class Entity
     public Chunk getCurrentChunk() {return currentChunk;}
     public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}
     public int getID() {return entityID;}
+    public int getMaxHitPoints() {return maxHitPoints;}
 
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();

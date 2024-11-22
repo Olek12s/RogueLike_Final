@@ -5,6 +5,7 @@ import main.entity.Entity;
 import main.entity.player.Player;
 import main.map.MapController;
 import main.map.TileManager;
+import ui.HUD;
 import utilities.AssetSetter;
 import utilities.Collisions;
 import utilities.MouseHandler;
@@ -33,6 +34,7 @@ public class GameController extends JPanel implements Runnable
     public Collisions collisions;
     public AssetSetter assetSetter;
     public CursorHUD cursor;
+    public HUD hud;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -76,6 +78,7 @@ public class GameController extends JPanel implements Runnable
         collisions = new Collisions(this);
         assetSetter = new AssetSetter(this);
         cursor = new CursorHUD(this);
+        hud = new HUD(this);
     }
 
 

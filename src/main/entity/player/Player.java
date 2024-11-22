@@ -9,14 +9,15 @@ import utilities.*;
 
 public class Player extends Entity
 {
-    protected PlayerRenderer renderer;
-    protected PlayerUpdater updater;
     private static Position startingPosition = new Position(-5632+500,-5632+680);
+
 
     public Player(GameController gc)
     {
         super(gc, startingPosition, 0); // player's entityID is 0!
         setMovementSpeed(70);
+        maxHitPoints = 500;
+        hitPoints = maxHitPoints;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class CursorRenderer implements Drawable
     @Override
     public int getDrawPriority()
     {
-        return DrawPriorities.HUD.value;
+        return DrawPriorities.Cursor.value;
     }
 
     @Override

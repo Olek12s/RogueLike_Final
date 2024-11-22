@@ -7,6 +7,7 @@ public enum DrawPriorities
     Player(3),
     Hitbox(4),
     Item(5),
+    Cursor(998),
     HUD(999);
 
     public final int value;
