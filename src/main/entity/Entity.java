@@ -18,14 +18,10 @@ public abstract class Entity
     protected Position worldPosition;
     private Chunk currentChunk;
     public boolean isMoving;
-
+    protected String name = "";
 
     //STATISTICS
-    protected String name = "";
-    protected int maxHitPoints = 1;
-
-    public int hitPoints = maxHitPoints;
-    protected int movementSpeed;
+    public Statistics statistics;
     //STATISTICS
 
     public Entity(GameController gc, Position worldPosition, int entityID)
@@ -35,6 +31,7 @@ public abstract class Entity
         this.entityID = entityID;
         entityRenderer = setRenderer();
         entityUpdater = setUpdater();
+        this.statistics = new Statistics(this);
 
 
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
@@ -58,20 +55,20 @@ public abstract class Entity
     public Sprite getCurrentSprite() {return currentSprite;}
     public void setMovementSpeed(int speed)
     {
-        if (speed == 0) movementSpeed = 0;
+        if (speed == 0) statistics.movementSpeed = 0;
         else
         {
-            movementSpeed = Math.max((int)(speed  / 16), 1);
+            statistics.movementSpeed = Math.max((int)(speed  / 16), 1);
         }
     }
     public Direction getDirection() {return direction;}
     public void setDirection(Direction direction) {this.direction = direction;}
-    public int getMovementSpeed() {return movementSpeed;}
+    public int getMovementSpeed() {return statistics.movementSpeed;}
     public Hitbox getHitbox() {return hitbox;}
     public Chunk getCurrentChunk() {return currentChunk;}
     public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}
     public int getID() {return entityID;}
-    public int getMaxHitPoints() {return maxHitPoints;}
+    public int getMaxHitPoints() {return statistics.maxHitPoints;}
 
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();

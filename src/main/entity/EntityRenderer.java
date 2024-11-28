@@ -73,6 +73,7 @@ public class EntityRenderer implements Drawable
         //g2.dispose();
     }
 
+
     /*
     protected void loadSpriteImages()
     {
