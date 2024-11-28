@@ -19,11 +19,10 @@ public class HUDUpdater implements Updatable
         hud.scaleY = hud.gc.getHeight() / 9;
         hud.scale = Math.min(hud.scaleX, hud.scaleY);
 
-        int currentHealth = hud.gc.player.hitPoints;
+        int currentHealth = hud.gc.player.statistics.hitPoints;
         int maxHealth = hud.gc.player.getMaxHitPoints();
 
         double healthRatio = (double) currentHealth / maxHealth;
-        System.out.println(currentHealth);
 
         int tick = 0;
         if (healthRatio < 0.8) tick = 1;

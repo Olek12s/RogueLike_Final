@@ -1,0 +1,96 @@
+Index: src/main/entity/EntityRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.entity;\r\n\r\nimport main.DrawPriorities;\r\nimport main.Drawable;\r\nimport utilities.Position;\r\nimport utilities.Sprite;\r\nimport utilities.SpriteSheet;\r\nimport utilities.camera.Camera;\r\n\r\nimport java.awt.*;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\npublic class EntityRenderer implements Drawable\r\n{\r\n    private Entity entity;\r\n    //protected SpriteSheet spriteSheet;  // rendundant. replaced with static hashmap of spriteSheets\r\n    private static final Map<Integer, SpriteSheet> spriteSheetsMap = new HashMap<>();\r\n    private static final Map<Integer, Sprite[][]> spriteImagesMap = new HashMap<>();\r\n\r\n    public Entity getEntity() {return entity;}\r\n    //public SpriteSheet getSpriteSheet() {return spriteSheet;}\r\n    public static SpriteSheet getSpriteSheetByID(int id) {return spriteSheetsMap.get(id);}\r\n    public static Sprite[][] getSpriteImagesByID(int id) {return spriteImagesMap.get(id);}\r\n    public static void putSpriteSheet(SpriteSheet spriteSheet, int id)\r\n    {\r\n        spriteSheetsMap.put(id, spriteSheet);\r\n        loadSpriteImagesToMap(id, spriteSheet);\r\n    }\r\n\r\n\r\n    public EntityRenderer(Entity entity, SpriteSheet spriteSheet)\r\n    {\r\n        this.entity = entity;\r\n        //this.spriteSheet = spriteSheet;\r\n        spriteSheetsMap.put(entity.entityID, spriteSheet);\r\n        loadSpriteImagesToMap(entity.entityID, spriteSheet);\r\n        //loadSpriteImages();\r\n\r\n        entity.gc.drawables.add(this);\r\n    }\r\n\r\n    @Override\r\n    public int getDrawPriority() {return DrawPriorities.Entity.value;}\r\n\r\n    @Override\r\n    public void draw(Graphics g2)\r\n    {\r\n        double scaleFactor = Camera.getScaleFactor();\r\n        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.worldPosition.x, entity.worldPosition.y);\r\n\r\n\r\n        int scaledWidth = (int) (entity.currentSprite.image.getWidth() * scaleFactor);\r\n        int scaledHeight = (int) (entity.currentSprite.image.getHeight() * scaleFactor);\r\n\r\n        g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);\r\n        drawEntityHitbox(g2);\r\n        //g2.dispose();\r\n        System.out.println(spriteSheetsMap.size());\r\n        System.out.println(spriteImagesMap.size());\r\n    }\r\n\r\n    /*\r\n    protected void loadSpriteImages()\r\n    {\r\n        int ticks = spriteSheet.countAnimationTicks();\r\n        int variations = spriteSheet.countSpriteVariations();\r\n        spriteImages = new Sprite[ticks][variations];\r\n\r\n        for (int tick = 0; tick < ticks; tick++)\r\n        {\r\n            for (int variation = 0; variation < variations; variation++)\r\n            {\r\n                spriteImages[tick][variation] = spriteSheet.extractSprite(spriteSheet, tick, variation);\r\n            }\r\n        }\r\n    }\r\n     */\r\n    protected static void loadSpriteImagesToMap(int entityID, SpriteSheet spriteSheet)\r\n    {\r\n        int ticks = spriteSheet.countAnimationTicks();\r\n        int variations = spriteSheet.countSpriteVariations();\r\n        Sprite[][] spriteImages = new Sprite[ticks][variations];\r\n\r\n        for (int tick = 0; tick < ticks; tick++)\r\n        {\r\n            for (int variation = 0; variation < variations; variation++)\r\n            {\r\n                spriteImages[tick][variation] = spriteSheet.extractSprite(spriteSheet, tick, variation);\r\n            }\r\n        }\r\n        spriteImagesMap.put(entityID, spriteImages);\r\n    }\r\n\r\n    protected void drawEntityHitbox(Graphics g2)\r\n    {\r\n        double scaleFactor = entity.gc.camera.getScaleFactor();\r\n        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);\r\n\r\n        int scaledHitboxWidth = (int) (entity.getHitbox().getHitboxRect().width * scaleFactor);\r\n        int scaledHitboxHeight = (int) (entity.getHitbox().getHitboxRect().height * scaleFactor);\r\n        g2.setColor (Color.ORANGE);\r\n        g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/entity/EntityRenderer.java b/src/main/entity/EntityRenderer.java
+--- a/src/main/entity/EntityRenderer.java	(revision 262033dfd35151961ce550f60c0887469a48f016)
++++ b/src/main/entity/EntityRenderer.java	(date 1732232145075)
+@@ -53,11 +53,13 @@
+         int scaledWidth = (int) (entity.currentSprite.image.getWidth() * scaleFactor);
+         int scaledHeight = (int) (entity.currentSprite.image.getHeight() * scaleFactor);
+ 
+-        g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
+-        drawEntityHitbox(g2);
++
++        if(entity.gc.mapController.getCurrentMap().getChunk(entity.worldPosition).isRendered == true)
++        {
++            g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
++            drawEntityHitbox(g2);
++        }
+         //g2.dispose();
+-        System.out.println(spriteSheetsMap.size());
+-        System.out.println(spriteImagesMap.size());
+     }
+ 
+     /*
+Index: src/utilities/AssetSetter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package utilities;\r\n\r\nimport main.GameController;\r\nimport main.entity.Entity;\r\nimport main.entity.bitingSlime.MiniBitingSlime;\r\n\r\nimport java.util.List;\r\n\r\npublic class AssetSetter\r\n{\r\n    GameController gc;\r\n\r\n    public AssetSetter(GameController gc)\r\n    {\r\n        this.gc = gc;\r\n        setAssets();\r\n    }\r\n\r\n    public void setAssets()\r\n    {\r\n        int v = 500;\r\n        int startX = -5632 + v;\r\n        int startY = -6032 + v;\r\n        int offset = 50;\r\n\r\n        List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();\r\n\r\n        for (int i = 0; i < 800; i++)\r\n        {\r\n            int x = startX + (i % 10) * offset;\r\n            int y = startY + (i / 10) * offset;\r\n            // temp solution:\r\n\r\n            if (gc.mapController.getCurrentMap().getTile(x, y).isColliding() == false)\r\n            {\r\n                if (gc.mapController.getCurrentMap().getTile(x+22, y).isColliding() == false)\r\n                {\r\n                    if (gc.mapController.getCurrentMap().getTile(x, y+22).isColliding() == false)\r\n                    {\r\n                        if (gc.mapController.getCurrentMap().getTile(x+22, y+22).isColliding() == false)\r\n                        {\r\n                            MiniBitingSlime miniBitingSlime = new MiniBitingSlime(gc, new Position(x, y));\r\n                            currentChunkEntities.add(miniBitingSlime);\r\n                        }\r\n                    }\r\n\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/utilities/AssetSetter.java b/src/utilities/AssetSetter.java
+--- a/src/utilities/AssetSetter.java	(revision 262033dfd35151961ce550f60c0887469a48f016)
++++ b/src/utilities/AssetSetter.java	(date 1732232145091)
+@@ -19,16 +19,16 @@
+     public void setAssets()
+     {
+         int v = 500;
+-        int startX = -5632 + v;
+-        int startY = -6032 + v;
++        int startX = -5632;
++        int startY = -5632;
+         int offset = 50;
+ 
+         List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();
+ 
+-        for (int i = 0; i < 800; i++)
++        for (int i = 0; i < 400; i++)
+         {
+-            int x = startX + (i % 10) * offset;
+-            int y = startY + (i / 10) * offset;
++            int x = startX + (i % 100) * offset;
++            int y = startY + (i / 100) * offset;
+             // temp solution:
+ 
+             if (gc.mapController.getCurrentMap().getTile(x, y).isColliding() == false)
+Index: src/main/map/Chunk.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.map;\r\n\r\nimport main.entity.Entity;\r\nimport main.item.Item;\r\nimport utilities.Position;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class Chunk\r\n{\r\n    private static final int chunkSize = 8;\r\n    private Tile[][] tiles;\r\n    private Position chunkWorldPosition;\r\n    private List<Entity> entities;\r\n    private List<Item> items;\r\n    private int xIndex;\r\n    private int yIndex;\r\n\r\n    public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles, int xIndex, int yIndex)\r\n    {\r\n        this.chunkWorldPosition = chunkWorldPosition;\r\n        this.tiles = new Tile[chunkSize][chunkSize];\r\n        this.entities = new ArrayList<>();\r\n        this.items = new ArrayList<>();\r\n        this.tiles = chunkTiles;\r\n        this.xIndex = xIndex;\r\n        this.yIndex = yIndex;\r\n    }\r\n\r\n    public Tile[][] getTiles() {return tiles;}\r\n\r\n    public void setTiles(Tile[][] tiles)\r\n    {\r\n        this.tiles = tiles;\r\n    }\r\n\r\n    public Position getChunkWorldPosition() {return chunkWorldPosition;}\r\n    public List<Entity> getEntities() {return entities;}\r\n    public List<Item> getItems() {return items;}\r\n    public void removeEntity(Entity entity) {entities.remove(entity);}\r\n    public void removeItem(Item item) {items.remove(item);}\r\n    public static int getChunkSize() {return chunkSize;}\r\n\r\n    public int getxIndex() {return xIndex;}\r\n    public int getyIndex() {return yIndex;}\r\n\r\n    public int getChunkNumX()\r\n    {\r\n        int chunkPixelSize = chunkSize * Tile.tileSize;\r\n        return  chunkWorldPosition.x / chunkPixelSize;\r\n    }\r\n    public int getChunkNumY()\r\n    {\r\n        int chunkPixelSize = chunkSize * Tile.tileSize;\r\n        return  chunkWorldPosition.y / chunkPixelSize;\r\n    }\r\n\r\n    @Override\r\n    public String toString()\r\n    {\r\n        int chunkPixelSize = chunkSize * Tile.tileSize;\r\n        int chunkX = chunkWorldPosition.x / chunkPixelSize;\r\n        int chunkY = chunkWorldPosition.y / chunkPixelSize;\r\n        return \"(\" + chunkX + \", \" + chunkY + \")\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/map/Chunk.java b/src/main/map/Chunk.java
+--- a/src/main/map/Chunk.java	(revision 262033dfd35151961ce550f60c0887469a48f016)
++++ b/src/main/map/Chunk.java	(date 1732208529095)
+@@ -16,6 +16,7 @@
+     private List<Item> items;
+     private int xIndex;
+     private int yIndex;
++    public boolean isRendered;
+ 
+     public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles, int xIndex, int yIndex)
+     {
+Index: src/main/map/MapRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.map;\r\n\r\nimport main.DrawPriorities;\r\nimport main.Drawable;\r\nimport utilities.Position;\r\nimport utilities.camera.Camera;\r\n\r\nimport java.awt.*;\r\n\r\nimport static java.lang.Math.max;\r\nimport static java.lang.Math.min;\r\n\r\npublic class MapRenderer implements Drawable\r\n{\r\n    MapController mapController;\r\n\r\n    public MapRenderer(MapController mapController)\r\n    {\r\n        this.mapController = mapController;\r\n    }\r\n\r\n    @Override\r\n    public int getDrawPriority() {return DrawPriorities.mapGrid.value;}\r\n\r\n    @Override\r\n    public void draw(Graphics g2)   // drawing chunks (tiles)\r\n    {\r\n        Chunk[][] chunks = mapController.getCurrentMap().getChunks();\r\n        int chunkSize = Chunk.getChunkSize();\r\n        int tileSize = Tile.tileSize;\r\n\r\n\r\n        int chunksToRender = 3;\r\n\r\n        Position cameraPosition = mapController.gc.camera.getCameraPosition();\r\n        Chunk cameraChunk = mapController.getCurrentMap().getChunk(cameraPosition);\r\n\r\n\r\n        int cameraChunkX = cameraChunk.getxIndex();\r\n        int cameraChunkY = cameraChunk.getyIndex();\r\n        int startChunkX = max(0, cameraChunkX - chunksToRender);\r\n        int startChunkY = max(0, cameraChunkY - chunksToRender);\r\n        int endChunkX = min(mapController.getCurrentMap().getChunkCountX(), cameraChunkX + chunksToRender + 1);\r\n        int endChunkY = min(mapController.getCurrentMap().getChunkCountY(), cameraChunkY + chunksToRender + 1);\r\n\r\n\r\n        // for each chunk in range of the camera\r\n        for (int chunkX = startChunkX; chunkX < endChunkX; chunkX++)\r\n        {\r\n            for (int chunkY = startChunkY; chunkY < endChunkY; chunkY++)\r\n            {\r\n                Chunk chunk = mapController.getCurrentMap().getChunkByIndex(chunkX, chunkY);\r\n\r\n                // for each tile from the chunk\r\n                for (int tileX = 0; tileX < chunkSize; tileX++)\r\n                {\r\n                    for (int tileY = 0; tileY < chunkSize; tileY++)\r\n                    {\r\n                        Tile tile = chunk.getTiles()[tileX][tileY];\r\n                        int worldX = chunk.getChunkWorldPosition().x + (tileX * tileSize);\r\n                        int worldY = chunk.getChunkWorldPosition().y + (tileY * tileSize);\r\n                        Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);\r\n\r\n                        int scaleFactor = (int) Math.ceil(Camera.getScaleFactor() * tileSize);\r\n                        g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, scaleFactor, scaleFactor, null);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/map/MapRenderer.java b/src/main/map/MapRenderer.java
+--- a/src/main/map/MapRenderer.java	(revision 262033dfd35151961ce550f60c0887469a48f016)
++++ b/src/main/map/MapRenderer.java	(date 1732208529100)
+@@ -50,6 +50,7 @@
+             for (int chunkY = startChunkY; chunkY < endChunkY; chunkY++)
+             {
+                 Chunk chunk = mapController.getCurrentMap().getChunkByIndex(chunkX, chunkY);
++                chunk.isRendered = true;
+ 
+                 // for each tile from the chunk
+                 for (int tileX = 0; tileX < chunkSize; tileX++)

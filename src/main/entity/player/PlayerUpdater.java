@@ -23,8 +23,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         updatePlayerDirection();
         if (Collisions.isCollidingWithOtherHitbox(entity))
         {
-            System.out.println("COLLISION");
-            entity.hitPoints--;
+            entity.statistics.hitPoints--;
         }
     }
 

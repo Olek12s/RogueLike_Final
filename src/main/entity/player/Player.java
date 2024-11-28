@@ -16,8 +16,8 @@ public class Player extends Entity
     {
         super(gc, startingPosition, 0); // player's entityID is 0!
         setMovementSpeed(70);
-        maxHitPoints = 500;
-        hitPoints = maxHitPoints;
+        statistics.maxHitPoints = 500;
+        statistics.hitPoints = statistics.maxHitPoints;
     }
 
     @Override

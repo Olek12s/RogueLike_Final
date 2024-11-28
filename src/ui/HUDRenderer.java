@@ -29,8 +29,8 @@ public class HUDRenderer implements Drawable
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(3));
 
-        if (hud.gc.player.hitPoints < 0) hud.gc.player.hitPoints = 0;
-        int healthPercent = (int) ((hud.gc.player.hitPoints / (double) hud.gc.player.getMaxHitPoints()) * 100);
+        if (hud.gc.player.statistics.hitPoints < 0) hud.gc.player.statistics.hitPoints = 0;
+        int healthPercent = (int) ((hud.gc.player.statistics.hitPoints / (double) hud.gc.player.getMaxHitPoints()) * 100);
 
         g2d.drawRect(45, 24, 300, 26);
         g2d.setColor(new Color(75, 61, 61, 210));

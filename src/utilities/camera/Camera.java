@@ -3,6 +3,7 @@ package utilities.camera;
 import main.GameController;
 import main.Updatable;
 import main.entity.Entity;
+import utilities.AssetSetter;
 import utilities.Position;
 
 
@@ -37,6 +38,10 @@ public class Camera
     {
         cameraPosition.x = entity.getWorldPosition().x + entity.getCurrentSprite().resolutionX/2;
         cameraPosition.y = entity.getWorldPosition().y + entity.getCurrentSprite().resolutionY/2;
+        //cameraPosition.x = AssetSetter.testEntity.getWorldPosition().x;
+        //cameraPosition.y = AssetSetter.testEntity.getWorldPosition().y;
+        //cameraPosition.x = -3000;
+        //cameraPosition.y = -3000;
     }
 
     public void checkScroll()
