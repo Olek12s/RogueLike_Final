@@ -32,6 +32,12 @@ public class Player extends Entity
     {
         return new PlayerUpdater(this);
     }
+
+    @Override
+    public void attack(Entity target) {
+
+    }
+
     @Override
     public void setDefaultSprite()
     {

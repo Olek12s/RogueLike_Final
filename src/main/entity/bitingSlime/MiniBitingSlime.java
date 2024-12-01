@@ -12,10 +12,15 @@ import utilities.SpriteSheet;
 
 import java.awt.*;
 
+
+
 public class MiniBitingSlime extends Entity
 {
     static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
-
+    final int attackPreparationTime = 60;     // time in x/60 seconds of how long entity prepares an attack
+    final int attackSwingTime = 120;          // time in x/60 seconds of how long an attack hitbox exists
+    final int attackRestTime = 300;           // time in x/60 seconds until next attack
+    // move this shit to item stats ^
     public MiniBitingSlime(GameController gc, Position worldPosition)
     {
         super(gc, worldPosition, 1);
@@ -73,31 +78,11 @@ public class MiniBitingSlime extends Entity
      */
     public void attack(Entity target)
     {
-
         int attackRange = 16;
-        //findPath(target)
 
-        if (target != null && this.distanceBetween(target) <= attackRange)     // if found target and within range
+        if (this.distanceBetween(target) <= attackRange)
         {
-            System.out.println("attack test");
-            Graphics g = gc.getGraphics();
-
-            Position attackerCenter = this.hitbox.getCenterPosition();
-            Position targetCenter = target.getHitbox().getCenterPosition();
-
-            int rectWidth = 1000;
-            int rectHeight = 1000;
-            int rectX = (attackerCenter.x + targetCenter.x) / 2 - rectWidth / 2;
-            int rectY = (attackerCenter.y + targetCenter.y) / 2 - rectHeight / 2;
-
-
-            Position screenPosition = gc.camera.applyCameraOffset(rectX, rectY);
-            double scaleFactor = gc.camera.getScaleFactor();
-            int scaledWidth = (int) (rectWidth * scaleFactor);
-            int scaledHeight = (int) (rectHeight * scaleFactor);
-
-            g.setColor(Color.RED);
-            g.fillRect(screenPosition.x, screenPosition.y, scaledWidth, scaledHeight);
+            System.out.println("ATTACK");
         }
     }
 }

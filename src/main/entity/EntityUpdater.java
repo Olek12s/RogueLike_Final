@@ -29,12 +29,17 @@ public class EntityUpdater implements Updatable
         move();
         updateHitbox();
         updateChunkAssociation();
-        entity.attack(entity.gc.player);  // test purpose
+        updateAttack();
     }
 
     private void updateHitbox()
     {
         entity.getHitbox().centerPositionToEntity(entity);
+    }
+
+    public void updateAttack()
+    {
+        entity.attack(entity.gc.player);
     }
 
     public void updateCurrentSprite()
