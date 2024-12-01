@@ -1,0 +1,92 @@
+Index: src/main/entity/Entity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.entity;\r\n\r\nimport main.Direction;\r\nimport main.GameController;\r\nimport main.map.Chunk;\r\nimport utilities.*;\r\n\r\npublic abstract class Entity\r\n{\r\n    public GameController gc;\r\n    protected EntityRenderer entityRenderer;\r\n    protected EntityUpdater entityUpdater;\r\n    public int entityID;\r\n\r\n    protected Sprite currentSprite;\r\n    protected Hitbox hitbox;\r\n    protected Direction direction;\r\n    protected Position worldPosition;\r\n    private Chunk currentChunk;\r\n    public boolean isMoving;\r\n\r\n\r\n    //STATISTICS\r\n    protected String name = \"\";\r\n    protected int maxHitPoints = 1;\r\n\r\n    public int hitPoints = maxHitPoints;\r\n    protected int movementSpeed;\r\n    //STATISTICS\r\n\r\n    public Entity(GameController gc, Position worldPosition, int entityID)\r\n    {\r\n        this.gc = gc;\r\n        initializeEntitySpriteAssets(entityID);\r\n        this.entityID = entityID;\r\n        entityRenderer = setRenderer();\r\n        entityUpdater = setUpdater();\r\n\r\n\r\n        //this.currentSprite = entityRenderer.spriteSheet.extractFirst();\r\n        this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();\r\n        setWorldPosition(worldPosition);\r\n        setDirection();\r\n        setHitbox();\r\n        setMovementSpeed(1);\r\n        this.isMoving = false;\r\n\r\n    }\r\n\r\n    //ABSTRACTS\r\n    public abstract void setDefaultSprite();\r\n    public abstract void setHitbox();\r\n    public abstract void setDirection();\r\n    public abstract void setWorldPosition(Position worldPosition);\r\n    //ABSTRACTS\r\n\r\n    public Position getWorldPosition() {return worldPosition;}\r\n    public Sprite getCurrentSprite() {return currentSprite;}\r\n    public void setMovementSpeed(int speed)\r\n    {\r\n        if (speed == 0) movementSpeed = 0;\r\n        else\r\n        {\r\n            movementSpeed = Math.max((int)(speed  / 16), 1);\r\n        }\r\n    }\r\n    public Direction getDirection() {return direction;}\r\n    public void setDirection(Direction direction) {this.direction = direction;}\r\n    public int getMovementSpeed() {return movementSpeed;}\r\n    public Hitbox getHitbox() {return hitbox;}\r\n    public Chunk getCurrentChunk() {return currentChunk;}\r\n    public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}\r\n    public int getID() {return entityID;}\r\n    public int getMaxHitPoints() {return maxHitPoints;}\r\n\r\n    public abstract EntityRenderer setRenderer();\r\n    public abstract EntityUpdater setUpdater();\r\n\r\n    public void initializeEntitySpriteAssets(int id)\r\n    {\r\n         EntityRenderer.putSpriteSheet(new SpriteSheet(FileManipulation.loadImage(\"resources/default/bitingSlime22\"), 22), id);\r\n         //EntityRenderer = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 22);\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/entity/Entity.java b/src/main/entity/Entity.java
+--- a/src/main/entity/Entity.java	(revision 1728fd0cf28b8b52d0fd606447f33222d3b67df3)
++++ b/src/main/entity/Entity.java	(date 1733056314762)
+@@ -1,5 +1,6 @@
+ package main.entity;
+ 
++import main.DamageType;
+ import main.Direction;
+ import main.GameController;
+ import main.map.Chunk;
+@@ -82,4 +83,24 @@
+          //EntityRenderer = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 22);
+     }
+ 
++    public void receiveDamage(int amount, DamageType type)
++    {
++        switch (type)
++        {
++            case PHYSICAL:
++                int received = amount - this.
++                this.hitPoints -= Math.max(1, received);
++                break;
++
++            case MAGICAL:
++                this.hitPoints -= Math.max(1, received);
++                break;
++
++            case INEVITABLE:
++                this.hitPoints -= amount;
++                break;
++
++        }
++    }
++
+ }
+Index: src/main/entity/player/PlayerUpdater.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main.entity.player;\r\n\r\nimport main.Direction;\r\nimport main.Updatable;\r\nimport main.entity.Entity;\r\nimport main.entity.EntityUpdater;\r\nimport utilities.Collisions;\r\n\r\npublic class PlayerUpdater extends EntityUpdater implements Updatable\r\n{\r\n    Entity entity;\r\n\r\n    public PlayerUpdater(Entity entity)\r\n    {\r\n        super(entity);\r\n        this.entity = entity;\r\n    }\r\n\r\n    @Override\r\n    public void update()\r\n    {\r\n        super.update();\r\n        updatePlayerDirection();\r\n        if (Collisions.isCollidingWithOtherHitbox(entity))\r\n        {\r\n            System.out.println(\"COLLISION\");\r\n            entity.hitPoints--;\r\n        }\r\n    }\r\n\r\n    private void updatePlayerDirection()\r\n    {\r\n        entity.isMoving = false;\r\n        if (entity.gc.keyHandler.W_PRESSED && entity.gc.keyHandler.A_PRESSED || entity.gc.keyHandler.UP_PRESSED && entity.gc.keyHandler.LEFT_PRESSED)     // Direction Up-Left\r\n        {\r\n            entity.setDirection(Direction.UP_LEFT);\r\n            entity.isMoving = true;\r\n        }\r\n        else if (entity.gc.keyHandler.W_PRESSED && entity.gc.keyHandler.D_PRESSED || entity.gc.keyHandler.UP_PRESSED && entity.gc.keyHandler.RIGHT_PRESSED)     // Direction Up-Right\r\n        {\r\n            entity.setDirection(Direction.UP_RIGHT);\r\n            entity.isMoving = true;\r\n        }\r\n        else if (entity.gc.keyHandler.S_PRESSED && entity.gc.keyHandler.A_PRESSED || entity.gc.keyHandler.DOWN_PRESSED && entity.gc.keyHandler.LEFT_PRESSED)     // Direction Down-Left\r\n        {\r\n            entity.setDirection(Direction.DOWN_LEFT);\r\n            entity.isMoving = true;\r\n        }\r\n        else if (entity.gc.keyHandler.S_PRESSED && entity.gc.keyHandler.D_PRESSED || entity.gc.keyHandler.DOWN_PRESSED && entity.gc.keyHandler.RIGHT_PRESSED)     // Direction Down-Right\r\n        {\r\n            entity.setDirection(Direction.DOWN_RIGHT);\r\n            entity.isMoving = true;\r\n        }\r\n        else if (entity.gc.keyHandler.S_PRESSED || entity.gc.keyHandler.DOWN_PRESSED)   // Direction Down\r\n        {\r\n            entity.setDirection(Direction.DOWN);\r\n            entity.isMoving = true;\r\n        }\r\n        else if (entity.gc.keyHandler.A_PRESSED || entity.gc.keyHandler.LEFT_PRESSED)  // Direction Left\r\n        {\r\n            entity.setDirection(Direction.LEFT);\r\n            entity.isMoving = true;\r\n        }\r\n        else if (entity.gc.keyHandler.D_PRESSED || entity.gc.keyHandler.RIGHT_PRESSED) // Direction right\r\n        {\r\n            entity.setDirection(Direction.RIGHT);\r\n            entity.isMoving = true;\r\n        }\r\n        else if (entity.gc.keyHandler.W_PRESSED || entity.gc.keyHandler.UP_PRESSED)   // Direction up\r\n        {\r\n            entity.setDirection(Direction.UP);\r\n            entity.isMoving = true;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/entity/player/PlayerUpdater.java b/src/main/entity/player/PlayerUpdater.java
+--- a/src/main/entity/player/PlayerUpdater.java	(revision 1728fd0cf28b8b52d0fd606447f33222d3b67df3)
++++ b/src/main/entity/player/PlayerUpdater.java	(date 1732320518019)
+@@ -16,6 +16,7 @@
+         this.entity = entity;
+     }
+ 
++    int counter = 0;
+     @Override
+     public void update()
+     {
+@@ -24,7 +25,12 @@
+         if (Collisions.isCollidingWithOtherHitbox(entity))
+         {
+             System.out.println("COLLISION");
+-            entity.hitPoints--;
++            counter++;
++            if (counter >= 20)
++            {
++                entity.hitPoints-=15;
++                counter = 0;
++            }
+         }
+     }
+ 
+Index: src/main/DamageType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/DamageType.java b/src/main/DamageType.java
+new file mode 100644
+--- /dev/null	(date 1733055779216)
++++ b/src/main/DamageType.java	(date 1733055779216)
+@@ -0,0 +1,8 @@
++package main;
++
++public enum DamageType
++{
++    PHYSICAL,
++    MAGICAL,
++    INEVITABLE
++}

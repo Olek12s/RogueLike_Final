@@ -1,0 +1,9 @@
+<changelist name="Uncommitted_changes_before_Update_at_01_12_2024_13_32_[Changes]" date="1733056347885" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_12_2024_13_32_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 01.12.2024 13:32 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerUpdater.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerUpdater.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_12_2024_13_32_[Changes]/PlayerUpdater.class" />
+  </binary>
+</changelist>

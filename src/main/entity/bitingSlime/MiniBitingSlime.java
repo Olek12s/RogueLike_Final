@@ -10,6 +10,8 @@ import utilities.Hitbox;
 import utilities.Position;
 import utilities.SpriteSheet;
 
+import java.awt.*;
+
 public class MiniBitingSlime extends Entity
 {
     static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
@@ -60,5 +62,42 @@ public class MiniBitingSlime extends Entity
     public EntityUpdater setUpdater()
     {
         return new EntityUpdater(this);
+    }
+
+
+    /**
+     * Executes the primary and only type of attack for this entity, when hitting target is possible
+     *
+     *
+     * @param target The entity that will be attacked by this entity
+     */
+    public void attack(Entity target)
+    {
+
+        int attackRange = 16;
+        //findPath(target)
+
+        if (target != null && this.distanceBetween(target) <= attackRange)     // if found target and within range
+        {
+            System.out.println("attack test");
+            Graphics g = gc.getGraphics();
+
+            Position attackerCenter = this.hitbox.getCenterPosition();
+            Position targetCenter = target.getHitbox().getCenterPosition();
+
+            int rectWidth = 1000;
+            int rectHeight = 1000;
+            int rectX = (attackerCenter.x + targetCenter.x) / 2 - rectWidth / 2;
+            int rectY = (attackerCenter.y + targetCenter.y) / 2 - rectHeight / 2;
+
+
+            Position screenPosition = gc.camera.applyCameraOffset(rectX, rectY);
+            double scaleFactor = gc.camera.getScaleFactor();
+            int scaledWidth = (int) (rectWidth * scaleFactor);
+            int scaledHeight = (int) (rectHeight * scaleFactor);
+
+            g.setColor(Color.RED);
+            g.fillRect(screenPosition.x, screenPosition.y, scaledWidth, scaledHeight);
+        }
     }
 }

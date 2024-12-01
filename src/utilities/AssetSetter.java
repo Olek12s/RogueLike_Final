@@ -28,7 +28,7 @@ public class AssetSetter
 
         List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();
 
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 0; i++)
         {
             int x = startX + (i % 40) * offset;
             int y = startY + (i / 5) * offset;
