@@ -9,7 +9,9 @@ import java.util.List;
 public class AssetSetter
 {
     GameController gc;
-    public static Entity testEntity;
+    public static Entity testEntity1;
+    public static Entity testEntity2;
+    public static Entity testEntity3;
 
     public AssetSetter(GameController gc)
     {
@@ -24,7 +26,9 @@ public class AssetSetter
         int startY = -6032 + v;
         int offset = 50;
 
-        testEntity = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 50));
+        testEntity1 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
+        testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
+        testEntity3 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y - 40));
 
         List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();
 

@@ -1,5 +1,7 @@
 package main.entity;
 
+import java.util.Random;
+
 public class EntityStatistics
 {
     Entity entity;
@@ -39,7 +41,33 @@ public class EntityStatistics
     public int getMagicArmour() {return magicArmour;}
     public void setMagicArmour(int magicArmour) {this.magicArmour = magicArmour;}
     public int getStrength() {return strength;}
-    public void setStrength(int strength) {this.strength = strength;}
+
+    /**
+     * Adds or subtracts from strength value
+     * Example: for strength 4 and minChange = 1, maxChange = 3 new Strength will be in range <3, 7>
+     * Example: for strength 4 and minChange = 5, maxChange = 5 new Strength will be in range <1, 9>
+     * @param strength - base value
+     * @param minChange - strength - minChange
+     * @Param maxChange - strength + maxChange
+     */
+    public void setStrength(int strength, int minChange, int maxChange)
+    {
+        boolean increase = Math.random() > 0.5;
+        int randomChange;
+
+        if (increase)
+        {
+            randomChange = (int) (Math.random() * (maxChange + 1));
+        }
+        else
+        {
+            randomChange = (int) (Math.random() * (minChange + 1));
+            randomChange = -randomChange;  // Ujemna zmiana (zmniejszamy siłę)
+        }
+        int randStrength = strength + randomChange;
+
+        this.strength = Math.max(randStrength, 1);
+    }
     public int getDexterity() {return dexterity;}
     public void setDexterity(int dexterity) {this.dexterity = dexterity;}
     public int getIntellect() {return intellect;}

@@ -3,6 +3,7 @@ package main.entity;
 import main.DamageType;
 import main.Direction;
 import main.GameController;
+import main.item.Weapon;
 import main.map.Chunk;
 import utilities.*;
 
@@ -22,6 +23,7 @@ public abstract class Entity
     private Chunk currentChunk;
     public boolean isMoving;
     protected String name = "";
+    public boolean isImmobilised;
 
     //STATISTICS
     public EntityStatistics statistics;
@@ -82,24 +84,50 @@ public abstract class Entity
          //EntityRenderer = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 22);
     }
 
-    public void receiveDamage(int amount, DamageType type)
+    /**
+     * this method calculates, how many damage should entity receive lowered by armor factor by formula:
+     * X/(X+D)
+     * WHere X is damage and D is armor
+     *
+     * @param damageInput   - base damage calculated by calculateDamageOutput()
+     * @param type          - type of the damage (physical/magical/inevitable)
+     */
+    public void receiveDamage(int damageInput, DamageType type)
     {
+        System.out.println("BASE DAMAGE: " + damageInput);
+        double damageMultipler;
         switch (type)
         {
             case PHYSICAL:
-                int receivedPhysical = amount - statistics.armour;
-                statistics.hitPoints -= Math.max(1, receivedPhysical);
+                //int receivedPhysical = damageInput - statistics.armour;
+                //statistics.hitPoints -= Math.max(1, receivedPhysical);
+                if (statistics.armour != 0) damageMultipler = (double) damageInput / (damageInput + statistics.armour);
+                else damageMultipler = 1;
                 break;
 
             case MAGICAL:
-                int receivedMagical = amount - statistics.magicArmour;
-                statistics.hitPoints -= Math.max(1, receivedMagical);
+                if (statistics.magicArmour != 0) damageMultipler = (double) damageInput / (damageInput + statistics.magicArmour);
+                else damageMultipler = 1;
                 break;
 
             case INEVITABLE:
-                statistics.hitPoints -= Math.max(1, amount);
+                damageMultipler = 1;  // Can't reduce this type of damage
                 break;
+            default:
+                damageMultipler = 1;
         }
+        int receivedDamage = (int)damageMultipler*damageInput;
+        if (receivedDamage <= 0) receivedDamage = 1;
+        System.out.println("RECEIVED DAMAGE: " + receivedDamage);
+        statistics.hitPoints -= receivedDamage;
+    }
+    public int calculateDamageOutput(Weapon weapon)
+    {
+        int output = 0;
+
+        output += statistics.strength + weapon.getDamageOutput(); // divided by Math.Max(0.2, (currentEnergy/maxEnergy) * 100));
+
+        return output;
     }
 
     public double distanceBetween(Entity other)

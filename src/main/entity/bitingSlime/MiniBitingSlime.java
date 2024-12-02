@@ -29,13 +29,14 @@ public class MiniBitingSlime extends Entity
         super(gc, worldPosition, 1);
         this.worldPosition = worldPosition;
         this.weapon = new MiniBitingSlimeWeapon();
+        this.isImmobilised = true;
+        setupStatistics();
     }
 
-    //@Override
-    //public void setDefaultSprite()
-    //{
-    //    currentSprite = entityRenderer.getSpriteSheet().extractFirst();
-    //}
+    private void setupStatistics()
+    {
+        this.statistics.setStrength(4, 2, 3);
+    }
 
     @Override
     public void setDefaultSprite()
@@ -105,9 +106,8 @@ public class MiniBitingSlime extends Entity
             {
                 if (this.distanceBetween(target) <= this.weapon.getMeleeAttackHeight()) // if target is within range (change it to the hitbox which will damage first target?)
                 {
-                    target.receiveDamage(weapon.getItemStatistics().getPhysicalDamage(), DamageType.PHYSICAL);
+                    target.receiveDamage(calculateDamageOutput(weapon), DamageType.PHYSICAL);
                 }
-                System.out.println("ATTACK");
 
                 attackPreparationCounter = 0;
                 attackRestCounter = 0;

@@ -2,13 +2,8 @@ package main.item;
 
 import utilities.Hitbox;
 
-public class MiniBitingSlimeWeapon
+public class MiniBitingSlimeWeapon extends Weapon
 {
-    private ItemStatistics itemStatistics;
-    private int meleeAttackWidth;
-    private int meleeAttackHeight;
-    private int attackPreparationTime;     // time in x/60 seconds of how long entity prepares an attack
-    private int attackRestTime;           // time in x/60 seconds until next attack
 
     public MiniBitingSlimeWeapon()
     {
@@ -17,7 +12,7 @@ public class MiniBitingSlimeWeapon
         this.meleeAttackHeight = 3;
         this.attackPreparationTime = 10;
         this.attackRestTime = 30;
-        this.itemStatistics.setPhysicalDamage(8);
+        this.itemStatistics.setPhysicalDamage(1);
     }
 
     public ItemStatistics getItemStatistics() {return itemStatistics;}
@@ -30,4 +25,10 @@ public class MiniBitingSlimeWeapon
     public void setAttackPreparationTime(int attackPreparationTime) {this.attackPreparationTime = attackPreparationTime;}
     public int getAttackRestTime() {return attackRestTime;}
     public void setAttackRestTime(int attackRestTime) {this.attackRestTime = attackRestTime;}
+
+    @Override
+    public int getDamageOutput()
+    {
+        return itemStatistics.getPhysicalDamage();
+    }
 }

@@ -140,7 +140,7 @@ public class EntityUpdater implements Updatable
                     case 7: entity.direction = Direction.DOWN_RIGHT; break;
                 }
 
-                if (randomIsMoving == 0) entity.isMoving = false;
+                if (randomIsMoving == 0 || entity.isImmobilised) entity.isMoving = false;
                 else entity.isMoving = true;
             }
         }
