@@ -21,10 +21,6 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     {
         super.update();
         updatePlayerDirection();
-        if (Collisions.isCollidingWithOtherHitbox(entity))
-        {
-            entity.statistics.hitPoints--;
-        }
     }
 
     private void updatePlayerDirection()

@@ -1,10 +1,12 @@
 package main.entity.bitingSlime;
 
+import main.DamageType;
 import main.Direction;
 import main.GameController;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
+import main.item.MiniBitingSlimeWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -17,14 +19,16 @@ import java.awt.*;
 public class MiniBitingSlime extends Entity
 {
     static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
-    final int attackPreparationTime = 60;     // time in x/60 seconds of how long entity prepares an attack
-    final int attackSwingTime = 120;          // time in x/60 seconds of how long an attack hitbox exists
-    final int attackRestTime = 300;           // time in x/60 seconds until next attack
-    // move this shit to item stats ^
+    MiniBitingSlimeWeapon weapon;
+    private int attackPreparationCounter = 0;
+    private int attackRestCounter = 0;
+
+
     public MiniBitingSlime(GameController gc, Position worldPosition)
     {
         super(gc, worldPosition, 1);
         this.worldPosition = worldPosition;
+        this.weapon = new MiniBitingSlimeWeapon();
     }
 
     //@Override
@@ -78,11 +82,36 @@ public class MiniBitingSlime extends Entity
      */
     public void attack(Entity target)
     {
-        int attackRange = 16;
-
-        if (this.distanceBetween(target) <= attackRange)
+        if (attackRestCounter < weapon.getAttackRestTime())
         {
-            System.out.println("ATTACK");
+            attackRestCounter++;
+            return; // can't attack when resting
+        }
+
+        // if target is within range, start charging attack
+        if (attackPreparationCounter == 0 && this.distanceBetween(target) <= this.weapon.getMeleeAttackHeight())
+        {
+            attackPreparationCounter++;
+        }
+
+        // continue charging attack even if target is out of range
+        if (attackPreparationCounter > 0)
+        {
+            if (attackPreparationCounter < this.weapon.getAttackPreparationTime())
+            {
+                attackPreparationCounter++;
+            }
+            else // if attack is charged - attack (add animation)
+            {
+                if (this.distanceBetween(target) <= this.weapon.getMeleeAttackHeight()) // if target is within range (change it to the hitbox which will damage first target?)
+                {
+                    target.receiveDamage(weapon.getItemStatistics().getPhysicalDamage(), DamageType.PHYSICAL);
+                }
+                System.out.println("ATTACK");
+
+                attackPreparationCounter = 0;
+                attackRestCounter = 0;
+            }
         }
     }
 }

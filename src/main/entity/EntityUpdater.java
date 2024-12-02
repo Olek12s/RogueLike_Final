@@ -40,7 +40,7 @@ public class EntityUpdater implements Updatable
     public void updateAttack()
     {
         entity.attack(entity.gc.player);
-    }
+    }   // change it to the updateAttackHitbox, which will check all antities around hitbox and damage first found (if single target) or multiple (if multi hit like hammer or smth)
 
     public void updateCurrentSprite()
     {

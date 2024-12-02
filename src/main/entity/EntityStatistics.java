@@ -1,6 +1,6 @@
 package main.entity;
 
-public class Statistics
+public class EntityStatistics
 {
     Entity entity;
 
@@ -47,8 +47,8 @@ public class Statistics
     public int getStamina() {return stamina;}
     public void setStamina(int stamina) {this.stamina = stamina;}
 
-    public Statistics(Entity entity)
+    public EntityStatistics()
     {
-        this.entity = entity;
+
     }
 }

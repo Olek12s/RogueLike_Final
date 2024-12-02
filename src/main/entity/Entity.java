@@ -24,7 +24,7 @@ public abstract class Entity
     protected String name = "";
 
     //STATISTICS
-    public Statistics statistics;
+    public EntityStatistics statistics;
     //STATISTICS
 
     public Entity(GameController gc, Position worldPosition, int entityID)
@@ -34,7 +34,7 @@ public abstract class Entity
         this.entityID = entityID;
         entityRenderer = setRenderer();
         entityUpdater = setUpdater();
-        this.statistics = new Statistics(this);
+        this.statistics = new EntityStatistics();
 
 
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
