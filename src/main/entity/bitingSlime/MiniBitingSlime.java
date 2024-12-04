@@ -35,7 +35,7 @@ public class MiniBitingSlime extends Entity
 
     private void setupStatistics()
     {
-        this.statistics.setStrength(4, 2, 3);
+        this.statistics.setStrength(4, 1, 4);
     }
 
     @Override

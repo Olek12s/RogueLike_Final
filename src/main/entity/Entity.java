@@ -86,7 +86,7 @@ public abstract class Entity
 
     /**
      * this method calculates, how many damage should entity receive lowered by armor factor by formula:
-     * X/(X+D)
+     * X/(X+1.5*D)
      * WHere X is damage and D is armor
      *
      * @param damageInput   - base damage calculated by calculateDamageOutput()
@@ -116,7 +116,7 @@ public abstract class Entity
             default:
                 damageMultipler = 1;
         }
-        int receivedDamage = (int)damageMultipler*damageInput;
+        int receivedDamage = (int) (damageMultipler*damageInput);
         if (receivedDamage <= 0) receivedDamage = 1;
         System.out.println("RECEIVED DAMAGE: " + receivedDamage);
         statistics.hitPoints -= receivedDamage;
