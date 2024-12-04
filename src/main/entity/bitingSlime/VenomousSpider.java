@@ -7,6 +7,7 @@ import main.entity.Entity;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
 import main.item.BitingSlimeWeapon;
+import main.item.SpiderWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -16,7 +17,7 @@ import utilities.SpriteSheet;
 public class VenomousSpider extends Entity
 {
     static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 32);
-    BitingSlimeWeapon weapon;
+    SpiderWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
 
@@ -25,16 +26,16 @@ public class VenomousSpider extends Entity
     {
         super(gc, worldPosition, 4);
         this.worldPosition = worldPosition;
-        this.weapon = new BitingSlimeWeapon();
+        this.weapon = new SpiderWeapon();
         this.isImmobilised = true;
         setupStatistics();
         setAlive(true);
     }
 
-    private void setupStatistics()  // add poison effect
+    public void setupStatistics()  // add poison effect
     {
-        this.statistics.setStrength(7, 1, 4);
-        this.statistics.setArmour(5);
+        this.statistics.setStrength(9, 1, 2);
+        this.statistics.setArmour(6);
         this.statistics.setHitPoints(50);
         this.statistics.setRegeneration(3);
         this.statistics.setMovementSpeed(30);

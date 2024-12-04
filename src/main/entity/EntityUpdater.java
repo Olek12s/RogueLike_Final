@@ -81,8 +81,9 @@ public class EntityUpdater implements Updatable
 
     private void updateAliveStatus()
     {
-        //pre-death actions
+        if (entity.getCurrentHealth() == 0) entity.setAlive(false);
 
+        //pre-death actions
 
         if (entity.isAlive() == false)
         {

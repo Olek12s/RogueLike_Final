@@ -31,9 +31,9 @@ public class BitingSlime extends Entity
         setAlive(true);
     }
 
-    private void setupStatistics()
+    public void setupStatistics()
     {
-        this.statistics.setStrength(6, 1, 4);
+        this.statistics.setStrength(6, 1, 2);
         this.statistics.setArmour(2);
         this.statistics.setHitPoints(30);
         this.statistics.setRegeneration(2);

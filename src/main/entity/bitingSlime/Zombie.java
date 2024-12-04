@@ -7,6 +7,7 @@ import main.entity.Entity;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
 import main.item.BitingSlimeWeapon;
+import main.item.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -16,7 +17,7 @@ import utilities.SpriteSheet;
 public class Zombie extends Entity
 {
     static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 32);
-    BitingSlimeWeapon weapon;
+    ZombieWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
 
@@ -25,19 +26,19 @@ public class Zombie extends Entity
     {
         super(gc, worldPosition, 5);
         this.worldPosition = worldPosition;
-        this.weapon = new BitingSlimeWeapon();
+        this.weapon = new ZombieWeapon();
         this.isImmobilised = true;
         setupStatistics();
         setAlive(true);
     }
 
-    private void setupStatistics()
+    public void setupStatistics()
     {
-        this.statistics.setStrength(4, 1, 4);
+        this.statistics.setStrength(20, 1, 2);
         this.statistics.setArmour(10);
-        this.statistics.setHitPoints(15);
+        this.statistics.setHitPoints(90);
         this.statistics.setRegeneration(3);
-        this.statistics.setMovementSpeed(30);
+        this.statistics.setMovementSpeed(15);
     }
 
     @Override

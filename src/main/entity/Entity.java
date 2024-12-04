@@ -61,6 +61,7 @@ public abstract class Entity
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();
     public abstract void attack(Entity target);
+    public abstract void setupStatistics();
     //ABSTRACTS
 
     public Position getWorldPosition() {return worldPosition;}
