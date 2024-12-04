@@ -11,6 +11,7 @@ public class EntityUpdater implements Updatable
     private int spriteCounter = 0;
     private int animationSpeed = 8;
     private int movementCounter = 0;
+    private int updateStatisticsCounter = 0;
 
     public Entity getEntity() {return entity;}
 
@@ -24,12 +25,31 @@ public class EntityUpdater implements Updatable
     @Override
     public void update()
     {
-        updateCurrentSprite();
-        updateRandomizedMovement();
-        move();
-        updateHitbox();
-        updateChunkAssociation();
-        updateAttack();
+        if (entity != null)
+        {
+            updateRegeneration();
+            updateCurrentSprite();
+            updateRandomizedMovement();
+            move();
+            updateHitbox();
+            updateChunkAssociation();
+            updateAttack();
+            updateAliveStatus();
+        }
+    }
+
+    private void updateRegeneration()
+    {
+        if (updateStatisticsCounter == 120) // once per 2 seconds
+        {
+            if (entity.statistics.hitPoints < entity.statistics.maxHitPoints)
+            {
+                int healUpAmount = entity.statistics.hitPoints + entity.statistics.regeneration;
+                entity.statistics.hitPoints = Math.min(healUpAmount, entity.statistics.maxHitPoints);
+            }
+            updateStatisticsCounter = 0;
+        }
+        updateStatisticsCounter++;
     }
 
     private void updateHitbox()
@@ -56,6 +76,25 @@ public class EntityUpdater implements Updatable
         {
             spriteCounter = 0;
             changeSprite(entity.direction, 0);
+        }
+    }
+
+    private void updateAliveStatus()
+    {
+        //pre-death actions
+
+
+        if (entity.isAlive() == false)
+        {
+            entity.gc.drawables.remove(entity.entityRenderer);
+
+            entity.entityUpdater = null;
+            entity.entityRenderer = null;
+
+
+            entity.getCurrentChunk().removeEntity(entity);
+            entity.gc.updatables.remove(entity.entityUpdater);
+            entity = null;
         }
     }
 

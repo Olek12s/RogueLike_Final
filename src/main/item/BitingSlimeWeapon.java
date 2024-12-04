@@ -1,11 +1,9 @@
 package main.item;
 
-import utilities.Hitbox;
-
-public class MiniBitingSlimeWeapon extends Weapon
+public class BitingSlimeWeapon extends Weapon
 {
 
-    public MiniBitingSlimeWeapon()
+    public BitingSlimeWeapon()
     {
         this.itemStatistics = new ItemStatistics();
         this.meleeAttackWidth = 22;

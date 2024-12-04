@@ -8,7 +8,7 @@ public class EntityStatistics
 
     public int maxHitPoints = 1;                // maximum hit points
     public int hitPoints = maxHitPoints;        // current hit points - if 0 or lower - entity dies
-    protected int regeneration;                 // regeneration of health per second
+    protected int regeneration = 1;             // regeneration of health per second. By default 1
 
     public int maxMana = 1;                     // current mana - needed to cast spells or hold specific items
     public int mana = maxMana;                  // max mana - how much spells you can cast at short amount of time
@@ -27,7 +27,11 @@ public class EntityStatistics
     public int getMaxHitPoints() {return maxHitPoints;}
     public void setMaxHitPoints(int maxHitPoints) {this.maxHitPoints = maxHitPoints;}
     public int getHitPoints() {return hitPoints;}
-    public void setHitPoints(int hitPoints) {this.hitPoints = hitPoints;}
+    public void setHitPoints(int hitPoints)
+    {
+        if (hitPoints > maxHitPoints) maxHitPoints = hitPoints;
+        this.hitPoints = hitPoints;
+    }
     public int getRegeneration() {return regeneration;}
     public void setRegeneration(int regeneration) {this.regeneration = regeneration;}
     public int getMaxMana() {return maxMana;}

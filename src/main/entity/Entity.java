@@ -12,8 +12,8 @@ import java.awt.*;
 public abstract class Entity
 {
     public GameController gc;
-    protected EntityRenderer entityRenderer;
-    protected EntityUpdater entityUpdater;
+    public EntityRenderer entityRenderer;
+    public EntityUpdater entityUpdater;
     public int entityID;
 
     protected Sprite currentSprite;
@@ -24,9 +24,12 @@ public abstract class Entity
     public boolean isMoving;
     protected String name = "";
     public boolean isImmobilised;
+    private boolean isAlive;
 
     //STATISTICS
     public EntityStatistics statistics;
+    public int getCurrentHealth() {return statistics.hitPoints;}
+    public int getMaximumHealth() {return statistics.maxHitPoints;}
     //STATISTICS
 
     public Entity(GameController gc, Position worldPosition, int entityID)
@@ -37,6 +40,7 @@ public abstract class Entity
         entityRenderer = setRenderer();
         entityUpdater = setUpdater();
         this.statistics = new EntityStatistics();
+        this.isAlive = true;
 
 
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
@@ -77,6 +81,8 @@ public abstract class Entity
     public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}
     public int getID() {return entityID;}
     public int getMaxHitPoints() {return statistics.maxHitPoints;}
+    public boolean isAlive() {return isAlive;}
+    public void setAlive(boolean alive) {isAlive = alive;}
 
     public void initializeEntitySpriteAssets(int id)
     {
@@ -126,9 +132,10 @@ public abstract class Entity
         int output = 0;
 
         output += statistics.strength + weapon.getDamageOutput(); // divided by Math.Max(0.2, (currentEnergy/maxEnergy) * 100));
-
-        return output;
+        double randomMultiplier = 0.8 + (Math.random() * 0.4); // random between 0.8 to 1.2
+        return (int) (output * randomMultiplier);
     }
+
 
     public double distanceBetween(Entity other)
     {

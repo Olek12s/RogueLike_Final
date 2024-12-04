@@ -12,19 +12,18 @@ import utilities.Hitbox;
 import utilities.Position;
 import utilities.SpriteSheet;
 
-
-// entity class level 1
-public class MiniBitingSlime extends Entity
+// entity class level 3
+public class Spider extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 32);
     BitingSlimeWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
 
 
-    public MiniBitingSlime(GameController gc, Position worldPosition)
+    public Spider(GameController gc, Position worldPosition)
     {
-        super(gc, worldPosition, 1);
+        super(gc, worldPosition, 3);
         this.worldPosition = worldPosition;
         this.weapon = new BitingSlimeWeapon();
         this.isImmobilised = true;
@@ -34,11 +33,11 @@ public class MiniBitingSlime extends Entity
 
     private void setupStatistics()
     {
-        this.statistics.setStrength(4, 1, 4);
-        this.statistics.setArmour(0);
-        this.statistics.setHitPoints(15);
-        this.statistics.setRegeneration(1);
-        this.statistics.setMovementSpeed(30);
+        this.statistics.setStrength(7, 1, 4);
+        this.statistics.setArmour(5);
+        this.statistics.setHitPoints(50);
+        this.statistics.setRegeneration(2);
+        this.statistics.setMovementSpeed(37);
     }
 
     @Override
