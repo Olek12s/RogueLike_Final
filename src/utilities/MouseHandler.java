@@ -30,7 +30,6 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
         mouseY = e.getY();
         Position cameraPosition = gc.camera.getCameraPosition();
 
-
         System.out.println("mouse clicked at: [" + mouseX + ", " + mouseY + "] Angle: " + gc.cursor.getAngle(cameraPosition));
     }
 
