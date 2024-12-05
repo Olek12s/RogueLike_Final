@@ -20,6 +20,7 @@ public class Zombie extends Entity
     ZombieWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
+    public int level = 5;
 
 
     public Zombie(GameController gc, Position worldPosition)

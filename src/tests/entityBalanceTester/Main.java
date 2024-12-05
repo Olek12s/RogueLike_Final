@@ -24,8 +24,8 @@ public class Main
 
     public static void main(String[] args)
     {
-        BattleSimulation bs = new BattleSimulation(venomousSpiderA, player);
+        BattleSimulation bs = new BattleSimulation(miniSlimeA, zombieB);
 
-        bs.simulateBattle(10000);
+        bs.simulateBattle(1000);
     }
 }

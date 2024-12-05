@@ -20,6 +20,7 @@ public class MiniBitingSlime extends Entity
     BitingSlimeWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
+    public int level = 1;
 
 
     public MiniBitingSlime(GameController gc, Position worldPosition)

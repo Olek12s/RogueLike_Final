@@ -20,7 +20,7 @@ public class Spider extends Entity
     SpiderWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
-
+    public int level = 3;
 
     public Spider(GameController gc, Position worldPosition)
     {

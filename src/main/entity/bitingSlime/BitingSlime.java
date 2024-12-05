@@ -19,6 +19,7 @@ public class BitingSlime extends Entity
     BitingSlimeWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
+    public int level = 2;
 
 
     public BitingSlime(GameController gc, Position worldPosition)

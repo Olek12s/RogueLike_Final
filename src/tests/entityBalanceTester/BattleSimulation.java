@@ -26,8 +26,8 @@ public class BattleSimulation
         {
             while (entityA.isAlive() && entityB.isAlive())
             {
-              //  entityA.entityUpdater.updateChunkAssociation();
-              //  entityB.entityUpdater.updateChunkAssociation();
+                //  entityA.entityUpdater.updateChunkAssociation();
+                //  entityB.entityUpdater.updateChunkAssociation();
                 entityA.entityUpdater.updateRegeneration();
                 entityB.entityUpdater.updateRegeneration();
 
@@ -65,6 +65,8 @@ public class BattleSimulation
         System.out.println("Iterations: " + iterations);
         System.out.println(entityA.getName() + " winrate: " + String.format("%.4f", ((double) wonByEntityA / iterations) * 100) + "%" + " Won: " + wonByEntityA);
         System.out.println(entityB.getName() + " winrate: " + String.format("%.4f", ((double) wonByEntityB / iterations) * 100) + "%" + " Won: " + wonByEntityB);
+        double tiePercent = ((double) tie / iterations) * 100;
+        System.out.println("tie: " + tiePercent + "%");
         //System.out.println("Tie: " + tie);
     }
 }

@@ -25,6 +25,7 @@ public abstract class Entity
     protected String name = "";
     public boolean isImmobilised;
     private boolean isAlive;
+    public int level;
 
     //STATISTICS
     public EntityStatistics statistics;
