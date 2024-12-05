@@ -66,12 +66,38 @@ public class EntityStatistics
         else
         {
             randomChange = (int) (Math.random() * (minChange + 1));
-            randomChange = -randomChange;  // Ujemna zmiana (zmniejszamy siłę)
+            randomChange = -randomChange;
         }
         int randStrength = strength + randomChange;
 
         this.strength = Math.max(randStrength, 1);
     }
+
+    public void setHitPoints(int hitPoints, int minChange, int maxChange)
+    {
+        boolean increase = Math.random() > 0.5;
+        int randomChange;
+
+        if (increase)
+        {
+            randomChange = (int) (Math.random() * (maxChange + 1));
+        }
+        else
+        {
+            randomChange = (int) (Math.random() * (minChange + 1));
+            randomChange = -randomChange;
+        }
+
+        int randHitPoints = hitPoints + randomChange;
+
+        this.hitPoints = Math.max(randHitPoints, 1);
+
+        if (this.hitPoints > maxHitPoints)
+        {
+            this.maxHitPoints = this.hitPoints;
+        }
+    }
+
     public int getDexterity() {return dexterity;}
     public void setDexterity(int dexterity) {this.dexterity = dexterity;}
     public int getIntellect() {return intellect;}

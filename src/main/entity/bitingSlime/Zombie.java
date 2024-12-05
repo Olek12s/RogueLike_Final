@@ -28,16 +28,17 @@ public class Zombie extends Entity
         this.worldPosition = worldPosition;
         this.weapon = new ZombieWeapon();
         this.isImmobilised = true;
+        this.name = "Zombie";
         setupStatistics();
         setAlive(true);
     }
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(20, 1, 2);
-        this.statistics.setArmour(10);
-        this.statistics.setHitPoints(90);
-        this.statistics.setRegeneration(3);
+        this.statistics.setStrength(9, 3, 2);
+        this.statistics.setArmour(5);
+        this.statistics.setHitPoints(39, 10, 3);
+        this.statistics.setRegeneration(1);
         this.statistics.setMovementSpeed(15);
     }
 

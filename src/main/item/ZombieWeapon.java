@@ -8,8 +8,8 @@ public class ZombieWeapon extends Weapon
         this.itemStatistics = new ItemStatistics();
         this.meleeAttackWidth = 22;
         this.meleeAttackHeight = 6;
-        this.attackPreparationTime = 15;
-        this.attackRestTime = 60;
+        this.attackPreparationTime = 8;
+        this.attackRestTime = 100;
         this.itemStatistics.setPhysicalDamage(5);
     }
 

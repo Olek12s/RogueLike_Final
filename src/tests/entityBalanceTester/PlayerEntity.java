@@ -1,4 +1,4 @@
-package main.entity.bitingSlime;
+package tests.entityBalanceTester;
 
 import main.DamageType;
 import main.Direction;
@@ -6,40 +6,38 @@ import main.GameController;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.BitingSlimeWeapon;
+import main.item.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
 import utilities.SpriteSheet;
 
-
-// entity class level 1
-public class MiniBitingSlime extends Entity
+public class PlayerEntity extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
-    BitingSlimeWeapon weapon;
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 32);
+    ZombieWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
 
 
-    public MiniBitingSlime(GameController gc, Position worldPosition)
+    public PlayerEntity(GameController gc, Position worldPosition)
     {
-        super(gc, worldPosition, 1);
+        super(gc, worldPosition, 5);
         this.worldPosition = worldPosition;
-        this.weapon = new BitingSlimeWeapon();
+        this.weapon = new ZombieWeapon();
         this.isImmobilised = true;
-        this.name = "Small slime";
+        this.name = "Player";
         setupStatistics();
         setAlive(true);
     }
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(4, 0, 2);
+        this.statistics.setStrength(1, 0, 0);
         this.statistics.setArmour(0);
-        this.statistics.setHitPoints(16, 3,3);
+        this.statistics.setHitPoints(100, 0, 0);
         this.statistics.setRegeneration(1);
-        this.statistics.setMovementSpeed(30);
+        this.statistics.setMovementSpeed(15);
     }
 
     @Override

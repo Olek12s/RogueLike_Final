@@ -38,7 +38,7 @@ public class EntityUpdater implements Updatable
         }
     }
 
-    private void updateRegeneration()
+    public void updateRegeneration()
     {
         if (updateStatisticsCounter == 120) // once per 2 seconds
         {
@@ -79,9 +79,9 @@ public class EntityUpdater implements Updatable
         }
     }
 
-    private void updateAliveStatus()
+    public void updateAliveStatus()
     {
-        if (entity.getCurrentHealth() == 0) entity.setAlive(false);
+        if (entity.getCurrentHealth() <= 0) entity.setAlive(false);
 
         //pre-death actions
 
@@ -188,7 +188,7 @@ public class EntityUpdater implements Updatable
         if (movementCounter > 60 + randomCounterOffset) movementCounter = 0;
     }
 
-    private void updateChunkAssociation()
+    public void updateChunkAssociation()
     {
         Chunk currentChunk = entity.getCurrentChunk();
         Chunk newChunk = entity.gc.mapController.getCurrentMap().getChunk(entity.getWorldPosition());

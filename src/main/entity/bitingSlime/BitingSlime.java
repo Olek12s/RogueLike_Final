@@ -27,16 +27,17 @@ public class BitingSlime extends Entity
         this.worldPosition = worldPosition;
         this.weapon = new BitingSlimeWeapon();
         this.isImmobilised = true;
+        this.name = "Slime";
         setupStatistics();
         setAlive(true);
     }
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(6, 1, 2);
-        this.statistics.setArmour(2);
-        this.statistics.setHitPoints(30);
-        this.statistics.setRegeneration(2);
+        this.statistics.setStrength(4, 1, 2);
+        this.statistics.setArmour(0);
+        this.statistics.setHitPoints(23, 4,3);
+        this.statistics.setRegeneration(1);
         this.statistics.setMovementSpeed(20);
     }
 

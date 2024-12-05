@@ -28,16 +28,17 @@ public class Spider extends Entity
         this.worldPosition = worldPosition;
         this.weapon = new SpiderWeapon();
         this.isImmobilised = true;
+        this.name = "Spider";
         setupStatistics();
         setAlive(true);
     }
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(8, 1, 2);
-        this.statistics.setArmour(5);
-        this.statistics.setHitPoints(50);
-        this.statistics.setRegeneration(2);
+        this.statistics.setStrength(6, 2, 2);
+        this.statistics.setArmour(1);
+        this.statistics.setHitPoints(23, 6, 5);
+        this.statistics.setRegeneration(1);
         this.statistics.setMovementSpeed(37);
     }
 

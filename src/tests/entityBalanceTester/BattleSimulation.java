@@ -18,16 +18,42 @@ public class BattleSimulation
 
     public void simulateBattle(int iterations)
     {
+        double playerDodgeChance = 0.25;
         int wonByEntityA = 0;
         int wonByEntityB = 0;
+        int tie = 0;
         for (int i = 0; i < iterations; i++)
         {
-            while (entityA.isAlive() || entityB.isAlive())
+            while (entityA.isAlive() && entityB.isAlive())
             {
-                entityA.attack(entityB);
-                entityB.attack(entityA);
-                entityA.entityUpdater.updateAttack();
+              //  entityA.entityUpdater.updateChunkAssociation();
+              //  entityB.entityUpdater.updateChunkAssociation();
+                entityA.entityUpdater.updateRegeneration();
+                entityB.entityUpdater.updateRegeneration();
+
+                if (entityB.getName().equals("Player"))
+                {
+                    if (Math.random() > playerDodgeChance) entityA.attack(entityB);
+                }
+                else
+                {
+                    entityA.attack(entityB);
+                }
+                if (entityA.getName().equals("Player"))
+                {
+                    if (Math.random() > playerDodgeChance) entityB.attack(entityA);
+                }
+                else
+                {
+                    entityB.attack(entityA);
+                }
+                if (entityB.getCurrentHealth() <= 0) entityB.setAlive(false);
+                if (entityA.getCurrentHealth() <= 0) entityA.setAlive(false);
             }
+            if (entityA.isAlive() && !entityB.isAlive()) wonByEntityA++;
+            if (entityB.isAlive() && !entityA.isAlive()) wonByEntityB++;
+            if (!entityB.isAlive() && !entityA.isAlive()) tie++;
+
             //randomize stats, heal-up
             entityA.setupStatistics();
             entityB.setupStatistics();
@@ -36,5 +62,9 @@ public class BattleSimulation
             entityA.statistics.setHitPoints(entityA.getMaxHitPoints());
             entityB.statistics.setHitPoints(entityB.getMaxHitPoints());
         }
+        System.out.println("Iterations: " + iterations);
+        System.out.println(entityA.getName() + " winrate: " + String.format("%.4f", ((double) wonByEntityA / iterations) * 100) + "%" + " Won: " + wonByEntityA);
+        System.out.println(entityB.getName() + " winrate: " + String.format("%.4f", ((double) wonByEntityB / iterations) * 100) + "%" + " Won: " + wonByEntityB);
+        //System.out.println("Tie: " + tie);
     }
 }

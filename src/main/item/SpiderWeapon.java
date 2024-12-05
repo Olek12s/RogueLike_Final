@@ -9,8 +9,8 @@ public class SpiderWeapon extends Weapon
         this.meleeAttackWidth = 22;
         this.meleeAttackHeight = 5;
         this.attackPreparationTime = 7;
-        this.attackRestTime = 20;
-        this.itemStatistics.setPhysicalDamage(3);
+        this.attackRestTime = 35;
+        this.itemStatistics.setPhysicalDamage(1);
     }
 
     public ItemStatistics getItemStatistics() {return itemStatistics;}

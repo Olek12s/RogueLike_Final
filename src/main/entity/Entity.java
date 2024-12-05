@@ -84,6 +84,8 @@ public abstract class Entity
     public int getMaxHitPoints() {return statistics.maxHitPoints;}
     public boolean isAlive() {return isAlive;}
     public void setAlive(boolean alive) {isAlive = alive;}
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
 
     public void initializeEntitySpriteAssets(int id)
     {
@@ -101,7 +103,7 @@ public abstract class Entity
      */
     public void receiveDamage(int damageInput, DamageType type)
     {
-        System.out.println("BASE DAMAGE: " + damageInput);
+       //System.out.println("BASE DAMAGE: " + damageInput);
         double damageMultipler;
         switch (type)
         {
@@ -125,8 +127,9 @@ public abstract class Entity
         }
         int receivedDamage = (int) (damageMultipler*damageInput);
         if (receivedDamage <= 0) receivedDamage = 1;
-        System.out.println("RECEIVED DAMAGE: " + receivedDamage);
+        //System.out.println("RECEIVED DAMAGE: " + receivedDamage);
         statistics.hitPoints -= receivedDamage;
+
     }
     public int calculateDamageOutput(Weapon weapon)
     {
@@ -134,6 +137,13 @@ public abstract class Entity
 
         output += statistics.strength + weapon.getDamageOutput(); // divided by Math.Max(0.2, (currentEnergy/maxEnergy) * 100));
         double randomMultiplier = 0.8 + (Math.random() * 0.4); // random between 0.8 to 1.2
+        double criticalChance = 0.05;
+
+        if (Math.random() < criticalChance) // Math.random returns between 0-1, that's why there's 5% chance for this condidiot to be true
+        {
+            randomMultiplier *= 1.5;    //
+        }
+
         return (int) (output * randomMultiplier);
     }
 

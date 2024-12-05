@@ -28,16 +28,17 @@ public class VenomousSpider extends Entity
         this.worldPosition = worldPosition;
         this.weapon = new SpiderWeapon();
         this.isImmobilised = true;
+        this.name = "Venomous Spider";
         setupStatistics();
         setAlive(true);
     }
 
     public void setupStatistics()  // add poison effect
     {
-        this.statistics.setStrength(9, 1, 2);
-        this.statistics.setArmour(6);
-        this.statistics.setHitPoints(50);
-        this.statistics.setRegeneration(3);
+        this.statistics.setStrength(6, 3, 2);
+        this.statistics.setArmour(3);
+        this.statistics.setHitPoints(30, 7, 7);
+        this.statistics.setRegeneration(2);
         this.statistics.setMovementSpeed(30);
     }
 
