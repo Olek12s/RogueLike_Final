@@ -16,7 +16,7 @@ import utilities.SpriteSheet;
 // entity class level 4
 public class VenomousSpider extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 32);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 26);
     SpiderWeapon weapon;
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
