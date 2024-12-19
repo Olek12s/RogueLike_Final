@@ -4,7 +4,7 @@ import main.DamageType;
 import main.Direction;
 import main.GameController;
 import main.item.Weapon;
-import main.map.Chunk;
+import world.map.Chunk;
 import utilities.*;
 
 import java.awt.*;

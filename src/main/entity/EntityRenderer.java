@@ -2,8 +2,8 @@ package main.entity;
 
 import main.DrawPriorities;
 import main.Drawable;
-import main.map.Chunk;
-import main.map.MapRenderer;
+import world.map.Chunk;
+import world.map.MapRenderer;
 import utilities.Position;
 import utilities.Sprite;
 import utilities.SpriteSheet;

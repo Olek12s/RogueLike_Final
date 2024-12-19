@@ -2,10 +2,8 @@ package utilities;
 
 import main.GameController;
 import main.entity.Entity;
-import main.map.Chunk;
-import main.map.MapController;
-import main.map.Tile;
-import main.map.Chunk;
+import world.map.Chunk;
+import world.map.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;

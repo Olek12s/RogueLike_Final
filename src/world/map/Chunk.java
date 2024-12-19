@@ -1,4 +1,4 @@
-package main.map;
+package world.map;
 
 import main.entity.Entity;
 import main.item.Item;

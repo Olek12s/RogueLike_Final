@@ -1,7 +1,5 @@
-package main.map;
+package world.map;
 
-import main.GameController;
-import utilities.FileManipulation;
 import utilities.Position;
 
 import java.io.*;

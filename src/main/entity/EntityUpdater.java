@@ -2,7 +2,7 @@ package main.entity;
 
 import main.Direction;
 import main.Updatable;
-import main.map.Chunk;
+import world.map.Chunk;
 import utilities.Collisions;
 
 public class EntityUpdater implements Updatable

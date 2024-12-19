@@ -5,8 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import main.map.Map;
-
 public class FileManipulation
 {
     public static BufferedImage loadImage(String path)

@@ -1,13 +1,11 @@
-    package main.map;
+    package world.map;
 
     import main.GameController;
     import utilities.FileManipulation;
     import utilities.Sprite;
     import utilities.SpriteSheet;
 
-    import java.util.ArrayList;
     import java.util.HashMap;
-    import java.util.List;
     import java.util.Map;
 
 
