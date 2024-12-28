@@ -26,7 +26,7 @@ public class NoiseMap
         }
 
         int stepSize = featureSize;
-        double scale = 1.0/width;
+        double scale = 1.8/width;
         double scaleMod = 1;
         do
         {
@@ -88,8 +88,8 @@ public class NoiseMap
     {
         for (int j = 0; j < 10; j++)
         {
-            int width = 512;
-            int height = 512;
+            int width = 128;
+            int height = 128;
             NoiseMap noise1 = new NoiseMap(width, height, 64);
             NoiseMap noise2 = new NoiseMap(width, height, 128);
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -109,8 +109,8 @@ public class NoiseMap
                     dist = dist * dist * dist * dist;
                     val = val + 1 - dist * 20;
 
-                    int br = (int)(noise1.values[i] * 64 + 128);
-                   // br = val < 0 ? 0 : 255;
+                   // int br = (int)(noise1.values[i] * 64 + 128);
+                    int br = val < 0 ? 0 : 255;
                     pixels[i] = br << 16 | br << 8 | br;
                     /*
                     if (val < 0)
