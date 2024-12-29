@@ -1,14 +1,13 @@
 package world.generation;
 
-import main.Drawable;
-import main.GameController;
+import world.generation.perlinNoiseTest.NoiseMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class Noise extends JPanel
+public class JFrameNoiseDrawer extends JPanel
 {
     private BufferedImage image;
     private static JFrame window;
@@ -17,7 +16,7 @@ public class Noise extends JPanel
     private long seed;
 
 
-    public Noise(int width, int height, long seed)
+    public JFrameNoiseDrawer(int width, int height, long seed)
     {
         this.width = width;
         this.height = height;
@@ -74,9 +73,15 @@ public class Noise extends JPanel
     {
         int width = 512;
         int height = 512;
+        int stepSize = 512;
+        int scale = 150;
         long seed = System.currentTimeMillis();     // random.nextLong(System.currentTimeMillis())
+
+
         Random random = new Random(seed);
-        Noise noisePanel = new Noise(width, height, seed);
+        JFrameNoiseDrawer noisePanel = new JFrameNoiseDrawer(width, height, seed);
+        DiamondSquare diamondSquare = new DiamondSquare(width, height, stepSize, scale, (long)(Math.random() * System.currentTimeMillis()));
+        noisePanel.drawNoise(diamondSquare.getValues());
 
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,10 +92,40 @@ public class Noise extends JPanel
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(e ->
         {
-            noisePanel.seed = random.nextLong();
-            short[][] randomNoise = noisePanel.getRandomNoise();
-            noisePanel.drawNoise(randomNoise);
-            window.setTitle("Seed: " + noisePanel.seed);
+            long DSseed = random.nextLong();
+            long seed1 = random.nextLong();
+            long seed2 = random.nextLong();
+
+// Dwa obiekty DiamondSquare
+            DiamondSquare ds1 = new DiamondSquare(width, height, stepSize/8, scale, seed1);
+            DiamondSquare ds2 = new DiamondSquare(width, height, stepSize/2, scale/2, seed2);
+
+// Pobieramy dwie tablice
+            short[][] map1 = ds1.getValues();
+            short[][] map2 = ds2.getValues();
+            short[][] combined = new short[width][height];
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+
+                    // 1. Odczytujemy wartości z obu map
+                    float val1 = map1[x][y];
+                    float val2 = map2[x][y];
+
+                    // 2. Łączymy je, np. przez różnicę i skalowanie
+                    double val = Math.abs(val1 - val2) * 5.0 - 2.0;
+
+                    // 3. Możesz wprowadzić dowolną dalszą modyfikację:
+                    //    - clamp do [0..255]
+                    if (val < 0)   val = 0;
+                    if (val > 255) val = 255;
+
+                    combined[x][y] = (short) val;
+                }
+            }
+            noisePanel.drawNoise(combined);
+            window.setTitle("Seed: " + DSseed);
+
         });
 
         // creating panel
