@@ -47,7 +47,7 @@ public class CaveNegativeOne
                 double val = (((val1+150) * val1-170) % 190) * 5;
                 val = Math.min(val, val2);
                 val = (val * 2 + 190);
-
+                val = Math.clamp(val, 0, 255);
                 mapValues[x][y] = (short)val;
             }
         }

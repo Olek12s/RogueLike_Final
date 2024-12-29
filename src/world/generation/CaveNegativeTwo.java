@@ -6,7 +6,7 @@ public class CaveNegativeTwo
 {
     private final int stepSize = 128;
     private final int scale = 128;
-    private final int caveThickness = 150;      // value between 0 - 255
+    private final int caveThickness = 160;      // value between 0 - 255
     private final int width;
     private final int height;
     private final long seed;
@@ -50,12 +50,18 @@ public class CaveNegativeTwo
                 float val1 = (map1[x][y] * 0.8f);
                 float val2 = (map2[x][y] * 0.1f);
                 float val3 = (map3[x][y]);
-                double val = Math.max(val1-8, ((val1 + val2 + val3)*2.5f)) / 1.6f;
+                double val = Math.clamp(Math.abs(val1 + val2 * 20.0),0,255);
+                val = 255.0 - val;  // reverse
+                //if (val < 0 || val > caveThickness) val = 255;
+                //else val = 0;
 
-                if (val < 0 || val > caveThickness) val = 0;
-                else val = 255;
+
+
+
+
 
                 mapValues[x][y] = (short)val;
+
             }
         }
     }

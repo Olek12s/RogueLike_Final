@@ -94,7 +94,7 @@ public class JFrameNoiseDrawer extends JPanel
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(e ->
         {
-           // CaveNegativeOne caveNegativeOne = new CaveNegativeOne(width, height);
+            CaveNegativeOne caveNegativeOne = new CaveNegativeOne(width, height);
             CaveNegativeTwo caveNegativeTwo = new CaveNegativeTwo(width, height);
             noisePanel.drawNoise(caveNegativeTwo.getMapValues());
             window.setTitle("Seed: " + caveNegativeTwo.getSeed());
