@@ -40,6 +40,8 @@ public class JFrameNoiseDrawer extends JPanel
         repaint();
     }
 
+
+
     public short[][] getRandomNoise()
     {
         Random random = new Random(seed);
@@ -71,17 +73,17 @@ public class JFrameNoiseDrawer extends JPanel
 
     public static void main(String[] args)
     {
-        int width = 512;
-        int height = 512;
-        int stepSize = 512;
-        int scale = 150;
+        int width = 1024;
+        int height = 1024;
+        int stepSize = 256;
+        int scale = 128;
         long seed = System.currentTimeMillis();     // random.nextLong(System.currentTimeMillis())
 
 
         Random random = new Random(seed);
         JFrameNoiseDrawer noisePanel = new JFrameNoiseDrawer(width, height, seed);
-        DiamondSquare diamondSquare = new DiamondSquare(width, height, stepSize, scale, (long)(Math.random() * System.currentTimeMillis()));
-        noisePanel.drawNoise(diamondSquare.getValues());
+        CaveNegativeTwo caveNegativeTwo2 = new CaveNegativeTwo(width, height);
+        noisePanel.drawNoise(caveNegativeTwo2.getMapValues());
 
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,45 +94,10 @@ public class JFrameNoiseDrawer extends JPanel
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(e ->
         {
-            long DSseed = random.nextLong();
-            long seed1 = random.nextLong();
-            long seed2 = random.nextLong();
-            long seed3 = random.nextLong();
-
-
-            DiamondSquare ds1 = new DiamondSquare(width, height, stepSize/2, scale/2, seed1);
-            DiamondSquare ds2 = new DiamondSquare(width, height, stepSize/4, scale/4, seed2);
-            DiamondSquare ds3 = new DiamondSquare(width, height, stepSize/4, scale/8, seed3);
-
-
-            short[][] map1 = ds1.getValues();
-            short[][] map2 = ds2.getValues();
-            short[][] map3 = ds3.getValues();
-            short[][] combined = new short[width][height];
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-
-
-                    float val1 = map1[x][y];
-                    float val2 = map2[x][y];
-                    float val3 = map3[x][y];
-
-
-                    double val = Math.abs(val1 - val2+16 + val3) * 5.0 - 3.0;
-
-
-                    if (val < 0)   val = 0;
-                    if (val > 255) val = 255;
-
-                    combined[x][y] = (short) val;
-                }
-            }
-            noisePanel.drawNoise(combined);
-            window.setTitle("Seed: " + DSseed);
-
+           // CaveNegativeOne caveNegativeOne = new CaveNegativeOne(width, height);
+            CaveNegativeTwo caveNegativeTwo = new CaveNegativeTwo(width, height);
+            noisePanel.drawNoise(caveNegativeTwo.getMapValues());
+            window.setTitle("Seed: " + caveNegativeTwo.getSeed());
         });
 
         // creating panel

@@ -88,8 +88,8 @@ public class NoiseMap
     {
         for (int j = 0; j < 10; j++)
         {
-            int width = 128;
-            int height = 128;
+            int width = 512;
+            int height = 512;
             NoiseMap noise1 = new NoiseMap(width, height, 64);
             NoiseMap noise2 = new NoiseMap(width, height, 128);
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

@@ -10,24 +10,26 @@ public class DiamondSquare
     private double scale;
     private short[][] values;
     private long seed;
+    private float bias;
 
     public void setSeed(long seed) {this.seed = seed;}
     public long getSeed() {return seed;}
 
 
-    public DiamondSquare(int width, int height, int stepSize, double scale, long seed)
+    public DiamondSquare(int width, int height, int stepSize, double scale, float bias, long seed)
     {
         this.values = new short[width+1][height+1];
         this.width = width+1;
         this.height = height+1;
         this.stepSize = stepSize;
         this.scale = scale;
+        this.bias = bias;
         this.seed = seed;
 
-        values[0][0] = 0;
-        values[0][height - 1] = 0;
-        values[width - 1][0] = 0;
-        values[width - 1][height - 1] = 0;
+        values[0][0] = -1;
+        values[0][height - 1] = -1;
+        values[width - 1][0] = -1;
+        values[width - 1][height - 1] = -1;
 
         generateDiamondSquareHeightMap();
     }
@@ -59,7 +61,7 @@ public class DiamondSquare
                 float bottomRight = values[x + halfStep][y + halfStep];
 
                 float generatedValue = (topLeft + topRight + bottomLeft + bottomRight) / 4.0f;
-                generatedValue += (random.nextFloat() * 2 - 1) * (float)scale;
+                generatedValue += (random.nextFloat() * 2 - bias) * (float)scale;    // bias
 
                 values[x][y]  = (short)generatedValue;
             }
@@ -112,7 +114,7 @@ public class DiamondSquare
                     generatedValue /= (float) count;
                 }
 
-                generatedValue += ((random.nextFloat() * 2 - 1)*(float)scale);
+                generatedValue += ((random.nextFloat() * 2 - bias)*(float)scale);
                 values[x][y] = (short)generatedValue;
             }
         }
