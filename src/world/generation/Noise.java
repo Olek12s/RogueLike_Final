@@ -6,31 +6,53 @@ import main.GameController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Noise extends JPanel
 {
     private BufferedImage image;
     private static JFrame window;
-    private static int WIDTH;
-    private static int HEIGHT;
+    private int width;
+    private int height;
+    private long seed;
 
 
-    public Noise(int width, int height)
+    public Noise(int width, int height, long seed)
     {
+        this.width = width;
+        this.height = height;
+        this.seed = seed;
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        generateNoise();
+        drawNoise(getRandomNoise());
     }
 
-    private void generateNoise()
+    public void drawNoise(short[][] noiseValues)
     {
-        for (int x = 0; x < WIDTH; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < HEIGHT; y++)
+            for (int y = 0; y < height; y++)
             {
-                int color = (int) (Math.random() * 0xFFFFFF); // random color
+                short value = noiseValues[x][y];
+                value = (short) Math.max(0, Math.min(255, value));
+                int color = (value << 16) | (value << 8) | value; // grey scale
                 image.setRGB(x, y, color);
             }
         }
+        repaint();
+    }
+
+    public short[][] getRandomNoise()
+    {
+        Random random = new Random(seed);
+        short[][] noiseValues = new short[width][height];
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                noiseValues[x][y] = (short) random.nextInt(256);
+            }
+        }
+        return noiseValues;
     }
 
     @Override
@@ -39,45 +61,49 @@ public class Noise extends JPanel
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        // Rysowanie obrazu na środku panelu, dopasowanego do rozmiaru okna
         int panelWidth = getWidth();
         int panelHeight = getHeight();
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
 
-        // Obliczenie skalowania
-        //double scaleX = (double) panelWidth / imageWidth;
-       // double scaleY = (double) panelHeight / imageHeight;
-       // double scale = Math.min(scaleX, scaleY);
+        int x = (panelWidth - image.getWidth()) / 2;
+        int y = (panelHeight - image.getHeight()) / 2;
 
-        // Wyśrodkowanie obrazu
-        int drawWidth = (int) (imageWidth);
-        int drawHeight = (int) (imageHeight);
-        int x = (panelWidth - drawWidth) / 2;
-        int y = (panelHeight - drawHeight) / 2;
-
-        g2.drawImage(image, 0, 0, imageWidth, imageHeight, null);
-
-        g2.dispose();
+        g2.drawImage(image, x, y, image.getWidth(), image.getHeight(), null);
     }
-
-
-
 
     public static void main(String[] args)
     {
-        int width = 128;
-        int height = 128;
-        Noise noisePanel = new Noise(width, height);
+        int width = 512;
+        int height = 512;
+        long seed = System.currentTimeMillis();     // random.nextLong(System.currentTimeMillis())
+        Random random = new Random(seed);
+        Noise noisePanel = new Noise(width, height, seed);
 
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //window.setResizable(true);
-        window.setTitle("Noise Generator");
+        window.setTitle("Seed: " + seed);
         window.setSize(width, height);
-        window.add(noisePanel);
 
-        window.setLocationRelativeTo(null);
+        // "Next" button with lambda function
+        JButton nextButton = new JButton("Next");
+        nextButton.addActionListener(e ->
+        {
+            noisePanel.seed = random.nextLong();
+            short[][] randomNoise = noisePanel.getRandomNoise();
+            noisePanel.drawNoise(randomNoise);
+            window.setTitle("Seed: " + noisePanel.seed);
+        });
+
+        // creating panel
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new BorderLayout());
+        controlPanel.add(nextButton, BorderLayout.SOUTH);
+
+        // adding button and panel to the window
+        window.setLayout(new BorderLayout());
+        window.add(noisePanel, BorderLayout.CENTER);
+        window.add(controlPanel, BorderLayout.SOUTH);
+
+        window.setLocationRelativeTo(null); // centering window
         window.setVisible(true);
     }
 }
