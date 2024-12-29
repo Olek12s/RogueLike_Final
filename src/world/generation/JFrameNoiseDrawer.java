@@ -1,7 +1,5 @@
 package world.generation;
 
-import world.generation.perlinNoiseTest.NoiseMap;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -82,8 +80,8 @@ public class JFrameNoiseDrawer extends JPanel
 
         Random random = new Random(seed);
         JFrameNoiseDrawer noisePanel = new JFrameNoiseDrawer(width, height, seed);
-        CaveNegativeTwo caveNegativeTwo2 = new CaveNegativeTwo(width, height);
-        noisePanel.drawNoise(caveNegativeTwo2.getMapValues());
+        SurfaceGenerator surfaceGenerator2 = new SurfaceGenerator(width, height);
+        noisePanel.drawNoise(surfaceGenerator2.getMapValues());
 
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,10 +92,11 @@ public class JFrameNoiseDrawer extends JPanel
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(e ->
         {
-            CaveNegativeOne caveNegativeOne = new CaveNegativeOne(width, height);
-            CaveNegativeTwo caveNegativeTwo = new CaveNegativeTwo(width, height);
-            noisePanel.drawNoise(caveNegativeTwo.getMapValues());
-            window.setTitle("Seed: " + caveNegativeTwo.getSeed());
+            CaveNegativeOneGenerator caveNegativeOne = new CaveNegativeOneGenerator(width, height);
+            CaveNegativeTwoGenerator caveNegativeTwo = new CaveNegativeTwoGenerator(width, height);
+            SurfaceGenerator surfaceGenerator = new SurfaceGenerator(width, height);
+            noisePanel.drawNoise(surfaceGenerator.getMapValues());
+            window.setTitle("Seed: " + surfaceGenerator.getSeed());
         });
 
         // creating panel
