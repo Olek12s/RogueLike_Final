@@ -95,28 +95,33 @@ public class JFrameNoiseDrawer extends JPanel
             long DSseed = random.nextLong();
             long seed1 = random.nextLong();
             long seed2 = random.nextLong();
+            long seed3 = random.nextLong();
 
-// Dwa obiekty DiamondSquare
-            DiamondSquare ds1 = new DiamondSquare(width, height, stepSize/8, scale, seed1);
-            DiamondSquare ds2 = new DiamondSquare(width, height, stepSize/2, scale/2, seed2);
 
-// Pobieramy dwie tablice
+            DiamondSquare ds1 = new DiamondSquare(width, height, stepSize/2, scale/2, seed1);
+            DiamondSquare ds2 = new DiamondSquare(width, height, stepSize/4, scale/4, seed2);
+            DiamondSquare ds3 = new DiamondSquare(width, height, stepSize/4, scale/8, seed3);
+
+
             short[][] map1 = ds1.getValues();
             short[][] map2 = ds2.getValues();
+            short[][] map3 = ds3.getValues();
             short[][] combined = new short[width][height];
 
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
 
-                    // 1. Odczytujemy wartości z obu map
+
                     float val1 = map1[x][y];
                     float val2 = map2[x][y];
+                    float val3 = map3[x][y];
 
-                    // 2. Łączymy je, np. przez różnicę i skalowanie
-                    double val = Math.abs(val1 - val2) * 5.0 - 2.0;
 
-                    // 3. Możesz wprowadzić dowolną dalszą modyfikację:
-                    //    - clamp do [0..255]
+                    double val = Math.abs(val1 - val2+16 + val3) * 5.0 - 3.0;
+
+
                     if (val < 0)   val = 0;
                     if (val > 255) val = 255;
 
