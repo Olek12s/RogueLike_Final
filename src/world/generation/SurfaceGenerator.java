@@ -43,7 +43,7 @@ public class SurfaceGenerator
     {
         double centerX = (width - 1) / 2.0;
         double centerY = (height - 1) / 2.0;
-        float strength = 0.97f; // how strong distance factor is
+        float strength = 1.07f; // how strong distance factor is
 
         double dx = x - centerX;
         double dy = y - centerY;
@@ -76,13 +76,6 @@ public class SurfaceGenerator
                 else if (val > 35 && val < 40) val = 64;
                 else if (val > 95 && val < 255) val = 255;
 
-               // if (val < 40) val = 0;                     // water
-               //  else if (val > 40 && val < 45) val = 30;       // beach
-               //  else if (val > 45 && val < 100) val = 80;      // grass
-               //  else if (val > 45) val = 128;
-
-
-             //  else val = 255;
 
 
                 mapValues[x][y] = (short)val;

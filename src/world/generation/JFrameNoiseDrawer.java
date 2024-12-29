@@ -95,8 +95,8 @@ public class JFrameNoiseDrawer extends JPanel
             CaveNegativeOneGenerator caveNegativeOne = new CaveNegativeOneGenerator(width, height);
             CaveNegativeTwoGenerator caveNegativeTwo = new CaveNegativeTwoGenerator(width, height);
             SurfaceGenerator surfaceGenerator = new SurfaceGenerator(width, height);
-            noisePanel.drawNoise(surfaceGenerator.getMapValues());
-            window.setTitle("Seed: " + surfaceGenerator.getSeed());
+            noisePanel.drawNoise(caveNegativeTwo.getMapValues());
+            window.setTitle("Seed: " + caveNegativeOne.getSeed());
         });
 
         // creating panel
