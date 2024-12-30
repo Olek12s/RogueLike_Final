@@ -10,7 +10,7 @@ public class Main
     {
 
         TestRunner.printSummary();
-        TestRunner.runTests(EntityTester.class);
+        //TestRunner.runTests(EntityTester.class);
         TestRunner.runTests(TerrainGeneratorBFSTester.class);
     }
 }

@@ -1,5 +1,7 @@
 package world.generation;
 
+
+
 import utilities.Position;
 
 import java.util.*;
@@ -139,62 +141,63 @@ public class TerrainGenerator
             nonPassableSet.add(val);
         }
 
-        if ((start.x == end.x) && (start.y == end.y)) return false;
+        // if start and end are the same coordinates
+        if (start.x == end.x && start.y == end.y) return false;
 
-        // if start or end are within grid
-        if(start.x < 0 || start.x >= values.length
-                || start.y < 0 || start.y >= values[0].length
-                || end.x < 0 || end.x >= values.length || end.y < 0 || end.y >= values[0].length)
+        // if start or end are not within grid
+        if (!isInsideGrid(values, start) || !isInsideGrid(values, end))
         {
             return false;
         }
 
-
-        // if start or end points are not passable
-        if(nonPassableSet.contains(values[start.y][start.x]) || nonPassableSet.contains(values[end.y][end.x]))
+        // if start or end points are on non passables
+        if ((nonPassableSet.contains(values[start.y][start.x]) || nonPassableSet.contains(values[end.y][end.x])))
         {
             return false;
         }
 
-        // BFS queue and visited array
         Queue<Position> queue = new LinkedList<>();
         boolean[][] visited = new boolean[values.length][values[0].length];
 
         queue.add(start);
         visited[start.y][start.x] = true;
-        int[][] directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };  // we care only about side neighbours
 
-        // BFS
+        // Directions: right, down, left, up
+        int[] dx = {1, 0, -1, 0};
+        int[] dy = {0, 1, 0, -1};
 
-        while(!queue.isEmpty())
+        // BFS loop
+        while (!queue.isEmpty())
         {
-            Position current = queue.poll();
+            Position current = queue.poll(); // get head element and remove it
 
-            // if end point is reached
-            if(current.x == end.x && current.y == end.y)
+            for (int i = 0; i < 4; i++)
             {
-                return true;
-            }
+                int newX = current.x + dx[i];
+                int newY = current.y + dy[i];
 
-            // Checking neighbours
-            for(int[] dir : directions)
-            {
-                int newX = current.x + dir[0];
-                int newY = current.y + dir[1];
+                Position neighbor = new Position(newX, newY);
 
-                // is neighbour within grid
-                if(newX >= 0 && newX < values.length && newY >= 0 && newY < values[0].length)
+                if (neighbor.x == end.x && neighbor.y == end.y)
                 {
-                    // checking if neighbour is not in nonPassableSet and was not visited
-                    if(!nonPassableSet.contains(values[newX][newY]) && !visited[newX][newY])
-                    {
-                        queue.add(new Position(newX, newY));
-                        visited[newX][newY] = true;
-                    }
+                    return true;
+                }
+
+                if (isInsideGrid(values, neighbor) &&
+                        !visited[newY][newX] &&
+                        !nonPassableSet.contains(values[newY][newX]))
+                {
+                    visited[newY][newX] = true;
+                    queue.add(neighbor);
                 }
             }
         }
-        // return false if we did not find path
         return false;
+    }
+
+    private static boolean isInsideGrid(short[][] grid, Position p)
+    {
+        return (p.x >= 0 && p.x < grid[0].length
+                && p.y >= 0 && p.y < grid.length);
     }
 }
