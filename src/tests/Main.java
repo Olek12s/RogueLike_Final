@@ -1,6 +1,7 @@
 package tests;
 
 import main.entity.Entity;
+import test.annotations.Test;
 import test.runner.TestRunner;
 
 public class Main
@@ -10,5 +11,6 @@ public class Main
 
         TestRunner.printSummary();
         TestRunner.runTests(EntityTester.class);
+        TestRunner.runTests(TerrainGeneratorBFSTester.class);
     }
 }

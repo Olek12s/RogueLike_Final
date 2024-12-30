@@ -1,8 +1,11 @@
 package world.generation;
 
-import java.util.Random;
+import utilities.Position;
 
-public class DiamondSquare
+import java.util.*;
+
+// Diamond-Square method
+public class TerrainGenerator
 {
     private int stepSize;
     private int width;
@@ -16,7 +19,7 @@ public class DiamondSquare
     public long getSeed() {return seed;}
 
 
-    public DiamondSquare(int width, int height, int stepSize, double scale, float bias, long seed)
+    public TerrainGenerator(int width, int height, int stepSize, double scale, float bias, long seed)
     {
         this.values = new short[width+1][height+1];
         this.width = width+1;
@@ -124,5 +127,74 @@ public class DiamondSquare
     {
         generateDiamondSquareHeightMap();
         return values;
+    }
+
+    //  Breadth-First Search (BFS)
+    public static boolean doesGraphPathExists(short[][] values, short[] nonPassableValues, Position start, Position end)
+    {
+        // O(1) checking set
+        Set<Short> nonPassableSet = new HashSet<>();
+        for(short val : nonPassableValues)
+        {
+            nonPassableSet.add(val);
+        }
+
+        if ((start.x == end.x) && (start.y == end.y)) return false;
+
+        // if start or end are within grid
+        if(start.x < 0 || start.x >= values.length
+                || start.y < 0 || start.y >= values[0].length
+                || end.x < 0 || end.x >= values.length || end.y < 0 || end.y >= values[0].length)
+        {
+            return false;
+        }
+
+
+        // if start or end points are not passable
+        if(nonPassableSet.contains(values[start.y][start.x]) || nonPassableSet.contains(values[end.y][end.x]))
+        {
+            return false;
+        }
+
+        // BFS queue and visited array
+        Queue<Position> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[values.length][values[0].length];
+
+        queue.add(start);
+        visited[start.y][start.x] = true;
+        int[][] directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };  // we care only about side neighbours
+
+        // BFS
+
+        while(!queue.isEmpty())
+        {
+            Position current = queue.poll();
+
+            // if end point is reached
+            if(current.x == end.x && current.y == end.y)
+            {
+                return true;
+            }
+
+            // Checking neighbours
+            for(int[] dir : directions)
+            {
+                int newX = current.x + dir[0];
+                int newY = current.y + dir[1];
+
+                // is neighbour within grid
+                if(newX >= 0 && newX < values.length && newY >= 0 && newY < values[0].length)
+                {
+                    // checking if neighbour is not in nonPassableSet and was not visited
+                    if(!nonPassableSet.contains(values[newX][newY]) && !visited[newX][newY])
+                    {
+                        queue.add(new Position(newX, newY));
+                        visited[newX][newY] = true;
+                    }
+                }
+            }
+        }
+        // return false if we did not find path
+        return false;
     }
 }

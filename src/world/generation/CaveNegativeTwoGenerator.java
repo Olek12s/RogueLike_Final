@@ -12,8 +12,8 @@ public class CaveNegativeTwoGenerator
     private short[][] mapValues;
     private short[][] map1;
     private short[][] map2;
-    private DiamondSquare ds1;
-    private DiamondSquare ds2;
+    private TerrainGenerator ds1;
+    private TerrainGenerator ds2;
 
     public short[][] getMapValues() {return mapValues;}
     public long getSeed() {return seed;}
@@ -27,8 +27,8 @@ public class CaveNegativeTwoGenerator
         this.seed = random.nextLong();
         this.mapValues = new short[width][height];
 
-        ds1 = new DiamondSquare(width, height, stepSize/4, scale, 1f, seed);
-        ds2 = new DiamondSquare(width, height, stepSize/2, scale*2, 1f, seed);
+        ds1 = new TerrainGenerator(width, height, stepSize/4, scale, 1f, seed);
+        ds2 = new TerrainGenerator(width, height, stepSize/2, scale*2, 1f, seed);
 
         map1 = ds1.getValues();
         map2 = ds2.getValues();

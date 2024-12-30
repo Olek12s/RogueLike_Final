@@ -36,6 +36,29 @@ public class JFrameNoiseDrawer extends JPanel
             }
         }
         repaint();
+        drawDotOnNoiseMap(noiseValues, 40, 40);
+    }
+
+    public void drawDotOnNoiseMap(short[][] noiseValues, int centerX, int centerY)
+    {
+        int blueColor = Color.BLUE.getRGB();
+
+        // 5x5
+        for (int dx = -2; dx <= 2; dx++)
+        {
+            for (int dy = -2; dy <= 2; dy++)
+            {
+                int nx = centerX + dx;
+                int ny = centerY + dy;
+
+                // image boundaries
+                if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+                {
+                    image.setRGB(nx, ny, blueColor);
+                }
+            }
+        }
+        repaint();
     }
 
 
@@ -73,8 +96,6 @@ public class JFrameNoiseDrawer extends JPanel
     {
         int width = 1024;
         int height = 1024;
-        int stepSize = 256;
-        int scale = 128;
         long seed = System.currentTimeMillis();     // random.nextLong(System.currentTimeMillis())
 
 
@@ -95,7 +116,7 @@ public class JFrameNoiseDrawer extends JPanel
             CaveNegativeOneGenerator caveNegativeOne = new CaveNegativeOneGenerator(width, height);
             CaveNegativeTwoGenerator caveNegativeTwo = new CaveNegativeTwoGenerator(width, height);
             SurfaceGenerator surfaceGenerator = new SurfaceGenerator(width, height);
-            noisePanel.drawNoise(caveNegativeTwo.getMapValues());
+            noisePanel.drawNoise(caveNegativeOne.getMapValues());
             window.setTitle("Seed: " + caveNegativeOne.getSeed());
         });
 

@@ -13,9 +13,9 @@ public class SurfaceGenerator
     short[][] map1;
     short[][] map2;
     short[][] map3;
-    private DiamondSquare ds1;
-    private DiamondSquare ds2;
-    private DiamondSquare ds3;
+    private TerrainGenerator ds1;
+    private TerrainGenerator ds2;
+    private TerrainGenerator ds3;
 
     public short[][] getMapValues() {return mapValues;}
     public long getSeed() {return seed;}
@@ -29,9 +29,9 @@ public class SurfaceGenerator
         this.seed = random.nextLong();
         this.mapValues = new short[width][height];
 
-        ds1 = new DiamondSquare(width, height, stepSize*2,  scale-6, 0.90f, seed);
-        ds2 = new DiamondSquare(width, height, stepSize/2, scale+8, 0.89f, seed+1);
-        ds3 = new DiamondSquare(width, height, stepSize/2, scale/2, 0.90f, seed+1);
+        ds1 = new TerrainGenerator(width, height, stepSize*2,  scale-6, 0.90f, seed);
+        ds2 = new TerrainGenerator(width, height, stepSize/2, scale+8, 0.89f, seed+1);
+        ds3 = new TerrainGenerator(width, height, stepSize/2, scale/2, 0.90f, seed+1);
         map1 = ds1.getValues();
         map2 = ds2.getValues();
         map3 = ds3.getValues();
