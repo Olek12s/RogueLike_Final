@@ -11,6 +11,8 @@ public class Tile
     private Sprite currentSprite;
     private boolean isColliding;
 
+    public int getId() {return id;}
+
     public Tile(int id)
     {
         this.id = id;

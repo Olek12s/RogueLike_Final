@@ -3,6 +3,8 @@ package world.generation;
 
 
 import utilities.Position;
+import world.map.Tile;
+import world.map.Map;
 
 import java.util.*;
 
@@ -199,5 +201,15 @@ public class TerrainGenerator
     {
         return (p.x >= 0 && p.x < grid[0].length
                 && p.y >= 0 && p.y < grid.length);
+    }
+
+
+
+    public static void checkPathOfTwoMapPointsAndReplaceOnNeed(short[][] mapValues, short[] passableValues, Position start, Position end)
+    {
+        if (doesGraphPathExists(mapValues, passableValues, start, end) == false)    // if path is not valid
+        {
+
+        }
     }
 }
