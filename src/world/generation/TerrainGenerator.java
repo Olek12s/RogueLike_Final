@@ -6,6 +6,9 @@ import utilities.Position;
 import world.map.Tile;
 import world.map.Map;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 // Diamond-Square method
@@ -210,6 +213,34 @@ public class TerrainGenerator
         if (doesGraphPathExists(mapValues, passableValues, start, end) == false)    // if path is not valid
         {
 
+        }
+    }
+
+    public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)
+    {
+        int width = mapValues.length;
+        int height = mapValues[0].length;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath)))
+        {
+            for (int y = 0; y < height; y++)
+            {
+                StringBuilder line = new StringBuilder();
+                for (int x = 0; x < width; x++)
+                {
+                    line.append(mapValues[x][y]);
+                    if (x < width - 1)
+                    {
+                        line.append(" "); // Separate values with a space
+                    }
+                }
+                writer.write(line.toString());
+                writer.newLine(); // New line after each row
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("Error saving map to file: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
