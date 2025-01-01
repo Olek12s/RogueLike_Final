@@ -36,7 +36,7 @@ public class Player extends Entity
     @Override
     public PlayerRenderer setRenderer()
     {
-        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/spider33"), 33);
+        SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22);
         return new PlayerRenderer(this, spriteSheet);
     }
 
