@@ -143,12 +143,11 @@ public class Map
                         int tileX = startX + x;
                         int id = Integer.parseInt(lineTiles[tileX]);
 
-                        chunkTiles[x][y] = new Tile(id);    // <--- Add TileManager and pass references to the tiles in here to prevent memory leaks
-                        //chunkTiles[x][y] = TileManager.defaultTileObject;
+                        chunkTiles[x][y] = new Tile(id);
                     }
                     catch(Exception ex)
                     {
-                        chunkTiles[x][y] = TileManager.defaultTileObject;     // <--- Add TileManager and pass references to the tiles in here to prevent memory leaks
+                        chunkTiles[x][y] = TileManager.defaultTileObject;     // <--- TileManager to pass references to the tiles in here to prevent memory leaks
                         defaultTilesCounter++;
                     }
                 }

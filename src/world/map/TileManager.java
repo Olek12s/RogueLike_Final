@@ -11,7 +11,7 @@
 
     public class TileManager
     {
-        private static int TM_ID = 0;
+        private static int TM_ID = -2;
         private static final Map<Integer, TileObject> tileObjects = new HashMap<>();
         public static final Tile defaultTileObject = new Tile();
 
@@ -69,6 +69,7 @@
             if (!tileObjects.containsKey(id))
             {
                 tileObjects.put(id, tileObject);
+                System.out.println(id);
             }
             else
             {
@@ -80,5 +81,12 @@
         {
             createTileObject("resources/default/defaultTile", false, TM_ID++);
             createTileObject("resources/default/defaultTileCollision", true, TM_ID++);
+            createTileObject("resources/tiles/Dirt", false, TM_ID++);
+            createTileObject("resources/tiles/Grass", false, TM_ID++);
+            createTileObject("resources/tiles/Stone", true, TM_ID++);
+            createTileObject("resources/tiles/Rock", true, TM_ID++);
+            createTileObject("resources/tiles/Sand", false, TM_ID++);
+            createTileObject("resources/tiles/Water", false, TM_ID++);
+            createTileObject("resources/tiles/CaveEntrance", false, TM_ID++);
         }
     }
