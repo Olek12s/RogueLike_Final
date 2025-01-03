@@ -212,6 +212,7 @@ public class TerrainGenerator
         }
     }
 
+    /* The fastest method using Java serialization */
     public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)
     {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath)))
