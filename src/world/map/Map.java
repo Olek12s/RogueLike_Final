@@ -106,6 +106,7 @@ public class Map
         long end = System.nanoTime();
         long elapsed = end-start;
         System.out.println("Elapsed: " + elapsed/1000000000 + " seconds");
+        if (elapsed >= 3) System.err.println("PRZEKROCZONY CZAS");
     }
 
     private Tile[][] createDefaultChunkTiles()
@@ -123,9 +124,85 @@ public class Map
 
 
 
-    public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY)
-    {
-        return null;
+    public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY) {
+        int chunkSize = Chunk.getChunkSize();
+        Tile[][] chunkTiles = new Tile[chunkSize][chunkSize];
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            int defaultTilesCounter = 0;
+
+            // Pomijanie wierszy do startY
+            for (int i = 0; i < startY; i++) {
+                br.readLine();
+            }
+
+            for (int y = 0; y < chunkSize; y++) {
+                int x = 0; // Startowa pozycja w wierszu chunku
+
+                String line = br.readLine();
+                if (line == null) {
+                    throw new IOException("Unexpected end of file while reading chunk.");
+                }
+
+                String[] tokens = line.trim().split("&");
+                int tilesToSkip = startX; // Liczba kafelków do pominięcia w bieżącym wierszu
+
+                for (String token : tokens) {
+                    if (!token.isEmpty()) {
+                        // Parsowanie ID i liczby kafelków
+                        String[] parts = token.trim().split(" ");
+                        if (parts.length != 2) {
+                            throw new IOException("Invalid token format: " + token);
+                        }
+
+                        short id = Short.parseShort(parts[0]);
+                        int count = Integer.parseInt(parts[1]);
+
+                        // Pomijanie kafelków, jeśli trzeba
+                        if (tilesToSkip > 0) {
+                            if (tilesToSkip >= count) {
+                                tilesToSkip -= count; // Pomiń cały token
+                                continue;
+                            } else {
+                                count -= tilesToSkip; // Pomiń część tokena
+                                tilesToSkip = 0;
+                            }
+                        }
+
+                        // Wstawianie kafelków do chunkTiles
+                        while (count > 0 && x < chunkSize) {
+                            try {
+                                chunkTiles[x][y] = new Tile(id);
+                            } catch (Exception ex) {
+                                chunkTiles[x][y] = TileManager.defaultTileObject;
+                                defaultTilesCounter++;
+                            }
+                            count--;
+                            x++;
+                        }
+
+                        // Jeśli wiersz chunku jest wypełniony, przerwij
+                        if (x >= chunkSize) {
+                            break;
+                        }
+                    }
+                }
+
+                // Weryfikacja, czy wiersz chunku jest pełny
+                if (x != chunkSize) {
+                    throw new IOException("Row does not match expected chunk size.");
+                }
+            }
+
+            if (defaultTilesCounter != 0) {
+                System.err.println("Created " + defaultTilesCounter + " default tiles for chunk (" +
+                        startX / chunkSize + ", " + startY / chunkSize + ")");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return chunkTiles;
     }
 
 

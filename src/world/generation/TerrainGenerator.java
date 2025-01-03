@@ -214,28 +214,40 @@ public class TerrainGenerator
         }
     }
 
-    public static void saveGeneratedMapToFile(short[][] mapValues, String filePath) {
-
+    public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)
+    {
         int width = mapValues.length;
         int height = mapValues[0].length;
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath)))
         {
-            boolean[][] visited = new boolean[width][height];
-
             for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < width; x++)
+                StringBuilder line = new StringBuilder();
+                short currentId = mapValues[0][y];
+                int count = 1;
+
+                for (int x = 1; x < width; x++)
                 {
-                    short character = mapValues[x][y];
-
-                    for (int yd = y; y <)
+                    if (mapValues[x][y] == currentId)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        line.append("&").append(currentId).append(" ").append(count).append(" ");
+                        currentId = mapValues[x][y];
+                        count = 1;
+                    }
                 }
+                line.append("&").append(currentId).append(" ").append(count);   // last sequence in the Y line
+
+                writer.write(line.toString());
+                writer.newLine(); // jumping to the new Y line
             }
-
-
             System.out.println("Map saved to file");
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.err.println("Error saving map to file: " + e.getMessage());
             e.printStackTrace();
         }
