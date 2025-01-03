@@ -3,7 +3,7 @@ package utilities;
 import main.GameController;
 import main.entity.Entity;
 import world.map.Chunk;
-import world.map.Tile;
+import world.map.tiles.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;

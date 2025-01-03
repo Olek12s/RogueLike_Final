@@ -3,8 +3,6 @@ package world.generation;
 
 
 import utilities.Position;
-import world.map.Tile;
-import world.map.Map;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

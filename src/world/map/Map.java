@@ -1,6 +1,8 @@
 package world.map;
 
 import utilities.Position;
+import world.map.tiles.Tile;
+import world.map.tiles.TileManager;
 
 import java.io.*;
 import java.util.ArrayList;

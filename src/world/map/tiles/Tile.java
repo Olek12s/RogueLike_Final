@@ -1,4 +1,4 @@
-package world.map;
+package world.map.tiles;
 
 import utilities.FileManipulation;
 import utilities.Sprite;
@@ -18,8 +18,6 @@ public class Tile
         this.id = id;
         this.currentSprite = TileManager.getTileObject(id).getRandomVariation(0);
         this.isColliding = TileManager.getTileObject(id).isColliding();
-        //this.currentSprite = extractRandomVariation(TileManager.getTileObject(id).getSpriteSheet());
-        //this.isColliding = false;
     }
 
     public Tile()

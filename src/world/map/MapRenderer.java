@@ -4,6 +4,7 @@ import main.DrawPriorities;
 import main.Drawable;
 import utilities.Position;
 import utilities.camera.Camera;
+import world.map.tiles.Tile;
 
 import java.awt.*;
 
@@ -13,7 +14,7 @@ import static java.lang.Math.min;
 public class MapRenderer implements Drawable
 {
     MapController mapController;
-    public static int chunkRenderDistance = 3;
+    public static int chunkRenderDistance = 40;
 
     public MapRenderer(MapController mapController)
     {
@@ -59,13 +60,35 @@ public class MapRenderer implements Drawable
                         Tile tile = chunk.getTiles()[tileX][tileY];
                         int worldX = chunk.getChunkWorldPosition().x + (tileX * tileSize);
                         int worldY = chunk.getChunkWorldPosition().y + (tileY * tileSize);
-                        Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);
 
-                        int scaleFactor = (int) Math.ceil(Camera.getScaleFactor() * tileSize);
-                        g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, scaleFactor, scaleFactor, null);
+                        if (isTileVisible(worldX, worldY, tileSize))
+                        {
+                            Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);
+                            int scaleFactor = (int) Math.ceil(Camera.getScaleFactor() * tileSize);
+                            g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, scaleFactor, scaleFactor, null);
+                        }
                     }
                 }
             }
         }
+    }
+
+    private boolean isTileVisible(int worldX, int worldY, int tileSize)
+    {
+        Position cameraPosition = mapController.gc.camera.getCameraPosition();
+        double scaleFactor = Camera.getScaleFactor();
+
+        int screenWidth = mapController.gc.getWidth();
+        int screenHeight = mapController.gc.getHeight();
+
+        int cameraLeft = (int) (cameraPosition.x - (screenWidth / 2) / scaleFactor);
+        int cameraRight = (int) (cameraPosition.x + (screenWidth / 2) / scaleFactor);
+        int cameraTop = (int) (cameraPosition.y - (screenHeight / 2) / scaleFactor);
+        int cameraBottom = (int) (cameraPosition.y + (screenHeight / 2) / scaleFactor);
+
+        int tileRight = worldX + tileSize;
+        int tileBottom = worldY + tileSize;
+
+        return tileRight > cameraLeft && worldX < cameraRight && tileBottom > cameraTop && worldY < cameraBottom;
     }
 }

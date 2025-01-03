@@ -4,7 +4,7 @@ import main.cursor.CursorHUD;
 import main.entity.Entity;
 import main.entity.player.Player;
 import world.map.MapController;
-import world.map.TileManager;
+import world.map.tiles.TileManager;
 import ui.HUD;
 import utilities.AssetSetter;
 import utilities.Collisions;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class GameController extends JPanel implements Runnable
 {
     private Thread mainThread;
-    private int targetDrawFrame =  100;
+    private int targetDrawFrame =  75;
     private int targetLogicFrame = 60;
 
     //CLASS INSTANCES
@@ -74,7 +74,7 @@ public class GameController extends JPanel implements Runnable
         player = new Player(this);
         camera = new Camera(this);
         tileManager = new TileManager(this);
-        mapController = new MapController(this);
+        mapController = new MapController(this, 512, 512);
         collisions = new Collisions(this);
         assetSetter = new AssetSetter(this);
         cursor = new CursorHUD(this);
@@ -155,7 +155,7 @@ public class GameController extends JPanel implements Runnable
         drawables.sort((e1, e2) -> Integer.compare(e1.getDrawPriority(), e2.getDrawPriority()));
         for (Drawable drawable : drawables)
         {
-            drawable.draw(g2);
+            drawable.draw(g2);  // !!! BOTTLE NECK WARNING: DRAWABLES' SPRITES ARE SCALED EVERY ITERATION WHICH IS EXTREMELY CPU-CONSUMING !!!
         }
         g2.dispose();
     }

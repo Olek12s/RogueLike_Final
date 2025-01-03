@@ -18,7 +18,7 @@ public class Player extends Entity
     public Player(GameController gc)
     {
         super(gc, startingPosition, 0); // player's entityID is 0!
-        setMovementSpeed(70);
+        setMovementSpeed(700);
         setupStatistics();
     }
 

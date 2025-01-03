@@ -3,6 +3,7 @@ package world.map;
 import main.entity.Entity;
 import main.item.Item;
 import utilities.Position;
+import world.map.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.List;

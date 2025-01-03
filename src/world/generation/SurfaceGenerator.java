@@ -1,5 +1,7 @@
 package world.generation;
 
+import world.map.tiles.TileManager;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -75,12 +77,17 @@ public class SurfaceGenerator
                 val = Math.max(val, val2);
                 val = val * factor*0.75f;
 
+                /*
                 if (val < 35) val = 0;
                 else if (val > 35 && val < 40) val = 64;
                 else if (val > 95 && val < 255) val = 255;
+                */
 
 
-
+                if (val <= 35) val = TileManager.TileID.WATER.getId();
+                else if (val > 35 && val <= 40) val = TileManager.TileID.SAND.getId();
+                else if (val > 40 && val <= 95) val = TileManager.TileID.GRASS.getId();
+                else if (val > 95 && val <= 255) val = TileManager.TileID.STONE.getId();
                 mapValues[x][y] = (short)val;
             }
         }
