@@ -215,51 +215,24 @@ public class TerrainGenerator
     }
 
     public static void saveGeneratedMapToFile(short[][] mapValues, String filePath) {
+
         int width = mapValues.length;
         int height = mapValues[0].length;
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            boolean[][] visited = new boolean[width][height]; // Tablica odwiedzonych komórek
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath)))
+        {
+            boolean[][] visited = new boolean[width][height];
 
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    if (!visited[x][y]) { // Jeśli pole nie zostało jeszcze odwiedzone
-                        short value = mapValues[x][y];
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    short character = mapValues[x][y];
 
-                        // Maksymalna szerokość prostokąta w tym wierszu
-                        int maxWidth = 0;
-                        while (x + maxWidth < width && mapValues[x + maxWidth][y] == value && !visited[x + maxWidth][y]) {
-                            maxWidth++;
-                        }
-
-                        // Maksymalna wysokość prostokąta w kolumnach o tej samej szerokości
-                        int maxHeight = 0;
-                        boolean validHeight = true;
-                        while (validHeight && y + maxHeight < height) {
-                            for (int i = 0; i < maxWidth; i++) {
-                                if (mapValues[x + i][y + maxHeight] != value || visited[x + i][y + maxHeight]) {
-                                    validHeight = false;
-                                    break;
-                                }
-                            }
-                            if (validHeight) {
-                                maxHeight++;
-                            }
-                        }
-
-                        // Zaznacz wszystkie komórki prostokąta jako odwiedzone
-                        for (int i = 0; i < maxWidth; i++) {
-                            for (int j = 0; j < maxHeight; j++) {
-                                visited[x + i][y + j] = true;
-                            }
-                        }
-
-                        // Zapisz prostokąt do pliku
-                        writer.write("&" + value + " " + maxWidth + " " + maxHeight);
-                        writer.newLine();
-                    }
+                    for (int yd = y; y <)
                 }
             }
+
 
             System.out.println("Map saved to file");
         } catch (IOException e) {
