@@ -14,7 +14,7 @@ import static java.lang.Math.min;
 public class MapRenderer implements Drawable
 {
     MapController mapController;
-    public static int chunkRenderDistance = 40;
+    public static int chunkRenderDistance = 8;
 
     public MapRenderer(MapController mapController)
     {

@@ -6,6 +6,7 @@ import world.map.tiles.TileManager;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Map
 {
@@ -85,6 +86,7 @@ public class Map
         int halfMapWidthInPixels = (chunkCountX / 2) * chunkPixelSize;
         int halfMapHeightInPixels = (chunkCountY / 2) * chunkPixelSize;
 
+        long start = System.nanoTime();
         for (int x = 0; x < chunkCountX; x++)
         {
             for (int y = 0; y < chunkCountY; y++)
@@ -99,7 +101,11 @@ public class Map
                 Position chunkPosition = new Position(worldX, worldY);
                 chunks[x][y] = new Chunk(chunkPosition, chunkTiles, x, y);
             }
+            System.out.println("Chunk loaded from file");
         }
+        long end = System.nanoTime();
+        long elapsed = end-start;
+        System.out.println("Elapsed: " + elapsed/1000000000 + " seconds");
     }
 
     private Tile[][] createDefaultChunkTiles()
@@ -116,6 +122,14 @@ public class Map
     }
 
 
+
+    public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY)
+    {
+        return null;
+    }
+
+
+    /* old inefficient method
     public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY)
     {
         int chunkSize = Chunk.getChunkSize();
@@ -144,7 +158,6 @@ public class Map
                         String[] lineTiles = line.trim().split(" ");
                         int tileX = startX + x;
                         int id = Integer.parseInt(lineTiles[tileX]);
-
                         chunkTiles[x][y] = new Tile(id);
                     }
                     catch(Exception ex)
@@ -160,9 +173,10 @@ public class Map
         {
             ex.printStackTrace();
         }
-
         return chunkTiles;
     }
+     */
+
 
     public ArrayList<Chunk> getChunkNeighborsNotDiagonals(Chunk sourceChunk)
     {
