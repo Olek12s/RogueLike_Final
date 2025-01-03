@@ -74,7 +74,7 @@ public class GameController extends JPanel implements Runnable
         player = new Player(this);
         camera = new Camera(this);
         tileManager = new TileManager(this);
-        mapController = new MapController(this, 1024, 1024);
+        mapController = new MapController(this, 2048, 2048);
         collisions = new Collisions(this);
         assetSetter = new AssetSetter(this);
         cursor = new CursorHUD(this);

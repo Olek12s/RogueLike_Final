@@ -4,9 +4,7 @@ package world.generation;
 
 import utilities.Position;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 // Diamond-Square method
@@ -216,6 +214,20 @@ public class TerrainGenerator
 
     public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)
     {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath)))
+        {
+            oos.writeObject(mapValues);
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+
+    /* faster method
+    public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)
+    {
         int width = mapValues.length;
         int height = mapValues[0].length;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath)))
@@ -252,6 +264,7 @@ public class TerrainGenerator
             e.printStackTrace();
         }
     }
+     */
 
     /* old inefficient method
     public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)

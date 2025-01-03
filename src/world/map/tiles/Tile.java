@@ -4,7 +4,9 @@ import utilities.FileManipulation;
 import utilities.Sprite;
 import utilities.SpriteSheet;
 
-public class Tile
+import java.io.Serializable;
+
+public class Tile implements Serializable
 {
     public static int tileSize = 64;
     private final int id;

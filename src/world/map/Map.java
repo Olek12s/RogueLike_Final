@@ -79,34 +79,85 @@ public class Map
     }
     public Tile getTile(Position position) {return getTile(position.x, position.y);}
 
-    private void createChunks()
-    {
+    private void createChunks() {
         int chunkSize = Chunk.getChunkSize();
-        int chunkPixelSize = Chunk.getChunkSize() * Tile.tileSize;
-        int halfMapWidthInPixels = (chunkCountX / 2) * chunkPixelSize;
-        int halfMapHeightInPixels = (chunkCountY / 2) * chunkPixelSize;
+        Tile[][] defaultChunkTiles = createDefaultChunkTiles(); // Przykład domyślnego chunku dla pustych miejsc
+        short[][] mapValues = null;
 
+        // Wczytanie całej mapy z pliku jednorazowo
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            mapValues = (short[][]) ois.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            System.err.println("Unable to load map file. Using default chunks.");
+        }
+
+        // Tworzenie chunków
         long start = System.nanoTime();
-        for (int x = 0; x < chunkCountX; x++)
-        {
-            for (int y = 0; y < chunkCountY; y++)
-            {
-                int worldX = x * chunkPixelSize - halfMapWidthInPixels;
-                int worldY = y * chunkPixelSize - halfMapHeightInPixels;
+        for (int x = 0; x < chunkCountX; x++) {
+            for (int y = 0; y < chunkCountY; y++) {
+                Tile[][] chunkTiles;
 
+                if (mapValues != null) {
+                    // Jeśli mapa została poprawnie wczytana, podziel na chunk
+                    chunkTiles = extractChunkTiles(mapValues, x * chunkSize, y * chunkSize, chunkSize);
+                } else {
+                    // W przypadku braku mapy, użyj domyślnego chunku
+                    chunkTiles = defaultChunkTiles;
+                }
 
-                //Tile[][] chunkTiles = createDefaultChunkTiles();    // load chunk from map file in here
-                Tile[][] chunkTiles = loadChunkTilesFromFile(filePath, x*chunkSize, y*chunkSize);
-
+                // Tworzenie chunku
+                int worldX = x * chunkSize * Tile.tileSize - (chunkCountX / 2) * chunkSize * Tile.tileSize;
+                int worldY = y * chunkSize * Tile.tileSize - (chunkCountY / 2) * chunkSize * Tile.tileSize;
                 Position chunkPosition = new Position(worldX, worldY);
+
                 chunks[x][y] = new Chunk(chunkPosition, chunkTiles, x, y);
             }
-            System.out.println("Chunk loaded from file");
+            System.out.println("Row " + x + " chunks loaded.");
         }
         long end = System.nanoTime();
-        long elapsed = end-start;
-        System.out.println("Elapsed: " + elapsed/1000000000 + " seconds");
-        if (elapsed >= 3) System.err.println("PRZEKROCZONY CZAS");
+        System.out.println("All chunks created in: " + (float) (end - start) / 1_000_000_000 + " seconds.");
+    }
+
+    /**
+     * Wydobywa kafelki chunku z tablicy mapy.
+     *
+     * @param mapValues  Tablica wartości mapy
+     * @param startX     Początkowy X
+     * @param startY     Początkowy Y
+     * @param chunkSize  Rozmiar chunku
+     * @return Tablica kafelków dla chunku
+     */
+    private Tile[][] extractChunkTiles(short[][] mapValues, int startX, int startY, int chunkSize) {
+        Tile[][] chunkTiles = new Tile[chunkSize][chunkSize];
+        int defaultTilesCounter = 0;
+
+        for (int y = 0; y < chunkSize; y++) {
+            for (int x = 0; x < chunkSize; x++) {
+                int mapX = startX + x;
+                int mapY = startY + y;
+
+                // Sprawdź zakresy mapy
+                if (mapX < mapValues.length && mapY < mapValues[0].length) {
+                    short id = mapValues[mapX][mapY];
+                    try {
+                        chunkTiles[x][y] = new Tile(id);
+                    } catch (Exception ex) {
+                        chunkTiles[x][y] = TileManager.defaultTileObject;
+                        defaultTilesCounter++;
+                    }
+                } else {
+                    chunkTiles[x][y] = TileManager.defaultTileObject;
+                    defaultTilesCounter++;
+                }
+            }
+        }
+
+        if (defaultTilesCounter > 0) {
+            System.err.println("Default tiles used: " + defaultTilesCounter);
+        }
+
+        return chunkTiles;
     }
 
     private Tile[][] createDefaultChunkTiles()
@@ -122,8 +173,63 @@ public class Map
         return tiles;
     }
 
+    public Tile[][] loadChunkTilesFromFile(String filePath, int startX, int startY) {
+        int chunkSize = Chunk.getChunkSize();
+        Tile[][] chunkTiles = new Tile[chunkSize][chunkSize];
 
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            // Start pomiaru czasu
+            long start = System.nanoTime();
 
+            // Odczytujemy całą mapę z pliku
+            short[][] mapValues = (short[][]) ois.readObject();
+
+            // Sprawdzamy poprawność odczytu
+            if (mapValues == null || mapValues.length == 0 || mapValues[0].length == 0) {
+                throw new IOException("Invalid map data in file.");
+            }
+
+            // Mapujemy wartości na odpowiedni fragment (chunk)
+            int defaultTilesCounter = 0;
+            for (int y = 0; y < chunkSize; y++) {
+                for (int x = 0; x < chunkSize; x++) {
+                    int mapX = startX + x;
+                    int mapY = startY + y;
+
+                    // Sprawdzamy, czy współrzędne są w granicach mapy
+                    if (mapX < mapValues.length && mapY < mapValues[0].length) {
+                        short id = mapValues[mapX][mapY];
+                        try {
+                            chunkTiles[x][y] = new Tile(id);
+                        } catch (Exception ex) {
+                            chunkTiles[x][y] = TileManager.defaultTileObject;
+                            defaultTilesCounter++;
+                        }
+                    } else {
+                        chunkTiles[x][y] = TileManager.defaultTileObject;
+                        defaultTilesCounter++;
+                    }
+                }
+            }
+
+            // Koniec pomiaru czasu
+            long end = System.nanoTime();
+            System.out.println("Map loaded in " + (float) (end - start) / 1_000_000_000 + " seconds.");
+
+            // Informacja o domyślnych kafelkach
+            if (defaultTilesCounter > 0) {
+                System.err.println("Created " + defaultTilesCounter + " default tiles for chunk (" +
+                        startX / chunkSize + ", " + startY / chunkSize + ").");
+            }
+
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        return chunkTiles;
+    }
+
+    /*
     public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY) {
         int chunkSize = Chunk.getChunkSize();
         Tile[][] chunkTiles = new Tile[chunkSize][chunkSize];
@@ -131,25 +237,29 @@ public class Map
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             int defaultTilesCounter = 0;
 
-            // Pomijanie wierszy do startY
-            for (int i = 0; i < startY; i++) {
+            // skipping to the startY
+            for (int i = 0; i < startY; i++)
+            {
                 br.readLine();
             }
 
-            for (int y = 0; y < chunkSize; y++) {
-                int x = 0; // Startowa pozycja w wierszu chunku
+            for (int y = 0; y < chunkSize; y++)
+            {
+                int x = 0;
 
                 String line = br.readLine();
-                if (line == null) {
+                if (line == null)
+                {
                     throw new IOException("Unexpected end of file while reading chunk.");
                 }
 
                 String[] tokens = line.trim().split("&");
-                int tilesToSkip = startX; // Liczba kafelków do pominięcia w bieżącym wierszu
+                int tilesToSkip = startX;
 
-                for (String token : tokens) {
-                    if (!token.isEmpty()) {
-                        // Parsowanie ID i liczby kafelków
+                for (String token : tokens)
+                {
+                    if (!token.isEmpty())
+                    {
                         String[] parts = token.trim().split(" ");
                         if (parts.length != 2) {
                             throw new IOException("Invalid token format: " + token);
@@ -158,20 +268,24 @@ public class Map
                         short id = Short.parseShort(parts[0]);
                         int count = Integer.parseInt(parts[1]);
 
-                        // Pomijanie kafelków, jeśli trzeba
-                        if (tilesToSkip > 0) {
-                            if (tilesToSkip >= count) {
-                                tilesToSkip -= count; // Pomiń cały token
+                        // skipping
+                        if (tilesToSkip > 0)
+                        {
+                            if (tilesToSkip >= count)
+                            {
+                                tilesToSkip -= count; // skip whole token
                                 continue;
                             } else {
-                                count -= tilesToSkip; // Pomiń część tokena
+                                count -= tilesToSkip; //skip part of the token
                                 tilesToSkip = 0;
                             }
                         }
 
-                        // Wstawianie kafelków do chunkTiles
-                        while (count > 0 && x < chunkSize) {
-                            try {
+                        // inserting tiles to the array
+                        while (count > 0 && x < chunkSize)
+                        {
+                            try
+                            {
                                 chunkTiles[x][y] = new Tile(id);
                             } catch (Exception ex) {
                                 chunkTiles[x][y] = TileManager.defaultTileObject;
@@ -181,15 +295,14 @@ public class Map
                             x++;
                         }
 
-                        // Jeśli wiersz chunku jest wypełniony, przerwij
+                        // if chunk is filled
                         if (x >= chunkSize) {
                             break;
                         }
                     }
                 }
-
-                // Weryfikacja, czy wiersz chunku jest pełny
-                if (x != chunkSize) {
+                if (x != chunkSize)
+                {
                     throw new IOException("Row does not match expected chunk size.");
                 }
             }
@@ -204,7 +317,7 @@ public class Map
 
         return chunkTiles;
     }
-
+    */
 
     /* old inefficient method
     public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY)
