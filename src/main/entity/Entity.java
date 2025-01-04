@@ -33,7 +33,7 @@ public abstract class Entity
     public int getMaximumHealth() {return statistics.maxHitPoints;}
     //STATISTICS
 
-    public Entity(GameController gc, int entityID)
+    public Entity(GameController gc, int entityID, Position worldPosition)
     {
         this.gc = gc;
         initializeEntitySpriteAssets(entityID);
@@ -42,13 +42,15 @@ public abstract class Entity
         entityUpdater = setUpdater();
         this.statistics = new EntityStatistics();
         this.isAlive = true;
-
-
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
         this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
 
         setDirection();
+        this.worldPosition = worldPosition;
         setHitbox();
+        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
+        entityUpdater.initUpdate();
+
         this.isMoving = false;
     }
 

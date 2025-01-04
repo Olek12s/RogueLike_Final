@@ -26,8 +26,7 @@ public class VenomousSpider extends Entity
 
     public VenomousSpider(GameController gc, Position worldPosition)
     {
-        super(gc, EntityID.VenomousSpider.ID);
-        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
+        super(gc, EntityID.VenomousSpider.ID, worldPosition);
         this.weapon = new SpiderWeapon();
         this.isImmobilised = false;
         this.name = "Venomous Spider";

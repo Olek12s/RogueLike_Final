@@ -26,8 +26,7 @@ public class MiniBitingSlime extends Entity
 
     public MiniBitingSlime(GameController gc, Position worldPosition)
     {
-        super(gc, EntityID.MiniBitingSlime.ID);
-        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
+        super(gc, EntityID.MiniBitingSlime.ID, worldPosition);
         this.weapon = new BitingSlimeWeapon();
         this.isImmobilised = false;
         this.name = "Small slime";

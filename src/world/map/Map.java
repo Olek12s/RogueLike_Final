@@ -4,8 +4,8 @@ import main.entity.Entity;
 import utilities.Hitbox;
 import utilities.Position;
 import world.map.tiles.Tile;
-import world.map.tiles.TileManager;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -215,6 +215,35 @@ public class Map
         return resultChunks;
     }
 
+    public ArrayList<Chunk> getChunkNeighborsDiagonals(Chunk sourceChunk)
+    {
+        ArrayList<Chunk> resultChunks = new ArrayList<>();
+        int sourceChunkXIndex = sourceChunk.getxIndex();
+        int sourceChunkYIndex = sourceChunk.getyIndex();
+
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                if (i == 0 && j == 0) continue; // Ignore the source chunk
+
+                int neighborX = sourceChunkXIndex + i;
+                int neighborY = sourceChunkYIndex + j;
+
+                // Check if the neighbor is within map bounds
+                if (neighborX >= 0 && neighborY >= 0 && neighborX < chunks.length && neighborY < chunks[0].length)
+                {
+                    Chunk neighbor = chunks[neighborX][neighborY];
+                    if (neighbor != null)
+                    {
+                        resultChunks.add(neighbor);
+                    }
+                }
+            }
+        }
+        return resultChunks;
+    }
+
     /**
      * seeks for the nearest non-collidable position, where hitbox can fit.
      *
@@ -237,7 +266,7 @@ public class Map
         };
 
         // Check if the initial position is valid
-        if (isPositionValidForFittingHitbox(position, hitbox))
+        if (isPositionValidForFittingEntity(position, hitbox))
         {
             return position;
         }
@@ -255,7 +284,7 @@ public class Map
                             position.y + directions[d].y * searchRadius
                     );
 
-                    if (isPositionValidForFittingHitbox(candidate, hitbox)) // if candidate is valid, return it
+                    if (isPositionValidForFittingEntity(candidate, hitbox)) // if candidate is valid, return it
                     {
                         return candidate;
                     }
@@ -270,27 +299,55 @@ public class Map
     }
 
     /**
-     * Checks if the given position can fit the hitbox without colliding with any obstacles.
+     * Checks if the given position can fit the hitbox without colliding with any obstacles such as collidable tiles or other hitboxes
+     * Method is guaranteed to find the best solution
      *
      * @param position The position to check.
-     * @param hitbox   The hitbox to validate.
+     * @param entityHitbox   The entity's hitbox to validate.
      * @return true if the position is valid for the hitbox, false otherwise.
      */
-    private boolean isPositionValidForFittingHitbox(Position position, Hitbox hitbox)
+    private boolean isPositionValidForFittingEntity(Position position, Hitbox entityHitbox)
     {
         // Calculate the corners of the hitbox relative to the given position
         Position leftUp = new Position(position.x, position.y);
-        Position rightUp = new Position(position.x + hitbox.getWidth(), position.y);
-        Position leftDown = new Position(position.x, position.y + hitbox.getHeight());
-        Position rightDown = new Position(position.x + hitbox.getWidth(), position.y + hitbox.getHeight());
-        Position middle = new Position(position.x + hitbox.getWidth() / 2, position.y + hitbox.getHeight() / 2);
+        Position rightUp = new Position(position.x + entityHitbox.getWidth(), position.y);
+        Position leftDown = new Position(position.x, position.y + entityHitbox.getHeight());
+        Position rightDown = new Position(position.x + entityHitbox.getWidth(), position.y + entityHitbox.getHeight());
+        Position middle = new Position(position.x + entityHitbox.getWidth() / 2, position.y + entityHitbox.getHeight() / 2);
 
-        // Check if any part of the hitbox collides with the map
-        return !getTile(leftUp).isColliding() &&
-                !getTile(rightUp).isColliding() &&
-                !getTile(leftDown).isColliding() &&
-                !getTile(rightDown).isColliding() &&
-                !getTile(middle).isColliding();
+        // Check if any part of the hitbox collides with the collidable
+        if (getTile(leftUp).isColliding() ||
+                getTile(rightUp).isColliding() ||
+                getTile(leftDown).isColliding() ||
+                getTile(rightDown).isColliding() ||
+                getTile(middle).isColliding())
+        {
+            return false;
+        }
+
+        // get entities from current chunk and neighbours
+        Chunk currentChunk = getChunk(position);
+        ArrayList<Chunk> neighboringChunks = getChunkNeighborsDiagonals(currentChunk);
+        neighboringChunks.add(currentChunk);
+
+        Rectangle hitboxRect = entityHitbox.getHitboxRect();
+        hitboxRect.setLocation(position.x, position.y);
+
+        for (Chunk chunk : neighboringChunks)
+        {
+            for (Entity entity : chunk.getEntities())
+            {
+                Hitbox otherHitbox = entity.getHitbox();
+                Rectangle otherRect = otherHitbox.getHitboxRect();
+                otherRect.setLocation(entity.getWorldPosition().x, entity.getWorldPosition().y);
+
+                if (hitboxRect.intersects(otherRect))
+                {
+                    return false;
+                }
+            }
+        }
+        return true; // valid
     }
 
     /* Faster method, using 1*x Rectangles algorithm to shorten map file

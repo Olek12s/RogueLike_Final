@@ -26,8 +26,7 @@ public class Zombie extends Entity
 
     public Zombie(GameController gc, Position worldPosition)
     {
-        super(gc, EntityID.Zombie.ID);
-        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
+        super(gc, EntityID.Zombie.ID, worldPosition);
         this.weapon = new ZombieWeapon();
         this.isImmobilised = false;
         this.name = "Zombie";

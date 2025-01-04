@@ -7,8 +7,11 @@ import java.awt.*;
 public class Hitbox
 {
     private Rectangle hitboxRect;
+    private Position worldPosition;
 
     public Rectangle getHitboxRect() {return hitboxRect;}
+
+    public Position getWorldPosition() {return worldPosition;}
     public void setHitboxRect(Rectangle hitboxRect) {this.hitboxRect = hitboxRect;}
     public int getWidth() {return hitboxRect.width;}
     public void setWidth(int width)
@@ -30,6 +33,7 @@ public class Hitbox
     public Hitbox(Position worldPosition, int width, int height)
     {
         hitboxRect = new Rectangle(worldPosition.x, worldPosition.y, width, height);
+        this.worldPosition = worldPosition;
     }
 
     public void centerPositionToEntity(Entity entity)
@@ -56,4 +60,6 @@ public class Hitbox
     {
         return "[" +  hitboxRect.getBounds().x + " " + hitboxRect.getBounds().y + "] [" + hitboxRect.getWidth() + ", " + hitboxRect.getHeight() + "]";
     }
+
+
 }

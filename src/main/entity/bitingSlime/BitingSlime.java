@@ -25,8 +25,7 @@ public class BitingSlime extends Entity
 
     public BitingSlime(GameController gc, Position worldPosition)
     {
-        super(gc, EntityID.BitingSlime.ID);
-        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
+        super(gc, EntityID.BitingSlime.ID, worldPosition);
         this.weapon = new BitingSlimeWeapon();
         this.isImmobilised = false;
         this.name = "Slime";

@@ -25,8 +25,7 @@ public class Spider extends Entity
 
     public Spider(GameController gc, Position worldPosition)
     {
-        super(gc, EntityID.Spider.ID);
-        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
+        super(gc, EntityID.Spider.ID, worldPosition);
         this.weapon = new SpiderWeapon();
         this.isImmobilised = false;
         this.name = "Spider";

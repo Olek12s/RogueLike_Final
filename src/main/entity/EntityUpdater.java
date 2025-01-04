@@ -18,7 +18,6 @@ public class EntityUpdater implements Updatable
     public EntityUpdater(Entity entity)
     {
         this.entity = entity;
-
         entity.gc.updatables.add(this);
     }
 
@@ -34,6 +33,16 @@ public class EntityUpdater implements Updatable
             updateHitbox();
             updateChunkAssociation();
             updateAttack();
+            updateAliveStatus();
+        }
+    }
+
+    public void initUpdate()
+    {
+        if (entity != null)
+        {
+            updateHitbox();
+            updateChunkAssociation();
             updateAliveStatus();
         }
     }
@@ -199,7 +208,7 @@ public class EntityUpdater implements Updatable
             {
                 currentChunk.removeEntity(entity);
             }
-            newChunk.getEntities().add(entity);
+            newChunk.addEntity(entity);
             entity.setCurrentChunk(newChunk);
         }
 

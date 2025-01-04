@@ -22,7 +22,7 @@ public class PlayerEntity extends Entity
 
     public PlayerEntity(GameController gc, Position worldPosition)
     {
-        super(gc, 5);
+        super(gc, 5, worldPosition);
         this.worldPosition = worldPosition;
         this.weapon = new ZombieWeapon();
         this.isImmobilised = true;
