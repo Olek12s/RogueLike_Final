@@ -13,7 +13,7 @@ public class EntityStatistics
     public int maxMana = 1;                     // current mana - needed to cast spells or hold specific items
     public int mana = maxMana;                  // max mana - how much spells you can cast at short amount of time
 
-    protected int movementSpeed;                // how fost entity travels through map
+    protected int movementSpeed = 1;            // how fost entity travels through map
 
     protected int armour;                       // how resistant entity is against physical damage
     protected int magicArmour;                  // how resistant entity is against magical damage
@@ -39,7 +39,14 @@ public class EntityStatistics
     public int getMana() {return mana;}
     public void setMana(int mana) {this.mana = mana;}
     public int getMovementSpeed() {return movementSpeed;}
-    public void setMovementSpeed(int movementSpeed) {this.movementSpeed = movementSpeed;}
+    public void setMovementSpeed(int speed)
+    {
+        if (speed == 0) movementSpeed = 0;
+        else
+        {
+            movementSpeed = Math.max((int)(speed  / 16), 1);
+        }
+    }
     public int getArmour() {return armour;}
     public void setArmour(int armour) {this.armour = armour;}
     public int getMagicArmour() {return magicArmour;}

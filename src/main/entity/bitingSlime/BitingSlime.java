@@ -27,7 +27,7 @@ public class BitingSlime extends Entity
         super(gc, worldPosition, 2);
         this.worldPosition = worldPosition;
         this.weapon = new BitingSlimeWeapon();
-        this.isImmobilised = true;
+        this.isImmobilised = false;
         this.name = "Slime";
         setupStatistics();
         setAlive(true);

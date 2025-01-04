@@ -27,7 +27,7 @@ public class Spider extends Entity
         super(gc, worldPosition, 3);
         this.worldPosition = worldPosition;
         this.weapon = new SpiderWeapon();
-        this.isImmobilised = true;
+        this.isImmobilised = false;
         this.name = "Spider";
         setupStatistics();
         setAlive(true);

@@ -28,7 +28,7 @@ public class MiniBitingSlime extends Entity
         super(gc, worldPosition, 1);
         this.worldPosition = worldPosition;
         this.weapon = new BitingSlimeWeapon();
-        this.isImmobilised = true;
+        this.isImmobilised = false;
         this.name = "Small slime";
         setupStatistics();
         setAlive(true);

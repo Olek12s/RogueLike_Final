@@ -1,5 +1,6 @@
 package world.map;
 
+import main.entity.Entity;
 import utilities.Position;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
@@ -174,6 +175,53 @@ public class Map
         return tiles;
     }
 
+    public ArrayList<Chunk> getChunkNeighborsNotDiagonals(Chunk sourceChunk)
+    {
+        ArrayList<Chunk> resultChunks = new ArrayList<>();
+        int sourceChunkXIndex = sourceChunk.getxIndex();
+        int sourceChunkYIndex = sourceChunk.getyIndex();
+
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                if ((i == 0 && j == 0) || (i != 0 && j != 0)) continue; // ignore source chunks and diagonlas
+
+                int neighborX = sourceChunkXIndex + i;
+                int neighborY = sourceChunkYIndex + j;
+
+                if (neighborX >= 0 && neighborY >= 0 && neighborX < chunks.length && neighborY < chunks[0].length)
+                {
+                    Chunk neighbor = chunks[neighborX][neighborY];
+                    if (neighbor != null)
+                    {
+                        resultChunks.add(neighbor);
+                    }
+                }
+
+            }
+        }
+        return resultChunks;
+    }
+
+    public void spawnEntityOnMap(Entity entity, int worldX, int worldY)
+    {
+        getChunk(worldX, worldY).getEntities().add(entity);
+    }
+    public void spawnEntityOnMap(Entity entity, Position position)
+    {
+        spawnEntityOnMap(entity, position.x, position.y);
+    }
+
+    public void safeSpawnEntityOnMap(Entity entity, int worldX, int worldY)
+    {
+
+    }
+    public void safeSpawnEntityOnMap(Entity entity, Position position)
+    {
+        safeSpawnEntityOnMap(entity, position.x, position.y);
+    }
+
     /* Faster method, using 1*x Rectangles algorithm to shorten map file
 
     public Tile[][] loadChunkTilesFromFile(String path, int startX, int startY) {
@@ -312,34 +360,4 @@ public class Map
         return chunkTiles;
     }
      */
-
-
-    public ArrayList<Chunk> getChunkNeighborsNotDiagonals(Chunk sourceChunk)
-    {
-        ArrayList<Chunk> resultChunks = new ArrayList<>();
-        int sourceChunkXIndex = sourceChunk.getxIndex();
-        int sourceChunkYIndex = sourceChunk.getyIndex();
-
-        for (int i = -1; i <= 1; i++)
-        {
-            for (int j = -1; j <= 1; j++)
-            {
-                if ((i == 0 && j == 0) || (i != 0 && j != 0)) continue; // ignore source chunks and diagonlas
-
-                int neighborX = sourceChunkXIndex + i;
-                int neighborY = sourceChunkYIndex + j;
-
-                if (neighborX >= 0 && neighborY >= 0 && neighborX < chunks.length && neighborY < chunks[0].length)
-                {
-                    Chunk neighbor = chunks[neighborX][neighborY];
-                    if (neighbor != null)
-                    {
-                        resultChunks.add(neighbor);
-                    }
-                }
-
-            }
-        }
-        return resultChunks;
-    }
 }

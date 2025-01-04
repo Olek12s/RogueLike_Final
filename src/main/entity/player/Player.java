@@ -18,7 +18,6 @@ public class Player extends Entity
     public Player(GameController gc)
     {
         super(gc, startingPosition, 0); // player's entityID is 0!
-        setMovementSpeed(700);
         setupStatistics();
     }
 
@@ -58,6 +57,7 @@ public class Player extends Entity
         statistics.setArmour(0);
         statistics.setRegeneration(1);
         statistics.hitPoints = statistics.maxHitPoints;
+        statistics.setMovementSpeed(150);
     }
 
     @Override

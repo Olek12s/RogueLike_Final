@@ -28,7 +28,7 @@ public class Zombie extends Entity
         super(gc, worldPosition, 5);
         this.worldPosition = worldPosition;
         this.weapon = new ZombieWeapon();
-        this.isImmobilised = true;
+        this.isImmobilised = false;
         this.name = "Zombie";
         setupStatistics();
         setAlive(true);

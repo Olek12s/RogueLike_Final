@@ -28,7 +28,7 @@ public class VenomousSpider extends Entity
         super(gc, worldPosition, 4);
         this.worldPosition = worldPosition;
         this.weapon = new SpiderWeapon();
-        this.isImmobilised = true;
+        this.isImmobilised = false;
         this.name = "Venomous Spider";
         setupStatistics();
         setAlive(true);

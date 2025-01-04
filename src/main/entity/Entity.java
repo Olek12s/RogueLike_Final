@@ -49,7 +49,6 @@ public abstract class Entity
         setWorldPosition(worldPosition);
         setDirection();
         setHitbox();
-        setMovementSpeed(1);
         this.isMoving = false;
 
     }
@@ -67,14 +66,6 @@ public abstract class Entity
 
     public Position getWorldPosition() {return worldPosition;}
     public Sprite getCurrentSprite() {return currentSprite;}
-    public void setMovementSpeed(int speed)
-    {
-        if (speed == 0) statistics.movementSpeed = 0;
-        else
-        {
-            statistics.movementSpeed = Math.max((int)(speed  / 16), 1);
-        }
-    }
     public Direction getDirection() {return direction;}
     public void setDirection(Direction direction) {this.direction = direction;}
     public int getMovementSpeed() {return statistics.movementSpeed;}
