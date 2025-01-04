@@ -128,6 +128,10 @@ public class Map
     private Tile[][] extractChunkTilesFromMapArray(short[][] mapValues, int startX, int startY)
     {
         int chunkSize = Chunk.getChunkSize();
+        int mapWidthInTiles = mapValues.length;
+        int mapHeightInTiles = mapValues[0].length;
+        int halfMapWidthInPixels = (mapWidthInTiles * Tile.tileSize) / 2;
+        int halfMapHeightInPixels = (mapHeightInTiles * Tile.tileSize) / 2;
 
         Tile[][] chunkTiles = new Tile[chunkSize][chunkSize];
         int defaultTilesCounter = 0;
@@ -139,22 +143,25 @@ public class Map
                 int mapX = startX + x;
                 int mapY = startY + y;
 
+                int worldX = (mapX * Tile.tileSize) - halfMapWidthInPixels;
+                int worldY = (mapY * Tile.tileSize) - halfMapHeightInPixels;
+
                 if (mapX < mapValues.length && mapY < mapValues[0].length)
                 {
                     short id = mapValues[mapX][mapY];
                     try
                     {
-                        chunkTiles[x][y] = new Tile(id);
+                        chunkTiles[x][y] = new Tile(id, new Position(worldX, worldY));
                     }
                     catch (Exception ex)
                     {
-                        chunkTiles[x][y] = TileManager.defaultTileObject;
+                        chunkTiles[x][y] = new Tile(new Position(worldX, worldY));
                         defaultTilesCounter++;
                     }
                 }
                 else
                 {
-                    chunkTiles[x][y] = TileManager.defaultTileObject;
+                    chunkTiles[x][y] = new Tile(new Position(worldX, worldY));
                     defaultTilesCounter++;
                 }
             }
@@ -173,7 +180,7 @@ public class Map
         {
             for (int y = 0; y < Chunk.getChunkSize(); y++)
             {
-                tiles[x][y] = TileManager.defaultTileObject;   // static object
+                tiles[x][y] = new Tile(new Position(0, 0));
             }
         }
         return tiles;
@@ -254,7 +261,7 @@ public class Map
                     }
                     else
                     {
-                        System.out.println("not fitting");
+                        // not fitting
                     }
                 }
             }

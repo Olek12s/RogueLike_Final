@@ -20,7 +20,6 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     public void update()
     {
         super.update();
-        System.out.println(entity.getWorldPosition());
         updatePlayerDirection();
     }
 

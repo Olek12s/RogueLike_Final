@@ -1,6 +1,7 @@
 package world.map.tiles;
 
 import utilities.FileManipulation;
+import utilities.Position;
 import utilities.Sprite;
 import utilities.SpriteSheet;
 
@@ -12,19 +13,24 @@ public class Tile implements Serializable
     private final int id;
     private Sprite currentSprite;
     private boolean isColliding;
+    private Position worldPosition;
+
+
 
     public int getId() {return id;}
 
-    public Tile(int id)
+    public Tile(int id, Position position) throws InterruptedException
     {
         this.id = id;
+        this.worldPosition = position;
         this.currentSprite = TileManager.getTileObject(id).getRandomVariation(0);
         this.isColliding = TileManager.getTileObject(id).isColliding();
     }
 
-    public Tile()
+    public Tile(Position position)
     {
         this.id = 0;
+        this.worldPosition = position;
         SpriteSheet defaultSS = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultTile"), 64);
         this.currentSprite = defaultSS.extractFirst();
     }

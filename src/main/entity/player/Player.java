@@ -17,7 +17,9 @@ public class Player extends Entity
     {
         super(gc, EntityID.Player.ID); // player's entityID is 0!
         int mapSizeInPixels = gc.mapController.getCurrentMap().getMapWidthInPixels();
-        setWorldPosition(randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, 0, 400));
+        int halfMapSizeInTiles = (mapSizeInPixels/Tile.tileSize)/2;
+        setWorldPosition(randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, halfMapSizeInTiles/4, halfMapSizeInTiles/2));
+        setWorldPosition(new Position(0,-2000));
         setupStatistics();
     }
 
@@ -76,6 +78,17 @@ public class Player extends Entity
         this.worldPosition = worldPosition;
     }
 
+
+    /**
+     *Generates a random starting position for the player within the specified map boundaries.
+     *The position is restricted to avoid spawning too close to the center of the map or the map edges.
+     *
+     * @param mapWidthInPixels          width of the map in pixels.
+     * @param mapHeightInPixels         height of the map in pixels.
+     * @param tilesAwayFromMapMiddle    The number of tiles to exclude around the center of the map.
+     * @param tilesAwayFromMapEdge      The number of tiles to exclude near the edges of the map.
+     * @return  A random {@link Position} object representing the player's starting coordinates
+     */
     private Position randomPlayerStartingPosition(int mapWidthInPixels, int mapHeightInPixels, int tilesAwayFromMapMiddle, int tilesAwayFromMapEdge)
     {
         int tileSize = Tile.tileSize;

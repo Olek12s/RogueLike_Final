@@ -12,7 +12,6 @@
     public class TileManager
     {
         private static final Map<Integer, TileObject> tileObjects = new HashMap<>();
-        public static final Tile defaultTileObject = new Tile();
 
         public enum TileID
         {
