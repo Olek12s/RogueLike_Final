@@ -2,6 +2,7 @@ package utilities;
 
 import main.GameController;
 import main.entity.Entity;
+import main.entity.EntityID;
 import main.entity.bitingSlime.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class AssetSetter
         int startY = -6032 + v;
         int offset = 50;
 
+        //gc.mapController.getCurrentMap().safeSpawnEntityOnMap(new MiniBitingSlime(gc, new Position(20, 20)));
         testEntity1 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
         testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
         testEntity3 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y - 40));

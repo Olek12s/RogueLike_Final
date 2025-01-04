@@ -4,6 +4,7 @@ import main.DamageType;
 import main.Direction;
 import main.GameController;
 import main.entity.Entity;
+import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
 import main.item.BitingSlimeWeapon;
@@ -24,8 +25,8 @@ public class Spider extends Entity
 
     public Spider(GameController gc, Position worldPosition)
     {
-        super(gc, worldPosition, 3);
-        this.worldPosition = worldPosition;
+        super(gc, EntityID.Spider.ID);
+        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
         this.weapon = new SpiderWeapon();
         this.isImmobilised = false;
         this.name = "Spider";

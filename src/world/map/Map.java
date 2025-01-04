@@ -1,6 +1,7 @@
 package world.map;
 
 import main.entity.Entity;
+import utilities.Hitbox;
 import utilities.Position;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
@@ -17,6 +18,9 @@ public class Map
 
     public int getChunkCountX() {return chunkCountX;}
     public int getChunkCountY() {return chunkCountY;}
+
+    public int getMapWidthInPixels() {return chunkCountX * Chunk.getChunkSize() * Tile.tileSize;}
+    public int getMapHeightInPixels() {return chunkCountY * Chunk.getChunkSize() * Tile.tileSize;}
 
     //Enum level
 
@@ -204,22 +208,82 @@ public class Map
         return resultChunks;
     }
 
-    public void spawnEntityOnMap(Entity entity, int worldX, int worldY)
+    /**
+     * seeks for the nearest non-collidable position, where hitbox can fit.
+     *
+     * @param position The position to check.
+     * @param hitbox   The hitbox to validate.
+     * @return true if the position is valid for the hitbox, false otherwise.
+     */
+    public Position seekForNearestNonCollidableSpawnPosition(Position position, Hitbox hitbox)
     {
-        getChunk(worldX, worldY).getEntities().add(entity);
-    }
-    public void spawnEntityOnMap(Entity entity, Position position)
-    {
-        spawnEntityOnMap(entity, position.x, position.y);
+        Position[] directions =
+                {
+                new Position(-1, 0),  // left
+                new Position(0, -1),  // up
+                new Position(1, 0),   // right
+                new Position(0, 1),   // down
+                new Position(-1, -1), // top-left diagonal
+                new Position(1, -1),  // top-right diagonal
+                new Position(-1, 1),  // bottom-left diagonal
+                new Position(1, 1)    // bottom-right diagonal
+        };
+
+        // Check if the initial position is valid
+        if (isPositionValidForFittingHitbox(position, hitbox))
+        {
+            return position;
+        }
+
+        int searchRadius = 1;
+
+        while (true)    // loop without limitations might lead to unpredicted crash. It is suggested to set limit
+        {
+            for (int d = 0; d < directions.length; d++)
+            {
+                for (int step = 0; step < searchRadius; step++)
+                {
+                    Position candidate = new Position(
+                            position.x + directions[d].x * searchRadius,
+                            position.y + directions[d].y * searchRadius
+                    );
+
+                    if (isPositionValidForFittingHitbox(candidate, hitbox)) // if candidate is valid, return it
+                    {
+                        return candidate;
+                    }
+                    else
+                    {
+                        System.out.println("not fitting");
+                    }
+                }
+            }
+            searchRadius++;
+        }
     }
 
-    public void safeSpawnEntityOnMap(Entity entity, int worldX, int worldY)
+    /**
+     * Checks if the given position can fit the hitbox without colliding with any obstacles.
+     *
+     * @param position The position to check.
+     * @param hitbox   The hitbox to validate.
+     * @return true if the position is valid for the hitbox, false otherwise.
+     */
+    private boolean isPositionValidForFittingHitbox(Position position, Hitbox hitbox)
     {
+        // Calculate the corners of the hitbox relative to the given position
+        Position leftUp = new Position(position.x, position.y);
+        Position rightUp = new Position(position.x + hitbox.getWidth(), position.y);
+        Position leftDown = new Position(position.x, position.y + hitbox.getHeight());
+        Position rightDown = new Position(position.x + hitbox.getWidth(), position.y + hitbox.getHeight());
+        Position middle = new Position(position.x + hitbox.getWidth() / 2, position.y + hitbox.getHeight() / 2);
 
-    }
-    public void safeSpawnEntityOnMap(Entity entity, Position position)
-    {
-        safeSpawnEntityOnMap(entity, position.x, position.y);
+        // Check if any part of the hitbox collides with the map
+        return !getTile(leftUp).isColliding() &&
+                !getTile(rightUp).isColliding() &&
+                !getTile(leftDown).isColliding() &&
+                !getTile(rightDown).isColliding() &&
+                !getTile(middle).isColliding();
     }
 
     /* Faster method, using 1*x Rectangles algorithm to shorten map file

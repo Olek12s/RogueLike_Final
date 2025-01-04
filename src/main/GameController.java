@@ -27,10 +27,10 @@ public class GameController extends JPanel implements Runnable
     //CLASS INSTANCES
     public KeyHandler keyHandler;
     public MouseHandler mouseHandler;
+    public MapController mapController;
     public Entity player;
     public Camera camera;
     public TileManager tileManager;
-    public MapController mapController;
     public Collisions collisions;
     public AssetSetter assetSetter;
     public CursorHUD cursor;
@@ -71,10 +71,10 @@ public class GameController extends JPanel implements Runnable
     {
         keyHandler = new KeyHandler(this);
         mouseHandler = new MouseHandler(this);
-        player = new Player(this);
-        camera = new Camera(this);
         tileManager = new TileManager(this);
         mapController = new MapController(this, 1024, 1024);
+        player = new Player(this);
+        camera = new Camera(this);
         collisions = new Collisions(this);
         assetSetter = new AssetSetter(this);
         cursor = new CursorHUD(this);

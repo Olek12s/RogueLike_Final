@@ -3,34 +3,25 @@ package main.entity.player;
 import main.Direction;
 import main.GameController;
 import main.entity.Entity;
+import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
 import main.item.BitingSlimeWeapon;
 import main.item.ZombieWeapon;
 import utilities.*;
+import world.map.tiles.Tile;
 
 public class Player extends Entity
 {
-    private static Position startingPosition = new Position(-5632+500,-5632+680);
-    BitingSlimeWeapon weapon;
-
-
     public Player(GameController gc)
     {
-        super(gc, startingPosition, 0); // player's entityID is 0!
+        super(gc, EntityID.Player.ID); // player's entityID is 0!
+        int mapSizeInPixels = gc.mapController.getCurrentMap().getMapWidthInPixels();
+        setWorldPosition(randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, 0, 400));
         setupStatistics();
     }
 
-    public Player(GameController gc, Position position)
-    {
-        super(gc, position, 0);
-        this.worldPosition = worldPosition;
-        this.weapon = new BitingSlimeWeapon();
-        this.isImmobilised = true;
-        this.name = "Player";
-        setupStatistics();
-        setAlive(true);
-    }
+
 
     @Override
     public PlayerRenderer setRenderer()
@@ -83,5 +74,45 @@ public class Player extends Entity
     public void setWorldPosition(Position worldPosition)
     {
         this.worldPosition = worldPosition;
+    }
+
+    private Position randomPlayerStartingPosition(int mapWidthInPixels, int mapHeightInPixels, int tilesAwayFromMapMiddle, int tilesAwayFromMapEdge)
+    {
+        int tileSize = Tile.tileSize;
+
+        // Oblicz środek mapy w pikselach
+        int centerX = mapWidthInPixels / 2;
+        int centerY = mapHeightInPixels / 2;
+
+        // Oblicz minimalne i maksymalne współrzędne w obszarze wykluczenia
+        int exclusionRadius = tilesAwayFromMapMiddle * tileSize;
+
+        int exclusionMinX = centerX - exclusionRadius;
+        int exclusionMaxX = centerX + exclusionRadius;
+        int exclusionMinY = centerY - exclusionRadius;
+        int exclusionMaxY = centerY + exclusionRadius;
+
+        // Oblicz minimalne i maksymalne współrzędne dla krawędzi mapy
+        int edgeLimitMinX = tilesAwayFromMapEdge * tileSize;
+        int edgeLimitMaxX = mapWidthInPixels - tilesAwayFromMapEdge * tileSize;
+        int edgeLimitMinY = tilesAwayFromMapEdge * tileSize;
+        int edgeLimitMaxY = mapHeightInPixels - tilesAwayFromMapEdge * tileSize;
+
+        Position position;
+        int randomX;
+        int randomY;
+
+        do {
+            // Losuj współrzędne w obszarze ograniczonym przez krawędzie mapy
+            randomX = (int) (Math.random() * (edgeLimitMaxX - edgeLimitMinX)) + edgeLimitMinX;
+            randomY = (int) (Math.random() * (edgeLimitMaxY - edgeLimitMinY)) + edgeLimitMinY;
+
+            position = new Position(randomX - mapWidthInPixels / 2, randomY - mapHeightInPixels / 2);
+
+            // Sprawdzaj, czy wylosowana pozycja znajduje się w obszarze wykluczenia środka
+        } while (randomX >= exclusionMinX && randomX <= exclusionMaxX &&
+                randomY >= exclusionMinY && randomY <= exclusionMaxY);
+
+        return position;
     }
 }

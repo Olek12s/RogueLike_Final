@@ -4,6 +4,7 @@ import main.DamageType;
 import main.Direction;
 import main.GameController;
 import main.entity.Entity;
+import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
 import main.item.BitingSlimeWeapon;
@@ -25,8 +26,8 @@ public class MiniBitingSlime extends Entity
 
     public MiniBitingSlime(GameController gc, Position worldPosition)
     {
-        super(gc, worldPosition, 1);
-        this.worldPosition = worldPosition;
+        super(gc, EntityID.MiniBitingSlime.ID);
+        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
         this.weapon = new BitingSlimeWeapon();
         this.isImmobilised = false;
         this.name = "Small slime";

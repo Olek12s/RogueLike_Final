@@ -4,6 +4,7 @@ import main.DamageType;
 import main.Direction;
 import main.GameController;
 import main.entity.Entity;
+import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
 import main.item.BitingSlimeWeapon;
@@ -25,8 +26,8 @@ public class Zombie extends Entity
 
     public Zombie(GameController gc, Position worldPosition)
     {
-        super(gc, worldPosition, 5);
-        this.worldPosition = worldPosition;
+        super(gc, EntityID.Zombie.ID);
+        this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
         this.weapon = new ZombieWeapon();
         this.isImmobilised = false;
         this.name = "Zombie";

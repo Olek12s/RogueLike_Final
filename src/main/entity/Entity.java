@@ -19,7 +19,7 @@ public abstract class Entity
     protected Sprite currentSprite;
     protected Hitbox hitbox;
     protected Direction direction;
-    protected Position worldPosition;
+    protected Position worldPosition = new Position(0,0);
     private Chunk currentChunk;
     public boolean isMoving;
     protected String name = "";
@@ -33,7 +33,7 @@ public abstract class Entity
     public int getMaximumHealth() {return statistics.maxHitPoints;}
     //STATISTICS
 
-    public Entity(GameController gc, Position worldPosition, int entityID)
+    public Entity(GameController gc, int entityID)
     {
         this.gc = gc;
         initializeEntitySpriteAssets(entityID);
@@ -46,11 +46,10 @@ public abstract class Entity
 
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
         this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
-        setWorldPosition(worldPosition);
+
         setDirection();
         setHitbox();
         this.isMoving = false;
-
     }
 
     //ABSTRACTS

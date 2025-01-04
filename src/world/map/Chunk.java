@@ -38,6 +38,7 @@ public class Chunk
 
     public Position getChunkWorldPosition() {return chunkWorldPosition;}
     public List<Entity> getEntities() {return entities;}
+    public void addEntity(Entity entity) {entities.add(entity);}
     public List<Item> getItems() {return items;}
     public void removeEntity(Entity entity) {entities.remove(entity);}
     public void removeItem(Item item) {items.remove(item);}
