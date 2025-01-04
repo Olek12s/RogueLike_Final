@@ -28,8 +28,8 @@ public class AssetSetter
     public void setAssets()
     {
         int v = 500;
-        int startX = -5632 + v;
-        int startY = -6032 + v;
+        int startX = gc.player.getWorldPosition().x;
+        int startY = gc.player.getWorldPosition().y;
         int offset = 50;
 
         //gc.mapController.getCurrentMap().safeSpawnEntityOnMap(new MiniBitingSlime(gc, new Position(20, 20)));

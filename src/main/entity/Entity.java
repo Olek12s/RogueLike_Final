@@ -46,7 +46,6 @@ public abstract class Entity
         this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
 
         setDirection();
-        this.worldPosition = worldPosition;
         setHitbox();
         this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
         entityUpdater.initUpdate();

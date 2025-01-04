@@ -51,12 +51,12 @@ public class Camera
             if (gc.mouseHandler.scrollCount > 0)
             {
                 //scaleFactor = Math.max(0.05, scaleFactor - 0.05); // further
-                scaleFactor *= 0.97;
+                scaleFactor *= 0.95;
             }
             else if (gc.mouseHandler.scrollCount < 0)
             {
                 //scaleFactor = Math.min(4, scaleFactor + 0.15);  // closer
-                scaleFactor *= 1.03;
+                scaleFactor *= 1.05;
             }
             gc.mouseHandler.scrollCount = 0;
         }
