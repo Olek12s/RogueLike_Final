@@ -90,7 +90,7 @@
             }
             else
             {
-                throw new IllegalArgumentException("TileObject with ID " + id + " already exists in tileObjects map.");
+                //throw new IllegalArgumentException("TileObject with ID " + id + " already exists in tileObjects map.");
             }
         }
 

@@ -94,11 +94,23 @@ public class SurfaceGenerator
         }
     }
 
+    // 256 x 256 map - 1 enterance
+    // 512 x 512 map - 3 enterances
+    // 1024 x 1024 map - 8 enterances
     public static void createSurfaceMap(int mapWidth, int mapHeight)
     {
+       // int
+
+
+
+
+
+
+
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
         //TerrainGenerator.addSingleTileAtRandomPlace(surfaceGenerator.getMapValues(), TileManager.TileID.CAVE_ENTRANCE.getId());
-        for (int i = 0; i < 100; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlace(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId());
+        for (int i = 0; i < 10; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlace(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId());
+        //for (int i = 0; i < 10; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
     }
 }

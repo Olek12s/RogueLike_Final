@@ -3,6 +3,7 @@ package world.generation;
 
 
 import utilities.Position;
+import world.map.tiles.TileManager;
 
 import java.io.*;
 import java.util.*;
@@ -199,6 +200,21 @@ public class TerrainGenerator {
         }
     }
 
+
+    public static void replaceSpecifiedTileAtRandomPlaceAndCreatePath(short[][] mapValues, int replaceTileID, int replaceWithTileID, int pathTileID)
+    {
+
+    }
+
+    public static Position findNearestNonCollidableTile(short[][] mapValues, Position start)
+    {
+        return null;
+    }
+
+    public static void replaceTilesAtPath(short[][] mapValues, Position start, Position end, int pathTileID)
+    {
+
+    }
 
     public static void replaceSpecifiedTileAtRandomPlace(short[][] mapValues, int replaceTileID, int replaceWithTileID)
     {
