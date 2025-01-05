@@ -8,25 +8,28 @@ import java.io.*;
 import java.util.*;
 
 // Diamond-Square method
-public class TerrainGenerator
-{
+public class TerrainGenerator {
     private int stepSize;
     private int width;
     private int height;
     private double scale;
     private short[][] values;
-    private long seed;
+    private static long seed;
     private float bias;
 
-    public void setSeed(long seed) {this.seed = seed;}
-    public long getSeed() {return seed;}
+    public void setSeed(long seed) {
+        this.seed = seed;
+    }
+
+    public long getSeed() {
+        return seed;
+    }
 
 
-    public TerrainGenerator(int width, int height, int stepSize, double scale, float bias, long seed)
-    {
-        this.values = new short[width+1][height+1];
-        this.width = width+1;
-        this.height = height+1;
+    public TerrainGenerator(int width, int height, int stepSize, double scale, float bias, long seed) {
+        this.values = new short[width + 1][height + 1];
+        this.width = width + 1;
+        this.height = height + 1;
         this.stepSize = stepSize;
         this.scale = scale;
         this.bias = bias;
@@ -40,10 +43,8 @@ public class TerrainGenerator
         generateDiamondSquareHeightMap();
     }
 
-    public void generateDiamondSquareHeightMap()
-    {
-        while (stepSize > 1)
-        {
+    public void generateDiamondSquareHeightMap() {
+        while (stepSize > 1) {
             diamondStep();
             squareStep();
 
@@ -52,93 +53,79 @@ public class TerrainGenerator
         }
     }
 
-    private void diamondStep()
-    {
-        int halfStep = stepSize/2;
+    private void diamondStep() {
+        int halfStep = stepSize / 2;
         Random random = new Random(seed);
 
-        for (int x = halfStep; x < width; x += stepSize)
-        {
-            for (int y = halfStep; y < height; y += stepSize)
-            {
-                float topLeft     = values[x - halfStep][y - halfStep];
-                float topRight    = values[x + halfStep][y - halfStep];
-                float bottomLeft  = values[x - halfStep][y + halfStep];
+        for (int x = halfStep; x < width; x += stepSize) {
+            for (int y = halfStep; y < height; y += stepSize) {
+                float topLeft = values[x - halfStep][y - halfStep];
+                float topRight = values[x + halfStep][y - halfStep];
+                float bottomLeft = values[x - halfStep][y + halfStep];
                 float bottomRight = values[x + halfStep][y + halfStep];
 
                 float generatedValue = (topLeft + topRight + bottomLeft + bottomRight) / 4.0f;
-                generatedValue += (random.nextFloat() * 2 - bias) * (float)scale;    // bias
+                generatedValue += (random.nextFloat() * 2 - bias) * (float) scale;    // bias
 
-                values[x][y]  = (short)generatedValue;
+                values[x][y] = (short) generatedValue;
             }
         }
     }
 
-    private void squareStep()
-    {
-        int halfStep = stepSize/2;
+    private void squareStep() {
+        int halfStep = stepSize / 2;
         Random random = new Random(seed);
 
-        for (int x = 0; x < width; x += halfStep)
-        {
-            for (int y = (x + halfStep) % stepSize; y < height; y += stepSize)
-            {
+        for (int x = 0; x < width; x += halfStep) {
+            for (int y = (x + halfStep) % stepSize; y < height; y += stepSize) {
                 float generatedValue = 0;
                 int count = 0;
 
                 // Left neigh (x - half, y)
-                if (x - halfStep >= 0)
-                {
+                if (x - halfStep >= 0) {
                     generatedValue += values[x - halfStep][y];
                     count++;
                 }
 
                 // Right neigh (x + half, y)
-                if (x + halfStep < width)
-                {
+                if (x + halfStep < width) {
                     generatedValue += values[x + halfStep][y];
                     count++;
                 }
 
                 // Top neigh (x, y - half)
-                if (y - halfStep >= 0)
-                {
+                if (y - halfStep >= 0) {
                     generatedValue += values[x][y - halfStep];
                     count++;
                 }
 
                 // Bottom neigh (x, y + half)
-                if (y + halfStep < height)
-                {
+                if (y + halfStep < height) {
                     generatedValue += values[x][y + halfStep];
                     count++;
                 }
 
                 // avg all values
-                if (count > 0)
-                {
+                if (count > 0) {
                     generatedValue /= (float) count;
                 }
 
-                generatedValue += ((random.nextFloat() * 2 - bias)*(float)scale);
-                values[x][y] = (short)generatedValue;
+                generatedValue += ((random.nextFloat() * 2 - bias) * (float) scale);
+                values[x][y] = (short) generatedValue;
             }
         }
     }
 
-    public short[][] getValues()
-    {
+    public short[][] getValues() {
         generateDiamondSquareHeightMap();
         return values;
     }
 
     //  Breadth-First Search (BFS)
-    public static boolean doesGraphPathExists(short[][] values, short[] nonPassableValues, Position start, Position end)
-    {
+    public static boolean doesGraphPathExists(short[][] values, short[] nonPassableValues, Position start, Position end) {
         // O(1) checking set
         Set<Short> nonPassableSet = new HashSet<>();
-        for(short val : nonPassableValues)
-        {
+        for (short val : nonPassableValues) {
             nonPassableSet.add(val);
         }
 
@@ -146,14 +133,12 @@ public class TerrainGenerator
         if (start.x == end.x && start.y == end.y) return false;
 
         // if start or end are not within grid
-        if (!isInsideGrid(values, start) || !isInsideGrid(values, end))
-        {
+        if (!isInsideGrid(values, start) || !isInsideGrid(values, end)) {
             return false;
         }
 
         // if start or end points are on non passables
-        if ((nonPassableSet.contains(values[start.y][start.x]) || nonPassableSet.contains(values[end.y][end.x])))
-        {
+        if ((nonPassableSet.contains(values[start.y][start.x]) || nonPassableSet.contains(values[end.y][end.x]))) {
             return false;
         }
 
@@ -168,26 +153,22 @@ public class TerrainGenerator
         int[] dy = {0, 1, 0, -1};
 
         // BFS loop
-        while (!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
             Position current = queue.poll(); // get head element and remove it
 
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) {
                 int newX = current.x + dx[i];
                 int newY = current.y + dy[i];
 
                 Position neighbor = new Position(newX, newY);
 
-                if (neighbor.x == end.x && neighbor.y == end.y)
-                {
+                if (neighbor.x == end.x && neighbor.y == end.y) {
                     return true;
                 }
 
                 if (isInsideGrid(values, neighbor) &&
                         !visited[newY][newX] &&
-                        !nonPassableSet.contains(values[newY][newX]))
-                {
+                        !nonPassableSet.contains(values[newY][newX])) {
                     visited[newY][newX] = true;
                     queue.add(neighbor);
                 }
@@ -196,16 +177,13 @@ public class TerrainGenerator
         return false;
     }
 
-    private static boolean isInsideGrid(short[][] grid, Position p)
-    {
+    private static boolean isInsideGrid(short[][] grid, Position p) {
         return (p.x >= 0 && p.x < grid[0].length
                 && p.y >= 0 && p.y < grid.length);
     }
 
 
-
-    public static void checkPathOfTwoMapPointsAndReplaceOnNeed(short[][] mapValues, short[] passableValues, Position start, Position end)
-    {
+    public static void checkPathOfTwoMapPointsAndReplaceOnNeed(short[][] mapValues, short[] passableValues, Position start, Position end) {
         if (doesGraphPathExists(mapValues, passableValues, start, end) == false)    // if path is not valid
         {
 
@@ -213,16 +191,72 @@ public class TerrainGenerator
     }
 
     /* The fastest method using Java serialization */
-    public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)
-    {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath)))
-        {
+    public static void saveGeneratedMapToFile(short[][] mapValues, String filePath) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
             oos.writeObject(mapValues);
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+
+    public static void replaceSpecifiedTileAtRandomPlace(short[][] mapValues, int replaceTileID, int replaceWithTileID)
+    {
+        int width = mapValues.length;
+        int height = mapValues[0].length;
+
+        Random random = new Random(seed);
+
+        List<int[]> matchingPositions = new ArrayList<>();    // all positions maching replaceTileID value
+
+        try
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (mapValues[x][y] == replaceTileID)
+                    {
+                        matchingPositions.add(new int[]{x, y});
+                    }
+                }
+            }
+
+            if (matchingPositions.isEmpty())
+            {
+                throw new Exception("No positions found with the specified replaceTileID: " + replaceTileID);
+            }
+            int randomIndex = random.nextInt(matchingPositions.size());
+            int[] position = matchingPositions.get(randomIndex);
+
+            mapValues[position[0]][position[1]] = (short) replaceWithTileID;
+        }
+        catch (Exception ex)    // no positions
+        {
+            System.err.println("Error occurred: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public static void addSingleTileAtRandomPlace(short[][] mapValues, int tileID, int numberOfTilesToPlace)
+    {
+        int width = mapValues.length;
+        int height = mapValues[0].length;
+
+        Random random = new Random(seed);
+
+
+        for (int i = 0; i < numberOfTilesToPlace; i++)
+        {
+            int randomWidth = random.nextInt(width);
+            int randomHeight = random.nextInt(height);
+            mapValues[randomWidth][randomHeight] = (short)tileID;
+        }
+    }
+
+    public static void addSingleTileAtRandomPlace(short[][] mapValues, int tileID)
+    {
+        addSingleTileAtRandomPlace(mapValues, tileID,1);
     }
 
 

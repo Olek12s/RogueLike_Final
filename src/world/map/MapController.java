@@ -26,18 +26,12 @@ public class MapController
         this.gc = gc;
         this.mapWidth = width;
         this.mapHeight = height;
-        createSurfaceMap();
+        SurfaceGenerator.createSurfaceMap(width, height);
         this.currentMap = new Map(mapWidth/Chunk.getChunkSize(), mapHeight/Chunk.getChunkSize(), "resources/maps/Surface.txt");
         maps.put(0, currentMap);    // surface level
 
         gc.updatables.add(updater);
         gc.drawables.add(renderer);
-    }
-
-    private void createSurfaceMap()
-    {
-        surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
-        TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
     }
 
     // Changes maps between levels -2 -1 0 1 [...]

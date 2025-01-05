@@ -1,5 +1,6 @@
 package world.generation;
 
+import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
 
 import java.io.BufferedWriter;
@@ -86,10 +87,18 @@ public class SurfaceGenerator
 
                 if (val <= 35) val = TileManager.TileID.WATER.getId();
                 else if (val > 35 && val <= 40) val = TileManager.TileID.SAND.getId();
-                else if (val > 40 && val <= 95) val = TileManager.TileID.GRASS.getId();
-                else if (val > 95 && val <= 255) val = TileManager.TileID.STONE.getId();
+                else if (val > 40 && val <= 90) val = TileManager.TileID.GRASS.getId();
+                else if (val > 90 && val <= 255) val = TileManager.TileID.STONE.getId();
                 mapValues[x][y] = (short)val;
             }
         }
+    }
+
+    public static void createSurfaceMap(int mapWidth, int mapHeight)
+    {
+        SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
+        //TerrainGenerator.addSingleTileAtRandomPlace(surfaceGenerator.getMapValues(), TileManager.TileID.CAVE_ENTRANCE.getId());
+        for (int i = 0; i < 100; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlace(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId());
+        TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
     }
 }

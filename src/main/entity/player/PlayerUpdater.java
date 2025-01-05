@@ -5,6 +5,7 @@ import main.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
 import utilities.Collisions;
+import world.map.tiles.Tile;
 
 public class PlayerUpdater extends EntityUpdater implements Updatable
 {
@@ -16,11 +17,18 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         this.entity = entity;
     }
 
+    int counter = 0;
     @Override
     public void update()
     {
         super.update();
         updatePlayerDirection();
+        counter++;
+        if (counter == 60)
+        {
+            counter = 0;
+            System.out.println(entity.getWorldPosition().x/Tile.tileSize + " " + entity.getWorldPosition().y/Tile.tileSize);
+        }
     }
 
     private void updatePlayerDirection()
