@@ -52,4 +52,14 @@ public class Tile implements Serializable
             return spriteSheet.extractSpriteByVariation(randomVariation);
         }
     }
+
+    public boolean doesContainPosition(Position position)
+    {
+        int startX = worldPosition.x;
+        int startY = worldPosition.y;
+        int endX = startX + tileSize;
+        int endY = startY + tileSize;
+
+        return position.x >= startX && position.x < endX && position.y >= startY && position.y < endY;
+    }
 }

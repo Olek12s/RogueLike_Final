@@ -23,13 +23,30 @@
             ROCK(3),
             SAND(4),
             WATER(5),
-            CAVE_ENTRANCE(6);
+            CAVE_ENTRANCE(6),
+            CAVE_DEEP_ENTERANCE(7),
+            CAVE_RUINS_ENTERANCE(8),
+            CAVE_EXIT(9),
+            CAVE_DEEP_EXIT(10),
+            CAVE_RUINS_EXIT(11);
 
             private final int id;
 
             TileID(int id) {this.id = id;}
 
             public int getId() {return id;}
+
+            public static TileID fromId(int id)
+            {
+                for (TileID tileID : values())
+                {
+                    if (tileID.getId() == id)
+                    {
+                        return tileID;
+                    }
+                }
+                throw new IllegalArgumentException("Illegal ID");
+            }
         }
 
         public static TileObject getTileObject(int id) {return tileObjects.get(id);}
@@ -90,7 +107,7 @@
             }
             else
             {
-                //throw new IllegalArgumentException("TileObject with ID " + id + " already exists in tileObjects map.");
+                throw new IllegalArgumentException("TileObject with ID " + id + " already exists in tileObjects map.");
             }
         }
 

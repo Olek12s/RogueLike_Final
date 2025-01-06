@@ -5,11 +5,15 @@ import main.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
 import utilities.Collisions;
+import utilities.Position;
+import world.map.Map;
 import world.map.tiles.Tile;
+import world.map.tiles.TileManager;
 
 public class PlayerUpdater extends EntityUpdater implements Updatable
 {
     Entity entity;
+    private boolean isCollidingWithEnterance = false;
 
     public PlayerUpdater(Entity entity)
     {
@@ -23,6 +27,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     {
         super.update();
         updatePlayerDirection();
+        checkEnteranceCollision();
         counter++;
         if (counter == 60)
         {
@@ -73,6 +78,33 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         {
             entity.setDirection(Direction.UP);
             entity.isMoving = true;
+        }
+    }
+
+    private void checkEnteranceCollision()
+    {
+        Map currentMap = entity.gc.mapController.getCurrentMap();
+        Position currentPosition = entity.getHitbox().getCenterWorldPosition();
+
+        int tileId = currentMap.getTile(currentPosition).getId();
+        TileManager.TileID tileID = TileManager.TileID.fromId(tileId);
+
+        switch (tileID)
+        {
+            case CAVE_ENTRANCE:
+                System.out.println("A");
+                break;
+            case CAVE_DEEP_ENTERANCE:
+                break;
+            case CAVE_RUINS_ENTERANCE:
+                break;
+
+            case CAVE_EXIT:
+                break;
+            case CAVE_DEEP_EXIT:
+                break;
+            case CAVE_RUINS_EXIT:
+                break;
         }
     }
 }

@@ -23,9 +23,12 @@ public class Hitbox
     {
         this.hitboxRect.setSize(hitboxRect.width, height);
     }
-    public Position getCenterPosition()
+    public Position getCenterWorldPosition()
     {
-        Position centerPosition = new Position(hitboxRect.x/2, hitboxRect.y/2);
+        int centerX = worldPosition.x + (hitboxRect.width/2);
+        int centerY = worldPosition.y + (hitboxRect.height/2);
+
+        Position centerPosition = new Position(centerX, centerY);
 
         return centerPosition;
     }
@@ -50,8 +53,12 @@ public class Hitbox
         int spriteCenterX = entityX + (int)(spriteWidth / 2);
         int spriteCenterY = entityY + (int)(spriteHeight / 2);
 
-        hitboxRect.x = spriteCenterX - (int)(hitboxRect.getWidth() / 2);
-        hitboxRect.y = spriteCenterY - (int)(hitboxRect.getHeight() / 2);
+        int x = spriteCenterX - (int)(hitboxRect.getWidth() / 2);
+        int y = spriteCenterY - (int)(hitboxRect.getHeight() / 2);
+        hitboxRect.x = x;
+        hitboxRect.y = y;
+        worldPosition.x = x;
+        worldPosition.y = y;
     }
 
 
