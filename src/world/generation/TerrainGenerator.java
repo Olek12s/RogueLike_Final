@@ -17,14 +17,15 @@ public class TerrainGenerator {
     private int height;
     private double scale;
     private short[][] values;
-    private static long seed;
+    private static long seed = 5;
     private float bias;
+    static Random random;
 
     public void setSeed(long seed) {
         this.seed = seed;
     }
 
-    public long getSeed() {
+    public static long getSeed() {
         return seed;
     }
 
@@ -36,7 +37,8 @@ public class TerrainGenerator {
         this.stepSize = stepSize;
         this.scale = scale;
         this.bias = bias;
-        this.seed = seed;
+        this.seed = 5;
+        this.random = new Random(seed);
 
         values[0][0] = -1;
         values[0][height - 1] = -1;
@@ -58,7 +60,6 @@ public class TerrainGenerator {
 
     private void diamondStep() {
         int halfStep = stepSize / 2;
-        Random random = new Random(seed);
 
         for (int x = halfStep; x < width; x += stepSize) {
             for (int y = halfStep; y < height; y += stepSize) {
@@ -77,7 +78,6 @@ public class TerrainGenerator {
 
     private void squareStep() {
         int halfStep = stepSize / 2;
-        Random random = new Random(seed);
 
         for (int x = 0; x < width; x += halfStep) {
             for (int y = (x + halfStep) % stepSize; y < height; y += stepSize) {
@@ -220,7 +220,6 @@ public class TerrainGenerator {
         int width = mapValues.length;
         int height = mapValues[0].length;
 
-        Random random = new Random(seed);
 
         List<int[]> matchingPositions = new ArrayList<>();    // all positions maching replaceTileID value
 
@@ -259,8 +258,6 @@ public class TerrainGenerator {
     {
         int width = mapValues.length;
         int height = mapValues[0].length;
-
-        Random random = new Random(seed);
 
 
         for (int i = 0; i < numberOfTilesToPlace; i++)

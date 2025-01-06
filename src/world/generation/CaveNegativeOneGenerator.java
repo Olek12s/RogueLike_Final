@@ -1,5 +1,7 @@
 package world.generation;
 
+import world.map.tiles.TileManager;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +29,8 @@ public class CaveNegativeOneGenerator
 
         this.width = width;
         this.height = height;
-        this.seed = random.nextLong();
+       // this.seed = random.nextLong();
+        this.seed = TerrainGenerator.getSeed();
         this.mapValues = new short[width][height];
 
         ds1 = new TerrainGenerator(width, height, stepSize/2,  scale/2, 0.82f, seed);
@@ -51,8 +54,36 @@ public class CaveNegativeOneGenerator
                 val = Math.min(val, val2);
                 val = (val * 2 + 190);
                 val = Math.clamp(val, 0, 255);
+                //mapValues[x][y] = (short)val;
+
+                //TEMP
+                if (val <= 35) val = TileManager.TileID.WATER.getId();
+                else if (val > 35 && val <= 40) val = TileManager.TileID.SAND.getId();
+                else if (val > 40 && val <= 90) val = TileManager.TileID.GRASS.getId();
+                else if (val > 90 && val <= 255) val = TileManager.TileID.STONE.getId();
                 mapValues[x][y] = (short)val;
+                //TEMP
+
             }
         }
+    }
+
+    /**
+     * Builder method decorating map object containing raw tiles.
+     * Decorates in sequence:
+     *
+     *
+     *  -
+     *  -
+     *  -
+     * After decoration process saves map to the File "resources/maps/CaveNegOne.txt"
+     *
+     * @param mapWidth - x map Size
+     * @param mapHeight - y map Size
+     */
+    public static void createCaveNegativeOneMap(int mapWidth, int mapHeight)
+    {
+        CaveNegativeOneGenerator caveNegativeOneGenerator = new CaveNegativeOneGenerator(mapWidth, mapHeight);
+        TerrainGenerator.saveGeneratedMapToFile(caveNegativeOneGenerator.getMapValues(), "resources/maps/CaveNegOne.txt");
     }
 }

@@ -211,7 +211,5 @@ public class EntityUpdater implements Updatable
             newChunk.addEntity(entity);
             entity.setCurrentChunk(newChunk);
         }
-
-
     }
 }

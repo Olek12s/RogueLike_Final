@@ -6,6 +6,7 @@ import main.entity.Entity;
 import main.entity.EntityUpdater;
 import utilities.Collisions;
 import utilities.Position;
+import world.generation.CaveNegativeOneGenerator;
 import world.map.Map;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
@@ -92,18 +93,25 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         switch (tileID)
         {
             case CAVE_ENTRANCE:
-                System.out.println("A");
+                CaveNegativeOneGenerator.createCaveNegativeOneMap(1024, 1024);
+                entity.gc.mapController.changeMapForPlayer((Player)entity, -1);
                 break;
             case CAVE_DEEP_ENTERANCE:
+                entity.gc.mapController.changeMapForPlayer((Player)entity, -2);
                 break;
             case CAVE_RUINS_ENTERANCE:
+                entity.gc.mapController.changeMapForPlayer((Player)entity, -3);
                 break;
 
             case CAVE_EXIT:
+                entity.gc.mapController.changeMapForPlayer((Player)entity, -0);
                 break;
             case CAVE_DEEP_EXIT:
+                entity.gc.mapController.changeMapForPlayer((Player)entity, -1);
+                System.out.println("A");
                 break;
             case CAVE_RUINS_EXIT:
+                entity.gc.mapController.changeMapForPlayer((Player)entity, -2);
                 break;
         }
     }

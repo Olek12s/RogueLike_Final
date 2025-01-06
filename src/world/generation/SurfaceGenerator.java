@@ -28,11 +28,9 @@ public class SurfaceGenerator
 
     public SurfaceGenerator(int width, int height)
     {
-        Random random = new Random(System.currentTimeMillis());
-
         this.width = width;
         this.height = height;
-        this.seed = random.nextLong();
+        this.seed = TerrainGenerator.getSeed();
         this.mapValues = new short[width][height];
 
         ds1 = new TerrainGenerator(width, height, stepSize*2,  scale-6, 0.90f, seed);

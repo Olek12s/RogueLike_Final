@@ -23,11 +23,11 @@ public class CaveNegativeTwoGenerator
 
     public CaveNegativeTwoGenerator(int width, int height)
     {
-        Random random = new Random(System.currentTimeMillis());
 
         this.width = width;
         this.height = height;
-        this.seed = random.nextLong();
+       // this.seed = random.nextLong();
+        this.seed = TerrainGenerator.getSeed();
         this.mapValues = new short[width][height];
 
         ds1 = new TerrainGenerator(width, height, stepSize/4, scale, 1f, seed);

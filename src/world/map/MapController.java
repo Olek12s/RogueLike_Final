@@ -1,6 +1,7 @@
 package world.map;
 
 import main.GameController;
+import main.entity.player.Player;
 import world.generation.SurfaceGenerator;
 import world.generation.TerrainGenerator;
 
@@ -14,20 +15,24 @@ public class MapController
     private MapUpdater updater = new MapUpdater(this);
     private Map currentMap;
     private static HashMap<Integer, Map> maps = new HashMap<>();
-    int mapWidth;
-    int mapHeight;
+    static int mapWidth;
+    static int mapHeight;
 
     public static SurfaceGenerator surfaceGenerator;
 
-    public Map getCurrentMap() {return currentMap;}
+    public Map getCurrentMap()
+    {
+        return currentMap;
+    }
 
     public MapController(GameController gc, int width, int height)
     {
         this.gc = gc;
-        this.mapWidth = width;
-        this.mapHeight = height;
+        mapWidth = width;
+        mapHeight = height;
         SurfaceGenerator.createSurfaceMap(width, height);
-        this.currentMap = new Map(mapWidth/Chunk.getChunkSize(), mapHeight/Chunk.getChunkSize(), "resources/maps/Surface.txt");
+        createMap(0, width, height);
+        this.currentMap = maps.get(0);
         maps.put(0, currentMap);    // surface level
 
         gc.updatables.add(updater);
@@ -35,15 +40,36 @@ public class MapController
     }
 
     // Changes maps between levels -2 -1 0 1 [...]
-    public void changeMap(int level)
+    private void changeCurrentMap(int level)
     {
         this.currentMap = maps.get(level);
     }
 
-    public void addMap(int level, Map map)
+    public void changeMapForPlayer(Player player, int level)
     {
-        maps.put(level, map);
+        if (maps.get(level) == null)    // if map did not exist, generate it and put in the collection
+        {
+            createMap(level, mapWidth, mapHeight);
+        }
+        changeCurrentMap(level);
     }
 
+    public static void createMap(int level, int width, int height)
+    {
+        MapLevels mapLevel;
+        mapLevel = MapLevels.fromId(level);
 
+        switch (mapLevel)
+        {
+            case CAVE_NEGATIVE_TWO:
+                maps.put(-2, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/CaveNegTwo.txt"));
+                break;
+            case CAVE_NEGATIVE_ONE:
+                maps.put(-1, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/CaveNegOne.txt"));
+                break;
+            case SURFACE:
+                maps.put(0, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/Surface.txt"));
+                break;
+        }
+    }
 }
