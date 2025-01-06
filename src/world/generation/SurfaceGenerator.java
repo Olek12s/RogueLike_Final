@@ -94,23 +94,43 @@ public class SurfaceGenerator
         }
     }
 
-    // 256 x 256 map - 1 enterance
-    // 512 x 512 map - 3 enterances
-    // 1024 x 1024 map - 8 enterances
+    /**
+     * Builder method decorating map object containing raw tiles.
+     * Decorates in sequence:
+     *  -Creates cave enterances
+     *  -Creates dirt paths to the closest non-collidable Tile
+     *  -
+     *  -
+     *  -
+     * After decoration process saves map to the File "resources/maps/Surface.txt"
+     *
+     * @param mapWidth - x map Size
+     * @param mapHeight - y map Size
+     */
     public static void createSurfaceMap(int mapWidth, int mapHeight)
     {
-       // int
-
-
-
-
-
-
+        int negativeOneEnterances = determineNegativeOneEnterancesCount(mapWidth);
 
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
-        //TerrainGenerator.addSingleTileAtRandomPlace(surfaceGenerator.getMapValues(), TileManager.TileID.CAVE_ENTRANCE.getId());
-        for (int i = 0; i < 10; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlace(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId());
-        //for (int i = 0; i < 10; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
+        for (int i = 0; i < negativeOneEnterances; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
+    }
+
+
+    /**
+     *  calculates proper negative one cave enterances count with formula:
+     *  1024 - 8 enterances
+     *  512 - 3 enterances
+     *  256 - 1 enterances
+     *
+     * @param mapSize
+     * @return
+     */
+    private static int determineNegativeOneEnterancesCount(int mapSize)
+    {
+        if (mapSize == 1024) return 8;
+        else if (mapSize == 512) return 3;
+        else if (mapSize == 256) return 1;
+        else throw new IllegalArgumentException("Illegal map size");
     }
 }

@@ -122,7 +122,7 @@ public class Map
             }
         }
         long end = System.nanoTime();
-        System.out.println("All chunks created in: " + (float) (end - start) / 1_000_000_000 + " seconds.");
+        //System.out.println("All chunks created in: " + (float) (end - start) / 1_000_000_000 + " seconds.");
     }
 
     private Tile[][] extractChunkTilesFromMapArray(short[][] mapValues, int startX, int startY)

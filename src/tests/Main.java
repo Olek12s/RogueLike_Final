@@ -1,8 +1,8 @@
 package tests;
 
-import main.entity.Entity;
-import test.annotations.Test;
 import test.runner.TestRunner;
+import tests.pathfinding.FindNearestNonCollidableTileTester;
+import tests.pathfinding.GetPathToClosestNonCollidableTileTest;
 
 public class Main
 {
@@ -12,6 +12,7 @@ public class Main
         TestRunner.printSummary();
         TestRunner.runTests(EntityTester.class);
         TestRunner.runTests(TerrainGeneratorBFSTester.class);
-        TestRunner.runTests(PathfindingTester.class);
+        TestRunner.runTests(FindNearestNonCollidableTileTester.class);
+        TestRunner.runTests(GetPathToClosestNonCollidableTileTest.class);
     }
 }

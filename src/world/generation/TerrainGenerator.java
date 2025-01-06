@@ -2,10 +2,12 @@ package world.generation;
 
 
 
+import utilities.Pathfinding;
 import utilities.Position;
 import world.map.tiles.TileManager;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 
 // Diamond-Square method
@@ -203,20 +205,17 @@ public class TerrainGenerator {
 
     public static void replaceSpecifiedTileAtRandomPlaceAndCreatePath(short[][] mapValues, int replaceTileID, int replaceWithTileID, int pathTileID)
     {
+        Position start = replaceSpecifiedTileAtRandomPlace(mapValues, replaceTileID, replaceWithTileID);
+        Position[] path = Pathfinding.getPathToClosestNonCollidableTileWithoutStartEnd(mapValues, start);
 
+        for (int i = 0; i < path.length; i++)
+        {
+            mapValues[path[i].x][path[i].y] = (short) pathTileID;
+        }
     }
 
-    public static Position findNearestNonCollidableTile(short[][] mapValues, Position start)
-    {
-        return null;
-    }
 
-    public static void replaceTilesAtPath(short[][] mapValues, Position start, Position end, int pathTileID)
-    {
-
-    }
-
-    public static void replaceSpecifiedTileAtRandomPlace(short[][] mapValues, int replaceTileID, int replaceWithTileID)
+    public static Position replaceSpecifiedTileAtRandomPlace(short[][] mapValues, int replaceTileID, int replaceWithTileID)
     {
         int width = mapValues.length;
         int height = mapValues[0].length;
@@ -246,12 +245,14 @@ public class TerrainGenerator {
             int[] position = matchingPositions.get(randomIndex);
 
             mapValues[position[0]][position[1]] = (short) replaceWithTileID;
+            return new Position(position[0], position[1]);
         }
         catch (Exception ex)    // no positions
         {
             System.err.println("Error occurred: " + ex.getMessage());
             ex.printStackTrace();
         }
+        return null;
     }
 
     public static void addSingleTileAtRandomPlace(short[][] mapValues, int tileID, int numberOfTilesToPlace)

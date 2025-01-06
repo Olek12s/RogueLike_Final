@@ -1,11 +1,11 @@
-package tests;
+package tests.pathfinding;
 
 import test.annotations.Test;
 import test.runner.Assertions;
 import utilities.Pathfinding;
 import utilities.Position;
 
-public class PathfindingTester
+public class FindNearestNonCollidableTileTester
 {
     // 0 - non-collidable Dirt
     // 2 - collidable Stone
