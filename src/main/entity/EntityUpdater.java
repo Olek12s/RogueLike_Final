@@ -24,7 +24,7 @@ public class EntityUpdater implements Updatable
     @Override
     public void update()
     {
-        if (entity != null)
+        if (entity != null && (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel()))
         {
             updateRegeneration();
             updateCurrentSprite();

@@ -6,6 +6,7 @@ import main.GameController;
 import main.item.Weapon;
 import world.map.Chunk;
 import utilities.*;
+import world.map.MapLevels;
 
 import java.awt.*;
 
@@ -25,7 +26,7 @@ public abstract class Entity
     protected String name = "";
     public boolean isImmobilised;
     private boolean isAlive;
-    public int level;
+    private MapLevels level;
 
     //STATISTICS
     public EntityStatistics statistics;
@@ -36,6 +37,7 @@ public abstract class Entity
     public Entity(GameController gc, int entityID, Position worldPosition)
     {
         this.gc = gc;
+        this.level = gc.mapController.getCurrentMap().getLevel();
         initializeEntitySpriteAssets(entityID);
         this.entityID = entityID;
         entityRenderer = setRenderer();
@@ -78,6 +80,8 @@ public abstract class Entity
     public void setAlive(boolean alive) {isAlive = alive;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
+    public MapLevels getLevel() {return level;}
+    public void setLevel(MapLevels level) {this.level = level;}
 
     public void initializeEntitySpriteAssets(int id)
     {

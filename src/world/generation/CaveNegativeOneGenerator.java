@@ -1,5 +1,6 @@
 package world.generation;
 
+import world.map.MapController;
 import world.map.tiles.TileManager;
 
 import java.io.BufferedWriter;
@@ -29,7 +30,7 @@ public class CaveNegativeOneGenerator
 
         this.width = width;
         this.height = height;
-       // this.seed = random.nextLong();
+        //this.seed = random.nextLong();
         this.seed = TerrainGenerator.getSeed();
         this.mapValues = new short[width][height];
 
@@ -50,17 +51,21 @@ public class CaveNegativeOneGenerator
                 float val1 = map1[x][y];
                 float val2 = map2[x][y];
 
+
                 double val = (((val1+150) * val1-170) % 190) * 5;
                 val = Math.min(val, val2);
                 val = (val * 2 + 190);
                 val = Math.clamp(val, 0, 255);
                 //mapValues[x][y] = (short)val;
 
+                //if (val > 125 && val <= 150) val = 255;
+
                 //TEMP
-                if (val <= 35) val = TileManager.TileID.WATER.getId();
-                else if (val > 35 && val <= 40) val = TileManager.TileID.SAND.getId();
-                else if (val > 40 && val <= 90) val = TileManager.TileID.GRASS.getId();
-                else if (val > 90 && val <= 255) val = TileManager.TileID.STONE.getId();
+                if (val > 125 && val <= 190) val = TileManager.TileID.SAND.getId();
+              //  else if (val > 35 && val <= 40) val = TileManager.TileID.SAND.getId();
+              //  else if (val > 40 && val <= 90) val = TileManager.TileID.GRASS.getId();
+                else if (val == 0) val = TileManager.TileID.STONE.getId();
+                else val = TileManager.TileID.DEFAULT_TILE.getId();
                 mapValues[x][y] = (short)val;
                 //TEMP
 
@@ -84,6 +89,15 @@ public class CaveNegativeOneGenerator
     public static void createCaveNegativeOneMap(int mapWidth, int mapHeight)
     {
         CaveNegativeOneGenerator caveNegativeOneGenerator = new CaveNegativeOneGenerator(mapWidth, mapHeight);
+         caveNegativeOneGenerator.getMapValues()[512+177][512+100] = (short)TileManager.TileID.CAVE_EXIT.getId();        //180 100 - temp exit for DEBUG
+        caveNegativeOneGenerator.getMapValues()[512+178][512+100] = (short)TileManager.TileID.SAND.getId();
+        caveNegativeOneGenerator.getMapValues()[512+179][512+100] = (short)TileManager.TileID.SAND.getId();
+        caveNegativeOneGenerator.getMapValues()[512+180][512+100] = (short)TileManager.TileID.SAND.getId();
+        caveNegativeOneGenerator.getMapValues()[512+181][512+100] = (short)TileManager.TileID.SAND.getId();
+        caveNegativeOneGenerator.getMapValues()[512+178][512+99] = (short)TileManager.TileID.SAND.getId();
+        caveNegativeOneGenerator.getMapValues()[512+177][512+99] = (short)TileManager.TileID.SAND.getId();
+        caveNegativeOneGenerator.getMapValues()[512+177][512+98] = (short)TileManager.TileID.SAND.getId();
+        caveNegativeOneGenerator.getMapValues()[512+182][512+100] = (short)TileManager.TileID.SAND.getId();
         TerrainGenerator.saveGeneratedMapToFile(caveNegativeOneGenerator.getMapValues(), "resources/maps/CaveNegOne.txt");
     }
 }

@@ -8,6 +8,7 @@ import utilities.Collisions;
 import utilities.Position;
 import world.generation.CaveNegativeOneGenerator;
 import world.map.Map;
+import world.map.MapLevels;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
 
@@ -95,24 +96,23 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         {
             case CAVE_ENTRANCE:
                 CaveNegativeOneGenerator.createCaveNegativeOneMap(1024, 1024);
-                entity.gc.mapController.changeMapForPlayer((Player)entity, -1);
+                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
                 break;
             case CAVE_DEEP_ENTERANCE:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, -2);
+                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
                 break;
             case CAVE_RUINS_ENTERANCE:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, -3);
+                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_RUINS);
                 break;
 
             case CAVE_EXIT:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, -0);
+                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.SURFACE);
                 break;
             case CAVE_DEEP_EXIT:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, -1);
-                System.out.println("A");
+                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
                 break;
             case CAVE_RUINS_EXIT:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, -2);
+                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
                 break;
         }
     }

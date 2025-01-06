@@ -33,13 +33,16 @@ public class EntityRenderer implements Drawable
 
     public EntityRenderer(Entity entity, SpriteSheet spriteSheet)
     {
-        this.entity = entity;
-        //this.spriteSheet = spriteSheet;
-        spriteSheetsMap.put(entity.entityID, spriteSheet);
-        loadSpriteImagesToMap(entity.entityID, spriteSheet);
-        //loadSpriteImages();
+        if (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel())
+        {
+            this.entity = entity;
+            //this.spriteSheet = spriteSheet;
+            spriteSheetsMap.put(entity.entityID, spriteSheet);
+            loadSpriteImagesToMap(entity.entityID, spriteSheet);
+            //loadSpriteImages();
 
-        entity.gc.drawables.add(this);
+            entity.gc.drawables.add(this);
+        }
     }
 
     @Override
@@ -48,29 +51,32 @@ public class EntityRenderer implements Drawable
     @Override
     public void draw(Graphics g2)
     {
-        double scaleFactor = Camera.getScaleFactor();
-        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.worldPosition.x, entity.worldPosition.y);
-
-
-        int scaledWidth = (int) (entity.currentSprite.image.getWidth() * scaleFactor);
-        int scaledHeight = (int) (entity.currentSprite.image.getHeight() * scaleFactor);
-
-        Chunk entityChunk = entity.gc.mapController.getCurrentMap().getChunk(entity.getWorldPosition());
-        Chunk cameraChunk = entity.gc.mapController.getCurrentMap().getChunk(entity.gc.camera.getCameraPosition());
-
-
-        if (entityChunk != null && cameraChunk != null)
+        if (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel())
         {
-            //This condition checks whether the entity's chunk is within the rendering distance from the camera's chunk along both the x and y axes.
-            if (Math.abs(entityChunk.getxIndex() - cameraChunk.getxIndex()) <= MapRenderer.chunkRenderDistance &&
-                    Math.abs(entityChunk.getyIndex() - cameraChunk.getyIndex()) <= MapRenderer.chunkRenderDistance)
-            {
-                g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
-                drawEntityHitbox(g2);
-            }
+            double scaleFactor = Camera.getScaleFactor();
+            Position screenPosition = entity.gc.camera.applyCameraOffset(entity.worldPosition.x, entity.worldPosition.y);
 
+
+            int scaledWidth = (int) (entity.currentSprite.image.getWidth() * scaleFactor);
+            int scaledHeight = (int) (entity.currentSprite.image.getHeight() * scaleFactor);
+
+            Chunk entityChunk = entity.gc.mapController.getCurrentMap().getChunk(entity.getWorldPosition());
+            Chunk cameraChunk = entity.gc.mapController.getCurrentMap().getChunk(entity.gc.camera.getCameraPosition());
+
+
+            if (entityChunk != null && cameraChunk != null)
+            {
+                //This condition checks whether the entity's chunk is within the rendering distance from the camera's chunk along both the x and y axes.
+                if (Math.abs(entityChunk.getxIndex() - cameraChunk.getxIndex()) <= MapRenderer.chunkRenderDistance &&
+                        Math.abs(entityChunk.getyIndex() - cameraChunk.getyIndex()) <= MapRenderer.chunkRenderDistance)
+                {
+                    g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
+                    drawEntityHitbox(g2);
+                }
+
+            }
+            //g2.dispose();
         }
-        //g2.dispose();
     }
 
 

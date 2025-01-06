@@ -45,13 +45,15 @@ public class MapController
         this.currentMap = maps.get(level);
     }
 
-    public void changeMapForPlayer(Player player, int level)
+    public void changeMapForPlayer(Player player, MapLevels level)
     {
-        if (maps.get(level) == null)    // if map did not exist, generate it and put in the collection
+        if (maps.get(level.getValue()) == null)    // if map did not exist, generate it and put in the collection
         {
-            createMap(level, mapWidth, mapHeight);
+            System.out.println("A");
+            createMap(level.getValue(), mapWidth, mapHeight);
         }
-        changeCurrentMap(level);
+        player.setLevel(level);
+        changeCurrentMap(level.getValue());
     }
 
     public static void createMap(int level, int width, int height)

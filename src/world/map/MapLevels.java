@@ -4,6 +4,7 @@ import world.map.tiles.TileManager;
 
 public enum MapLevels
 {
+    CAVE_RUINS(-3),
     CAVE_NEGATIVE_TWO(-2),
     CAVE_NEGATIVE_ONE(-1),
     SURFACE(0);

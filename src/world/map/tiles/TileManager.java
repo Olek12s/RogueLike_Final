@@ -122,5 +122,6 @@
             createTileObject("resources/tiles/Sand", false, "Sand", TileID.SAND.getId());
             createTileObject("resources/tiles/Water", false, "Water", TileID.WATER.getId());
             createTileObject("resources/tiles/CaveEntrance", false, "Cave Entrance", TileID.CAVE_ENTRANCE.getId());
+            createTileObject("resources/tiles/CaveExit", false, "Cave Exit", TileID.CAVE_EXIT.getId());
         }
     }

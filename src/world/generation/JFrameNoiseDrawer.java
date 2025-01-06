@@ -101,7 +101,7 @@ public class JFrameNoiseDrawer extends JPanel
 
         Random random = new Random(seed);
         JFrameNoiseDrawer noisePanel = new JFrameNoiseDrawer(width, height, seed);
-        SurfaceGenerator surfaceGenerator2 = new SurfaceGenerator(width, height);
+        CaveNegativeOneGenerator surfaceGenerator2 = new CaveNegativeOneGenerator(width, height);
         noisePanel.drawNoise(surfaceGenerator2.getMapValues());
 
         window = new JFrame();
@@ -116,7 +116,7 @@ public class JFrameNoiseDrawer extends JPanel
             CaveNegativeOneGenerator caveNegativeOne = new CaveNegativeOneGenerator(width, height);
             CaveNegativeTwoGenerator caveNegativeTwo = new CaveNegativeTwoGenerator(width, height);
             SurfaceGenerator surfaceGenerator = new SurfaceGenerator(width, height);
-            noisePanel.drawNoise(caveNegativeTwo.getMapValues());
+            noisePanel.drawNoise(caveNegativeOne.getMapValues());
             window.setTitle("Seed: " + caveNegativeOne.getSeed());
             TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
             TerrainGenerator.saveGeneratedMapToFile(caveNegativeOne.getMapValues(), "resources/maps/CaveNegOne.txt");

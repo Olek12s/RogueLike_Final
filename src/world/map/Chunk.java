@@ -28,7 +28,7 @@ public class Chunk
         this.tiles = chunkTiles;
         this.xIndex = xIndex;
         this.yIndex = yIndex;
-        this. maplevel =  mapLevel;
+        this.maplevel = mapLevel;
     }
 
     public Tile[][] getTiles() {return tiles;}
