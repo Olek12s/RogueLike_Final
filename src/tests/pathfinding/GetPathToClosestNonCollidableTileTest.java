@@ -49,13 +49,13 @@ public class GetPathToClosestNonCollidableTileTest
 
         Position[] path = Pathfinding.getPathToClosestNonCollidableTile(mapValues, start);
 
-        Assertions.assertEquals(new Position(0,0), path[0]);
-        Assertions.assertEquals(new Position(0, 1), path[1]);
+
+
         for (int i = 0; i < path.length-1; i++)
         {
-            Assertions.assertEquals(new Position(i, 1), path[i+1]);
+            Assertions.assertEquals(new Position(0, i), path[i]);
         }
-        Assertions.assertEquals(new Position(16, 1), path[path.length-1]);
+        Assertions.assertEquals(new Position(1, 16), path[path.length-1]);
     }
 
     @Test
@@ -84,12 +84,14 @@ public class GetPathToClosestNonCollidableTileTest
                 };
 
         Position[] path = Pathfinding.getPathToClosestNonCollidableTile(mapValues, start);
-        for (int i = 0; i < path.length-1; i++)
+
+        Assertions.assertEquals(new Position(0, 0), path[0]);
+        for (int i = 1; i < path.length-1; i++)
         {
-            Assertions.assertEquals(new Position(0, i), path[i]);
+            Assertions.assertEquals(new Position(i-1, 1), path[i]);
         }
-        Assertions.assertEquals(new Position(1, 16), path[path.length-1]);
     }
+
 
     @Test
     public void getPathToClosestNonCollidableTileTest4()
@@ -104,6 +106,7 @@ public class GetPathToClosestNonCollidableTileTest
         Position[] path = Pathfinding.getPathToClosestNonCollidableTile(mapValues, start);
         Assertions.assertEquals(start, path[0]);
     }
+
 
     @Test
     public void getPathToClosestNonCollidableTileWithoutStartEndTest1()
