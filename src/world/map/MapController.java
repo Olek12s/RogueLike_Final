@@ -62,13 +62,13 @@ public class MapController
         switch (mapLevel)
         {
             case CAVE_NEGATIVE_TWO:
-                maps.put(-2, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/CaveNegTwo.txt"));
+                maps.put(-2, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/CaveNegTwo.txt", MapLevels.CAVE_NEGATIVE_TWO));
                 break;
             case CAVE_NEGATIVE_ONE:
-                maps.put(-1, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/CaveNegOne.txt"));
+                maps.put(-1, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/CaveNegOne.txt",  MapLevels.CAVE_NEGATIVE_ONE));
                 break;
             case SURFACE:
-                maps.put(0, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/Surface.txt"));
+                maps.put(0, new Map(width/Chunk.getChunkSize(), height/Chunk.getChunkSize(), "resources/maps/Surface.txt",  MapLevels.SURFACE));
                 break;
         }
     }

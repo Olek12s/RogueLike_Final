@@ -14,23 +14,25 @@ public class Map
     private final Chunk[][] chunks;
     private int chunkCountX;
     private int chunkCountY;
+    private MapLevels level;
     private String filePath;
 
     public int getChunkCountX() {return chunkCountX;}
     public int getChunkCountY() {return chunkCountY;}
+    public MapLevels getLevel() {return level;}
 
     public int getMapWidthInPixels() {return chunkCountX * Chunk.getChunkSize() * Tile.tileSize;}
     public int getMapHeightInPixels() {return chunkCountY * Chunk.getChunkSize() * Tile.tileSize;}
 
-    //Enum level
 
-    public Map(int mapWidth, int mapHeight, String path)
+    public Map(int mapWidth, int mapHeight, String path, MapLevels level)
     {
         this.chunkCountX = mapWidth;
         this.chunkCountY = mapHeight;
         this.filePath = path;
         chunks = new Chunk[chunkCountX][chunkCountY];
 
+        this.level = level;
         loadMapFromFile();         //Fills map with new Chunk objects
     }
 
@@ -118,7 +120,7 @@ public class Map
                 int worldX = x * chunkSize * Tile.tileSize - (chunkCountX / 2) * chunkSize * Tile.tileSize;
                 int worldY = y * chunkSize * Tile.tileSize - (chunkCountY / 2) * chunkSize * Tile.tileSize;
                 Position chunkPosition = new Position(worldX, worldY);
-                chunks[x][y] = new Chunk(chunkPosition, chunkTiles, x, y);
+                chunks[x][y] = new Chunk(chunkPosition, chunkTiles, x, y, this.level);
             }
         }
         long end = System.nanoTime();

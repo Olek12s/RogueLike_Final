@@ -34,6 +34,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         {
             counter = 0;
             System.out.println(entity.getWorldPosition().x/Tile.tileSize + " " + entity.getWorldPosition().y/Tile.tileSize);
+            System.out.println("Level: " + entity.gc.mapController.getCurrentMap().getLevel());
         }
     }
 

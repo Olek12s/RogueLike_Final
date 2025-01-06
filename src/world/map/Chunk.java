@@ -17,8 +17,9 @@ public class Chunk
     private List<Item> items;
     private int xIndex;
     private int yIndex;
+    MapLevels maplevel;
 
-    public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles, int xIndex, int yIndex)
+    public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles, int xIndex, int yIndex, MapLevels mapLevel)
     {
         this.chunkWorldPosition = chunkWorldPosition;
         this.tiles = new Tile[chunkSize][chunkSize];
@@ -27,6 +28,7 @@ public class Chunk
         this.tiles = chunkTiles;
         this.xIndex = xIndex;
         this.yIndex = yIndex;
+        this. maplevel =  mapLevel;
     }
 
     public Tile[][] getTiles() {return tiles;}
