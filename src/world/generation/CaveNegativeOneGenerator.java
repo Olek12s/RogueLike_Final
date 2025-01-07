@@ -60,7 +60,7 @@ public class CaveNegativeOneGenerator
 
                 //if (val > 125 && val <= 150) val = 255;
 
-                // VISUALIZATION
+                /* VISUALIZATION
                 if (mapValues[x][y] >= 250) val = 255;                              //   non-collidable  <250 255>
                 else if (mapValues[x][y] >= 240 && mapValues[x][y] <= 243) val = 125;    // GRAVEl <240 243>
                 else if (mapValues[x][y] >= 215 && mapValues[x][y] <= 245) val = 30;    // non-collidable <215 245>
@@ -69,8 +69,16 @@ public class CaveNegativeOneGenerator
                 else if (mapValues[x][y] >= 200 && mapValues[x][y] <= 206) val = 125;    // GRAVEl <200 205>
                 else val = 0;   // STONE
                 mapValues[x][y] = (short)val;
-                // VISUALIZATION
+                VISUALIZATION */
 
+                if (mapValues[x][y] >= 250) val = TileManager.TileID.CAVE_FLOOR.getId();
+                else if (mapValues[x][y] >= 240 && mapValues[x][y] <= 243) val = TileManager.TileID.GRAVEL.getId();
+                else if (mapValues[x][y] >= 215 && mapValues[x][y] <= 245) val = TileManager.TileID.BASALT_FLOOR.getId();
+                else if (mapValues[x][y] >= 190 && mapValues[x][y] <= 195) val = TileManager.TileID.GRAVEL.getId();
+                else if (mapValues[x][y] >= 195 && mapValues[x][y] <= 200) val = TileManager.TileID.BASALT_FLOOR.getId();
+                else if (mapValues[x][y] >= 200 && mapValues[x][y] <= 206) val = TileManager.TileID.GRAVEL.getId();
+                else val = TileManager.TileID.ROCK.getId();
+                mapValues[x][y] = (short)val;
             }
         }
     }
