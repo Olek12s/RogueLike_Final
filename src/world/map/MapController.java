@@ -13,16 +13,20 @@ public class MapController
     public GameController gc;
     private MapRenderer renderer = new MapRenderer(this);
     private MapUpdater updater = new MapUpdater(this);
-    private Map currentMap;
+    private static Map currentMap;
     private static HashMap<Integer, Map> maps = new HashMap<>();
     static int mapWidth;
     static int mapHeight;
 
     public static SurfaceGenerator surfaceGenerator;
 
-    public Map getCurrentMap()
+    public static Map getCurrentMap()
     {
         return currentMap;
+    }
+    public static Map getMapByLevel(MapLevels level)
+    {
+        return  maps.get(level.getValue());
     }
 
     public MapController(GameController gc, int width, int height)
@@ -49,7 +53,6 @@ public class MapController
     {
         if (maps.get(level.getValue()) == null)    // if map did not exist, generate it and put in the collection
         {
-            System.out.println("A");
             createMap(level.getValue(), mapWidth, mapHeight);
         }
         player.setLevel(level);

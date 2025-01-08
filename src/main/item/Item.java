@@ -1,4 +1,6 @@
 package main.item;
 
-public class Item {
+public class Item
+{
+
 }

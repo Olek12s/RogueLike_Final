@@ -3,6 +3,7 @@ package main;
 import main.cursor.CursorHUD;
 import main.entity.Entity;
 import main.entity.player.Player;
+import world.generation.EntityGenerator;
 import world.map.MapController;
 import world.map.tiles.TileManager;
 import ui.HUD;
@@ -35,6 +36,7 @@ public class GameController extends JPanel implements Runnable
     public AssetSetter assetSetter;
     public CursorHUD cursor;
     public HUD hud;
+    public EntityGenerator entityGenerator;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -43,23 +45,28 @@ public class GameController extends JPanel implements Runnable
 
     //GETTERS AND SETTERS
 
+
     private static GameController instance;
+    public static GameController getInstance() {return instance;}
 
     public GameController()
     {
-        this.setPreferredSize(new Dimension(getWidth(), getHeight()));
-        this.setBackground(Color.BLACK);
-        this.setDoubleBuffered(true);
-        this.setFocusable(true);
+        if (instance == null)
+        {
+            this.setPreferredSize(new Dimension(getWidth(), getHeight()));
+            this.setBackground(Color.BLACK);
+            this.setDoubleBuffered(true);
+            this.setFocusable(true);
 
 
-        initAbstractCollections();
-        initClassInstances();
-        this.addKeyListener(keyHandler);
-        this.addMouseWheelListener(mouseHandler);
-        this.addMouseListener(mouseHandler);
-        this.addMouseMotionListener(mouseHandler);
-        hideCursor();
+            initAbstractCollections();
+            initClassInstances();
+            this.addKeyListener(keyHandler);
+            this.addMouseWheelListener(mouseHandler);
+            this.addMouseListener(mouseHandler);
+            this.addMouseMotionListener(mouseHandler);
+            hideCursor();
+        }
     }
 
     private void initAbstractCollections()
@@ -79,6 +86,7 @@ public class GameController extends JPanel implements Runnable
         assetSetter = new AssetSetter(this);
         cursor = new CursorHUD(this);
         hud = new HUD(this);
+        entityGenerator = new EntityGenerator(this);
     }
 
 

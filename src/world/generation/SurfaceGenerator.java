@@ -1,6 +1,8 @@
 package world.generation;
 
+import main.entity.EntityID;
 import utilities.Position;
+import world.map.MapLevels;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
 
@@ -124,6 +126,7 @@ public class SurfaceGenerator
             Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
             caveEnterancesPositions.add(cave);
         }
+
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
     }
 }
