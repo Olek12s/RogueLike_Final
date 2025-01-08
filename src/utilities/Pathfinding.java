@@ -53,6 +53,7 @@ public class Pathfinding
         return null;    // case if there's no non-collidable Tile in the whole map
     }
 
+
     /**
      *  returns array containing shortest path, which begins from start.
      *
@@ -143,5 +144,41 @@ public class Pathfinding
             return new Position[0];
         }
         return Arrays.copyOfRange(fullPath, 1, fullPath.length - 1);
+    }
+
+
+
+    /**
+     *
+     *
+     * @param mapValues
+     * @param x
+     * @param y
+     * @return
+     */
+    private static int countNonCollidableNeighbors(short[][] mapValues, int x, int y) {
+        int width = mapValues.length;
+        int height = mapValues[0].length;
+
+        // Directions: right, down, left, up
+        int[] dx = {1, 0, -1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        int count = 0;
+
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+            {
+                if (!TileManager.getTileObject(mapValues[ny][nx]).isColliding())
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }

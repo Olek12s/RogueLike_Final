@@ -187,13 +187,6 @@ public class TerrainGenerator {
     }
 
 
-    public static void checkPathOfTwoMapPointsAndReplaceOnNeed(short[][] mapValues, short[] passableValues, Position start, Position end) {
-        if (doesGraphPathExists(mapValues, passableValues, start, end) == false)    // if path is not valid
-        {
-
-        }
-    }
-
     /* The fastest method using Java serialization */
     public static void saveGeneratedMapToFile(short[][] mapValues, String filePath) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
@@ -234,6 +227,7 @@ public class TerrainGenerator {
              mapValues[path[i].x][path[i].y] = (short) pathTileID;
          }
     }
+
 
     public static void replaceSpecifiedTileAtSpecifiedPlace(short[][] mapValues, Position positionToReplace, int replaceWIthTileID)
     {
@@ -297,6 +291,23 @@ public class TerrainGenerator {
     public static void addSingleTileAtRandomPlace(short[][] mapValues, int tileID)
     {
         addSingleTileAtRandomPlace(mapValues, tileID,1);
+    }
+
+    /**
+     *  calculates proper negative one cave enterances count with formula:
+     *  1024 - 8 enterances
+     *  512 - 3 enterances
+     *  256 - 1 enterances
+     *
+     * @param mapSize
+     * @return
+     */
+    public static int determineCaveEnterancesCount(int mapSize)
+    {
+        if (mapSize == 1024) return 80;
+        else if (mapSize == 512) return 3;
+        else if (mapSize == 256) return 1;
+        else throw new IllegalArgumentException("Illegal map size");
     }
 
 

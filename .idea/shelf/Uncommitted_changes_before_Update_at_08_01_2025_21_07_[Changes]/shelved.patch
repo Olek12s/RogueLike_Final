@@ -1,0 +1,88 @@
+Index: src/utilities/Pathfinding.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package utilities;\r\n\r\nimport world.map.tiles.TileManager;\r\n\r\nimport java.util.*;\r\n\r\npublic class Pathfinding\r\n{\r\n    /**\r\n     *  Finds nearest Tile with collisions set to false using BFS algorithm\r\n     *\r\n     * @param mapValues map to search\r\n     * @param start position from which searching begins\r\n     * @return\r\n     */\r\n    public static Position findNearestNonCollidableTile(short[][] mapValues, Position start)\r\n    {\r\n        int width = mapValues.length;\r\n        int height = mapValues[0].length;\r\n\r\n        Queue<Position> queue = new LinkedList<>();\r\n        boolean[][] visited = new boolean[height][width];\r\n        queue.add(start);\r\n        visited[start.y][start.x] = true;\r\n\r\n\r\n        // Directions that pathfinding is allowed to move: top, bottom, left, right\r\n        int[] dx = {0, 0, -1, 1};\r\n        int[] dy = {-1, 1, 0, 0};\r\n\r\n        while (!queue.isEmpty())\r\n        {\r\n            Position currentPosition = queue.poll();\r\n\r\n            for (int i = 0; i < 4; i++)\r\n            {\r\n                int nx = currentPosition.x + dx[i];\r\n                int ny = currentPosition.y + dy[i];\r\n\r\n                if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[ny][nx])    // checking boundaries\r\n                {\r\n                    visited[ny][nx] = true;\r\n\r\n                    // found non collidable Tile\r\n                    if (!TileManager.getTileObject(mapValues[ny][nx]).isColliding())\r\n                    {\r\n                        return new Position(nx, ny);\r\n                    }\r\n                    queue.add(new Position(nx, ny));\r\n                }\r\n            }\r\n        }\r\n        return null;    // case if there's no non-collidable Tile in the whole map\r\n    }\r\n\r\n    /**\r\n     *  returns array containing shortest path, which begins from start.\r\n     *\r\n     * @param mapValues map to search\r\n     * @param start position from which searching begins\r\n     * @return returns Position[] array containing shortest path\r\n     */\r\n    public static Position[] getPathToClosestNonCollidableTile(short[][] mapValues, Position start)\r\n    {\r\n        int width = mapValues.length;\r\n        int height = mapValues[0].length;\r\n\r\n        Queue<Position> queue = new LinkedList<>();\r\n        boolean[][] visited = new boolean[width][height];\r\n        Position[][] previous = new Position[width][height];\r\n\r\n        queue.add(start);\r\n        visited[start.x][start.y] = true;\r\n        previous[start.x][start.y] = null;\r\n\r\n        // Directions for pathfinding: up, down, left, right\r\n        int[] dx = {0, 0, -1, 1};\r\n        int[] dy = {-1, 1, 0, 0};\r\n\r\n        while (!queue.isEmpty())\r\n        {\r\n            Position currentPosition = queue.poll();\r\n\r\n            for (int i = 0; i < 4; i++) {\r\n                int nx = currentPosition.x + dx[i];\r\n                int ny = currentPosition.y + dy[i];\r\n\r\n                if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nx][ny])\r\n                {\r\n                    visited[nx][ny] = true;\r\n                    previous[nx][ny] = currentPosition;\r\n\r\n                    if (!TileManager.getTileObject(mapValues[nx][ny]).isColliding())    // found a non-collidable tile\r\n                    {\r\n                        return buildPath(previous, start, new Position(nx, ny));\r\n                    }\r\n                    queue.add(new Position(nx, ny));\r\n                }\r\n            }\r\n        }\r\n        return null; // No non-collidable tile found\r\n    }\r\n\r\n    /**\r\n     * Builds a path from the start position to the end position based on the `previous` positions array.\r\n     *\r\n     * @param previous\r\n     * @param start The starting position of the path.\r\n     * @param end The ending position of the path.\r\n     * @return An array of `Position` objects representing the path from `start` to `end`.\r\n     *  *                 If no path exists, the array will only contain `end` or may be empty depending\r\n     *  *                 on the input state.\r\n     */\r\n    private static Position[] buildPath(Position[][] previous, Position start, Position end)\r\n    {\r\n\r\n        List<Position> path = new ArrayList<>();\r\n        Position current = end;\r\n\r\n        while (current != null)\r\n        {\r\n            path.add(current);\r\n            current = previous[current.x][current.y];\r\n        }\r\n\r\n        Collections.reverse(path);\r\n        return path.toArray(new Position[0]);\r\n    }\r\n\r\n    /**\r\n     *  returns array containing shortest path, which begins from start. Excludes start point and\r\n     *  end point\r\n     * @param mapValues map to search\r\n     * @param start position from which searching begins\r\n     * @return returns Position[] array containing shortest path\r\n     */\r\n    public static Position[] getPathToClosestNonCollidableTileWithoutStartEnd(short[][] mapValues, Position start)\r\n    {\r\n        Position[] fullPath = getPathToClosestNonCollidableTile(mapValues, start);\r\n        if (fullPath == null || fullPath.length <= 2)\r\n        {\r\n            //System.err.println(\"There was trial to trim array of size 2 or null.\");\r\n            return new Position[0];\r\n        }\r\n        return Arrays.copyOfRange(fullPath, 1, fullPath.length - 1);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/utilities/Pathfinding.java b/src/utilities/Pathfinding.java
+--- a/src/utilities/Pathfinding.java	(revision 95c7f4a15bc25e26474c27f34a51ca57263ec0b1)
++++ b/src/utilities/Pathfinding.java	(date 1736366331806)
+@@ -144,4 +144,77 @@
+         }
+         return Arrays.copyOfRange(fullPath, 1, fullPath.length - 1);
+     }
++
++
++    public static Position findNearestNonCollidableTileWithNeighbors(short[][] mapValues, Position start, int requiredNeighbors) {
++        int width = mapValues.length;
++        int height = mapValues[0].length;
++
++        Queue<Position> queue = new LinkedList<>();
++        boolean[][] visited = new boolean[height][width];
++        queue.add(start);
++        visited[start.y][start.x] = true;
++
++        // Directions: right, down, left, up
++        int[] dx = {1, 0, -1, 0};
++        int[] dy = {0, 1, 0, -1};
++
++        while (!queue.isEmpty()) {
++            Position currentPosition = queue.poll();
++
++            for (int i = 0; i < 4; i++) {
++                int nx = currentPosition.x + dx[i];
++                int ny = currentPosition.y + dy[i];
++
++                if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[ny][nx]) {
++                    visited[ny][nx] = true;
++
++                    // Sprawdzenie, czy tile nie koliduje
++                    if (!TileManager.getTileObject(mapValues[ny][nx]).isColliding()) {
++                        // Sprawdzenie liczby sąsiadów
++                        int nonCollidableNeighbors = countNonCollidableNeighbors(mapValues, nx, ny);
++                        if (nonCollidableNeighbors >= requiredNeighbors) {
++                            return new Position(nx, ny);
++                        }
++                    }
++
++                    queue.add(new Position(nx, ny));
++                }
++            }
++        }
++
++        return null; // Brak odpowiedniego tile w całej mapie
++    }
++
++    /**
++     *
++     *
++     * @param mapValues
++     * @param x
++     * @param y
++     * @return
++     */
++    private static int countNonCollidableNeighbors(short[][] mapValues, int x, int y) {
++        int width = mapValues.length;
++        int height = mapValues[0].length;
++
++        // Directions: right, down, left, up
++        int[] dx = {1, 0, -1, 0};
++        int[] dy = {0, 1, 0, -1};
++
++        int count = 0;
++
++        for (int i = 0; i < 4; i++) {
++            int nx = x + dx[i];
++            int ny = y + dy[i];
++
++            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
++                if (!TileManager.getTileObject(mapValues[ny][nx]).isColliding()) {
++                    count++;
++                }
++            }
++        }
++
++        return count;
++    }
+ }

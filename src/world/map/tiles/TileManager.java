@@ -24,8 +24,8 @@
             SAND(4),
             WATER(5),
             CAVE_ENTRANCE(6),
-            CAVE_DEEP_ENTERANCE(7),
-            CAVE_RUINS_ENTERANCE(8),
+            CAVE_DEEP_ENTRANCE(7),
+            CAVE_RUINS_ENTRANCE(8),
             CAVE_EXIT(9),
             CAVE_DEEP_EXIT(10),
             CAVE_RUINS_EXIT(11),
@@ -129,5 +129,7 @@
             createTileObject("resources/tiles/CaveFloor", false, "Cave Floor", TileID.CAVE_FLOOR.getId());
             createTileObject("resources/tiles/Gravel", false, "Gravel", TileID.GRAVEL.getId());
             createTileObject("resources/tiles/BasaltFloor", false, "Basalt Floor", TileID.BASALT_FLOOR.getId());
+            createTileObject("resources/tiles/DeepCaveEntrance", false, "Deep Cave Entrance", TileID.CAVE_DEEP_ENTRANCE.getId());
+            createTileObject("resources/tiles/DeepCaveExit", false, "Deep Cave Exit", TileID.CAVE_DEEP_EXIT.getId());
         }
     }

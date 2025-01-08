@@ -4,9 +4,9 @@ import main.Direction;
 import main.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
-import utilities.Collisions;
 import utilities.Position;
 import world.generation.CaveNegativeOneGenerator;
+import world.generation.CaveNegativeTwoGenerator;
 import world.map.Map;
 import world.map.MapLevels;
 import world.map.tiles.Tile;
@@ -98,10 +98,11 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
                 CaveNegativeOneGenerator.createCaveNegativeOneMap(1024, 1024);
                 entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
                 break;
-            case CAVE_DEEP_ENTERANCE:
+            case CAVE_DEEP_ENTRANCE:
+                CaveNegativeTwoGenerator.createCaveNegativeTwoMap(1024, 1024);
                 entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
                 break;
-            case CAVE_RUINS_ENTERANCE:
+            case CAVE_RUINS_ENTRANCE:
                 entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_RUINS);
                 break;
 

@@ -1,12 +1,8 @@
 package world.generation;
 
 import utilities.Position;
-import world.map.MapController;
 import world.map.tiles.TileManager;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,10 +21,15 @@ public class CaveNegativeOneGenerator
     private TerrainGenerator ds2;
     //GENERATOR VARIABLES
 
-    public static ArrayList<Position> caveExitsPositions = new ArrayList<>();
+    public static ArrayList<Position> caveNegOneExits = new ArrayList<>();
+    private static ArrayList<Position> caveNegTwoEnterances = new ArrayList<>();
 
     public short[][] getMapValues() {return mapValues;}
     public long getSeed() {return seed;}
+
+    public static ArrayList<Position> getCaveNegOneExits() {return caveNegOneExits;}
+
+    public static ArrayList<Position> getCaveNegTwoEnterances() {return caveNegTwoEnterances;}
 
     public CaveNegativeOneGenerator(int width, int height)
     {
@@ -104,13 +105,19 @@ public class CaveNegativeOneGenerator
      */
     public static void createCaveNegativeOneMap(int mapWidth, int mapHeight)
     {
-        System.err.println("C");
+        int negativeTwoEntrances = TerrainGenerator.determineCaveEnterancesCount(mapWidth);
+
         CaveNegativeOneGenerator caveNegativeOneGenerator = new CaveNegativeOneGenerator(mapWidth, mapHeight);
         for (int i = 0; i < SurfaceGenerator.getCaveEnterancesCount(); i++) // generate cave exits
         {
             // replace creating path with creating path to closest rooms with x non-collidable tiles
             TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePath(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.CAVE_EXIT.getId(), TileManager.TileID.CAVE_FLOOR.getId(), SurfaceGenerator.getCaveEnterancesPositions().get(i));
-            caveExitsPositions.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
+            caveNegOneExits.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
+        }
+        for (int i = 0; i < negativeTwoEntrances; i++) // generate cave enterances
+        {
+            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.ROCK.getId(), TileManager.TileID.CAVE_DEEP_ENTRANCE.getId(), TileManager.TileID.CAVE_FLOOR.getId());
+            caveNegTwoEnterances.add(cave);
         }
         TerrainGenerator.saveGeneratedMapToFile(caveNegativeOneGenerator.getMapValues(), "resources/maps/CaveNegOne.txt");
     }
