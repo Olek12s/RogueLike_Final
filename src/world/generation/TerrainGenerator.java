@@ -17,7 +17,8 @@ public class TerrainGenerator {
     private int height;
     private double scale;
     private short[][] values;
-    private static long seed = 5;
+    private static Random rSeed = new Random(System.currentTimeMillis());
+    private static long seed = rSeed.nextLong();
     private float bias;
     static Random random;
 
@@ -37,7 +38,7 @@ public class TerrainGenerator {
         this.stepSize = stepSize;
         this.scale = scale;
         this.bias = bias;
-        this.seed = 5;
+        this.seed = seed;
         this.random = new Random(seed);
 
         values[0][0] = -1;
@@ -203,7 +204,7 @@ public class TerrainGenerator {
     }
 
 
-    public static void replaceSpecifiedTileAtRandomPlaceAndCreatePath(short[][] mapValues, int replaceTileID, int replaceWithTileID, int pathTileID)
+    public static Position replaceSpecifiedTileAtRandomPlaceAndCreatePath(short[][] mapValues, int replaceTileID, int replaceWithTileID, int pathTileID)
     {
         Position start = replaceSpecifiedTileAtRandomPlace(mapValues, replaceTileID, replaceWithTileID);
         Position[] path = Pathfinding.getPathToClosestNonCollidableTileWithoutStartEnd(mapValues, start);
@@ -212,6 +213,31 @@ public class TerrainGenerator {
         {
             mapValues[path[i].x][path[i].y] = (short) pathTileID;
         }
+        return start;
+    }
+
+    /**
+     *
+     *
+     * @param mapValues
+     * @param replaceWithTileID
+     * @param pathTileID
+     * @param positionToReplace
+     */
+    public static void replaceSpecifiedTileAtSpecifiedPlaceAndCreatePath(short[][] mapValues, int replaceWithTileID, int pathTileID, Position positionToReplace)
+    {
+         replaceSpecifiedTileAtSpecifiedPlace(mapValues, positionToReplace, replaceWithTileID);
+         Position[] path = Pathfinding.getPathToClosestNonCollidableTileWithoutStartEnd(mapValues, positionToReplace);
+
+         for (int i = 0; i < path.length; i++)
+         {
+             mapValues[path[i].x][path[i].y] = (short) pathTileID;
+         }
+    }
+
+    public static void replaceSpecifiedTileAtSpecifiedPlace(short[][] mapValues, Position positionToReplace, int replaceWIthTileID)
+    {
+        mapValues[positionToReplace.x][positionToReplace.y] = (short) replaceWIthTileID;
     }
 
 

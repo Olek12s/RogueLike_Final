@@ -1,15 +1,18 @@
 package world.generation;
 
+import utilities.Position;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SurfaceGenerator
 {
+    // GENERATOR VARIABLES
     private final int stepSize = 128;
     private final int scale = 32;
     private final int width;
@@ -22,9 +25,15 @@ public class SurfaceGenerator
     private TerrainGenerator ds1;
     private TerrainGenerator ds2;
     private TerrainGenerator ds3;
+    // GENERATOR VARIABLES
+
+    private static ArrayList<Position> caveEnterancesPositions = new ArrayList<>();
 
     public short[][] getMapValues() {return mapValues;}
     public long getSeed() {return seed;}
+
+    public static int getCaveEnterancesCount() {return caveEnterancesPositions.size();}
+    public static ArrayList<Position> getCaveEnterancesPositions() {return caveEnterancesPositions;}
 
     public SurfaceGenerator(int width, int height)
     {
@@ -110,7 +119,11 @@ public class SurfaceGenerator
         int negativeOneEnterances = determineNegativeOneEnterancesCount(mapWidth);
 
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
-        for (int i = 0; i < negativeOneEnterances; i++)TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
+        for (int i = 0; i < negativeOneEnterances; i++)
+        {
+            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
+            caveEnterancesPositions.add(cave);
+        }
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
     }
 
@@ -126,7 +139,7 @@ public class SurfaceGenerator
      */
     private static int determineNegativeOneEnterancesCount(int mapSize)
     {
-        if (mapSize == 1024) return 8;
+        if (mapSize == 1024) return 80;
         else if (mapSize == 512) return 3;
         else if (mapSize == 256) return 1;
         else throw new IllegalArgumentException("Illegal map size");

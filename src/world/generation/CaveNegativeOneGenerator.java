@@ -1,15 +1,18 @@
 package world.generation;
 
+import utilities.Position;
 import world.map.MapController;
 import world.map.tiles.TileManager;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class CaveNegativeOneGenerator
 {
+    //GENERATOR VARIABLES
     private final int stepSize = 256;
     private final int scale = 128;
     private final int width;
@@ -20,6 +23,9 @@ public class CaveNegativeOneGenerator
     short[][] map2;
     private TerrainGenerator ds1;
     private TerrainGenerator ds2;
+    //GENERATOR VARIABLES
+
+    public static ArrayList<Position> caveExitsPositions = new ArrayList<>();
 
     public short[][] getMapValues() {return mapValues;}
     public long getSeed() {return seed;}
@@ -73,9 +79,9 @@ public class CaveNegativeOneGenerator
 
                 if (mapValues[x][y] >= 250) val = TileManager.TileID.CAVE_FLOOR.getId();
                 else if (mapValues[x][y] >= 240 && mapValues[x][y] <= 243) val = TileManager.TileID.GRAVEL.getId();
-                else if (mapValues[x][y] >= 215 && mapValues[x][y] <= 245) val = TileManager.TileID.BASALT_FLOOR.getId();
+                else if (mapValues[x][y] >= 215 && mapValues[x][y] <= 245) val = TileManager.TileID.CAVE_FLOOR.getId();
                 else if (mapValues[x][y] >= 190 && mapValues[x][y] <= 195) val = TileManager.TileID.GRAVEL.getId();
-                else if (mapValues[x][y] >= 195 && mapValues[x][y] <= 200) val = TileManager.TileID.BASALT_FLOOR.getId();
+                else if (mapValues[x][y] >= 195 && mapValues[x][y] <= 200) val = TileManager.TileID.CAVE_FLOOR.getId();
                 else if (mapValues[x][y] >= 200 && mapValues[x][y] <= 206) val = TileManager.TileID.GRAVEL.getId();
                 else val = TileManager.TileID.ROCK.getId();
                 mapValues[x][y] = (short)val;
@@ -86,9 +92,9 @@ public class CaveNegativeOneGenerator
     /**
      * Builder method decorating map object containing raw tiles.
      * Decorates in sequence:
-     *
-     *
-     *  -
+     *  -Generates tiles
+     *  -Generates cave exits depending on the quantity of the cave enterances level above
+     *  -Generates caveNegTwo enterances
      *  -
      *  -
      * After decoration process saves map to the File "resources/maps/CaveNegOne.txt"
@@ -98,16 +104,36 @@ public class CaveNegativeOneGenerator
      */
     public static void createCaveNegativeOneMap(int mapWidth, int mapHeight)
     {
+        System.err.println("C");
         CaveNegativeOneGenerator caveNegativeOneGenerator = new CaveNegativeOneGenerator(mapWidth, mapHeight);
-         caveNegativeOneGenerator.getMapValues()[512+177][512+100] = (short)TileManager.TileID.CAVE_EXIT.getId();        //180 100 - temp exit for DEBUG
-        caveNegativeOneGenerator.getMapValues()[512+178][512+100] = (short)TileManager.TileID.SAND.getId();
-        caveNegativeOneGenerator.getMapValues()[512+179][512+100] = (short)TileManager.TileID.SAND.getId();
-        caveNegativeOneGenerator.getMapValues()[512+180][512+100] = (short)TileManager.TileID.SAND.getId();
-        caveNegativeOneGenerator.getMapValues()[512+181][512+100] = (short)TileManager.TileID.SAND.getId();
-        caveNegativeOneGenerator.getMapValues()[512+178][512+99] = (short)TileManager.TileID.SAND.getId();
-        caveNegativeOneGenerator.getMapValues()[512+177][512+99] = (short)TileManager.TileID.SAND.getId();
-        caveNegativeOneGenerator.getMapValues()[512+177][512+98] = (short)TileManager.TileID.SAND.getId();
-        caveNegativeOneGenerator.getMapValues()[512+182][512+100] = (short)TileManager.TileID.SAND.getId();
+        for (int i = 0; i < SurfaceGenerator.getCaveEnterancesCount(); i++) // generate cave exits
+        {
+            // replace creating path with creating path to closest rooms with x non-collidable tiles
+            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePath(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.CAVE_EXIT.getId(), TileManager.TileID.CAVE_FLOOR.getId(), SurfaceGenerator.getCaveEnterancesPositions().get(i));
+            caveExitsPositions.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
+        }
         TerrainGenerator.saveGeneratedMapToFile(caveNegativeOneGenerator.getMapValues(), "resources/maps/CaveNegOne.txt");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

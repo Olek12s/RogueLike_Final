@@ -18,9 +18,9 @@ public class Player extends Entity
         super(gc, EntityID.Player.ID, new Position(0,0)); // player's entityID is 0!
         int mapSizeInPixels = gc.mapController.getCurrentMap().getMapWidthInPixels();
         int halfMapSizeInTiles = (mapSizeInPixels/Tile.tileSize)/2;
-        setWorldPosition(new Position(177*64,99*64));
-        //setWorldPosition(randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, halfMapSizeInTiles/4, halfMapSizeInTiles/2));
-        //setWorldPosition(gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(new Position(0, -2000), hitbox));
+        //Position spawnPosition = randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, halfMapSizeInTiles/4, halfMapSizeInTiles/2);
+        Position spawnPosition = new Position(-4000, -4000);
+        setWorldPosition(gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(spawnPosition, hitbox));
         setupStatistics();
 
         entityUpdater.initUpdate();
@@ -53,7 +53,7 @@ public class Player extends Entity
         statistics.setArmour(0);
         statistics.setRegeneration(1);
         statistics.hitPoints = statistics.maxHitPoints;
-        statistics.setMovementSpeed(220);
+        statistics.setMovementSpeed(320);
     }
 
     @Override
