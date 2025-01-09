@@ -48,8 +48,8 @@ public class AssetSetter
 
         for (int i = 0; i < 0; i++)
         {
-            int x = startX + (i % 40) * offset;
-            int y = startY + (i / 5) * offset;
+            int x = startX + (i % 90) * offset;
+            int y = startY + (i / 8) * offset;
             // temp solution:
 
             if (gc.mapController.getCurrentMap().getTile(x, y).isColliding() == false)

@@ -2,6 +2,7 @@ package world.generation;
 
 
 
+import main.GameController;
 import utilities.Pathfinding;
 import utilities.Position;
 import world.map.tiles.TileManager;
@@ -12,6 +13,7 @@ import java.util.*;
 
 // Diamond-Square method
 public class TerrainGenerator {
+    // GENERATOR VARIABLES
     private int stepSize;
     private int width;
     private int height;
@@ -21,6 +23,8 @@ public class TerrainGenerator {
     private static long seed = rSeed.nextLong();
     private float bias;
     static Random random;
+    // GENERATOR VARIABLES
+
 
     public void setSeed(long seed) {
         this.seed = seed;

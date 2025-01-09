@@ -9,10 +9,13 @@ import main.entity.EntityUpdater;
 import main.item.BitingSlimeWeapon;
 import main.item.ZombieWeapon;
 import utilities.*;
+import world.generation.TerrainGenerator;
 import world.map.tiles.Tile;
 
 public class Player extends Entity
 {
+    public boolean isCollidingWithEnterance = false;
+
     public Player(GameController gc)
     {
         super(gc, EntityID.Player.ID, new Position(0,0)); // player's entityID is 0!
@@ -22,7 +25,6 @@ public class Player extends Entity
         Position spawnPosition = new Position(-4000, -4000);
         setWorldPosition(gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(spawnPosition, hitbox));
         setupStatistics();
-
         entityUpdater.initUpdate();
     }
 

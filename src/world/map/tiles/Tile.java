@@ -62,4 +62,18 @@ public class Tile implements Serializable
 
         return position.x >= startX && position.x < endX && position.y >= startY && position.y < endY;
     }
+
+    public boolean isCavePassage() {
+        TileManager.TileID tileID = TileManager.TileID.fromId(id);
+        switch (tileID)
+        {
+            case CAVE_ENTRANCE,
+                 CAVE_EXIT,
+                 CAVE_DEEP_ENTRANCE,
+                 CAVE_DEEP_EXIT,
+                 CAVE_RUINS_ENTRANCE,
+                 CAVE_RUINS_EXIT-> {return true;}
+            default -> {return false;}
+        }
+    }
 }

@@ -8,19 +8,19 @@ import utilities.Position;
 import world.generation.CaveNegativeOneGenerator;
 import world.generation.CaveNegativeTwoGenerator;
 import world.map.Map;
+import world.map.MapController;
 import world.map.MapLevels;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
 
 public class PlayerUpdater extends EntityUpdater implements Updatable
 {
-    Entity entity;
-    private boolean isCollidingWithEnterance = false;
+    Player entity;
 
     public PlayerUpdater(Entity entity)
     {
         super(entity);
-        this.entity = entity;
+        this.entity = (Player)entity;
     }
 
     int counter = 0;
@@ -86,35 +86,58 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
 
     private void checkEnteranceCollision()
     {
-        Map currentMap = entity.gc.mapController.getCurrentMap();
-        Position currentPosition = entity.getHitbox().getCenterWorldPosition();
+        Map currentMap = MapController.getCurrentMap();
+        Position currentPosition = entity.getHitbox().getCenterWorldPosition();Tile currentTile = currentMap.getTile(currentPosition);
 
-        int tileId = currentMap.getTile(currentPosition).getId();
-        TileManager.TileID tileID = TileManager.TileID.fromId(tileId);
-
-        switch (tileID)
+        if (entity.isCollidingWithEnterance && !currentTile.isCavePassage())
         {
-            case CAVE_ENTRANCE:
-                CaveNegativeOneGenerator.createCaveNegativeOneMap(1024, 1024);
-                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
-                break;
-            case CAVE_DEEP_ENTRANCE:
-                CaveNegativeTwoGenerator.createCaveNegativeTwoMap(1024, 1024);
-                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
-                break;
-            case CAVE_RUINS_ENTRANCE:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_RUINS);
-                break;
+            entity.isCollidingWithEnterance = false;
+        }
 
-            case CAVE_EXIT:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.SURFACE);
-                break;
-            case CAVE_DEEP_EXIT:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
-                break;
-            case CAVE_RUINS_EXIT:
-                entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
-                break;
+        if (!entity.isCollidingWithEnterance)
+        {
+            int tileId = currentMap.getTile(currentPosition).getId();
+            TileManager.TileID tileID = TileManager.TileID.fromId(tileId);
+
+            switch (tileID)
+            {
+                case CAVE_ENTRANCE:
+                    if (MapController.getMapByLevel(MapLevels.CAVE_NEGATIVE_ONE) == null)
+                    {
+                        CaveNegativeOneGenerator.createCaveNegativeOneMap(1024, 1024);
+                    }
+                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
+                    break;
+                case CAVE_DEEP_ENTRANCE:
+                    if (MapController.getMapByLevel(MapLevels.CAVE_NEGATIVE_TWO) == null)
+                    {
+                        CaveNegativeTwoGenerator.createCaveNegativeTwoMap(1024, 1024);
+                    }
+                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
+
+                    break;
+                case CAVE_RUINS_ENTRANCE:
+                    if (MapController.getMapByLevel(MapLevels.CAVE_RUINS) == null)
+                    {
+                        //generator
+                        entity.gc.mapController.changeMapForPlayer((Player) entity, MapLevels.CAVE_RUINS);
+                    }
+                    break;
+
+                case CAVE_EXIT:
+                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.SURFACE);
+                    break;
+                case CAVE_DEEP_EXIT:
+                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
+                    break;
+                case CAVE_RUINS_EXIT:
+                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
+                    break;
+            }
+            if (currentTile.isCavePassage())
+            {
+                entity.isCollidingWithEnterance = true;
+            }
         }
     }
 }

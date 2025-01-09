@@ -3,7 +3,6 @@ package main;
 import main.cursor.CursorHUD;
 import main.entity.Entity;
 import main.entity.player.Player;
-import world.generation.EntityGenerator;
 import world.map.MapController;
 import world.map.tiles.TileManager;
 import ui.HUD;
@@ -36,7 +35,6 @@ public class GameController extends JPanel implements Runnable
     public AssetSetter assetSetter;
     public CursorHUD cursor;
     public HUD hud;
-    public EntityGenerator entityGenerator;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -86,7 +84,6 @@ public class GameController extends JPanel implements Runnable
         assetSetter = new AssetSetter(this);
         cursor = new CursorHUD(this);
         hud = new HUD(this);
-        entityGenerator = new EntityGenerator(this);
     }
 
 

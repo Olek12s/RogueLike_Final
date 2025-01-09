@@ -1,7 +1,8 @@
 package world.generation;
 
-import main.entity.EntityID;
+import main.GameController;
 import utilities.Position;
+import world.map.MapController;
 import world.map.MapLevels;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
@@ -118,15 +119,33 @@ public class SurfaceGenerator
      */
     public static void createSurfaceMap(int mapWidth, int mapHeight)
     {
-        int negativeOneEnterances = TerrainGenerator.determineCaveEnterancesCount(mapWidth);
+        int negativeOneEnterances = determineNegativeOneEnterancesCount(mapWidth);
 
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
-        for (int i = 0; i < negativeOneEnterances; i++) // generate cave enterances
+        for (int i = 0; i < negativeOneEnterances; i++)
         {
             Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
             caveEnterancesPositions.add(cave);
         }
-
+        MapController.createMap(MapLevels.SURFACE.getValue(), mapWidth, mapHeight);
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
+    }
+
+
+    /**
+     *  calculates proper negative one cave enterances count with formula:
+     *  1024 - 8 enterances
+     *  512 - 3 enterances
+     *  256 - 1 enterances
+     *
+     * @param mapSize
+     * @return
+     */
+    private static int determineNegativeOneEnterancesCount(int mapSize)
+    {
+        if (mapSize == 1024) return 80;
+        else if (mapSize == 512) return 3;
+        else if (mapSize == 256) return 1;
+        else throw new IllegalArgumentException("Illegal map size");
     }
 }
