@@ -119,16 +119,28 @@ public class SurfaceGenerator
      */
     public static void createSurfaceMap(int mapWidth, int mapHeight)
     {
+        long start = System.currentTimeMillis();
         int negativeOneEnterances = determineNegativeOneEnterancesCount(mapWidth);
 
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
         for (int i = 0; i < negativeOneEnterances; i++)
         {
-            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
+            //Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
+            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
             caveEnterancesPositions.add(cave);
         }
         MapController.createMap(MapLevels.SURFACE.getValue(), mapWidth, mapHeight);
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
+
+        long end = System.currentTimeMillis();
+
+        float elapsed = (float)(end-start)/1000;
+        System.out.println(elapsed + " / 1.500");
+        final String ANSI_GREEN = "\u001B[32m\t";
+        final String ANSI_RED = "\u001B[31m\t";
+        if (elapsed <= 1.5) System.out.println(ANSI_GREEN + "ZALICZONE");
+        else System.out.println(ANSI_RED + "PRZEKROCZONY CZAS");
+        System.out.println("\u001B[37m\t");
     }
 
 

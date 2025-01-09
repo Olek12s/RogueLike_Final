@@ -314,6 +314,18 @@ public class TerrainGenerator {
         else throw new IllegalArgumentException("Illegal map size");
     }
 
+    public static Position replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(short[][] mapValues, int replaceTileID, int replaceWithTileID, int pathTileID)
+    {
+        Position start = replaceSpecifiedTileAtRandomPlace(mapValues, replaceTileID, replaceWithTileID);
+        Position[] path = Pathfinding.getPathToMainLandWithoutStartEnd(mapValues, start);
+
+        for (int i = 0; i < path.length; i++)
+        {
+            mapValues[path[i].x][path[i].y] = (short) pathTileID;
+        }
+        return start;
+    }
+
 
     /* faster method
     public static void saveGeneratedMapToFile(short[][] mapValues, String filePath)

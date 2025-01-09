@@ -182,22 +182,31 @@ public class Pathfinding
         return count;
     }
 
+    public static Position[] getPathToMainLandWithoutStartEnd(short[][] mapValues, Position start)
+    {
+        Position[] path = getPathToMainLand(mapValues, start);
+        if (path == null || path.length <= 2)
+        {
+            //System.err.println("There was trial to trim array of size 2 or null.");
+            return new Position[0];
+        }
+        return Arrays.copyOfRange(path, 1, path.length - 1);
+
+    }
+
     public static Position[] getPathToMainLand(short[][] mapValues, Position start, int landSize)
     {
         int width = mapValues.length;
         int height = mapValues[0].length;
 
-        // Kolejka do BFS-u po całej mapie w poszukiwaniu drogi.
         Queue<Position> queue = new LinkedList<>();
         boolean[][] visited = new boolean[width][height];
         Position[][] previous = new Position[width][height];
 
-        // Inicjalizacja BFS
         visited[start.x][start.y] = true;
         previous[start.x][start.y] = null;
         queue.add(start);
 
-        // Możliwe ruchy: góra, dół, lewo, prawo
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
 
@@ -205,18 +214,15 @@ public class Pathfinding
         {
             Position current = queue.poll();
 
-            // Jeżeli bieżący kafel nie koliduje, sprawdzamy wielkość jego regionu
-            if (!TileManager.getTileObject(mapValues[current.y][current.x]).isColliding())
+            if (!TileManager.getTileObject(mapValues[current.x][current.y]).isColliding())
             {
                 int regionSize = getRegionSize(mapValues, current);
                 if (regionSize >= landSize)
                 {
-                    // Zbuduj ścieżkę i zwróć, bo znaleźliśmy najbliższy obszar >= 50
                     return buildPath(previous, start, current);
                 }
             }
 
-            // Kontynuacja BFS w 4 kierunkach
             for (int i = 0; i < 4; i++)
             {
                 int nx = current.x + dx[i];
@@ -230,13 +236,12 @@ public class Pathfinding
                 }
             }
         }
-        // Nie znaleziono regionu >= 50 niekolidujących kafli
         return null;
     }
 
     public static Position[] getPathToMainLand(short[][] mapValues, Position start)
     {
-        return getPathToMainLand(mapValues, start, 25);
+        return getPathToMainLand(mapValues, start, 100);
     }
 
     private static int getRegionSize(short[][] mapValues, Position start)
@@ -249,7 +254,6 @@ public class Pathfinding
         queue.add(start);
         visited[start.x][start.y] = true;
 
-        // Możliwe ruchy: góra, dół, lewo, prawo
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
 
@@ -266,8 +270,7 @@ public class Pathfinding
                 int ny = current.y + dy[i];
                 if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nx][ny])
                 {
-                    // Dodajemy tylko kafle niekolidujące
-                    if (!TileManager.getTileObject(mapValues[ny][nx]).isColliding())
+                    if (!TileManager.getTileObject(mapValues[nx][ny]).isColliding())
                     {
                         visited[nx][ny] = true;
                         queue.add(new Position(nx, ny));
