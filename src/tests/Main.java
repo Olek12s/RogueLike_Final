@@ -3,6 +3,7 @@ package tests;
 import test.runner.TestRunner;
 import tests.pathfinding.FindNearestNonCollidableTileTester;
 import tests.pathfinding.GetPathToClosestNonCollidableTileTest;
+import tests.pathfinding.GetPathToMainLandTester;
 
 public class Main
 {
@@ -14,5 +15,6 @@ public class Main
         TestRunner.runTests(TerrainGeneratorBFSTester.class);
         TestRunner.runTests(FindNearestNonCollidableTileTester.class);
         TestRunner.runTests(GetPathToClosestNonCollidableTileTest.class);
+        TestRunner.runTests(GetPathToMainLandTester.class);
     }
 }
