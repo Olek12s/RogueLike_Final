@@ -278,7 +278,7 @@ public class Pathfinding
                     }
                 }
             }
-            if (size >= maxSize) break; // do not count whole map
+            if (size >= maxSize) break; // do not count whole map.
         }
         return size;
     }
