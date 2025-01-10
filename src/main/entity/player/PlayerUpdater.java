@@ -102,10 +102,12 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
             switch (tileID)
             {
                 case CAVE_ENTRANCE:
+
                     if (MapController.getMapByLevel(MapLevels.CAVE_NEGATIVE_ONE) == null)
                     {
                         CaveNegativeOneGenerator.createCaveNegativeOneMap(1024, 1024);
                     }
+
                     entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
                     break;
                 case CAVE_DEEP_ENTRANCE:

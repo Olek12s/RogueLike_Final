@@ -31,8 +31,7 @@ public class MapController
     {
         this.gc = gc;
         mapWidth = width;
-        mapHeight = height;
-        SurfaceGenerator.createSurfaceMap(width, height);
+        mapHeight = height;SurfaceGenerator.createSurfaceMap(width, height);
         createMap(0, width, height);
         this.currentMap = maps.get(0);
         maps.put(0, currentMap);    // surface level

@@ -63,6 +63,8 @@ public class CaveNegativeTwoGenerator
 
             }
         }
+        map1 = null;
+        map2 = null;
     }
 
     /**
@@ -80,15 +82,25 @@ public class CaveNegativeTwoGenerator
      */
     public static void createCaveNegativeTwoMap(int mapWidth, int mapHeight)
     {
+        long start = System.currentTimeMillis();
         CaveNegativeTwoGenerator caveNegativeTwoGenerator = new CaveNegativeTwoGenerator(mapWidth, mapHeight);
 
         for (int i = 0; i < SurfaceGenerator.getCaveEnterancesCount(); i++) // generate cave exits
         {
             // replace creating path with creating path to closest rooms with x non-collidable tiles
-            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePath(caveNegativeTwoGenerator.getMapValues(), TileManager.TileID.CAVE_DEEP_EXIT.getId(), TileManager.TileID.BASALT_FLOOR.getId(), CaveNegativeOneGenerator.getCaveNegTwoEnterances().get(i));
+            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePathToMainLand(caveNegativeTwoGenerator.getMapValues(), TileManager.TileID.CAVE_DEEP_EXIT.getId(), TileManager.TileID.BASALT_FLOOR.getId(), CaveNegativeOneGenerator.getCaveNegTwoEnterances().get(i));
             caveNegTwoExits.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
         }
         TerrainGenerator.saveGeneratedMapToFile(caveNegativeTwoGenerator.getMapValues(), "resources/maps/CaveNegTwo.txt");
         System.gc();
+
+        long end = System.currentTimeMillis();
+        float elapsed = (float)(end-start)/1000;
+        System.out.print("NegTwo: " + elapsed + " / 0.300");
+        final String ANSI_GREEN = "\u001B[32m\t";
+        final String ANSI_RED = "\u001B[31m\t";
+        if (elapsed <= 0.3) System.out.print(ANSI_GREEN + "ZALICZONE");
+        else System.out.println(ANSI_RED + "PRZEKROCZONY CZAS");
+        System.out.println("\033[0;37m");
     }
 }

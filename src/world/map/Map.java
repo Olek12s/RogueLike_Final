@@ -31,7 +31,6 @@ public class Map
         this.chunkCountY = mapHeight;
         this.filePath = path;
         chunks = new Chunk[chunkCountX][chunkCountY];
-
         this.level = level;
         loadMapFromFile();         //Fills map with new Chunk objects
     }
@@ -88,6 +87,7 @@ public class Map
     private void loadMapFromFile()
     {
         int chunkSize = Chunk.getChunkSize();
+
         Tile[][] defaultChunkTiles = createDefaultChunkTiles(); // initializing default chunks
         short[][] mapValues = null;
 
@@ -100,7 +100,6 @@ public class Map
         }
 
         // Creating chunks
-        long start = System.nanoTime();
         for (int x = 0; x < chunkCountX; x++)
         {
             for (int y = 0; y < chunkCountY; y++)
@@ -123,8 +122,6 @@ public class Map
                 chunks[x][y] = new Chunk(chunkPosition, chunkTiles, x, y, this.level);
             }
         }
-        long end = System.nanoTime();
-        //System.out.println("All chunks created in: " + (float) (end - start) / 1_000_000_000 + " seconds.");
     }
 
     private Tile[][] extractChunkTilesFromMapArray(short[][] mapValues, int startX, int startY)

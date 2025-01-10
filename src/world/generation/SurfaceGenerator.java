@@ -102,6 +102,8 @@ public class SurfaceGenerator
                 mapValues[x][y] = (short)val;
             }
         }
+        map1 = null;
+        map2 = null;
     }
 
     /**
@@ -120,7 +122,7 @@ public class SurfaceGenerator
     public static void createSurfaceMap(int mapWidth, int mapHeight)
     {
         long start = System.currentTimeMillis();
-        int negativeOneEnterances = determineNegativeOneEnterancesCount(mapWidth);
+        int negativeOneEnterances = TerrainGenerator.determineCaveEnterancesCount(mapWidth);
 
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
         for (int i = 0; i < negativeOneEnterances; i++)
@@ -133,31 +135,15 @@ public class SurfaceGenerator
         System.gc();
 
         long end = System.currentTimeMillis();
-
         float elapsed = (float)(end-start)/1000;
-        System.out.println(elapsed + " / 0.800");
+        System.out.println("\033[0;37m");
+        System.out.print("SURFACE: " + elapsed + " / 0.300");
         final String ANSI_GREEN = "\u001B[32m\t";
         final String ANSI_RED = "\u001B[31m\t";
-        if (elapsed <= 0.8) System.out.println(ANSI_GREEN + "ZALICZONE");
+        if (elapsed <= 0.3) System.out.print(ANSI_GREEN + "ZALICZONE");
         else System.out.println(ANSI_RED + "PRZEKROCZONY CZAS");
-        System.out.println("\u001B[37m\t");
+        System.out.println("\033[0;37m");
     }
 
 
-    /**
-     *  calculates proper negative one cave enterances count with formula:
-     *  1024 - 8 enterances
-     *  512 - 3 enterances
-     *  256 - 1 enterances
-     *
-     * @param mapSize
-     * @return
-     */
-    private static int determineNegativeOneEnterancesCount(int mapSize)
-    {
-        if (mapSize == 1024) return 80;
-        else if (mapSize == 512) return 3;
-        else if (mapSize == 256) return 1;
-        else throw new IllegalArgumentException("Illegal map size");
-    }
 }

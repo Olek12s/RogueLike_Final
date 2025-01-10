@@ -250,38 +250,27 @@ public class TerrainGenerator {
     }
 
 
-    public static Position replaceSpecifiedTileAtRandomPlace(short[][] mapValues, int replaceTileID, int replaceWithTileID)
-    {
+    public static Position replaceSpecifiedTileAtRandomPlace(short[][] mapValues, int replaceTileID, int replaceWithTileID) {
         int width = mapValues.length;
         int height = mapValues[0].length;
 
-
-        List<int[]> matchingPositions = new ArrayList<>();    // all positions maching replaceTileID value
-
         try
         {
-            for (int x = 0; x < width; x++)
+            int safetyCounter = 0;
+            while (safetyCounter < 2000)
             {
-                for (int y = 0; y < height; y++)
+                int randomX = random.nextInt(width);
+                int randomY = random.nextInt(height);
+
+                if (mapValues[randomX][randomY] == replaceTileID)
                 {
-                    if (mapValues[x][y] == replaceTileID)
-                    {
-                        matchingPositions.add(new int[]{x, y});
-                    }
+                    mapValues[randomX][randomY] = (short) replaceWithTileID;
+                    return new Position(randomX, randomY);
                 }
+                safetyCounter++;
             }
-
-            if (matchingPositions.isEmpty())
-            {
-                throw new Exception("No positions found with the specified replaceTileID: " + replaceTileID);
-            }
-            int randomIndex = random.nextInt(matchingPositions.size());
-            int[] position = matchingPositions.get(randomIndex);
-
-            mapValues[position[0]][position[1]] = (short) replaceWithTileID;
-            return new Position(position[0], position[1]);
-        }
-        catch (Exception ex)    // no positions
+            throw new Exception("No positions found with the specified replaceTileID: " + replaceTileID);
+        } catch (Exception ex)
         {
             System.err.println("Error occurred: " + ex.getMessage());
             ex.printStackTrace();
@@ -319,7 +308,7 @@ public class TerrainGenerator {
      */
     public static int determineCaveEnterancesCount(int mapSize)
     {
-        if (mapSize == 1024) return 80;
+        if (mapSize == 1024) return 8;
         else if (mapSize == 512) return 3;
         else if (mapSize == 256) return 1;
         else throw new IllegalArgumentException("Illegal map size");
