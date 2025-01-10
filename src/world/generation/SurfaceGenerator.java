@@ -135,10 +135,10 @@ public class SurfaceGenerator
         long end = System.currentTimeMillis();
 
         float elapsed = (float)(end-start)/1000;
-        System.out.println(elapsed + " / 1.500");
+        System.out.println(elapsed + " / 0.800");
         final String ANSI_GREEN = "\u001B[32m\t";
         final String ANSI_RED = "\u001B[31m\t";
-        if (elapsed <= 1.5) System.out.println(ANSI_GREEN + "ZALICZONE");
+        if (elapsed <= 0.8) System.out.println(ANSI_GREEN + "ZALICZONE");
         else System.out.println(ANSI_RED + "PRZEKROCZONY CZAS");
         System.out.println("\u001B[37m\t");
     }

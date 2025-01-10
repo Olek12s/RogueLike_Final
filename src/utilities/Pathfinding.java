@@ -248,6 +248,7 @@ public class Pathfinding
     {
         int width = mapValues.length;
         int height = mapValues[0].length;
+        final int maxSize = 1000;
 
         boolean[][] visited = new boolean[width][height];
         Queue<Position> queue = new LinkedList<>();
@@ -277,6 +278,7 @@ public class Pathfinding
                     }
                 }
             }
+            if (size >= maxSize) break; // do not count whole map
         }
         return size;
     }
