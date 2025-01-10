@@ -232,6 +232,17 @@ public class TerrainGenerator {
          }
     }
 
+    public static void replaceSpecifiedTileAtSpecifiedPlaceAndCreatePathToMainLand(short[][] mapValues, int replaceWithTileID, int pathTileID, Position positionToReplace)
+    {
+        replaceSpecifiedTileAtSpecifiedPlace(mapValues, positionToReplace, replaceWithTileID);
+        Position[] path = Pathfinding.getPathToMainLandWithoutStartEnd(mapValues, positionToReplace);
+
+        for (int i = 0; i < path.length; i++)
+        {
+            mapValues[path[i].x][path[i].y] = (short) pathTileID;
+        }
+    }
+
 
     public static void replaceSpecifiedTileAtSpecifiedPlace(short[][] mapValues, Position positionToReplace, int replaceWIthTileID)
     {

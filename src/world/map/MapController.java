@@ -18,8 +18,6 @@ public class MapController
     static int mapWidth;
     static int mapHeight;
 
-    public static SurfaceGenerator surfaceGenerator;
-
     public static Map getCurrentMap()
     {
         return currentMap;

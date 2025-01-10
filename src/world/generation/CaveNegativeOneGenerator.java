@@ -88,6 +88,8 @@ public class CaveNegativeOneGenerator
                 mapValues[x][y] = (short)val;
             }
         }
+        //map1 = null;
+        //map2 = null;
     }
 
     /**
@@ -111,15 +113,17 @@ public class CaveNegativeOneGenerator
         for (int i = 0; i < SurfaceGenerator.getCaveEnterancesCount(); i++) // generate cave exits
         {
             // replace creating path with creating path to closest rooms with x non-collidable tiles
-            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePath(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.CAVE_EXIT.getId(), TileManager.TileID.CAVE_FLOOR.getId(), SurfaceGenerator.getCaveEnterancesPositions().get(i));
+            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePathToMainLand(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.CAVE_EXIT.getId(), TileManager.TileID.CAVE_FLOOR.getId(), SurfaceGenerator.getCaveEnterancesPositions().get(i));
             caveNegOneExits.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
         }
         for (int i = 0; i < negativeTwoEntrances; i++) // generate cave enterances
         {
-            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.ROCK.getId(), TileManager.TileID.CAVE_DEEP_ENTRANCE.getId(), TileManager.TileID.CAVE_FLOOR.getId());
+            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.ROCK.getId(), TileManager.TileID.CAVE_DEEP_ENTRANCE.getId(), TileManager.TileID.CAVE_FLOOR.getId());
             caveNegTwoEnterances.add(cave);
         }
         TerrainGenerator.saveGeneratedMapToFile(caveNegativeOneGenerator.getMapValues(), "resources/maps/CaveNegOne.txt");
+
+        System.gc();
     }
 }
 

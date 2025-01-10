@@ -39,17 +39,17 @@ public class GetPathToMainLandTester
 
         Position[] pathLeftAnswer = new Position[]{
                 new Position(5,5),
-                new Position(4,5),
-                new Position(3,5),
-                new Position(2,5),
-                new Position(1,5),
-                new Position(0,5)
+                new Position(5,4),
+                new Position(5,3),
+                new Position(5,2),
+                new Position(5,1),
+                new Position(5,0)
         };
         Position[] pathRightDownAnswer = new Position[]{
                 new Position(5,5),
                 new Position(5,6),
-                new Position(5,7),
-                new Position(6,7)
+                new Position(6,6),
+                new Position(7,6)
         };
 
         Assertions.assertNull(pathNull);

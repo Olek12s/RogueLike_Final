@@ -125,12 +125,12 @@ public class SurfaceGenerator
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
         for (int i = 0; i < negativeOneEnterances; i++)
         {
-            //Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePath(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
             Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
             caveEnterancesPositions.add(cave);
         }
-        MapController.createMap(MapLevels.SURFACE.getValue(), mapWidth, mapHeight);
+        //MapController.createMap(MapLevels.SURFACE.getValue(), mapWidth, mapHeight);
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
+        System.gc();
 
         long end = System.currentTimeMillis();
 

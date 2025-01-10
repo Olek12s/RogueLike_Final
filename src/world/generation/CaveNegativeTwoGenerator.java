@@ -89,5 +89,6 @@ public class CaveNegativeTwoGenerator
             caveNegTwoExits.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
         }
         TerrainGenerator.saveGeneratedMapToFile(caveNegativeTwoGenerator.getMapValues(), "resources/maps/CaveNegTwo.txt");
+        System.gc();
     }
 }

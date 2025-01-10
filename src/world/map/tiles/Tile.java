@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Tile implements Serializable
 {
     public static int tileSize = 64;
-    private final int id;
+    private final short id;
     private Sprite currentSprite;
     private boolean isColliding;
     private Position worldPosition;
@@ -19,9 +19,10 @@ public class Tile implements Serializable
 
     public int getId() {return id;}
 
+    private static int counter = 0;
     public Tile(int id, Position position) throws InterruptedException
     {
-        this.id = id;
+        this.id = (short)id;
         this.worldPosition = position;
         this.currentSprite = TileManager.getTileObject(id).getRandomVariation(0);
         this.isColliding = TileManager.getTileObject(id).isColliding();
