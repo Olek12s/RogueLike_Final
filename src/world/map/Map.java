@@ -87,7 +87,6 @@ public class Map
 
     private void loadMapFromFile()
     {
-        System.out.println("A");
         int chunkSize = Chunk.getChunkSize();
         Tile[][] defaultChunkTiles = createDefaultChunkTiles(); // initializing default chunks
         short[][] mapValues = null;
