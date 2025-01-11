@@ -24,9 +24,13 @@ public class GameController extends JPanel implements Runnable
     private int targetDrawFrame =  75;
     private int targetLogicFrame = 60;
     private boolean debugMode;
+    private long renderTime;
+    private long updateTime;
 
     public void setDebugMode(boolean debugMode) {this.debugMode = debugMode;}
     public boolean isDebugMode() {return debugMode;}
+    public long getRenderTime() {return renderTime;}
+    public long getUpdateTime() {return updateTime;}
 
 
     //CLASS INSTANCES
@@ -153,11 +157,14 @@ public class GameController extends JPanel implements Runnable
         {
             updatable.update();
         }
+        long end = System.nanoTime();
+        updateTime = end-start;
     }
 
     @Override
     protected void paintComponent(Graphics g)
     {
+        long start = System.nanoTime();
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
@@ -167,6 +174,8 @@ public class GameController extends JPanel implements Runnable
             drawable.draw(g2);  // !!! BOTTLE NECK WARNING: DRAWABLES' SPRITES ARE SCALED EVERY ITERATION WHICH IS EXTREMELY CPU-CONSUMING !!!
         }
         g2.dispose();
+        long end = System.nanoTime();
+        renderTime = end-start;
     }
 
     private void hideCursor()
