@@ -11,8 +11,8 @@ import java.util.Set;
 public class MapController
 {
     public GameController gc;
-    private MapRenderer renderer = new MapRenderer(this);
-    private MapUpdater updater = new MapUpdater(this);
+    private MapRenderer renderer;
+    private MapUpdater updater;
     private static Map currentMap;
     private static HashMap<Integer, Map> maps = new HashMap<>();
     static int mapWidth;
@@ -36,6 +36,8 @@ public class MapController
         this.currentMap = maps.get(0);
         maps.put(0, currentMap);    // surface level
 
+        renderer = new MapRenderer(this);
+        updater = new MapUpdater(this);
         gc.updatables.add(updater);
         gc.drawables.add(renderer);
     }

@@ -7,6 +7,9 @@ import utilities.camera.Camera;
 import world.map.tiles.Tile;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.concurrent.*;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -14,7 +17,7 @@ import static java.lang.Math.min;
 public class MapRenderer implements Drawable
 {
     MapController mapController;
-    public static int chunkRenderDistance = 8;
+    public static int chunkRenderDistance = 4;  // default value. Value is being updated in camera Updater
 
     public MapRenderer(MapController mapController)
     {
@@ -27,7 +30,6 @@ public class MapRenderer implements Drawable
     @Override
     public void draw(Graphics g2)   // drawing chunks (tiles)
     {
-        Chunk[][] chunks = mapController.getCurrentMap().getChunks();
         int chunkSize = Chunk.getChunkSize();
         int tileSize = Tile.tileSize;
 
