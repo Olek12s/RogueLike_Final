@@ -22,7 +22,7 @@ public class Chunk
     public Chunk(Position chunkWorldPosition, Tile[][] chunkTiles, int xIndex, int yIndex, MapLevels mapLevel)
     {
         this.chunkWorldPosition = chunkWorldPosition;
-        this.tiles = new Tile[chunkSize][chunkSize];
+        //this.tiles = new Tile[chunkSize][chunkSize];
         this.entities = new ArrayList<>();
         this.items = new ArrayList<>();
         this.tiles = chunkTiles;

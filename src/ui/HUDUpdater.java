@@ -15,6 +15,11 @@ public class HUDUpdater implements Updatable
     @Override
     public void update()
     {
+        updateHealthBar();
+    }
+
+    private void updateHealthBar()
+    {
         hud.scaleX = hud.gc.getWidth() / 16;
         hud.scaleY = hud.gc.getHeight() / 9;
         hud.scale = Math.min(hud.scaleX, hud.scaleY);

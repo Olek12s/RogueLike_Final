@@ -10,6 +10,10 @@ import world.map.tiles.TileManager;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 // Diamond-Square method
 public class TerrainGenerator {
@@ -19,7 +23,8 @@ public class TerrainGenerator {
     private int height;
     private double scale;
     private short[][] values;
-    private static Random rSeed = new Random(System.currentTimeMillis());
+    //private static Random rSeed = new Random(System.currentTimeMillis());
+    private static Random rSeed = new Random(5);
     private static long seed = rSeed.nextLong();
     private float bias;
     static Random random;
@@ -53,7 +58,8 @@ public class TerrainGenerator {
         generateDiamondSquareHeightMap();
     }
 
-    public void generateDiamondSquareHeightMap() {
+    public void generateDiamondSquareHeightMap()
+    {
         while (stepSize > 1) {
             diamondStep();
             squareStep();
@@ -81,7 +87,8 @@ public class TerrainGenerator {
         }
     }
 
-    private void squareStep() {
+    private void squareStep()
+    {
         int halfStep = stepSize / 2;
 
         for (int x = 0; x < width; x += halfStep) {

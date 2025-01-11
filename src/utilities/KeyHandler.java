@@ -17,6 +17,8 @@ public class KeyHandler implements KeyListener
     public boolean DOWN_PRESSED = false;
     public boolean LEFT_PRESSED = false;
     public boolean RIGHT_PRESSED = false;
+    public boolean TIDE_PRESSED = false;
+    public boolean SHIFT_PRESSED = false;
 
 
     public KeyHandler(GameController gc)
@@ -42,7 +44,12 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_LEFT: LEFT_PRESSED = true; break;
             case KeyEvent.VK_DOWN: DOWN_PRESSED = true; break;
             case KeyEvent.VK_RIGHT: RIGHT_PRESSED = true; break;
+
+            case KeyEvent.VK_BACK_QUOTE: TIDE_PRESSED = true; break;
+            case KeyEvent.VK_SHIFT: SHIFT_PRESSED = true; break;
+
         }
+        if  (TIDE_PRESSED == true) gc.setDebugMode(!gc.isDebugMode());
     }
 
     @Override
@@ -60,6 +67,9 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_LEFT: LEFT_PRESSED = false; break;
             case KeyEvent.VK_DOWN: DOWN_PRESSED = false; break;
             case KeyEvent.VK_RIGHT: RIGHT_PRESSED = false; break;
+
+            case KeyEvent.VK_BACK_QUOTE: TIDE_PRESSED = false; break;
+            case KeyEvent.VK_SHIFT: SHIFT_PRESSED = false; break;
         }
     }
 }

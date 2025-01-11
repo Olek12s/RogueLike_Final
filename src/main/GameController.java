@@ -23,6 +23,11 @@ public class GameController extends JPanel implements Runnable
     private Thread mainThread;
     private int targetDrawFrame =  75;
     private int targetLogicFrame = 60;
+    private boolean debugMode;
+
+    public void setDebugMode(boolean debugMode) {this.debugMode = debugMode;}
+    public boolean isDebugMode() {return debugMode;}
+
 
     //CLASS INSTANCES
     public KeyHandler keyHandler;
@@ -103,9 +108,9 @@ public class GameController extends JPanel implements Runnable
         long lastTime = System.nanoTime();
         long accumulator = 0;
         long maxAccumulator = logicInterval * maxLogicUpdatesPerFrame;
-
         while (mainThread != null)
         {
+
             long currentTime = System.nanoTime();
             long deltaT = currentTime - lastTime;
             lastTime = currentTime;
@@ -143,13 +148,12 @@ public class GameController extends JPanel implements Runnable
 
     private void updateLogic()    // UPDATE LOGIC
     {
+        long start = System.nanoTime();
         for (Updatable updatable : updatables)
         {
             updatable.update();
         }
     }
-
-
 
     @Override
     protected void paintComponent(Graphics g)

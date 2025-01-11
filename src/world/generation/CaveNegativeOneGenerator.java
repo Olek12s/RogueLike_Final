@@ -110,7 +110,6 @@ public class CaveNegativeOneGenerator
         long start = System.currentTimeMillis();
         int negativeTwoEntrances = TerrainGenerator.determineCaveEnterancesCount(mapWidth);
         CaveNegativeOneGenerator caveNegativeOneGenerator = new CaveNegativeOneGenerator(mapWidth, mapHeight);
-
         for (int i = 0; i < SurfaceGenerator.getCaveEnterancesCount(); i++) // generate cave exits
         {
             // replace creating path with creating path to closest rooms with x non-collidable tiles
@@ -123,8 +122,8 @@ public class CaveNegativeOneGenerator
             caveNegTwoEnterances.add(cave);
         }
 
-        TerrainGenerator.saveGeneratedMapToFile(caveNegativeOneGenerator.getMapValues(), "resources/maps/CaveNegOne.txt");
 
+        TerrainGenerator.saveGeneratedMapToFile(caveNegativeOneGenerator.getMapValues(), "resources/maps/CaveNegOne.txt");
         System.gc();
 
 

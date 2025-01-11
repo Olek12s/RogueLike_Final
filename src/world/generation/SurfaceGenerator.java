@@ -130,7 +130,6 @@ public class SurfaceGenerator
             Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
             caveEnterancesPositions.add(cave);
         }
-        //MapController.createMap(MapLevels.SURFACE.getValue(), mapWidth, mapHeight);
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");
         System.gc();
 

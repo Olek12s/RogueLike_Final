@@ -25,6 +25,11 @@ public class HUDRenderer implements Drawable
     @Override
     public void draw(Graphics g2)
     {
+        renderHealthBar(g2);
+    }
+
+    private void renderHealthBar(Graphics g2)
+    {
         Graphics2D g2d = (Graphics2D) g2;
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(3));

@@ -71,7 +71,7 @@ public class EntityRenderer implements Drawable
                         Math.abs(entityChunk.getyIndex() - cameraChunk.getyIndex()) <= MapRenderer.chunkRenderDistance)
                 {
                     g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
-                    drawEntityHitbox(g2);
+                    if (entity.gc.isDebugMode()) drawEntityHitbox(g2);
                 }
 
             }
