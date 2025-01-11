@@ -24,6 +24,7 @@ public class Camera
 
     public Position getCameraPosition() {return cameraPosition;}
     public static double getScaleFactor() {return scaleFactor;}
+    public static void setScaleFactor(double scaleFactor) {Camera.scaleFactor = scaleFactor;}
 
     public Position applyCameraOffset(int worldX, int worldY)
     {

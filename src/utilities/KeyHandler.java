@@ -1,6 +1,7 @@
 package utilities;
 
 import main.GameController;
+import utilities.camera.Camera;
 
 import java.awt.event.*;
 
@@ -19,6 +20,8 @@ public class KeyHandler implements KeyListener
     public boolean RIGHT_PRESSED = false;
     public boolean TIDE_PRESSED = false;
     public boolean SHIFT_PRESSED = false;
+
+    public boolean MULTIPLE_PRESSED = false;
 
 
     public KeyHandler(GameController gc)
@@ -48,8 +51,11 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_BACK_QUOTE: TIDE_PRESSED = true; break;
             case KeyEvent.VK_SHIFT: SHIFT_PRESSED = true; break;
 
+            case KeyEvent.VK_MULTIPLY: MULTIPLE_PRESSED = true; break;
+
         }
         if  (TIDE_PRESSED == true) gc.setDebugMode(!gc.isDebugMode());
+        if (MULTIPLE_PRESSED == true) Camera.setScaleFactor(1);
     }
 
     @Override
@@ -70,6 +76,8 @@ public class KeyHandler implements KeyListener
 
             case KeyEvent.VK_BACK_QUOTE: TIDE_PRESSED = false; break;
             case KeyEvent.VK_SHIFT: SHIFT_PRESSED = false; break;
+
+            case KeyEvent.VK_MULTIPLY: MULTIPLE_PRESSED = false; break;
         }
     }
 }

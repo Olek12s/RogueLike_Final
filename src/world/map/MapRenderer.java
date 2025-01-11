@@ -68,6 +68,7 @@ public class MapRenderer implements Drawable
                             Position screenPosition = mapController.gc.camera.applyCameraOffset(worldX, worldY);
                             int scaleFactor = (int) Math.ceil(Camera.getScaleFactor() * tileSize);
                             g2.drawImage(tile.getCurrentSprite().image, screenPosition.x, screenPosition.y, scaleFactor, scaleFactor, null);
+                            mapController.gc.incrementRenderCount();
                         }
                     }
                 }
@@ -93,6 +94,7 @@ public class MapRenderer implements Drawable
         g2d.setColor(Color.YELLOW);
         g2d.setStroke(new BasicStroke(scaledThickness));
         g2d.drawRect(screenPos.x, screenPos.y, scaledWidth, scaledHeight);
+        mapController.gc.incrementRenderCount();
     }
 
     private boolean isTileVisible(int worldX, int worldY, int tileSize)

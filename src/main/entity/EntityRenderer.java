@@ -71,6 +71,7 @@ public class EntityRenderer implements Drawable
                         Math.abs(entityChunk.getyIndex() - cameraChunk.getyIndex()) <= MapRenderer.chunkRenderDistance)
                 {
                     g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
+                    entity.gc.incrementRenderCount();
                     if (entity.gc.isDebugMode()) drawEntityHitbox(g2);
                 }
 
@@ -121,5 +122,6 @@ public class EntityRenderer implements Drawable
         int scaledHitboxHeight = (int) (entity.getHitbox().getHitboxRect().height * scaleFactor);
         g2.setColor (Color.ORANGE);
         g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);
+        entity.gc.incrementRenderCount();
     }
 }

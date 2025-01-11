@@ -31,9 +31,11 @@ public class CursorRenderer implements Drawable
 
             // Vertical lines
             g2.fillRect(cursor.cursorPosition.x - 1, cursor.cursorPosition.y - 10, 3, 21);
+            cursor.gc.incrementRenderCount();
 
             // Horizontal lines
             g2.fillRect(cursor.cursorPosition.x - 10, cursor.cursorPosition.y - 1, 21, 3);
+            cursor.gc.incrementRenderCount();
         }
     }
 }

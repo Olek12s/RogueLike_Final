@@ -26,6 +26,7 @@ public class GameController extends JPanel implements Runnable
     private boolean debugMode;
     private long renderTime;
     private long updateTime;
+    private long lastRenderCount;
 
     public void setDebugMode(boolean debugMode) {this.debugMode = debugMode;}
     public boolean isDebugMode() {return debugMode;}
@@ -33,6 +34,8 @@ public class GameController extends JPanel implements Runnable
     public long getUpdateTime() {return updateTime;}
     public int getTargetDrawFrame() {return targetDrawFrame;}
     public int getTargetLogicFrame() {return targetLogicFrame;}
+    public long getRenderCount() {return lastRenderCount;}
+    public void incrementRenderCount() {lastRenderCount++;}
 
     //CLASS INSTANCES
     public KeyHandler keyHandler;
@@ -170,6 +173,7 @@ public class GameController extends JPanel implements Runnable
         Graphics2D g2 = (Graphics2D)g;
 
         drawables.sort((e1, e2) -> Integer.compare(e1.getDrawPriority(), e2.getDrawPriority()));
+        lastRenderCount = 0;
         for (Drawable drawable : drawables)
         {
             drawable.draw(g2);  // !!! BOTTLE NECK WARNING: DRAWABLES' SPRITES ARE SCALED EVERY ITERATION WHICH IS EXTREMELY CPU-CONSUMING !!!
