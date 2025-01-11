@@ -14,7 +14,7 @@ import static java.lang.Math.min;
 public class MapRenderer implements Drawable
 {
     MapController mapController;
-    public static int chunkRenderDistance = 16;
+    public static int chunkRenderDistance = 8;
 
     public MapRenderer(MapController mapController)
     {
@@ -69,8 +69,28 @@ public class MapRenderer implements Drawable
                         }
                     }
                 }
+                if (mapController.gc.isDebugMode()) drawChunkBoundary(g2, chunk);
             }
         }
+    }
+
+    private void drawChunkBoundary(Graphics g2, Chunk chunk)
+    {
+        int chunkPixelSize = Chunk.getChunkSize() * Tile.tileSize;
+        final int chunkBoundaryThickness = 1;
+
+        Position chunkWorldPos = chunk.getChunkWorldPosition();
+        Position screenPos = mapController.gc.camera.applyCameraOffset(chunkWorldPos.x, chunkWorldPos.y);
+
+        double scaleFactor = Camera.getScaleFactor();
+        int scaledWidth  = (int) (chunkPixelSize * scaleFactor);
+        int scaledHeight = (int) (chunkPixelSize * scaleFactor);
+        float scaledThickness = (float)(chunkBoundaryThickness * scaleFactor);
+
+        Graphics2D g2d = (Graphics2D) g2;
+        g2d.setColor(Color.YELLOW);
+        g2d.setStroke(new BasicStroke(scaledThickness));
+        g2d.drawRect(screenPos.x, screenPos.y, scaledWidth, scaledHeight);
     }
 
     private boolean isTileVisible(int worldX, int worldY, int tileSize)

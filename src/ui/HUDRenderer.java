@@ -10,9 +10,9 @@ public class HUDRenderer implements Drawable
 {
     HUD hud;
     int renderDebugInfoCounter;
-    private String renderTime = "Render time: 0 ms";
-    private String updateTime = "Update time: 0 ms";
-    private String summaryTime = "Summary time: 0 ms";
+    private String renderTime = "-";
+    private String updateTime = "-";
+    private String summaryTime = "-";
 
     public HUDRenderer(HUD hud)
     {
@@ -53,15 +53,21 @@ public class HUDRenderer implements Drawable
     private void renderDebugInfo(Graphics g2)
     {
         renderDebugInfoCounter++;
-        float renderTimeValue = hud.gc.getRenderTime() / 1_000_000.0f; // ns -> ms
-        float updateTimeValue = hud.gc.getUpdateTime() / 1_000_000.0f; // ns -> ms
-        float summaryTimeValue = renderTimeValue+updateTimeValue; // ms
-
-        if (renderDebugInfoCounter == 60)   // updat evalues once per x seconds
+        if (renderDebugInfoCounter >= 60)
         {
-            renderTime = "Render time: " + renderTimeValue + "ms";
-            updateTime = "Update time: " + updateTimeValue + "ms";
-            summaryTime = "Summary time: " + summaryTimeValue + " ms";
+            renderTime = String.format("Render time: %.2f ms (%.2f%%)",
+                    hud.gc.getRenderTime() / 1_000_000.0f,
+                    (hud.gc.getRenderTime() / 1_000_000.0f) / (1000.0f / hud.gc.getTargetDrawFrame()) * 100.0f);
+
+            updateTime = String.format("Update time: %.2f ms (%.2f%%)",
+                    hud.gc.getUpdateTime() / 1_000_000.0f,
+                    (hud.gc.getUpdateTime() / 1_000_000.0f) / (1000.0f / hud.gc.getTargetLogicFrame()) * 100.0f);
+
+            summaryTime = String.format("Summary time: %.2f ms (%.2f%%)",
+                    (hud.gc.getRenderTime() + hud.gc.getUpdateTime()) / 1_000_000.0f,
+                    ((hud.gc.getRenderTime() / 1_000_000.0f) / (1000.0f / hud.gc.getTargetDrawFrame()) * 100.0f) +
+                            ((hud.gc.getUpdateTime() / 1_000_000.0f) / (1000.0f / hud.gc.getTargetLogicFrame()) * 100.0f));
+
             renderDebugInfoCounter = 0;
         }
         Graphics2D g2d = (Graphics2D) g2;

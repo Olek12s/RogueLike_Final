@@ -31,7 +31,8 @@ public class GameController extends JPanel implements Runnable
     public boolean isDebugMode() {return debugMode;}
     public long getRenderTime() {return renderTime;}
     public long getUpdateTime() {return updateTime;}
-
+    public int getTargetDrawFrame() {return targetDrawFrame;}
+    public int getTargetLogicFrame() {return targetLogicFrame;}
 
     //CLASS INSTANCES
     public KeyHandler keyHandler;
