@@ -1,27 +1,24 @@
 package world.map.tiles;
 
-public enum TileSide
+public class TileSide
 {
-    UP(0),
-    DOWN(1),
-    LEFT(2),
-    RIGHT(3);
+    // 2^4 of combinations
+    private final boolean up;
+    private final boolean down;
+    private final boolean left;
+    private final boolean right;
 
-    private final int id;
 
-    TileSide(int id) {this.id = id;}
+    public boolean isUp() {return up;}
+    public boolean isDown() {return down;}
+    public boolean isLeft() {return left;}
+    public boolean isRight() {return right;}
 
-    public int getId() {return id;}
-
-    public static TileSide fromId(int id)
+    public TileSide(boolean up, boolean down, boolean left, boolean right)
     {
-        for (TileSide tileSide : values())
-        {
-            if (tileSide.getId() == id)
-            {
-                return tileSide;
-            }
-        }
-        throw new IllegalArgumentException("Illegal ID");
+        this.up = up;
+        this.down = down;
+        this.left = left;
+        this.right = right;
     }
 }

@@ -35,11 +35,11 @@
             }
         }
 
-        private void createTileObject(String spriteSheetPath, String edgedSpriteSheetPath, boolean isColliding, String name, int id)
+        private void createTileObject(String spriteSheetPath, String edgedSpriteSheetPath, TileEdge tileEdge, boolean isColliding, String name, int id)
         {
             SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 64);
             SpriteSheet edgedSpriteSheet = new SpriteSheet(FileManipulation.loadImage(edgedSpriteSheetPath), 64);
-            TileObject tileObject = new TileObject(spriteSheet, edgedSpriteSheet, isColliding, name, id);
+            TileObject tileObject = new TileObject(spriteSheet, edgedSpriteSheet, tileEdge, isColliding, name, id);
             if (!tileObjects.containsKey(id))
             {
                 tileObjects.put(id, tileObject);
@@ -56,10 +56,10 @@
             createTileObject("resources/default/defaultTileCollision",  true, "Default Tile Collision", TileID.DEFAULT_TILE_COLLISION.getId());
             createTileObject("resources/tiles/Dirt",  false, "Dirt", TileID.DIRT.getId());
             createTileObject("resources/tiles/Grass",  false, "Grass", TileID.GRASS.getId());
-            createTileObject("resources/tiles/Stone", "resources/edges/Stone",  true, "Stone", TileID.STONE.getId());
-            createTileObject("resources/tiles/Rock", "resources/edges/Stone",  true, "Rock", TileID.ROCK.getId());
+            createTileObject("resources/tiles/Stone", "resources/edges/Stone", TileEdge.STONE,  true, "Stone", TileID.STONE.getId());
+            createTileObject("resources/tiles/Rock", "resources/edges/Stone", TileEdge.STONE,  true, "Rock",   TileID.ROCK.getId());
             createTileObject("resources/tiles/Sand",  false, "Sand", TileID.SAND.getId());
-            createTileObject("resources/tiles/Water", "resources/edges/Water",  false, "Water", TileID.WATER.getId());
+            createTileObject("resources/tiles/Water", "resources/edges/Water", TileEdge.WATER,false, "Water", TileID.WATER.getId());
             createTileObject("resources/tiles/CaveEntrance", false, "Cave Entrance", TileID.CAVE_ENTRANCE.getId());
             createTileObject("resources/tiles/CaveExit",  false, "Cave Exit", TileID.CAVE_EXIT.getId());
             createTileObject("resources/tiles/CaveFloor",  false, "Cave Floor", TileID.CAVE_FLOOR.getId());

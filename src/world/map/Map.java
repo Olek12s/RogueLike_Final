@@ -5,6 +5,7 @@ import utilities.Hitbox;
 import utilities.Position;
 import world.map.tiles.Tile;
 import world.map.tiles.TileManager;
+import world.map.tiles.TileObject;
 
 import java.awt.*;
 import java.io.*;
@@ -150,6 +151,11 @@ public class Map
                     short id = mapValues[mapX][mapY];
                     try {
                         Tile tile = new Tile(id, new Position(worldX, worldY));
+                        if (TileManager.getTileObject(tile.getId()).getTileEdge() != null)
+                        {
+                            int sideCode = TileObject.getSideCode(2,2,2,2,2);
+                            TileManager.getTileObject(tile.getId()).setSprite(TileManager.getTileObject(tile.getId()).getEdgedSprites()[sideCode]);
+                        }
                         chunkTiles[x][y] = tile;
                     } catch (Exception ex) {
                         chunkTiles[x][y] = new Tile(new Position(worldX, worldY));
