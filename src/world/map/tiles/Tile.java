@@ -11,49 +11,35 @@ import java.io.Serializable;
 
 public class Tile implements Serializable
 {
+    private TileObject tileObject;
     public static int tileSize = 64;
     private final short id;
-    private Sprite currentSprite;
-    private boolean isColliding;
+    //private Sprite currentSprite;
+    //private boolean isColliding;
     private Position worldPosition;
 
 
     public int getId() {return id;}
+    public boolean isColliding() {return tileObject.isCollidable();}
 
     private static int counter = 0;
     public Tile(int id, Position position) throws InterruptedException
     {
         this.id = (short)id;
         this.worldPosition = position;
-        this.currentSprite = TileManager.getTileObject(id).getRandomVariation(0);
-        this.isColliding = TileManager.getTileObject(id).isColliding();
+        this.tileObject = TileManager.getTileObject(id);
     }
 
     public Tile(Position position)
     {
-        this.id = 0;
+        this.id = (short) TileID.DEFAULT_TILE.getId();
         this.worldPosition = position;
         SpriteSheet defaultSS = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultTile"), 64);
-        this.currentSprite = defaultSS.extractFirst();
+        this.tileObject = TileManager.getTileObject(id);
+        this.tileObject.setSprite(defaultSS.extractFirst());
     }
 
-    public Sprite getCurrentSprite() {return currentSprite;}
-    public boolean isColliding() {return isColliding;}
-
-
-
-    public static Sprite extractRandomVariation(SpriteSheet spriteSheet)
-    {
-        if (spriteSheet.countSpriteVariations() == 1)
-        {
-            return spriteSheet.extractFirst();
-        }
-        else
-        {
-            int randomVariation = (int) (Math.random() * spriteSheet.countSpriteVariations());
-            return spriteSheet.extractSpriteByVariation(randomVariation);
-        }
-    }
+    public Sprite getCurrentSprite() {return TileManager.getTileObject(id).getSprite();}
 
     public boolean doesContainPosition(Position position)
     {
@@ -77,39 +63,5 @@ public class Tile implements Serializable
                  CAVE_RUINS_EXIT-> {return true;}
             default -> {return false;}
         }
-    }
-
-    public void addEdgeTexture()
-    {
-        TileManager.TileObject tileObject = TileManager.getTileObject(id);
-
-        // Sprawdzenie, czy edgeSprites istnieją
-        if (tileObject != null && tileObject.getEdgeSprites() != null) {
-            // Wybierz losowy sprite z edgeSprites
-            Sprite[] edgeSprites = tileObject.getEdgeSprites();
-            int randomIndex = (int) (Math.random() * edgeSprites.length);
-            Sprite edgeSprite = edgeSprites[randomIndex];
-
-            // Połączenie obecnego Sprite (currentSprite) z edgeSprite
-            this.currentSprite = combineSprites(this.currentSprite, edgeSprite);
-        }
-    }
-
-    private Sprite combineSprites(Sprite baseSprite, Sprite overlaySprite) {
-        // Tworzymy nowy BufferedImage o tych samych wymiarach co currentSprite
-        BufferedImage combinedImage = new BufferedImage(
-                baseSprite.resolutionX,
-                baseSprite.resolutionY,
-                BufferedImage.TYPE_INT_ARGB
-        );
-
-        // Łączymy obrazy przy pomocy Graphics2D
-        Graphics2D g = combinedImage.createGraphics();
-        g.drawImage(baseSprite.image, 0, 0, null); // Rysujemy podstawowy Sprite
-        g.drawImage(overlaySprite.image, 0, 0, null); // Rysujemy na nim overlay (krawędź)
-        g.dispose();
-
-        // Zwracamy nowy Sprite
-        return new Sprite(combinedImage, baseSprite.resolutionX, baseSprite.spriteScale);
     }
 }

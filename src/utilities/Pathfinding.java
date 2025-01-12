@@ -42,7 +42,7 @@ public class Pathfinding
                     visited[ny][nx] = true;
 
                     // found non collidable Tile
-                    if (!TileManager.getTileObject(mapValues[ny][nx]).isColliding())
+                    if (!TileManager.getTileObject(mapValues[ny][nx]).isCollidable())
                     {
                         return new Position(nx, ny);
                     }
@@ -91,7 +91,7 @@ public class Pathfinding
                     visited[nx][ny] = true;
                     previous[nx][ny] = currentPosition;
 
-                    if (!TileManager.getTileObject(mapValues[nx][ny]).isColliding())    // found a non-collidable tile
+                    if (!TileManager.getTileObject(mapValues[nx][ny]).isCollidable())    // found a non-collidable tile
                     {
                         return buildPath(previous, start, new Position(nx, ny));
                     }
@@ -173,7 +173,7 @@ public class Pathfinding
 
             if (nx >= 0 && nx < width && ny >= 0 && ny < height)
             {
-                if (!TileManager.getTileObject(mapValues[ny][nx]).isColliding())
+                if (!TileManager.getTileObject(mapValues[ny][nx]).isCollidable())
                 {
                     count++;
                 }
@@ -214,7 +214,7 @@ public class Pathfinding
         {
             Position current = queue.poll();
 
-            if (!TileManager.getTileObject(mapValues[current.x][current.y]).isColliding())
+            if (!TileManager.getTileObject(mapValues[current.x][current.y]).isCollidable())
             {
                 int regionSize = getRegionSize(mapValues, current);
                 if (regionSize >= landSize)
@@ -271,7 +271,7 @@ public class Pathfinding
                 int ny = current.y + dy[i];
                 if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nx][ny])
                 {
-                    if (!TileManager.getTileObject(mapValues[nx][ny]).isColliding())
+                    if (!TileManager.getTileObject(mapValues[nx][ny]).isCollidable())
                     {
                         visited[nx][ny] = true;
                         queue.add(new Position(nx, ny));

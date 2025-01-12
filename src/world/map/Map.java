@@ -4,6 +4,7 @@ import main.entity.Entity;
 import utilities.Hitbox;
 import utilities.Position;
 import world.map.tiles.Tile;
+import world.map.tiles.TileManager;
 
 import java.awt.*;
 import java.io.*;
@@ -145,17 +146,12 @@ public class Map
                 int worldX = (mapX * Tile.tileSize) - halfMapWidthInPixels;
                 int worldY = (mapY * Tile.tileSize) - halfMapHeightInPixels;
 
-                if (mapX < mapValues.length && mapY < mapValues[0].length)
-                {
+                if (mapX < mapValues.length && mapY < mapValues[0].length) {
                     short id = mapValues[mapX][mapY];
-                    try
-                    {
+                    try {
                         Tile tile = new Tile(id, new Position(worldX, worldY));
-                        if(x == 5 || x ==3 || x == 2) tile.addEdgeTexture();
                         chunkTiles[x][y] = tile;
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         chunkTiles[x][y] = new Tile(new Position(worldX, worldY));
                         defaultTilesCounter++;
                     }
