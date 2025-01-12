@@ -2,8 +2,8 @@ package ui;
 
 import main.GameController;
 import utilities.FileManipulation;
-import utilities.Sprite;
-import utilities.SpriteSheet;
+import utilities.sprite.Sprite;
+import utilities.sprite.SpriteSheet;
 
 public class HUD
 {

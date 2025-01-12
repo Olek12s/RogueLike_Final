@@ -1,8 +1,11 @@
 package utilities.camera;
 
 
+import main.GameController;
 import main.Updatable;
+import utilities.KeyHandler;
 import world.map.Chunk;
+import world.map.MapController;
 import world.map.MapRenderer;
 import world.map.tiles.Tile;
 

@@ -11,6 +11,7 @@ import world.map.Map;
 import world.map.MapController;
 import world.map.MapLevels;
 import world.map.tiles.Tile;
+import world.map.tiles.TileID;
 import world.map.tiles.TileManager;
 
 public class PlayerUpdater extends EntityUpdater implements Updatable
@@ -97,7 +98,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         if (!entity.isCollidingWithEnterance)
         {
             int tileId = currentMap.getTile(currentPosition).getId();
-            TileManager.TileID tileID = TileManager.TileID.fromId(tileId);
+            TileID tileID = TileID.fromId(tileId);
 
             switch (tileID)
             {

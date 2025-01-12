@@ -1,6 +1,7 @@
 package utilities;
 
 import main.entity.Entity;
+import utilities.sprite.Sprite;
 
 import java.awt.*;
 

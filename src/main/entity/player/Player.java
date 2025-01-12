@@ -4,12 +4,8 @@ import main.Direction;
 import main.GameController;
 import main.entity.Entity;
 import main.entity.EntityID;
-import main.entity.EntityRenderer;
-import main.entity.EntityUpdater;
-import main.item.BitingSlimeWeapon;
-import main.item.ZombieWeapon;
 import utilities.*;
-import world.generation.TerrainGenerator;
+import utilities.sprite.SpriteSheet;
 import world.map.tiles.Tile;
 
 public class Player extends Entity

@@ -150,7 +150,9 @@ public class Map
                     short id = mapValues[mapX][mapY];
                     try
                     {
-                        chunkTiles[x][y] = new Tile(id, new Position(worldX, worldY));
+                        Tile tile = new Tile(id, new Position(worldX, worldY));
+                        if(x == 5 || x ==3 || x == 2) tile.addEdgeTexture();
+                        chunkTiles[x][y] = tile;
                     }
                     catch (Exception ex)
                     {

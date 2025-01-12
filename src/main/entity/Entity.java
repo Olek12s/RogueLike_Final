@@ -4,6 +4,8 @@ import main.DamageType;
 import main.Direction;
 import main.GameController;
 import main.item.Weapon;
+import utilities.sprite.Sprite;
+import utilities.sprite.SpriteSheet;
 import world.map.Chunk;
 import utilities.*;
 import world.map.MapLevels;

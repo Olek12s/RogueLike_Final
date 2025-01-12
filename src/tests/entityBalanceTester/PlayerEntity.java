@@ -10,7 +10,7 @@ import main.item.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
-import utilities.SpriteSheet;
+import utilities.sprite.SpriteSheet;
 
 public class PlayerEntity extends Entity
 {

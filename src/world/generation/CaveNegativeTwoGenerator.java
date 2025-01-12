@@ -1,6 +1,7 @@
 package world.generation;
 
 import utilities.Position;
+import world.map.tiles.TileID;
 import world.map.tiles.TileManager;
 
 import java.util.ArrayList;
@@ -58,8 +59,8 @@ public class CaveNegativeTwoGenerator
 
                 //mapValues[x][y] = (short)val;
 
-                if (val >= 170) mapValues[x][y] = (short) TileManager.TileID.BASALT_FLOOR.getId();
-                else mapValues[x][y] = (short) TileManager.TileID.CAVE_FLOOR.getId();
+                if (val >= 170) mapValues[x][y] = (short) TileID.BASALT_FLOOR.getId();
+                else mapValues[x][y] = (short) TileID.CAVE_FLOOR.getId();
 
             }
         }
@@ -88,7 +89,7 @@ public class CaveNegativeTwoGenerator
         for (int i = 0; i < SurfaceGenerator.getCaveEnterancesCount(); i++) // generate cave exits
         {
             // replace creating path with creating path to closest rooms with x non-collidable tiles
-            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePathToMainLand(caveNegativeTwoGenerator.getMapValues(), TileManager.TileID.CAVE_DEEP_EXIT.getId(), TileManager.TileID.BASALT_FLOOR.getId(), CaveNegativeOneGenerator.getCaveNegTwoEnterances().get(i));
+            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePathToMainLand(caveNegativeTwoGenerator.getMapValues(), TileID.CAVE_DEEP_EXIT.getId(), TileID.BASALT_FLOOR.getId(), CaveNegativeOneGenerator.getCaveNegTwoEnterances().get(i));
             caveNegTwoExits.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
         }
         TerrainGenerator.saveGeneratedMapToFile(caveNegativeTwoGenerator.getMapValues(), "resources/maps/CaveNegTwo.txt");

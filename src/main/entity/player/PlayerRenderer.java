@@ -4,8 +4,7 @@ import main.DrawPriorities;
 import main.Drawable;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
-import utilities.Position;
-import utilities.SpriteSheet;
+import utilities.sprite.SpriteSheet;
 
 import java.awt.*;
 

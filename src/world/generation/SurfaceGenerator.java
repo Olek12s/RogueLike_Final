@@ -5,6 +5,7 @@ import utilities.Position;
 import world.map.MapController;
 import world.map.MapLevels;
 import world.map.tiles.Tile;
+import world.map.tiles.TileID;
 import world.map.tiles.TileManager;
 
 import java.io.BufferedWriter;
@@ -95,10 +96,10 @@ public class SurfaceGenerator
                 */
 
 
-                if (val <= 35) val = TileManager.TileID.WATER.getId();
-                else if (val > 35 && val <= 40) val = TileManager.TileID.SAND.getId();
-                else if (val > 40 && val <= 90) val = TileManager.TileID.GRASS.getId();
-                else if (val > 90 && val <= 255) val = TileManager.TileID.STONE.getId();
+                if (val <= 35) val = TileID.WATER.getId();
+                else if (val > 35 && val <= 40) val = TileID.SAND.getId();
+                else if (val > 40 && val <= 90) val = TileID.GRASS.getId();
+                else if (val > 90 && val <= 255) val = TileID.STONE.getId();
                 mapValues[x][y] = (short)val;
             }
         }
@@ -127,7 +128,7 @@ public class SurfaceGenerator
         SurfaceGenerator surfaceGenerator = new SurfaceGenerator(mapWidth, mapHeight);
         for (int i = 0; i < negativeOneEnterances; i++)
         {
-            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(surfaceGenerator.getMapValues(), TileManager.TileID.STONE.getId(), TileManager.TileID.CAVE_ENTRANCE.getId(), TileManager.TileID.DIRT.getId());
+            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(surfaceGenerator.getMapValues(), TileID.STONE.getId(), TileID.CAVE_ENTRANCE.getId(), TileID.DIRT.getId());
             caveEnterancesPositions.add(cave);
         }
         TerrainGenerator.saveGeneratedMapToFile(surfaceGenerator.getMapValues(), "resources/maps/Surface.txt");

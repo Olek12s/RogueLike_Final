@@ -5,8 +5,8 @@ import main.Drawable;
 import world.map.Chunk;
 import world.map.MapRenderer;
 import utilities.Position;
-import utilities.Sprite;
-import utilities.SpriteSheet;
+import utilities.sprite.Sprite;
+import utilities.sprite.SpriteSheet;
 import utilities.camera.Camera;
 
 import java.awt.*;

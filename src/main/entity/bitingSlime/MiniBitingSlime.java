@@ -11,7 +11,7 @@ import main.item.BitingSlimeWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
-import utilities.SpriteSheet;
+import utilities.sprite.SpriteSheet;
 
 
 // entity class level 1

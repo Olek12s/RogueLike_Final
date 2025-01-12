@@ -1,6 +1,7 @@
 package world.generation;
 
 import utilities.Position;
+import world.map.tiles.TileID;
 import world.map.tiles.TileManager;
 
 import java.util.ArrayList;
@@ -78,13 +79,13 @@ public class CaveNegativeOneGenerator
                 mapValues[x][y] = (short)val;
                 VISUALIZATION */
 
-                if (mapValues[x][y] >= 250) val = TileManager.TileID.CAVE_FLOOR.getId();
-                else if (mapValues[x][y] >= 240 && mapValues[x][y] <= 243) val = TileManager.TileID.GRAVEL.getId();
-                else if (mapValues[x][y] >= 215 && mapValues[x][y] <= 245) val = TileManager.TileID.CAVE_FLOOR.getId();
-                else if (mapValues[x][y] >= 190 && mapValues[x][y] <= 195) val = TileManager.TileID.GRAVEL.getId();
-                else if (mapValues[x][y] >= 195 && mapValues[x][y] <= 200) val = TileManager.TileID.CAVE_FLOOR.getId();
-                else if (mapValues[x][y] >= 200 && mapValues[x][y] <= 206) val = TileManager.TileID.GRAVEL.getId();
-                else val = TileManager.TileID.ROCK.getId();
+                if (mapValues[x][y] >= 250) val = TileID.CAVE_FLOOR.getId();
+                else if (mapValues[x][y] >= 240 && mapValues[x][y] <= 243) val = TileID.GRAVEL.getId();
+                else if (mapValues[x][y] >= 215 && mapValues[x][y] <= 245) val = TileID.CAVE_FLOOR.getId();
+                else if (mapValues[x][y] >= 190 && mapValues[x][y] <= 195) val = TileID.GRAVEL.getId();
+                else if (mapValues[x][y] >= 195 && mapValues[x][y] <= 200) val = TileID.CAVE_FLOOR.getId();
+                else if (mapValues[x][y] >= 200 && mapValues[x][y] <= 206) val = TileID.GRAVEL.getId();
+                else val = TileID.ROCK.getId();
                 mapValues[x][y] = (short)val;
             }
         }
@@ -113,12 +114,12 @@ public class CaveNegativeOneGenerator
         for (int i = 0; i < SurfaceGenerator.getCaveEnterancesCount(); i++) // generate cave exits
         {
             // replace creating path with creating path to closest rooms with x non-collidable tiles
-            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePathToMainLand(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.CAVE_EXIT.getId(), TileManager.TileID.CAVE_FLOOR.getId(), SurfaceGenerator.getCaveEnterancesPositions().get(i));
+            TerrainGenerator.replaceSpecifiedTileAtSpecifiedPlaceAndCreatePathToMainLand(caveNegativeOneGenerator.getMapValues(), TileID.CAVE_EXIT.getId(), TileID.CAVE_FLOOR.getId(), SurfaceGenerator.getCaveEnterancesPositions().get(i));
             caveNegOneExits.add(SurfaceGenerator.getCaveEnterancesPositions().get(i));
         }
         for (int i = 0; i < negativeTwoEntrances; i++) // generate cave enterances
         {
-            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(caveNegativeOneGenerator.getMapValues(), TileManager.TileID.ROCK.getId(), TileManager.TileID.CAVE_DEEP_ENTRANCE.getId(), TileManager.TileID.CAVE_FLOOR.getId());
+            Position cave = TerrainGenerator.replaceSpecifiedTileAtRandomPlaceAndCreatePathToMainLand(caveNegativeOneGenerator.getMapValues(), TileID.ROCK.getId(), TileID.CAVE_DEEP_ENTRANCE.getId(), TileID.CAVE_FLOOR.getId());
             caveNegTwoEnterances.add(cave);
         }
 
