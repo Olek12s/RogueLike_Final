@@ -13,6 +13,7 @@ public class Tile implements Serializable
 {
     private TileObject tileObject;
     public static int tileSize = 64;
+    private EdgeCode edgeCode;
     private final short id;
     //private Sprite currentSprite;
     //private boolean isColliding;
@@ -21,6 +22,20 @@ public class Tile implements Serializable
 
     public int getId() {return id;}
     public boolean isColliding() {return tileObject.isCollidable();}
+    public EdgeCode getEdgeCode() {return edgeCode;}
+    public void setEdgeCode(EdgeCode edgeCode)
+    {
+        this.edgeCode = edgeCode;
+    }
+
+    public Sprite getCurrentSprite()
+    {
+        if (TileManager.getTileObject(id).getEdgedSprites() == null)
+        {
+            return TileManager.getTileObject(id).getSprite();
+        }
+        else return TileManager.getTileObject(id).getEdgedSprites()[edgeCode.getId()];
+    }
 
     private static int counter = 0;
     public Tile(int id, Position position) throws InterruptedException
@@ -38,8 +53,6 @@ public class Tile implements Serializable
         this.tileObject = TileManager.getTileObject(id);
         this.tileObject.setSprite(defaultSS.extractFirst());
     }
-
-    public Sprite getCurrentSprite() {return TileManager.getTileObject(id).getSprite();}
 
     public boolean doesContainPosition(Position position)
     {

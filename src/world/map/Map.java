@@ -3,9 +3,7 @@ package world.map;
 import main.entity.Entity;
 import utilities.Hitbox;
 import utilities.Position;
-import world.map.tiles.Tile;
-import world.map.tiles.TileManager;
-import world.map.tiles.TileObject;
+import world.map.tiles.*;
 
 import java.awt.*;
 import java.io.*;
@@ -153,8 +151,13 @@ public class Map
                         Tile tile = new Tile(id, new Position(worldX, worldY));
                         if (TileManager.getTileObject(tile.getId()).getTileEdge() != null)
                         {
-                            int sideCode = TileObject.getSideCode(2,2,2,2,2);
-                            TileManager.getTileObject(tile.getId()).setSprite(TileManager.getTileObject(tile.getId()).getEdgedSprites()[sideCode]);
+                            int up = (mapY > 0) ? mapValues[mapX][mapY - 1] : -1; // Up
+                            int down = (mapY < mapValues[0].length - 1) ? mapValues[mapX][mapY + 1] : -1; // Down
+                            int left = (mapX > 0) ? mapValues[mapX - 1][mapY] : -1; // Left
+                            int right = (mapX < mapValues.length - 1) ? mapValues[mapX + 1][mapY] : -1; // Right
+
+                            EdgeCode edgeCode = TileObject.getEdgeCode(id, up, down, left, right);
+                            tile.setEdgeCode(edgeCode);
                         }
                         chunkTiles[x][y] = tile;
                     } catch (Exception ex) {

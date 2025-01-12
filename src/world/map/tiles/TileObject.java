@@ -160,18 +160,14 @@ public class TileObject
             sides[i] = (sideCode & (1 << i)) != 0;
         }
         return sides;
-        //return new boolean[]{true, true, true, true};
+        //return new boolean[]{false, true, true, true};
     }
 
     /**
      * Converts 4 neighbors of 1 source tile into sideCode representing, which
      * sides of source tile should be covered with edge texture
      *
-     * @param sourceID - source tile from map
-     * @param up - up neighbor
-     * @param down - down neighbor
-     * @param left - left neighbor
-     * @param right - right neighbor
+
      * @return integer representing sideCode. Values are:
      *
      * 0: FFFF
@@ -191,35 +187,24 @@ public class TileObject
      * 14:FTTT		DOWN-LEFT-RIGHT
      * 15:TTTT		UP-DOWN-LEFT-RIGHT
      */
-    public static int getSideCode(int sourceID, int up, int down, int left, int right)
+    public static EdgeCode getEdgeCode(int sourceID, int up, int down, int left, int right)
     {
         TileEdge sourceEdge = TileManager.getTileObject(sourceID).getTileEdge();
-        int sideCode = 0;
+        if (sourceEdge == null) return EdgeCode.NONE;
 
         TileEdge upEdge = TileManager.getTileObject(up).getTileEdge();
         TileEdge downEdge = TileManager.getTileObject(down).getTileEdge();
         TileEdge leftEdge = TileManager.getTileObject(left).getTileEdge();
         TileEdge rightEdge = TileManager.getTileObject(right).getTileEdge();
 
-        if (TileManager.getTileObject(sourceID).getTileEdge() != null)  // if source tile has implemented any edges
-        {
-            if (upEdge == null || sourceEdge != upEdge)   // UP
-            {
-                sideCode |= 1; // 1st bit
-            }
-            if (downEdge == null || sourceEdge != downEdge)  // DOWN
-            {
-                sideCode |= 2; // 2nd bit
-            }
-            if (leftEdge == null || sourceEdge != leftEdge)  // LEFT
-            {
-                sideCode |= 4; // 3rd bit
-            }
-            if (rightEdge == null || sourceEdge != rightEdge) // RIGHT
-            {
-                sideCode |= 8; // 4th bit
-            }
-        }
-        return sideCode;
+        int code = 0;
+
+        if (upEdge == null || sourceEdge.getId() != upEdge.getId()) code += 1;
+        if (downEdge == null || sourceEdge.getId() != downEdge.getId()) code += 2;
+        if (leftEdge == null || sourceEdge.getId() != leftEdge.getId()) code += 4;
+        if (rightEdge == null || sourceEdge.getId() != rightEdge.getId()) code += 8;
+
+
+        return EdgeCode.fromId(code);
     }
 }
