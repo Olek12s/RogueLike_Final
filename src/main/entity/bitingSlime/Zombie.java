@@ -7,7 +7,7 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.ZombieWeapon;
+import main.item.weapon.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;

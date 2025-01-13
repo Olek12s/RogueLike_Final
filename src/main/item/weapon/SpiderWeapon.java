@@ -1,4 +1,6 @@
-package main.item;
+package main.item.weapon;
+
+import main.item.ItemStatistics;
 
 public class SpiderWeapon extends Weapon
 {

@@ -1,4 +1,7 @@
-package main.item;
+package main.item.weapon;
+
+import main.item.Item;
+import main.item.ItemStatistics;
 
 public abstract class Weapon
 {
