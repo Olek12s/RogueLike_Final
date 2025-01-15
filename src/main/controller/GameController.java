@@ -48,6 +48,7 @@ public class GameController extends JPanel implements Runnable
     public AssetSetter assetSetter;
     public CursorHUD cursor;
     public HUD hud;
+    public GameStateController gameStateController;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -97,6 +98,7 @@ public class GameController extends JPanel implements Runnable
         assetSetter = new AssetSetter(this);
         cursor = new CursorHUD(this);
         hud = new HUD(this);
+        gameStateController = new GameStateController(this);
     }
 
 

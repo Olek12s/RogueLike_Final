@@ -72,7 +72,7 @@ public abstract class Entity
     public Sprite getCurrentSprite() {return currentSprite;}
     public Direction getDirection() {return direction;}
     public void setDirection(Direction direction) {this.direction = direction;}
-    public int getMovementSpeed() {return statistics.movementSpeed;}
+    public int getMovementSpeed() {return statistics.currentMovementSpeed;}
     public Hitbox getHitbox() {return hitbox;}
     public Chunk getCurrentChunk() {return currentChunk;}
     public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}

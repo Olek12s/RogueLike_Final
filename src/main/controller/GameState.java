@@ -3,6 +3,7 @@ package main.controller;
 public enum GameState
 {
     PENDING(0),
+    INVENTORY(1),
     PAUSED(10);
 
     private final int id;

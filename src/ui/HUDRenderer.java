@@ -2,6 +2,8 @@ package ui;
 
 import main.controller.DrawPriorities;
 import main.controller.Drawable;
+import main.controller.GameState;
+import main.entity.EntityStatistics;
 import main.inventory.Inventory;
 import world.map.tiles.Tile;
 
@@ -15,6 +17,7 @@ public class HUDRenderer implements Drawable
     private String updateTime = "-";
     private String summaryTime = "-";
     private String drawCount = "-";
+    private final int baseSlotSize = 45;
 
     public HUDRenderer(HUD hud)
     {
@@ -32,20 +35,18 @@ public class HUDRenderer implements Drawable
     public void draw(Graphics g2)
     {
             renderHealthBar(g2);
-            drawInventoryBar(g2);
-            drawMainInventory(g2);
-            drawStatisticsFrame(g2);
-
-
-
-
-        if (hud.gc.isDebugMode())
-        {
-            renderDebugInfoLeft(g2);
-            renderDebugInfoLeftTop(g2);
-        }
-
-        hud.gc.incrementRenderCount();
+            if (hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
+            {
+                drawInventoryBar(g2);
+                drawMainInventory(g2);
+                drawStatisticsFrame(g2);
+            }
+            if (hud.gc.isDebugMode())
+            {
+                renderDebugInfoLeft(g2);
+                renderDebugInfoLeftTop(g2);
+            }
+            hud.gc.incrementRenderCount();
     }
 
     private void renderHealthBar(Graphics g2)
@@ -82,7 +83,7 @@ public class HUDRenderer implements Drawable
         g2d.setFont(new Font("Arial", Font.BOLD, scaledFontSize));
 
         int baseX = 10;
-        int baseY = 250;
+        int baseY = 130;
         int scaledX = (int) (baseX * (hud.scale / 64.0));
         int scaledY = (int) (baseY * (hud.scale / 64.0));
 
@@ -103,7 +104,7 @@ public class HUDRenderer implements Drawable
         g2d.setFont(new Font("Arial", Font.BOLD, scaledFontSize));
 
         int baseX = 10;
-        int baseY = 150;
+        int baseY = 80;
         int scaledX = (int) (baseX * (hud.scale / 64.0));
         int scaledY = (int) (baseY * (hud.scale / 64.0));
 
@@ -179,7 +180,6 @@ public class HUDRenderer implements Drawable
     {
         Graphics2D g2d = (Graphics2D) g2;
         int slotCount = Inventory.beltWidthSlots;
-        int baseSlotSize = 40;
         int slotSize = (baseSlotSize * hud.scale) / 64; // 64 - contractual value for HUD
 
 
@@ -212,7 +212,6 @@ public class HUDRenderer implements Drawable
         int widthSlots = Inventory.INVENTORY_WIDTH_SLOTS;
         int heightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
 
-        int baseSlotSize = 45;
         int slotSize = (baseSlotSize * hud.scale) / 64; // 64 - contractual value for HUD
 
         int totalWidth = widthSlots * slotSize;
@@ -238,7 +237,7 @@ public class HUDRenderer implements Drawable
                 int slotX = inventoryFrameX + i * slotSize;
                 int slotY = inventoryFrameY + j * slotSize;
 
-                renderFrame(g2d, slotX, slotY, slotSize, slotSize, 3, 3, 1, 1f);
+                    renderFrame(g2d, slotX, slotY, slotSize, slotSize, 3, 3, 1, 0.7f);
             }
         }
       //  g2.dispose();
@@ -251,7 +250,6 @@ public class HUDRenderer implements Drawable
         int width = hud.gc.getWidth();
         int height = hud.gc.getHeight();
 
-        int baseSlotSize = 45;
         int slotSize = (baseSlotSize * hud.scale) / 64;
 
         int beltSlotCount = Inventory.beltWidthSlots;
@@ -268,48 +266,76 @@ public class HUDRenderer implements Drawable
         int inventoryFrameY = beltY - totalHeight;
 
 
-        float statsToInvRatio = 0.2f;    // np. statystyki będą zajmować 50% szerokości ekwipunku
+        float statsToInvRatio = 0.45f;
         int statsFrameWidth = (int) (statsToInvRatio * totalWidth);
-        int statsFrameHeight = totalHeight; // wysokość identyczna jak ekwipunek
+        int statsFrameHeight = totalHeight+50;
 
-        // ------------------------------
-        // 2. Obliczamy pozycję X tak, by dotykała (przylegała) do ekwipunku
-        //    (prawe krawędzie statystyk = lewa krawędź ekwipunku)
-        // ------------------------------
+
         int statsFrameX = inventoryFrameX - statsFrameWidth;
         int statsFrameY = inventoryFrameY;
 
-        // ------------------------------
-        // 3. Zabezpieczenie przed wyjściem za lewą krawędź ekranu
-        //    (jeśli statsFrameX < 0, to przesuwamy i ewentualnie zmniejszamy szerokość)
-        // ------------------------------
+
         if (statsFrameX < 0)
         {
-            // Maksymalna szerokość, jaka się jeszcze mieści w oknie,
-            // to inventoryFrameX (od x=0 do x=inventoryFrameX)
+
             statsFrameWidth = inventoryFrameX;
             statsFrameX = 0;
-
-            // Jeśli okno jest tak wąskie, że inventoryFrameX jest też ≤ 0,
-            // statystyki muszą mieć szerokość 0 (lub minimalną)
-            if (statsFrameWidth < 0) {
+            if (statsFrameWidth < 0)
+            {
                 statsFrameWidth = 0;
             }
         }
 
-        // ------------------------------
-        // 4. Rysujemy ramkę
-        // ------------------------------
-        renderFrame(g2d, statsFrameX, statsFrameY, statsFrameWidth, statsFrameHeight,
-                3, 3, 1, 0.7f);
+        renderFrame(g2d, statsFrameX, statsFrameY, statsFrameWidth, statsFrameHeight, 3, 3, 1, 0.7f);
 
-        // Można teraz dodać teksty, ikony itp. w statsFrame
-        // Przykładowo:
-        // g2d.setColor(Color.WHITE);
-        // g2d.drawString("Statystyki", statsFrameX + 10, statsFrameY + 20);
 
-        //g2d.dispose();
+
+        EntityStatistics stats = hud.gc.player.statistics;
+
+        int hp = stats.hitPoints;
+        int maxHp = stats.getMaxHitPoints();
+        int mana = stats.mana;
+        int maxMana = stats.getMaxMana();
+        int regen = stats.getRegeneration();
+        int movementSpeed = stats.getCurrentMovementSpeed();
+        int maxMovementSpeed = stats.getMaxMovementSpeed();
+        int armour = stats.getArmour();
+        int magicArmour = stats.getMagicArmour();
+        int strength = stats.getStrength();
+        int dexterity = stats.getDexterity();
+        int intellect = stats.getIntellect();
+        int stamina = stats.getStamina();
+        int exp = stats.getExp();
+        int nextLevelExp = stats.getNextLevelExp();
+
+        String[] statTexts = {
+                "HP: " + hp + " / " + maxHp,
+                "Mana: " + mana + " / " + maxMana,
+                "Regeneration: " + regen,
+                "Movement Speed: " + movementSpeed + " / " + maxMovementSpeed,
+                "Armour: " + armour,
+                "Magic Armour: " + magicArmour,
+                "Strength: " + strength,
+                "Dexterity: " + dexterity,
+                "Intellect: " + intellect,
+                "Stamina: " + stamina,
+                "EXP: " + exp + " / " + nextLevelExp
+        };
+
+        g2d.setColor(Color.WHITE);
+        int baseFontSize = 14;
+        int scaledFontSize = (int) (baseFontSize * hud.scale / 64.0);
+        g2d.setFont(new Font("Arial", Font.BOLD, scaledFontSize));
+
+        int textX = statsFrameX + 10;
+        int textY = statsFrameY + 30;
+
+        for (String stat : statTexts)
+        {
+            g2d.drawString(stat, textX, textY);
+            textY += scaledFontSize + 5;
+        }
+
+        g2d.dispose();
     }
-
-
 }

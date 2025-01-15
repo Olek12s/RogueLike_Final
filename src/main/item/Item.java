@@ -1,22 +1,27 @@
 package main.item;
 
 import main.controller.GameController;
+import utilities.Hitbox;
 import utilities.Position;
 import utilities.sprite.Sprite;
+import world.map.MapLevels;
 
 public abstract class Item
 {
     public static int slotPixelSize = 16;
     GameController gc;
-    private ItemRenderer renderer;
-    private Sprite sprite;
-    private int slotWidth;
-    private int slotHeight;
-    private Position worldPosition;
+    protected ItemRenderer renderer;
+    public Sprite sprite;
+    protected int slotWidth;
+    protected int slotHeight;
+    protected Position worldPosition;
     private Position inventoryPosition;
     private ItemStatistics statistics;
     private ItemID itemID;
     private boolean isOnGround;
+    protected Hitbox hitbox;
+
+    private MapLevels level;
 
     public boolean isOnGround() {return isOnGround;}
     public void setOnGround(boolean onGround) {isOnGround = onGround;}
@@ -25,6 +30,11 @@ public abstract class Item
     public int getSlotHeight() {return slotHeight;}
     public Position getInventoryPosition() { return inventoryPosition; }
     public void setInventoryPosition(Position inventoryPosition) { this.inventoryPosition = inventoryPosition; }
+    public Position getWorldPosition() {return worldPosition;}
+    public Hitbox getHitbox() {return hitbox;}
+
+    public MapLevels getLevel() {return level;}
+    public void setLevel(MapLevels level) {this.level = level;}
 
     // ABSTRACTS
     public abstract void setHitbox();

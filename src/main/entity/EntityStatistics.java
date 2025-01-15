@@ -1,7 +1,5 @@
 package main.entity;
 
-import java.util.Random;
-
 public class EntityStatistics
 {
     Entity entity;
@@ -13,7 +11,8 @@ public class EntityStatistics
     public int maxMana = 1;                     // current mana - needed to cast spells or hold specific items
     public int mana = maxMana;                  // max mana - how much spells you can cast at short amount of time
 
-    protected int movementSpeed = 1;            // how fost entity travels through map
+    protected int maxMovementSpeed;         // how fast entity travels through map
+    protected int currentMovementSpeed;
 
     protected int armour;                       // how resistant entity is against physical damage
     protected int magicArmour;                  // how resistant entity is against magical damage
@@ -23,6 +22,8 @@ public class EntityStatistics
     protected int intellect;                    // statistic exclusive for magic - how strong your spells are
 
     protected int stamina;                      // statistic used in blocking attacks and fighting melee weapons. Lower stamina = lower damage and weaker ability to block
+    protected int exp;
+    protected int nextLevelExp;
 
     public int getMaxHitPoints() {return maxHitPoints;}
     public void setMaxHitPoints(int maxHitPoints) {this.maxHitPoints = maxHitPoints;}
@@ -38,14 +39,20 @@ public class EntityStatistics
     public void setMaxMana(int maxMana) {this.maxMana = maxMana;}
     public int getMana() {return mana;}
     public void setMana(int mana) {this.mana = mana;}
-    public int getMovementSpeed() {return movementSpeed;}
-    public void setMovementSpeed(int speed)
+    public int getMaxMovementSpeed() {return maxMovementSpeed;}
+
+    public int getCurrentMovementSpeed() {return currentMovementSpeed;}
+    public int getExp() {return exp;}
+    public int getNextLevelExp() {return nextLevelExp;}
+
+    public void setMaxMovementSpeed(int speed)
     {
-        if (speed == 0) movementSpeed = 0;
+        if (speed == 0) maxMovementSpeed = 0;
         else
         {
-            movementSpeed = Math.max((int)(speed  / 16), 1);
+            maxMovementSpeed = Math.max(speed, 1);
         }
+        currentMovementSpeed = maxMovementSpeed;
     }
     public int getArmour() {return armour;}
     public void setArmour(int armour) {this.armour = armour;}

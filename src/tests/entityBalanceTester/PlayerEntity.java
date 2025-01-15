@@ -37,7 +37,7 @@ public class PlayerEntity extends Entity
         this.statistics.setArmour(0);
         this.statistics.setHitPoints(100, 0, 0);
         this.statistics.setRegeneration(1);
-        this.statistics.setMovementSpeed(15);
+        this.statistics.setMaxMovementSpeed(15);
     }
 
     @Override

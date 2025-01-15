@@ -113,7 +113,7 @@ public class EntityRenderer implements Drawable
         spriteImagesMap.put(entityID, spriteImages);
     }
 
-    protected void drawEntityHitbox(Graphics g2)
+    private void drawEntityHitbox(Graphics g2)
     {
         double scaleFactor = entity.gc.camera.getScaleFactor();
         Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
