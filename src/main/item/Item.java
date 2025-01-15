@@ -6,7 +6,7 @@ import utilities.sprite.Sprite;
 
 public abstract class Item
 {
-    public static int slotPixelSize = 8;
+    public static int slotPixelSize = 16;
     GameController gc;
     private ItemRenderer renderer;
     private Sprite sprite;

@@ -53,6 +53,21 @@ public class Inventory
         return true;
     }
 
+    public boolean addItem(Item item)
+    {
+        for (int x = 0; x < INVENTORY_WIDTH_SLOTS; x++)
+        {
+            for (int y = 0; y < INVENTORY_HEIGHT_SLOTS; y++)
+            {
+                if (addItem(item, x, y))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void removeItem(Item item)
     {
         Position itemPosition = item.getInventoryPosition();
@@ -68,6 +83,15 @@ public class Inventory
 
         item.setInventoryPosition(null);
         itemList.remove(item);
+    }
+
+    public void removeItem(int x, int y)
+    {
+        Item item = getItemAt(x, y);
+        if (item != null)
+        {
+            removeItem(item);
+        }
     }
 
     public Item getItemAt(int x, int y)

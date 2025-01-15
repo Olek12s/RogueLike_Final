@@ -2,6 +2,7 @@ package ui;
 
 import main.DrawPriorities;
 import main.Drawable;
+import world.map.tiles.Tile;
 
 import java.awt.*;
 
@@ -30,7 +31,13 @@ public class HUDRenderer implements Drawable
     public void draw(Graphics g2)
     {
         renderHealthBar(g2);
-        if (hud.gc.isDebugMode()) renderDebugInfoLeft(g2);
+        drawInventoryBelt(g2);
+        if (hud.gc.isDebugMode())
+        {
+            renderDebugInfoLeft(g2);
+            renderDebugInfoLeftTop(g2);
+        }
+
         hud.gc.incrementRenderCount();
     }
 
@@ -80,6 +87,29 @@ public class HUDRenderer implements Drawable
         }
     }
 
+    private void renderDebugInfoLeftTop(Graphics g2)
+    {
+        Graphics2D g2d = (Graphics2D) g2;
+        g2d.setColor(Color.WHITE);
+        int baseFontSize = 14;
+        int scaledFontSize = (int) (baseFontSize * hud.scale / 64.0);
+        g2d.setFont(new Font("Arial", Font.BOLD, scaledFontSize));
+
+        int baseX = 10;
+        int baseY = 150;
+        int scaledX = (int) (baseX * (hud.scale / 64.0));
+        int scaledY = (int) (baseY * (hud.scale / 64.0));
+
+        int positionX = hud.gc.camera.getCameraPosition().x;
+        int positionY = hud.gc.camera.getCameraPosition().y;
+
+        String cameraPosX = "X: " + positionX / Tile.tileSize + "  " + positionX;
+        String cameraPosY = "Y: " + positionY / Tile.tileSize + "  " + positionY;
+
+        g2d.drawString(cameraPosX, scaledX, scaledY);
+        g2d.drawString(cameraPosY, scaledX, scaledY + (scaledFontSize + 5));
+    }
+
     private void updateTimers()
     {
         renderTime = String.format("Render time: %.2f ms (%.2f%%)",
@@ -105,5 +135,66 @@ public class HUDRenderer implements Drawable
     {
         long count = hud.gc.getRenderCount();
         drawCount = "Draw count: " + count;
+    }
+
+    public void renderFrame(Graphics g, int x, int y, int width, int height, int innerOpacity, int outerWidth, int innerWidth)
+    {
+        Graphics2D g2d = (Graphics2D)g.create();
+
+        // rounding parameters
+        int arcWidth = 10;
+        int arcHeight = 10;
+
+        //int innerOpacity = 2;
+        //int outerWidth = 3;
+        //int innerWidth = 1;
+
+
+        // inner part of frame
+        g2d.setStroke(new BasicStroke());
+        g2d.setColor(new Color(0f, 0f, 0f, 0.5f));
+        g2d.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+
+        // outer part of frame
+        g2d.setColor(Color.DARK_GRAY);
+        g2d.setStroke(new BasicStroke(outerWidth));
+        g2d.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+
+        // middle part of frame
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.setStroke(new BasicStroke(innerWidth));
+        g2d.drawRoundRect(x + innerOpacity, y + innerOpacity, width  - (innerOpacity*2), height - (innerOpacity*2), arcWidth, arcHeight);
+
+        g2d.dispose();
+    }
+
+    public void drawInventoryBelt(Graphics g2)
+    {
+        Graphics2D g2d = (Graphics2D) g2;
+
+
+        int slotCount = 6;
+
+
+        int baseSlotSize = 32;
+        System.out.println(hud.scale);
+        int slotSize = (baseSlotSize * hud.scale) / 64; // 64 - contractual value for HUD
+
+
+        int totalWidth = slotCount * slotSize;
+
+
+        int marginFromBottom = 10;
+        int beltX = (hud.gc.getWidth() - totalWidth) / 2;
+        int beltY = hud.gc.getHeight() - slotSize - marginFromBottom;
+
+        for (int i = 0; i < slotCount; i++)
+        {
+            int frameX = beltX + i * slotSize;
+            int frameY = beltY;
+
+
+            renderFrame(g2d, frameX, frameY, slotSize, slotSize, 2, 3, 1);
+        }
     }
 }
