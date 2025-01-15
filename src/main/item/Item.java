@@ -1,6 +1,6 @@
 package main.item;
 
-import main.GameController;
+import main.controller.GameController;
 import utilities.Position;
 import utilities.sprite.Sprite;
 

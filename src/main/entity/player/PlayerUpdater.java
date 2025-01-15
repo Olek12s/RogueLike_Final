@@ -1,7 +1,7 @@
 package main.entity.player;
 
 import main.Direction;
-import main.Updatable;
+import main.controller.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
 import utilities.Position;
@@ -12,7 +12,6 @@ import world.map.MapController;
 import world.map.MapLevels;
 import world.map.tiles.Tile;
 import world.map.tiles.TileID;
-import world.map.tiles.TileManager;
 
 public class PlayerUpdater extends EntityUpdater implements Updatable
 {

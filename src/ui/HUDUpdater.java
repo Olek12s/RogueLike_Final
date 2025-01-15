@@ -1,6 +1,6 @@
 package ui;
 
-import main.Updatable;
+import main.controller.Updatable;
 
 public class HUDUpdater implements Updatable
 {

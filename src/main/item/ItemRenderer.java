@@ -1,6 +1,6 @@
 package main.item;
 
-import main.Drawable;
+import main.controller.Drawable;
 
 import java.awt.*;
 

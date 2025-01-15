@@ -1,7 +1,7 @@
 package main.entity;
 
 import main.Direction;
-import main.Updatable;
+import main.controller.Updatable;
 import world.map.Chunk;
 import utilities.Collisions;
 

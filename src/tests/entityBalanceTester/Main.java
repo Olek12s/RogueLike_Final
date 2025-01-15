@@ -1,9 +1,8 @@
 package tests.entityBalanceTester;
 
-import main.GameController;
+import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.bitingSlime.*;
-import main.entity.player.Player;
 import utilities.Position;
 
 public class Main

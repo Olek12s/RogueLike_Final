@@ -1,6 +1,6 @@
 package utilities;
 
-import main.GameController;
+import main.controller.GameController;
 import main.entity.Entity;
 import world.map.Chunk;
 import world.map.tiles.Tile;

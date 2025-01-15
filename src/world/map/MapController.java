@@ -1,12 +1,10 @@
 package world.map;
 
-import main.GameController;
+import main.controller.GameController;
 import main.entity.player.Player;
 import world.generation.SurfaceGenerator;
-import world.generation.TerrainGenerator;
 
 import java.util.HashMap;
-import java.util.Set;
 
 public class MapController
 {

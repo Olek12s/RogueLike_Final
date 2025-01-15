@@ -1,6 +1,6 @@
 package world.map;
 
-import main.Updatable;
+import main.controller.Updatable;
 
 public class MapUpdater implements Updatable
 {

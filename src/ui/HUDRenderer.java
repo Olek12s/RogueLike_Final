@@ -1,7 +1,8 @@
 package ui;
 
-import main.DrawPriorities;
-import main.Drawable;
+import main.controller.DrawPriorities;
+import main.controller.Drawable;
+import main.inventory.Inventory;
 import world.map.tiles.Tile;
 
 import java.awt.*;
@@ -30,8 +31,14 @@ public class HUDRenderer implements Drawable
     @Override
     public void draw(Graphics g2)
     {
-        renderHealthBar(g2);
-        drawInventoryBelt(g2);
+            renderHealthBar(g2);
+            drawInventoryBar(g2);
+            drawMainInventory(g2);
+            drawStatisticsFrame(g2);
+
+
+
+
         if (hud.gc.isDebugMode())
         {
             renderDebugInfoLeft(g2);
@@ -137,7 +144,7 @@ public class HUDRenderer implements Drawable
         drawCount = "Draw count: " + count;
     }
 
-    public void renderFrame(Graphics g, int x, int y, int width, int height, int innerOpacity, int outerWidth, int innerWidth)
+    public void renderFrame(Graphics g, int x, int y, int width, int height, int innerPadding, int outerWidth, int innerWidth, float opacity)
     {
         Graphics2D g2d = (Graphics2D)g.create();
 
@@ -152,7 +159,7 @@ public class HUDRenderer implements Drawable
 
         // inner part of frame
         g2d.setStroke(new BasicStroke());
-        g2d.setColor(new Color(0f, 0f, 0f, 0.5f));
+        g2d.setColor(new Color(0f, 0f, 0f, opacity));
         g2d.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
 
         // outer part of frame
@@ -163,21 +170,16 @@ public class HUDRenderer implements Drawable
         // middle part of frame
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.setStroke(new BasicStroke(innerWidth));
-        g2d.drawRoundRect(x + innerOpacity, y + innerOpacity, width  - (innerOpacity*2), height - (innerOpacity*2), arcWidth, arcHeight);
+        g2d.drawRoundRect(x + innerPadding, y + innerPadding, width  - (innerPadding*2), height - (innerPadding*2), arcWidth, arcHeight);
+       // g2d.dispose();
 
-        g2d.dispose();
     }
 
-    public void drawInventoryBelt(Graphics g2)
+    public void drawInventoryBar(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2;
-
-
-        int slotCount = 6;
-
-
-        int baseSlotSize = 32;
-        System.out.println(hud.scale);
+        int slotCount = Inventory.beltWidthSlots;
+        int baseSlotSize = 40;
         int slotSize = (baseSlotSize * hud.scale) / 64; // 64 - contractual value for HUD
 
 
@@ -194,7 +196,120 @@ public class HUDRenderer implements Drawable
             int frameY = beltY;
 
 
-            renderFrame(g2d, frameX, frameY, slotSize, slotSize, 2, 3, 1);
+            renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 3, 1, 0.5f);
         }
+     //   g2.dispose();
     }
+
+    public void drawMainInventory(Graphics g2)
+    {
+        Graphics2D g2d = (Graphics2D) g2.create();
+
+        //window size
+        int width = hud.gc.getWidth();
+        int height = hud.gc.getHeight();
+
+        int widthSlots = Inventory.INVENTORY_WIDTH_SLOTS;
+        int heightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
+
+        int baseSlotSize = 45;
+        int slotSize = (baseSlotSize * hud.scale) / 64; // 64 - contractual value for HUD
+
+        int totalWidth = widthSlots * slotSize;
+        int totalHeight = heightSlots * slotSize;
+
+        int beltSlotCount = Inventory.beltWidthSlots;
+        int beltTotalWidth = beltSlotCount * slotSize;
+        int marginFromInventoryBar = height/6;
+
+        int beltY = height - slotSize - marginFromInventoryBar;
+
+
+        // set main inventory position above inventory bar
+
+        int inventoryFrameX = (width - totalWidth) / 2;
+        int inventoryFrameY = beltY - totalHeight;
+
+        // Drawing every inventory slot
+        for (int i = 0; i < widthSlots; i++)
+        {
+            for (int j = 0; j < heightSlots; j++)
+            {
+                int slotX = inventoryFrameX + i * slotSize;
+                int slotY = inventoryFrameY + j * slotSize;
+
+                renderFrame(g2d, slotX, slotY, slotSize, slotSize, 3, 3, 1, 1f);
+            }
+        }
+      //  g2.dispose();
+    }
+
+    public void drawStatisticsFrame(Graphics g2)
+    {
+        Graphics2D g2d = (Graphics2D) g2.create();
+
+        int width = hud.gc.getWidth();
+        int height = hud.gc.getHeight();
+
+        int baseSlotSize = 45;
+        int slotSize = (baseSlotSize * hud.scale) / 64;
+
+        int beltSlotCount = Inventory.beltWidthSlots;
+        int marginFromInventoryBar = height / 6;
+        int beltY = height - slotSize - marginFromInventoryBar;
+
+        // size and position of main inventory
+        int widthSlots = Inventory.INVENTORY_WIDTH_SLOTS;
+        int heightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
+        int totalWidth = widthSlots * slotSize;    // width of main inventory
+        int totalHeight = heightSlots * slotSize;  // height of main inventory
+
+        int inventoryFrameX = (width - totalWidth) / 2; // center of inventory frame
+        int inventoryFrameY = beltY - totalHeight;
+
+
+        float statsToInvRatio = 0.2f;    // np. statystyki będą zajmować 50% szerokości ekwipunku
+        int statsFrameWidth = (int) (statsToInvRatio * totalWidth);
+        int statsFrameHeight = totalHeight; // wysokość identyczna jak ekwipunek
+
+        // ------------------------------
+        // 2. Obliczamy pozycję X tak, by dotykała (przylegała) do ekwipunku
+        //    (prawe krawędzie statystyk = lewa krawędź ekwipunku)
+        // ------------------------------
+        int statsFrameX = inventoryFrameX - statsFrameWidth;
+        int statsFrameY = inventoryFrameY;
+
+        // ------------------------------
+        // 3. Zabezpieczenie przed wyjściem za lewą krawędź ekranu
+        //    (jeśli statsFrameX < 0, to przesuwamy i ewentualnie zmniejszamy szerokość)
+        // ------------------------------
+        if (statsFrameX < 0)
+        {
+            // Maksymalna szerokość, jaka się jeszcze mieści w oknie,
+            // to inventoryFrameX (od x=0 do x=inventoryFrameX)
+            statsFrameWidth = inventoryFrameX;
+            statsFrameX = 0;
+
+            // Jeśli okno jest tak wąskie, że inventoryFrameX jest też ≤ 0,
+            // statystyki muszą mieć szerokość 0 (lub minimalną)
+            if (statsFrameWidth < 0) {
+                statsFrameWidth = 0;
+            }
+        }
+
+        // ------------------------------
+        // 4. Rysujemy ramkę
+        // ------------------------------
+        renderFrame(g2d, statsFrameX, statsFrameY, statsFrameWidth, statsFrameHeight,
+                3, 3, 1, 0.7f);
+
+        // Można teraz dodać teksty, ikony itp. w statsFrame
+        // Przykładowo:
+        // g2d.setColor(Color.WHITE);
+        // g2d.drawString("Statystyki", statsFrameX + 10, statsFrameY + 20);
+
+        //g2d.dispose();
+    }
+
+
 }

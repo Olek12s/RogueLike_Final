@@ -1,7 +1,8 @@
 package main;
 
+import main.controller.GameController;
+
 import javax.swing.*;
-import java.awt.*;
 
 
 public class Main

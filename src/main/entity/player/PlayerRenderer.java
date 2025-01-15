@@ -1,7 +1,7 @@
 package main.entity.player;
 
-import main.DrawPriorities;
-import main.Drawable;
+import main.controller.DrawPriorities;
+import main.controller.Drawable;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
 import utilities.sprite.SpriteSheet;

@@ -1,7 +1,7 @@
 package main.entity;
 
-import main.DrawPriorities;
-import main.Drawable;
+import main.controller.DrawPriorities;
+import main.controller.Drawable;
 import world.map.Chunk;
 import world.map.MapRenderer;
 import utilities.Position;

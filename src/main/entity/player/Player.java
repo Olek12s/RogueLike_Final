@@ -1,7 +1,7 @@
 package main.entity.player;
 
 import main.Direction;
-import main.GameController;
+import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.EntityID;
 import utilities.*;

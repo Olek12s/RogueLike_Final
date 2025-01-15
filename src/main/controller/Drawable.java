@@ -1,4 +1,4 @@
-package main;
+package main.controller;
 
 import java.awt.*;
 

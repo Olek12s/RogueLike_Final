@@ -1,8 +1,7 @@
     package world.map.tiles;
 
-    import main.GameController;
+    import main.controller.GameController;
     import utilities.FileManipulation;
-    import utilities.sprite.Sprite;
     import utilities.sprite.SpriteSheet;
 
     import java.util.HashMap;

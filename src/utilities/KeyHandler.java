@@ -1,6 +1,6 @@
 package utilities;
 
-import main.GameController;
+import main.controller.GameController;
 import utilities.camera.Camera;
 
 import java.awt.event.*;

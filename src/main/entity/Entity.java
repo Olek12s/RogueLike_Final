@@ -2,7 +2,7 @@ package main.entity;
 
 import main.DamageType;
 import main.Direction;
-import main.GameController;
+import main.controller.GameController;
 import main.item.weapon.Weapon;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;

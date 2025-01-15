@@ -1,15 +1,12 @@
 package world.map;
 
-import main.DrawPriorities;
-import main.Drawable;
+import main.controller.DrawPriorities;
+import main.controller.Drawable;
 import utilities.Position;
 import utilities.camera.Camera;
 import world.map.tiles.Tile;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.concurrent.*;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;

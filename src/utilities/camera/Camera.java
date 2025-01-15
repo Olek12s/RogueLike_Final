@@ -1,9 +1,7 @@
 package utilities.camera;
 
-import main.GameController;
-import main.Updatable;
+import main.controller.GameController;
 import main.entity.Entity;
-import utilities.AssetSetter;
 import utilities.Position;
 
 

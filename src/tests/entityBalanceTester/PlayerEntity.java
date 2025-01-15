@@ -2,7 +2,7 @@ package tests.entityBalanceTester;
 
 import main.DamageType;
 import main.Direction;
-import main.GameController;
+import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;

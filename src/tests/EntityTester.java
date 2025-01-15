@@ -1,6 +1,6 @@
 package tests;
 
-import main.GameController;
+import main.controller.GameController;
 import main.entity.bitingSlime.BitingSlime;
 import test.annotations.Before;
 import test.annotations.Test;

@@ -1,7 +1,7 @@
 package main.cursor;
 
-import main.DrawPriorities;
-import main.Drawable;
+import main.controller.DrawPriorities;
+import main.controller.Drawable;
 
 import java.awt.*;
 

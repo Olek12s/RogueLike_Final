@@ -1,8 +1,7 @@
 package utilities;
 
-import main.GameController;
+import main.controller.GameController;
 import main.entity.Entity;
-import main.entity.EntityID;
 import main.entity.bitingSlime.*;
 
 import java.util.List;

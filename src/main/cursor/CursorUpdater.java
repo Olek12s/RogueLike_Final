@@ -1,6 +1,6 @@
 package main.cursor;
 
-import main.Updatable;
+import main.controller.Updatable;
 
 public class CursorUpdater implements Updatable
 {
