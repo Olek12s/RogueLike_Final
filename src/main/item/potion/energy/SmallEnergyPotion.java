@@ -2,19 +2,28 @@ package main.item.potion.energy;
 
 import main.controller.GameController;
 import main.item.ItemID;
+import utilities.Position;
 
 public class SmallEnergyPotion extends EnergyPotion
 {
-    public SmallEnergyPotion(GameController gc, ItemID itemID)
+    public SmallEnergyPotion(GameController gc)
     {
-        super(gc, itemID, 30);
+        super(gc, ItemID.SMALL_ENERGY_POTION, 30);
+    }
+
+    public SmallEnergyPotion(GameController gc, Position worldPosition)
+    {
+        super(gc, ItemID.SMALL_ENERGY_POTION, 30);
+        this.worldPosition = worldPosition;
+        this.setOnGround(true);
+        this.setHitbox();
     }
 
     @Override
     public void setStatistics()
     {
-        itemStatistics.setItemName("Small energy potion");
-        itemStatistics.setStackable(false);
-        itemStatistics.setStackSize(1);
+        statistics.setItemName("Small energy potion");
+        statistics.setStackable(false);
+        statistics.setStackSize(1);
     }
 }

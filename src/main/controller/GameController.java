@@ -3,6 +3,7 @@ package main.controller;
 import main.cursor.CursorHUD;
 import main.entity.Entity;
 import main.entity.player.Player;
+import main.item.ItemManager;
 import world.map.MapController;
 import world.map.tiles.TileManager;
 import ui.HUD;
@@ -49,6 +50,7 @@ public class GameController extends JPanel implements Runnable
     public CursorHUD cursor;
     public HUD hud;
     public GameStateController gameStateController;
+    public ItemManager itemManager;
 
     //ABSTRACT COLLECTIONS
     public ArrayList<Drawable> drawables;
@@ -99,6 +101,7 @@ public class GameController extends JPanel implements Runnable
         cursor = new CursorHUD(this);
         hud = new HUD(this);
         gameStateController = new GameStateController(this);
+        itemManager = new ItemManager(this);
     }
 
 

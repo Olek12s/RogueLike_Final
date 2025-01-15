@@ -2,19 +2,28 @@ package main.item.potion.mana;
 
 import main.controller.GameController;
 import main.item.ItemID;
+import utilities.Position;
 
 public class SmallManaPotion extends ManaPotion
 {
-    public SmallManaPotion(GameController gc, ItemID itemID)
+    public SmallManaPotion(GameController gc)
     {
-        super(gc, itemID, 30);
+        super(gc, ItemID.SMALL_MANA_POTION, 30);
+    }
+
+    public SmallManaPotion(GameController gc, Position worldPosition)
+    {
+        super(gc, ItemID.SMALL_MANA_POTION, 30);
+        this.worldPosition = worldPosition;
+        this.setOnGround(true);
+        this.setHitbox();
     }
 
     @Override
     public void setStatistics()
     {
-        itemStatistics.setItemName("Small mana potion");
-        itemStatistics.setStackable(false);
-        itemStatistics.setStackSize(1);
+        statistics.setItemName("Small mana potion");
+        statistics.setStackable(false);
+        statistics.setStackSize(1);
     }
 }

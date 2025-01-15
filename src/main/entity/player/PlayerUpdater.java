@@ -30,12 +30,25 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         super.update();
         updatePlayerDirection();
         checkEnteranceCollision();
+        checkCrouch();
         counter++;
         if (counter == 60)
         {
             counter = 0;
             //System.out.println(entity.getWorldPosition().x/Tile.tileSize + " " + entity.getWorldPosition().y/Tile.tileSize);
             //System.out.println("Level: " + entity.gc.mapController.getCurrentMap().getLevel());
+        }
+    }
+
+    private void checkCrouch()
+    {
+        if (entity.gc.keyHandler.CTRL_PRESSED)
+        {
+            entity.setSpeed(entity.getMaxMovementSpeed() / 3);
+        }
+        else
+        {
+            entity.setSpeed(entity.getMaxMovementSpeed());
         }
     }
 

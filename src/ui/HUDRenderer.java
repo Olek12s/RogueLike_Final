@@ -34,19 +34,19 @@ public class HUDRenderer implements Drawable
     @Override
     public void draw(Graphics g2)
     {
-            renderHealthBar(g2);
-            if (hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
-            {
-                drawInventoryBar(g2);
-                drawMainInventory(g2);
-                drawStatisticsFrame(g2);
-            }
-            if (hud.gc.isDebugMode())
-            {
-                renderDebugInfoLeft(g2);
-                renderDebugInfoLeftTop(g2);
-            }
-            hud.gc.incrementRenderCount();
+        renderHealthBar(g2);
+        drawInventoryBar(g2);
+        if (hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
+        {
+            drawMainInventory(g2);
+            drawStatisticsFrame(g2);
+        }
+        if (hud.gc.isDebugMode())
+        {
+            renderDebugInfoLeft(g2);
+            renderDebugInfoLeftTop(g2);
+        }
+        hud.gc.incrementRenderCount();
     }
 
     private void renderHealthBar(Graphics g2)

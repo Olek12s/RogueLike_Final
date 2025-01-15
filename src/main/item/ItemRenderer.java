@@ -4,6 +4,7 @@ import main.controller.DrawPriorities;
 import main.controller.Drawable;
 import utilities.Position;
 import utilities.camera.Camera;
+import utilities.sprite.Sprite;
 import world.map.Chunk;
 import world.map.MapRenderer;
 
@@ -16,6 +17,7 @@ public class ItemRenderer implements Drawable
     public ItemRenderer(Item item)
     {
         this.item = item;
+        item.gc.drawables.add(this);
     }
 
     @Override
@@ -34,8 +36,8 @@ public class ItemRenderer implements Drawable
             Position screenPosition = item.gc.camera.applyCameraOffset(item.worldPosition.x, item.worldPosition.y);
 
 
-            int scaledWidth = (int) (item.sprite.image.getWidth() * scaleFactor);
-            int scaledHeight = (int) (item.sprite.image.getHeight() * scaleFactor);
+            int scaledWidth = (int) (ItemManager.getItemSprite(item.itemID).image.getWidth() * scaleFactor);
+            int scaledHeight = (int) (ItemManager.getItemSprite(item.itemID).image.getHeight() * scaleFactor);
 
             Chunk itemChunk = item.gc.mapController.getCurrentMap().getChunk(item.getWorldPosition());
             Chunk cameraChunk = item.gc.mapController.getCurrentMap().getChunk(item.gc.camera.getCameraPosition());
@@ -47,7 +49,7 @@ public class ItemRenderer implements Drawable
                 if (Math.abs(itemChunk.getxIndex() - cameraChunk.getxIndex()) <= MapRenderer.chunkRenderDistance &&
                         Math.abs(itemChunk.getyIndex() - cameraChunk.getyIndex()) <= MapRenderer.chunkRenderDistance)
                 {
-                    g2.drawImage(item.sprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
+                    g2.drawImage(ItemManager.getItemSprite(item.itemID).image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
                     item.gc.incrementRenderCount();
                     if (item.gc.isDebugMode()) drawItenOnGroundHitbox(g2);
                 }

@@ -26,6 +26,8 @@ public class KeyHandler implements KeyListener
     public boolean I_PRESSED = false;
     public boolean E_PRESSED = false;
 
+    public boolean CTRL_PRESSED = false;
+
 
     public KeyHandler(GameController gc)
     {
@@ -58,6 +60,8 @@ public class KeyHandler implements KeyListener
 
             case KeyEvent.VK_I: I_PRESSED = true; break;
             case KeyEvent.VK_E: E_PRESSED = true; break;
+
+            case KeyEvent.VK_CONTROL: CTRL_PRESSED = true; break;
         }
         if  (TIDE_PRESSED == true) gc.setDebugMode(!gc.isDebugMode());
         if (MULTIPLE_PRESSED == true) Camera.setScaleFactor(1);
@@ -86,6 +90,8 @@ public class KeyHandler implements KeyListener
 
             case KeyEvent.VK_I: I_PRESSED = false; break;
             case KeyEvent.VK_E: E_PRESSED = false; break;
+
+            case KeyEvent.VK_CONTROL: CTRL_PRESSED = false; break;
         }
     }
 }

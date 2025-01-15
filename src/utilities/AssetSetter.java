@@ -3,6 +3,17 @@ package utilities;
 import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.bitingSlime.*;
+import main.item.Item;
+import main.item.potion.energy.LargeEnergyPotion;
+import main.item.potion.energy.MediumEnergyPotion;
+import main.item.potion.energy.SmallEnergyPotion;
+import main.item.potion.health.HealthPotion;
+import main.item.potion.health.LargeHealthPotion;
+import main.item.potion.health.MediumHealthPotion;
+import main.item.potion.health.SmallHealthPotion;
+import main.item.potion.mana.LargeManaPotion;
+import main.item.potion.mana.MediumManaPotion;
+import main.item.potion.mana.SmallManaPotion;
 
 import java.util.List;
 
@@ -42,6 +53,17 @@ public class AssetSetter
         //testEntityZombie = new Zombie(gc, new Position(gc.player.getWorldPosition().x+50, gc.player.getWorldPosition().y + 80));
 
 
+        SmallHealthPotion shp = new SmallHealthPotion(gc, new Position(startX+32, startY));
+        MediumHealthPotion mhp = new MediumHealthPotion(gc, new Position(startX+64, startY));
+        LargeHealthPotion lhp = new LargeHealthPotion(gc, new Position(startX+96, startY));
+
+        SmallManaPotion smp = new SmallManaPotion(gc, new Position(startX+32, startY+64));
+        MediumManaPotion mmp = new MediumManaPotion(gc, new Position(startX+64, startY+64));
+        LargeManaPotion lmp = new LargeManaPotion(gc, new Position(startX+96, startY+64));
+
+        SmallEnergyPotion sep = new SmallEnergyPotion(gc, new Position(startX+32, startY+64*2));
+        MediumEnergyPotion mep = new MediumEnergyPotion(gc, new Position(startX+64, startY+64*2));
+        LargeEnergyPotion lep = new LargeEnergyPotion(gc, new Position(startX+96, startY+64*2));
 
 
         List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();

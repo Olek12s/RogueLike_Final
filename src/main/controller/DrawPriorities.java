@@ -5,10 +5,10 @@ import ui.HUD;
 public enum DrawPriorities
 {
     mapGrid(1),
-    Entity(2),
-    Player(3),
-    Hitbox(4),
-    ItemGround(5),
+    ItemGround(2),
+    Entity(3),
+    Player(4),
+    Hitbox(5),
     HUD(950),
     ItemInventory(951),
     Cursor(999);

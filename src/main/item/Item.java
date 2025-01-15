@@ -11,13 +11,13 @@ public abstract class Item
     public static int slotPixelSize = 16;
     GameController gc;
     protected ItemRenderer renderer;
-    public Sprite sprite;
+    //public Sprite sprite;
     protected int slotWidth;
     protected int slotHeight;
     protected Position worldPosition;
     private Position inventoryPosition;
-    private ItemStatistics statistics;
-    private ItemID itemID;
+    protected ItemStatistics statistics;
+    protected ItemID itemID;
     private boolean isOnGround;
     protected Hitbox hitbox;
 
@@ -44,10 +44,28 @@ public abstract class Item
     public abstract void setSlotHeight();
     // ABSTRACTS
 
+    public Item(GameController gc, ItemID itemID, Position worldPosition)
+    {
+        this.gc = gc;
+        this.itemID = itemID;
+        this.statistics = new ItemStatistics();
+        this.worldPosition = worldPosition;
+        setRenderer();
+        setStatistics();
+        setSlotWidth();
+        setSlotHeight();
+    }
+
     public Item(GameController gc, ItemID itemID)
     {
         this.gc = gc;
         this.itemID = itemID;
+        this.statistics = new ItemStatistics();
+        this.level = gc.mapController.getCurrentMap().getLevel();
+        setRenderer();
+        setStatistics();
+        setSlotWidth();
+        setSlotHeight();
     }
 
 }

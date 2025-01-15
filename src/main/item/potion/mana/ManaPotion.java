@@ -9,7 +9,6 @@ import javax.swing.*;
 public abstract class ManaPotion extends Item implements Consumable
 {
     protected int regenerationPower;
-    protected ItemStatistics itemStatistics;
 
     public ManaPotion(GameController gc, ItemID itemID, int regenerationPower)
     {

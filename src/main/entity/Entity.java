@@ -84,6 +84,8 @@ public abstract class Entity
     public void setName(String name) {this.name = name;}
     public MapLevels getLevel() {return level;}
     public void setLevel(MapLevels level) {this.level = level;}
+    public void setSpeed(int speed) {this.statistics.currentMovementSpeed = Math.min(speed, statistics.maxMovementSpeed);}
+    public int getMaxMovementSpeed() {return statistics.getMaxMovementSpeed();}
 
     public void initializeEntitySpriteAssets(int id)
     {

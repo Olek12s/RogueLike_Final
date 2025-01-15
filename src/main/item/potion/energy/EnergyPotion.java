@@ -7,7 +7,6 @@ import utilities.Hitbox;
 public abstract class EnergyPotion extends Item implements Consumable
 {
     protected int regenerationPower;
-    protected ItemStatistics itemStatistics;
 
     public EnergyPotion(GameController gc, ItemID itemID, int regenerationPower)
     {

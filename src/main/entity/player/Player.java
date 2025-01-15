@@ -51,7 +51,7 @@ public class Player extends Entity
         statistics.setArmour(0);
         statistics.setRegeneration(1);
         statistics.hitPoints = statistics.maxHitPoints;
-        statistics.setMaxMovementSpeed(20);
+        statistics.setMaxMovementSpeed(12);
     }
 
     @Override
