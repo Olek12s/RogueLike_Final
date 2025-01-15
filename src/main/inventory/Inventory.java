@@ -3,6 +3,7 @@ package main.inventory;
 import main.item.Item;
 import utilities.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory
@@ -14,9 +15,12 @@ public class Inventory
     private List<Item> itemList;
     private Item[][] slots;
 
+    public List<Item> getItems() {return itemList;}
+
     public Inventory()
     {
         slots = new Item[INVENTORY_WIDTH_SLOTS][INVENTORY_HEIGHT_SLOTS];
+        itemList = new ArrayList<>();
     }
 
     public boolean addItem(Item item, int slotX, int slotY)

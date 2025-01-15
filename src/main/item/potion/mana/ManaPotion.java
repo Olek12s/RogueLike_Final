@@ -3,6 +3,7 @@ package main.item.potion.mana;
 import main.controller.GameController;
 import main.item.*;
 import utilities.Hitbox;
+import utilities.Position;
 
 import javax.swing.*;
 
@@ -13,6 +14,12 @@ public abstract class ManaPotion extends Item implements Consumable
     public ManaPotion(GameController gc, ItemID itemID, int regenerationPower)
     {
         super(gc, itemID);
+        this.regenerationPower = regenerationPower;
+    }
+
+    public ManaPotion(GameController gc, ItemID itemID, Position worldPosition, int regenerationPower)
+    {
+        super(gc, itemID, worldPosition);
         this.regenerationPower = regenerationPower;
     }
 

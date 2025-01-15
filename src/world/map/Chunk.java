@@ -47,6 +47,15 @@ public class Chunk
             entities.add(entity);
         }
     }
+
+    public void addItem(Item item)
+    {
+        if (!items.contains(item))
+        {
+            items.add(item);
+        }
+    }
+
     public List<Item> getItems() {return items;}
     public void removeEntity(Entity entity) {entities.remove(entity);}
     public void removeItem(Item item) {items.remove(item);}

@@ -13,10 +13,9 @@ public class MediumManaPotion extends ManaPotion
 
     public MediumManaPotion(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.MEDIUM_MANA_POTION, 60);
+        super(gc, ItemID.MEDIUM_MANA_POTION, worldPosition, 60);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-        this.setHitbox();
     }
 
     @Override

@@ -31,8 +31,9 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         updatePlayerDirection();
         checkEnteranceCollision();
         checkCrouch();
+        if (entity.gc.keyHandler.F_PRESSED) entity.pickUpItem();
         counter++;
-        if (counter == 60)
+        if (counter == 60)  // DEBUG
         {
             counter = 0;
             //System.out.println(entity.getWorldPosition().x/Tile.tileSize + " " + entity.getWorldPosition().y/Tile.tileSize);

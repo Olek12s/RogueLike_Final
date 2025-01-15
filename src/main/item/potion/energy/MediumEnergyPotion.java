@@ -13,10 +13,9 @@ public class MediumEnergyPotion extends EnergyPotion
 
     public MediumEnergyPotion(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.MEDIUM_ENERGY_POTION, 60);
+        super(gc, ItemID.MEDIUM_ENERGY_POTION, worldPosition, 60);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-        this.setHitbox();
     }
 
     @Override

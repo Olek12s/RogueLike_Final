@@ -4,9 +4,13 @@ import main.Direction;
 import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.EntityID;
+import main.item.Item;
 import utilities.*;
 import utilities.sprite.SpriteSheet;
+import world.map.Chunk;
 import world.map.tiles.Tile;
+
+import java.util.List;
 
 public class Player extends Entity
 {
@@ -128,5 +132,26 @@ public class Player extends Entity
                 randomY >= exclusionMinY && randomY <= exclusionMaxY);
 
         return position;
+    }
+
+    public void pickUpItem()
+    {
+        Chunk currentChunk = gc.mapController.getCurrentMap().getChunk(this.getWorldPosition());
+        if (currentChunk == null) return;
+
+        List<Item> itemsInChunk = currentChunk.getItems();
+        for (Item item : itemsInChunk)  // checking if player's hitbox intersects item's hitbox, then item can be added to inventory
+        {
+            if (this.getHitbox().getHitboxRect().intersects(item.getHitbox().getHitboxRect()))
+            {
+                if (inventory.addItem(item))
+                {
+                    currentChunk.removeItem(item);
+                    item.setOnGround(false);
+                    item.setLevel(null);
+                }
+                return;
+            }
+        }
     }
 }

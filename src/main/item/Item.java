@@ -4,6 +4,7 @@ import main.controller.GameController;
 import utilities.Hitbox;
 import utilities.Position;
 import utilities.sprite.Sprite;
+import world.map.MapController;
 import world.map.MapLevels;
 
 public abstract class Item
@@ -32,6 +33,7 @@ public abstract class Item
     public void setInventoryPosition(Position inventoryPosition) { this.inventoryPosition = inventoryPosition; }
     public Position getWorldPosition() {return worldPosition;}
     public Hitbox getHitbox() {return hitbox;}
+    public Sprite getSprite() {return ItemManager.getItemSprite(itemID);}
 
     public MapLevels getLevel() {return level;}
     public void setLevel(MapLevels level) {this.level = level;}
@@ -50,10 +52,13 @@ public abstract class Item
         this.itemID = itemID;
         this.statistics = new ItemStatistics();
         this.worldPosition = worldPosition;
+        this.level = gc.mapController.getCurrentMap().getLevel();
+        MapController.getCurrentMap().getChunk(worldPosition).addItem(this);
         setRenderer();
         setStatistics();
         setSlotWidth();
         setSlotHeight();
+        setHitbox();
     }
 
     public Item(GameController gc, ItemID itemID)
@@ -61,7 +66,6 @@ public abstract class Item
         this.gc = gc;
         this.itemID = itemID;
         this.statistics = new ItemStatistics();
-        this.level = gc.mapController.getCurrentMap().getLevel();
         setRenderer();
         setStatistics();
         setSlotWidth();

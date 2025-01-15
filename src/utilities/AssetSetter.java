@@ -4,6 +4,7 @@ import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.bitingSlime.*;
 import main.item.Item;
+import main.item.armor.WoodenShield;
 import main.item.potion.energy.LargeEnergyPotion;
 import main.item.potion.energy.MediumEnergyPotion;
 import main.item.potion.energy.SmallEnergyPotion;
@@ -65,6 +66,12 @@ public class AssetSetter
         MediumEnergyPotion mep = new MediumEnergyPotion(gc, new Position(startX+64, startY+64*2));
         LargeEnergyPotion lep = new LargeEnergyPotion(gc, new Position(startX+96, startY+64*2));
 
+        WoodenShield shield = new WoodenShield(gc, new Position(startX-60, startY));
+
+        for (int i = 0; i < 600; i++)
+        {
+            new SmallHealthPotion(gc, new Position(startX+(20*i), startY));
+        }
 
         List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();
 

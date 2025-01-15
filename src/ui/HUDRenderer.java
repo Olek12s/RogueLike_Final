@@ -5,6 +5,9 @@ import main.controller.Drawable;
 import main.controller.GameState;
 import main.entity.EntityStatistics;
 import main.inventory.Inventory;
+import main.item.Item;
+import utilities.Position;
+import utilities.sprite.Sprite;
 import world.map.tiles.Tile;
 
 import java.awt.*;
@@ -211,7 +214,6 @@ public class HUDRenderer implements Drawable
 
         int widthSlots = Inventory.INVENTORY_WIDTH_SLOTS;
         int heightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
-
         int slotSize = (baseSlotSize * hud.scale) / 64; // 64 - contractual value for HUD
 
         int totalWidth = widthSlots * slotSize;
@@ -220,7 +222,6 @@ public class HUDRenderer implements Drawable
         int beltSlotCount = Inventory.beltWidthSlots;
         int beltTotalWidth = beltSlotCount * slotSize;
         int marginFromInventoryBar = height/6;
-
         int beltY = height - slotSize - marginFromInventoryBar;
 
 
@@ -237,10 +238,61 @@ public class HUDRenderer implements Drawable
                 int slotX = inventoryFrameX + i * slotSize;
                 int slotY = inventoryFrameY + j * slotSize;
 
-                    renderFrame(g2d, slotX, slotY, slotSize, slotSize, 3, 3, 1, 0.7f);
+                renderFrame(g2d, slotX, slotY, slotSize, slotSize, 0, 0, 1, 0.7f);
+            }
+        }
+
+        for (Item item : hud.gc.player.getInventory().getItems())
+        {
+            if (item != null)
+            {
+                drawItem(g2d, item, inventoryFrameX, inventoryFrameY, slotSize);
             }
         }
       //  g2.dispose();
+    }
+
+    /**
+     *
+     * @param g2d           - Graphics2D object
+     * @param item          - Item to draw
+     * @param inventoryX    - starting X of frame
+     * @param inventoryY    - starting Y of frame
+     * @param slotSize      - size of slot in pixels
+     */
+    private void drawItem(Graphics2D g2d, Item item, int inventoryX, int inventoryY, int slotSize)
+    {
+        Position position = item.getInventoryPosition(); // position of item in inventory
+        if (position == null)
+        {
+            return;
+        }
+
+        int itemSlotWidth = item.getSlotWidth();    // width of item
+        int itemSlotHeight = item.getSlotHeight();  // height of item
+
+        // counting new position and item's sprite size in pixels
+        int itemPixelX = inventoryX + position.x * slotSize;
+        int itemPixelY = inventoryY + position.y * slotSize;
+        int itemPixelWidth = itemSlotWidth * slotSize;
+        int itemPixelHeight = itemSlotHeight * slotSize;
+
+        Sprite sprite = item.getSprite();
+
+        // scaling and centering
+        int spriteWidth = sprite.image.getWidth();
+        int spriteHeight = sprite.image.getHeight();
+        float scaleX = (float) itemPixelWidth / spriteWidth;
+        float scaleY = (float) itemPixelHeight / spriteHeight;
+        float scale = Math.min(scaleX, scaleY);
+
+        int drawWidth = (int) (spriteWidth * scale);
+        int drawHeight = (int) (spriteHeight * scale);
+
+        int drawX = itemPixelX + (itemPixelWidth - drawWidth) / 2; // Centered X
+        int drawY = itemPixelY + (itemPixelHeight - drawHeight) / 2; // Centered Y
+
+        g2d.drawImage(sprite.image, drawX, drawY, drawWidth, drawHeight, null);
     }
 
     public void drawStatisticsFrame(Graphics g2)

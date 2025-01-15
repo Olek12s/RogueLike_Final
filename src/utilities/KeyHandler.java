@@ -25,6 +25,7 @@ public class KeyHandler implements KeyListener
 
     public boolean I_PRESSED = false;
     public boolean E_PRESSED = false;
+    public boolean F_PRESSED = false;
 
     public boolean CTRL_PRESSED = false;
 
@@ -60,6 +61,7 @@ public class KeyHandler implements KeyListener
 
             case KeyEvent.VK_I: I_PRESSED = true; break;
             case KeyEvent.VK_E: E_PRESSED = true; break;
+            case KeyEvent.VK_F: F_PRESSED = true; break;
 
             case KeyEvent.VK_CONTROL: CTRL_PRESSED = true; break;
         }
@@ -90,6 +92,7 @@ public class KeyHandler implements KeyListener
 
             case KeyEvent.VK_I: I_PRESSED = false; break;
             case KeyEvent.VK_E: E_PRESSED = false; break;
+            case KeyEvent.VK_F: F_PRESSED = false; break;
 
             case KeyEvent.VK_CONTROL: CTRL_PRESSED = false; break;
         }

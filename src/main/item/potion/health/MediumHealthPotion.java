@@ -13,10 +13,9 @@ public class MediumHealthPotion extends HealthPotion
 
     public MediumHealthPotion(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.MEDIUM_HP_POTION, 60);
+        super(gc, ItemID.MEDIUM_HP_POTION, worldPosition, 60);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-        this.setHitbox();
     }
 
     @Override

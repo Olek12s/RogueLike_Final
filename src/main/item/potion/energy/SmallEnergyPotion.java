@@ -13,10 +13,9 @@ public class SmallEnergyPotion extends EnergyPotion
 
     public SmallEnergyPotion(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.SMALL_ENERGY_POTION, 30);
+        super(gc, ItemID.SMALL_ENERGY_POTION, worldPosition, 30);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-        this.setHitbox();
     }
 
     @Override

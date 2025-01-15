@@ -3,6 +3,7 @@ package main.entity;
 import main.DamageType;
 import main.Direction;
 import main.controller.GameController;
+import main.inventory.Inventory;
 import main.item.weapon.Weapon;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;
@@ -29,6 +30,7 @@ public abstract class Entity
     public boolean isImmobilised;
     private boolean isAlive;
     private MapLevels level;
+    protected Inventory inventory;
 
     //STATISTICS
     public EntityStatistics statistics;
@@ -48,6 +50,7 @@ public abstract class Entity
         this.isAlive = true;
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
         this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
+        this.inventory = new Inventory();
 
         setDirection();
         setHitbox();
@@ -86,6 +89,7 @@ public abstract class Entity
     public void setLevel(MapLevels level) {this.level = level;}
     public void setSpeed(int speed) {this.statistics.currentMovementSpeed = Math.min(speed, statistics.maxMovementSpeed);}
     public int getMaxMovementSpeed() {return statistics.getMaxMovementSpeed();}
+    public Inventory getInventory() {return inventory;}
 
     public void initializeEntitySpriteAssets(int id)
     {

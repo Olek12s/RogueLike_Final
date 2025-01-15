@@ -13,10 +13,9 @@ public class LargeHealthPotion extends HealthPotion
 
     public LargeHealthPotion(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.LARGE_HP_POTION, 100);
+        super(gc, ItemID.LARGE_HP_POTION, worldPosition, 100);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-        this.setHitbox();
     }
 
     @Override

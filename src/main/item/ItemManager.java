@@ -38,5 +38,7 @@ public class ItemManager
         spriteMap.put(ItemID.SMALL_ENERGY_POTION, new Sprite(FileManipulation.loadImage("resources/items/potions/SmallEnergyPotion"), 16));
         spriteMap.put(ItemID.MEDIUM_ENERGY_POTION, new Sprite(FileManipulation.loadImage("resources/items/potions/MediumEnergyPotion"), 16));
         spriteMap.put(ItemID.LARGE_ENERGY_POTION, new Sprite(FileManipulation.loadImage("resources/items/potions/LargeEnergyPotion"), 16));
+
+        spriteMap.put(ItemID.WOODEN_SHIELD, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenShield"), 32));
     }
 }

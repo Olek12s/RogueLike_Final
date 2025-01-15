@@ -13,10 +13,9 @@ public class LargeEnergyPotion extends EnergyPotion
 
     public LargeEnergyPotion(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.LARGE_ENERGY_POTION, 100);
+        super(gc, ItemID.LARGE_ENERGY_POTION, worldPosition, 100);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-        this.setHitbox();
     }
 
     @Override

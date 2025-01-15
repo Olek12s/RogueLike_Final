@@ -3,6 +3,7 @@ package main.item.potion.energy;
 import main.controller.GameController;
 import main.item.*;
 import utilities.Hitbox;
+import utilities.Position;
 
 public abstract class EnergyPotion extends Item implements Consumable
 {
@@ -11,6 +12,12 @@ public abstract class EnergyPotion extends Item implements Consumable
     public EnergyPotion(GameController gc, ItemID itemID, int regenerationPower)
     {
         super(gc, itemID);
+        this.regenerationPower = regenerationPower;
+    }
+
+    public EnergyPotion(GameController gc, ItemID itemID, Position worldPosition, int regenerationPower)
+    {
+        super(gc, itemID, worldPosition);
         this.regenerationPower = regenerationPower;
     }
 
