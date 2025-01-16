@@ -1,0 +1,26 @@
+<changelist name="Uncommitted_changes_before_Update_at_15_01_2025_13_01_[Changes]" date="1736942517316" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_01_2025_13_01_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 15.01.2025 13:01 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/BitingSlimeWeapon.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/SpiderWeapon.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/Weapon.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/ZombieWeapon.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/Item.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/item/Item.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_01_2025_13_01_[Changes]/Item.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/ui/HUDRenderer.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/ui/HUDRenderer.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_01_2025_13_01_[Changes]/HUDRenderer.class" />
+  </binary>
+</changelist>

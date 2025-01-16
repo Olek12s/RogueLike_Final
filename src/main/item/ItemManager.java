@@ -40,5 +40,7 @@ public class ItemManager
         spriteMap.put(ItemID.LARGE_ENERGY_POTION, new Sprite(FileManipulation.loadImage("resources/items/potions/LargeEnergyPotion"), 16));
 
         spriteMap.put(ItemID.WOODEN_SHIELD, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenShield"), 32));
+        spriteMap.put(ItemID.WOODEN_BOOTS, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenBoots"), 32));
+        spriteMap.put(ItemID.WOODEN_PICKAXE, new Sprite(FileManipulation.loadImage("resources/items/tool/WoodenPickaxe"), 32));
     }
 }

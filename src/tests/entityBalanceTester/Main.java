@@ -2,7 +2,7 @@ package tests.entityBalanceTester;
 
 import main.controller.GameController;
 import main.entity.Entity;
-import main.entity.bitingSlime.*;
+import main.entity.monster.*;
 import utilities.Position;
 
 public class Main

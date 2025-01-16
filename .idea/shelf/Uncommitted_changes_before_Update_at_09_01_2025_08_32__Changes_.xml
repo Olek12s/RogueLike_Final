@@ -1,9 +1,0 @@
-<changelist name="Uncommitted_changes_before_Update_at_09_01_2025_08_32_[Changes]" date="1736408037720" recycled="true" deleted="true">
-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_01_2025_08_32_[Changes]/shelved.patch" />
-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 09.01.2025 08:32 [Changes]" />
-  <binary>
-    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/generation/SurfaceGenerator.class" />
-    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/generation/SurfaceGenerator.class" />
-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_01_2025_08_32_[Changes]/SurfaceGenerator.class" />
-  </binary>
-</changelist>

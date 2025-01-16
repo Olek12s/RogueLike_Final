@@ -1,8 +1,5 @@
 package main.item;
 
-import main.item.armor.WoodenShield;
-import world.map.tiles.TileID;
-
 public enum ItemID
 {
     SMALL_HP_POTION(0),
@@ -17,7 +14,9 @@ public enum ItemID
     MEDIUM_MANA_POTION(7),
     LARGE_MANA_POTION(8),
 
-    WOODEN_SHIELD(9);
+    WOODEN_SHIELD(9),
+    WOODEN_BOOTS(10),
+    WOODEN_PICKAXE(11);
 
     private final int id;
 

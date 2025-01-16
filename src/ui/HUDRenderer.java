@@ -43,6 +43,7 @@ public class HUDRenderer implements Drawable
         {
             drawMainInventory(g2);
             drawStatisticsFrame(g2);
+            drawEquippedFrame(g2);
         }
         if (hud.gc.isDebugMode())
         {
@@ -86,9 +87,9 @@ public class HUDRenderer implements Drawable
         g2d.setFont(new Font("Arial", Font.BOLD, scaledFontSize));
 
         int baseX = 10;
-        int baseY = 130;
+        int baseY = hud.gc.getHeight()/2;
         int scaledX = (int) (baseX * (hud.scale / 64.0));
-        int scaledY = (int) (baseY * (hud.scale / 64.0));
+        int scaledY = baseY;
 
         String debugInfo = getTimers() + "\n" + drawCount;
         String[] debugLines = debugInfo.split("\\n");
@@ -175,7 +176,7 @@ public class HUDRenderer implements Drawable
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.setStroke(new BasicStroke(innerWidth));
         g2d.drawRoundRect(x + innerPadding, y + innerPadding, width  - (innerPadding*2), height - (innerPadding*2), arcWidth, arcHeight);
-       // g2d.dispose();
+        // g2d.dispose();
 
     }
 
@@ -201,7 +202,7 @@ public class HUDRenderer implements Drawable
 
             renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 3, 1, 0.5f);
         }
-     //   g2.dispose();
+        //   g2.dispose();
     }
 
     public void drawMainInventory(Graphics g2)
@@ -221,7 +222,7 @@ public class HUDRenderer implements Drawable
 
         int beltSlotCount = Inventory.beltWidthSlots;
         int beltTotalWidth = beltSlotCount * slotSize;
-        int marginFromInventoryBar = height/6;
+        int marginFromInventoryBar = height/2;
         int beltY = height - slotSize - marginFromInventoryBar;
 
 
@@ -249,7 +250,7 @@ public class HUDRenderer implements Drawable
                 drawItem(g2d, item, inventoryFrameX, inventoryFrameY, slotSize);
             }
         }
-      //  g2.dispose();
+        //  g2.dispose();
     }
 
     /**
@@ -305,7 +306,7 @@ public class HUDRenderer implements Drawable
         int slotSize = (baseSlotSize * hud.scale) / 64;
 
         int beltSlotCount = Inventory.beltWidthSlots;
-        int marginFromInventoryBar = height / 6;
+        int marginFromInventoryBar = height / 2;
         int beltY = height - slotSize - marginFromInventoryBar;
 
         // size and position of main inventory
@@ -390,4 +391,79 @@ public class HUDRenderer implements Drawable
 
         g2d.dispose();
     }
+
+    public void drawEquippedFrame(Graphics g2) {
+        Graphics2D g2d = (Graphics2D) g2.create();
+
+        int slotSize = (baseSlotSize * hud.scale) / 64;
+
+        // Określenie wielkości ramki ekwipunku
+        int equippedFrameWidth = slotSize * 5; // Szerokość na 2x3 sloty, tarczę i akcesoria
+        int equippedFrameHeight = slotSize * 10 + slotSize / 4; // Wysokość na wszystkie sloty
+
+        // Pozycja ramki głównego ekwipunku
+        int width = hud.gc.getWidth();
+        int height = hud.gc.getHeight();
+        int widthSlots = Inventory.INVENTORY_WIDTH_SLOTS;
+        int heightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
+        int totalWidth = widthSlots * slotSize;    // szerokość głównego ekwipunku
+        int totalHeight = heightSlots * slotSize;  // wysokość głównego ekwipunku
+        int marginFromInventoryBar = height / 2;
+        int beltY = height - slotSize - marginFromInventoryBar;
+
+        // Pozycja głównego ekwipunku
+        int inventoryFrameX = (width - totalWidth) / 2;
+        int inventoryFrameY = beltY - totalHeight;
+
+        // Ustawienie pozycji ramki ekwipunku na końcu głównego ekwipunku
+        int equippedFrameX = inventoryFrameX + totalWidth;
+        int equippedFrameY = inventoryFrameY;
+
+        renderFrame(g2d, equippedFrameX, equippedFrameY, equippedFrameWidth, equippedFrameHeight, 3, 3, 1, 0.7f);
+
+        // 1. Hełm (2x2)
+        int helmetX = equippedFrameX + (slotSize / 4);
+        int helmetY = equippedFrameY + (slotSize / 4);
+        renderFrame(g2d, helmetX, helmetY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
+
+        // 2. Pancerz (2x3)
+        int chestX = helmetX;
+        int chestY = helmetY + slotSize * 2 + (slotSize / 4);
+        renderFrame(g2d, chestX, chestY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
+
+        // 3. Spodnie (2x3)
+        int pantsX = chestX;
+        int pantsY = chestY + slotSize * 3 + (slotSize / 4);
+        renderFrame(g2d, pantsX, pantsY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
+
+        // 4. Buty (2x1)
+        int bootsX = pantsX;
+        int bootsY = pantsY + slotSize * 3 + (slotSize / 4);
+        renderFrame(g2d, bootsX, bootsY, slotSize * 2, slotSize, 0, 0, 1, 0.7f);
+
+        // 5. Pierwszy slot na pierścień (1x1)
+        int ring1X = equippedFrameX + slotSize * 2 + (slotSize / 2);
+        int ring1Y = equippedFrameY + (equippedFrameHeight / 2) - (slotSize * 2);
+        renderFrame(g2d, ring1X, ring1Y, slotSize, slotSize, 0, 0, 1, 0.7f);
+
+        // 6. Drugi slot na pierścień (1x1)
+        int ring2X = ring1X + slotSize + (slotSize / 4);
+        int ring2Y = ring1Y;
+        renderFrame(g2d, ring2X, ring2Y, slotSize, slotSize, 0, 0, 1, 0.7f);
+
+        // 7. Slot na amulet (1x1)
+        int amuletX = ring1X + (slotSize / 2) + ((slotSize / 4) / 2);
+        int amuletY = ring1Y - slotSize - (slotSize / 4);
+        renderFrame(g2d, amuletX, amuletY, slotSize, slotSize, 0, 0, 1, 0.7f);
+
+        // 8. Slot na tarczę (2x2)
+        int shieldX = ring1X + ((slotSize / 4) / 2);
+        int shieldY = ring2Y + slotSize + (slotSize / 4);
+        renderFrame(g2d, shieldX, shieldY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
+
+        g2d.dispose();
+    }
+
+
+
 }

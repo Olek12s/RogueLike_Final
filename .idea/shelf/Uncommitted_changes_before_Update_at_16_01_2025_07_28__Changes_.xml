@@ -1,0 +1,186 @@
+<changelist name="Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]" date="1737008884709" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 16.01.2025 07:28 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/Drawable.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/map/tiles/TileManager.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/map/tiles/TileManager.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/TileManager.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/generation/TerrainGenerator.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/generation/TerrainGenerator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/TerrainGenerator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/player/Player.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/player/Player.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Player.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/tests/entityBalanceTester/Main.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/tests/entityBalanceTester/Main.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Main.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/ui/HUD.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/ui/HUD.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/HUD.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/map/MapController.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/map/MapController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/MapController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/Updatable.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/Spider.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/Spider.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Spider.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerRenderer.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerRenderer.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/PlayerRenderer.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/tests/EntityTester.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/tests/EntityTester.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/EntityTester.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/BitingSlime.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/BitingSlime.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/BitingSlime.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerUpdater$1.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerUpdater$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/PlayerUpdater$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_08_01_2025_21_07_[Changes]/CaveFloor.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/MiniBitingSlime.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/MiniBitingSlime.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/MiniBitingSlime.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/Zombie.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/Zombie.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Zombie.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerUpdater.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/player/PlayerUpdater.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/PlayerUpdater.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/GameController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/Main.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/Main.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Main1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/generation/SurfaceGenerator.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/generation/SurfaceGenerator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/SurfaceGenerator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/map/MapUpdater.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/map/MapUpdater.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/MapUpdater.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/ui/HUDUpdater.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/ui/HUDUpdater.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/HUDUpdater.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/VenomousSpider.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/VenomousSpider.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/VenomousSpider.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/tests/entityBalanceTester/PlayerEntity.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/tests/entityBalanceTester/PlayerEntity.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/PlayerEntity.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/map/MapController$1.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/map/MapController$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/MapController$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/utilities/MouseHandler.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/utilities/MouseHandler.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/MouseHandler.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/cursor/CursorHUD.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/cursor/CursorHUD.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/CursorHUD.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/cursor/CursorUpdater.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/cursor/CursorUpdater.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/CursorUpdater.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/map/MapRenderer.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/world/map/MapRenderer.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/MapRenderer.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/utilities/AssetSetter.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/utilities/AssetSetter.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/AssetSetter.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/utilities/camera/Camera.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/utilities/camera/Camera.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Camera.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/Entity.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/Entity.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Entity.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/cursor/CursorRenderer.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/cursor/CursorRenderer.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/CursorRenderer.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/utilities/KeyHandler.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/utilities/KeyHandler.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/KeyHandler.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/utilities/Collisions.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/utilities/Collisions.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/Collisions.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/utilities/camera/CameraUpdater.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/utilities/camera/CameraUpdater.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/CameraUpdater.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/EntityRenderer.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/EntityRenderer.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/EntityRenderer.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/EntityUpdater.class" />
+    <option name="AFTER_PATH" value="out/production/RogueLikeFinall/main/entity/EntityUpdater.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_01_2025_07_28_[Changes]/EntityUpdater.class" />
+  </binary>
+</changelist>

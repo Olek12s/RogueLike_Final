@@ -1,7 +1,7 @@
 package tests;
 
 import main.controller.GameController;
-import main.entity.bitingSlime.BitingSlime;
+import main.entity.monster.BitingSlime;
 import test.annotations.Before;
 import test.annotations.Test;
 import test.runner.Assertions;

@@ -2,19 +2,19 @@ package utilities;
 
 import main.controller.GameController;
 import main.entity.Entity;
-import main.entity.bitingSlime.*;
-import main.item.Item;
+import main.entity.monster.MiniBitingSlime;
+import main.item.armor.WoodenBoots;
 import main.item.armor.WoodenShield;
 import main.item.potion.energy.LargeEnergyPotion;
 import main.item.potion.energy.MediumEnergyPotion;
 import main.item.potion.energy.SmallEnergyPotion;
-import main.item.potion.health.HealthPotion;
 import main.item.potion.health.LargeHealthPotion;
 import main.item.potion.health.MediumHealthPotion;
 import main.item.potion.health.SmallHealthPotion;
 import main.item.potion.mana.LargeManaPotion;
 import main.item.potion.mana.MediumManaPotion;
 import main.item.potion.mana.SmallManaPotion;
+import main.item.tool.WoodenPickaxe;
 
 import java.util.List;
 
@@ -67,6 +67,8 @@ public class AssetSetter
         LargeEnergyPotion lep = new LargeEnergyPotion(gc, new Position(startX+96, startY+64*2));
 
         WoodenShield shield = new WoodenShield(gc, new Position(startX-60, startY));
+        WoodenBoots boots = new WoodenBoots(gc, new Position(startX-120, startY));
+        WoodenPickaxe pickaxe = new WoodenPickaxe(gc, new Position(startX-150, startY));
 
         for (int i = 0; i < 600; i++)
         {
