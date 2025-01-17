@@ -1,5 +1,8 @@
 package utilities;
 
+import main.controller.GameController;
+import utilities.camera.Camera;
+
 import java.util.Objects;
 
 public class Position
@@ -22,15 +25,16 @@ public class Position
         this.y = y;
     }
 
-    public void add(Position position)
+    public static Position screenToWorldPosition(int x, int y)
     {
-        this.x = x + position.x;
-        this.y = x + position.y;
-    }
-    public void subtract(Position position)
-    {
-        this.x = x - position.x;
-        this.y = x - position.y;
+        int width = GameController.getInstance().getWidth();
+        int height = GameController.getInstance().getHeight();
+        double scaleFactor = Camera.getScaleFactor();
+
+        int worldX = (int)((x - width / 2) / scaleFactor + GameController.getInstance().camera.getCameraPosition().x);
+        int worldY = (int)((y - height / 2) / scaleFactor + GameController.getInstance().camera.getCameraPosition().y);
+
+        return new Position(worldX, worldY);
     }
 
     @Override

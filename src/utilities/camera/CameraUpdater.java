@@ -2,6 +2,7 @@ package utilities.camera;
 
 
 import main.controller.Updatable;
+import utilities.Position;
 import world.map.Chunk;
 import world.map.MapRenderer;
 import world.map.tiles.Tile;
@@ -21,6 +22,7 @@ public class CameraUpdater implements Updatable
         camera.focusOn(camera.gc.player);
         camera.checkScroll();
         updateRenderDistance();
+        Position.screenToWorldPosition(0, 0);
     }
 
     private void updateRenderDistance()

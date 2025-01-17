@@ -3,15 +3,23 @@
   <option name="DESCRIPTION" value="Uncommitted changes before Update at 15.01.2025 13:01 [Changes]" />
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/BitingSlimeWeapon.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/SpiderWeapon.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/Weapon.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/ZombieWeapon.class" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/item/Item.class" />

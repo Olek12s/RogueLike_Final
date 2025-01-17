@@ -1,6 +1,7 @@
 package ui;
 
 import main.controller.Updatable;
+import utilities.MouseHandler;
 
 public class HUDUpdater implements Updatable
 {
@@ -16,6 +17,17 @@ public class HUDUpdater implements Updatable
     public void update()
     {
         updateHealthBar();
+        checkClick();
+    }
+
+    private void checkClick()
+    {
+        MouseHandler mh = hud.gc.mouseHandler;
+
+        if (mh.leftButtonPressed && hud.hudRenderer.ring1Slot.isWithinSlot(mh.getClickPosition()))
+        {
+            System.out.println("in slot");
+        }
     }
 
     private void updateHealthBar()

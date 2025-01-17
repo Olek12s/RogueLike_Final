@@ -8,9 +8,16 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
 {
     private final GameController gc;
 
-    public int mouseX = -1;
-    public int mouseY = -1;
+    private int mouseX = -1;
+    private int mouseY = -1;
     public int scrollCount = 0;
+
+    public boolean leftButtonPressed = false;
+
+    public Position getClickPosition() {return new Position(mouseX, mouseY);}
+
+    public int getMouseX() {return mouseX;}
+    public int getMouseY() {return mouseY;}
 
     public MouseHandler(GameController gameController)
     {
@@ -31,11 +38,22 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
         Position cameraPosition = gc.camera.getCameraPosition();
 
         System.out.println("mouse clicked at: [" + mouseX + ", " + mouseY + "] Angle: " + gc.cursor.getAngle(cameraPosition));
+
+        int code = e.getButton();
+        switch(code)
+        {
+            case MouseEvent.BUTTON1: leftButtonPressed = true; break;
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
+        int code = e.getButton();
+        switch(code)
+        {
+            case MouseEvent.BUTTON1: leftButtonPressed = false; break;
+        }
     }
 
     @Override

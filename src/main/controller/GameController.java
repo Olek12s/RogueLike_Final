@@ -80,6 +80,7 @@ public class GameController extends JPanel implements Runnable
             this.addMouseListener(mouseHandler);
             this.addMouseMotionListener(mouseHandler);
             hideCursor();
+            instance = this;
         }
     }
 

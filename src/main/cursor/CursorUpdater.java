@@ -20,7 +20,7 @@ public class CursorUpdater implements Updatable
 
     private void updateCursorPosition()
     {
-        cursor.cursorPosition.x = cursor.gc.mouseHandler.mouseX;
-        cursor.cursorPosition.y = cursor.gc.mouseHandler.mouseY;
+        cursor.cursorPosition.x = cursor.gc.mouseHandler.getMouseX();
+        cursor.cursorPosition.y = cursor.gc.mouseHandler.getMouseY();
     }
 }
