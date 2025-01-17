@@ -2,8 +2,11 @@ package ui;
 
 import main.controller.GameController;
 import utilities.FileManipulation;
+import utilities.Position;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;
+
+import java.util.ArrayList;
 
 public class HUD
 {
@@ -24,5 +27,19 @@ public class HUD
         hudUpdater = new HUDUpdater(this);
         this.heartSpriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/hud/heartsSpriteSheet"), 27);
         this.heart = heartSpriteSheet.extractFirst();
+    }
+
+    public ScreenSlot getScreenSlotAt(Position position)
+    {
+        ArrayList<ScreenSlot> screenSlots = hudRenderer.getScreenSlots();
+
+        for (ScreenSlot slot : screenSlots)
+        {
+            if (slot != null && slot.isWithinSlot(position))
+            {
+                return slot;
+            }
+        }
+        return null;
     }
 }

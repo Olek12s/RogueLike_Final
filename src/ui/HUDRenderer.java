@@ -11,6 +11,10 @@ import utilities.sprite.Sprite;
 import world.map.tiles.Tile;
 
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 public class HUDRenderer implements Drawable
 {
@@ -35,6 +39,7 @@ public class HUDRenderer implements Drawable
 
     // SLOTS POSITIONS //
     ScreenSlot[][] mainInventorySlots;
+    ScreenSlot[] beltSlots;
     ScreenSlot helmetSlot;
     ScreenSlot chestplateSlot;
     ScreenSlot pantsSlot;
@@ -45,12 +50,51 @@ public class HUDRenderer implements Drawable
     ScreenSlot amuletSLot;
     // SLOTS POSITIONS //
 
+    ArrayList<ScreenSlot> screenSlots;
+    public ArrayList<ScreenSlot> getScreenSlots() {return screenSlots;}
 
     public HUDRenderer(HUD hud)
     {
         this.hud = hud;
         hud.gc.drawables.add(this);
+        initScreenSlotsArrayList();
+    }
+
+    private void initScreenSlotsArrayList()
+    {
         mainInventorySlots = new ScreenSlot[Inventory.INVENTORY_WIDTH_SLOTS][Inventory.INVENTORY_HEIGHT_SLOTS];
+        beltSlots = new ScreenSlot[Inventory.beltWidthSlots];
+        screenSlots = new ArrayList<>();
+
+        for (int i = 0; i < mainInventorySlots.length; i++) {
+            for (int j = 0; j < mainInventorySlots[0].length; j++) {
+                mainInventorySlots[i][j] = new ScreenSlot(slotSize, SlotType.mainInvSlot);
+                screenSlots.add(mainInventorySlots[i][j]);
+            }
+        }
+
+        for (int i = 0; i < beltSlots.length; i++) {
+            beltSlots[i] = new ScreenSlot(slotSize, SlotType.beltSlot);
+            screenSlots.add(beltSlots[i]);
+        }
+
+        helmetSlot = new ScreenSlot(slotSize, SlotType.helmetSlot);
+        chestplateSlot = new ScreenSlot(slotSize, SlotType.chestplateSlot);
+        pantsSlot = new ScreenSlot(slotSize, SlotType.pantsSlot);
+        bootsSlot = new ScreenSlot(slotSize, SlotType.bootsSlot);
+        shieldSlot = new ScreenSlot(slotSize, SlotType.shieldSlot);
+        ring1Slot = new ScreenSlot(slotSize, SlotType.ring1Slot);
+        ring2Slot = new ScreenSlot(slotSize, SlotType.ring2Slot);
+        amuletSLot = new ScreenSlot(slotSize, SlotType.amuletSLot);
+
+        screenSlots.add(helmetSlot);
+        screenSlots.add(chestplateSlot);
+        screenSlots.add(pantsSlot);
+        screenSlots.add(bootsSlot);
+        screenSlots.add(shieldSlot);
+        screenSlots.add(ring1Slot);
+        screenSlots.add(ring2Slot);
+        screenSlots.add(amuletSLot);
     }
 
     @Override
@@ -235,6 +279,7 @@ public class HUDRenderer implements Drawable
 
 
             renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 3, 1, 0.5f);
+            beltSlots[i].updateSlot(slotSize, frameX, frameY);
         }
         //   g2.dispose();
     }
@@ -278,12 +323,7 @@ public class HUDRenderer implements Drawable
                 int slotY = inventoryFrameY + j * slotSize;
 
                 renderFrame(g2d, slotX, slotY, slotSize, slotSize, 0, 0, 1, 0.7f);
-                if (mainInventorySlots[i][j] == null) mainInventorySlots[i][j] =  new ScreenSlot(slotSize, new Position(slotX, slotY));
-                else
-                {
-                    mainInventorySlots[i][j].setSlotSize(slotSize);
-                    mainInventorySlots[i][j].setScreenPosition(slotX, slotY);
-                }
+                mainInventorySlots[i][j].updateSlot(slotSize, slotX, slotY);
             }
         }
 
@@ -458,93 +498,51 @@ public class HUDRenderer implements Drawable
         int helmetX = equippedFrameX + (slotSize / 4);
         int helmetY = equippedFrameY + (slotSize / 4);
         renderFrame(g2d, helmetX, helmetY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
-        if (helmetSlot == null) helmetSlot = new ScreenSlot(slotSize, new Position(helmetX, helmetY));
-        else
-        {
-            helmetSlot.setSlotSize(slotSize);
-            helmetSlot.setScreenPosition(helmetX, helmetY);
-        }
+        helmetSlot.updateSlot(slotSize, helmetX, helmetY);
+
 
         // 2. Chestplate (2x3)
         int chestX = helmetX;
         int chestY = helmetY + slotSize * 2 + (slotSize / 4);
         renderFrame(g2d, chestX, chestY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
-        if (chestplateSlot == null) chestplateSlot = new ScreenSlot(slotSize, new Position(chestX, chestY));
-        else
-        {
-            chestplateSlot.setSlotSize(slotSize);
-            chestplateSlot.setScreenPosition(chestX, chestY);
-        }
+        chestplateSlot.updateSlot(slotSize, chestX, chestY);
 
         // 3. Pants (2x3)
         int pantsX = chestX;
         int pantsY = chestY + slotSize * 3 + (slotSize / 4);
         renderFrame(g2d, pantsX, pantsY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
-        if (pantsSlot == null) pantsSlot = new ScreenSlot(slotSize, new Position(pantsX, pantsY));
-        else
-        {
-            pantsSlot.setSlotSize(slotSize);
-            pantsSlot.setScreenPosition(pantsX, pantsY);
-        }
+        pantsSlot.updateSlot(slotSize, pantsX, pantsY);
 
         // 4. Boots (2x1)
         int bootsX = pantsX;
         int bootsY = pantsY + slotSize * 3 + (slotSize / 4);
         renderFrame(g2d, bootsX, bootsY, slotSize * 2, slotSize, 0, 0, 1, 0.7f);
-        if (bootsSlot == null) bootsSlot = new ScreenSlot(slotSize, new Position(bootsX, bootsY));
-        else
-        {
-            bootsSlot.setSlotSize(slotSize);
-            bootsSlot.setScreenPosition(bootsX, bootsY);
-        }
+        bootsSlot.updateSlot(slotSize, bootsX, bootsY);
 
         // 5. Ring1 (1x1)
         int ring1X = equippedFrameX + slotSize * 2 + (slotSize / 2);
         int ring1Y = equippedFrameY + (equippedFrameHeight / 2) - (slotSize * 2);
         renderFrame(g2d, ring1X, ring1Y, slotSize, slotSize, 0, 0, 1, 0.7f);
-        if (ring1Slot == null) ring1Slot = new ScreenSlot(slotSize, new Position(ring1X, ring1Y));
-        else
-        {
-            ring1Slot.setSlotSize(slotSize);
-            ring1Slot.setScreenPosition(ring1X, ring1Y);
-        }
+        ring1Slot.updateSlot(slotSize, ring1X, ring1Y);
 
         // 6. Ring2 (1x1)
         int ring2X = ring1X + slotSize + (slotSize / 4);
         int ring2Y = ring1Y;
         renderFrame(g2d, ring2X, ring2Y, slotSize, slotSize, 0, 0, 1, 0.7f);
-        if (ring2Slot == null) ring2Slot = new ScreenSlot(slotSize, new Position(ring2X, ring2Y));
-        else
-        {
-            ring2Slot.setSlotSize(slotSize);
-            ring2Slot.setScreenPosition(ring2X, ring2Y);
-        }
+        ring2Slot.updateSlot(slotSize, ring2X, ring2Y);
 
         // 7. Amulet (1x1)
         int amuletX = ring1X + (slotSize / 2) + ((slotSize / 4) / 2);
         int amuletY = ring1Y - slotSize - (slotSize / 4);
         renderFrame(g2d, amuletX, amuletY, slotSize, slotSize, 0, 0, 1, 0.7f);
-        if (amuletSLot == null) amuletSLot = new ScreenSlot(slotSize, new Position(amuletX, amuletY));
-        else
-        {
-            amuletSLot.setSlotSize(slotSize);
-            amuletSLot.setScreenPosition(amuletX, amuletY);
-        }
+        amuletSLot.updateSlot(slotSize, amuletX, amuletY);
 
         // 8. Shield (2x2)
         int shieldX = ring1X + ((slotSize / 4) / 2);
         int shieldY = ring2Y + slotSize + (slotSize / 4);
         renderFrame(g2d, shieldX, shieldY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
-        if (shieldSlot == null) shieldSlot = new ScreenSlot(slotSize, new Position(shieldX, shieldY));
-        else
-        {
-            shieldSlot.setSlotSize(slotSize);
-            shieldSlot.setScreenPosition(helmetX, helmetY);
-        }
+        shieldSlot.updateSlot(slotSize, shieldX, shieldY);
 
         g2d.dispose();
     }
-
-
-
 }

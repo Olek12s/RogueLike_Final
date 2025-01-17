@@ -1,5 +1,7 @@
 package ui;
 
+import main.controller.GameController;
+import main.controller.GameState;
 import main.controller.Updatable;
 import utilities.MouseHandler;
 
@@ -24,9 +26,11 @@ public class HUDUpdater implements Updatable
     {
         MouseHandler mh = hud.gc.mouseHandler;
 
-        if (mh.leftButtonPressed && hud.hudRenderer.ring1Slot.isWithinSlot(mh.getClickPosition()))
+        if (mh.leftButtonPressed && hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
         {
-            System.out.println("in slot");
+            ScreenSlot slot = hud.getScreenSlotAt(mh.getClickPosition());
+            if (slot != null) System.out.println(slot.getSlotType());
+            else System.out.println("null");
         }
     }
 
