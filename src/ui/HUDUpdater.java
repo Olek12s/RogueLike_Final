@@ -1,13 +1,24 @@
 package ui;
 
-import main.controller.GameController;
 import main.controller.GameState;
 import main.controller.Updatable;
+import main.item.Item;
+import main.item.ItemID;
+import main.item.ItemManager;
 import utilities.MouseHandler;
+import utilities.Position;
+import world.map.MapController;
+
+import java.util.ArrayList;
 
 public class HUDUpdater implements Updatable
 {
     HUD hud;
+    private boolean draggingItem;
+    private Item draggedItem;
+
+    public boolean isDraggingItem() {return draggingItem;}
+    public Item getDraggedItem() {return draggedItem;}
 
     public HUDUpdater(HUD hud)
     {
@@ -19,19 +30,68 @@ public class HUDUpdater implements Updatable
     public void update()
     {
         updateHealthBar();
-        checkClick();
+        checkStartDraggingFromSlot();
+        checkEndDraggingFromSlot();
+        //checkEndClick();
     }
 
-    private void checkClick()
+    private boolean clickedOnSlot()
     {
         MouseHandler mh = hud.gc.mouseHandler;
-
-        if (mh.leftButtonPressed && hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
+        if (mh.leftButtonClicked)
         {
             ScreenSlot slot = hud.getScreenSlotAt(mh.getClickPosition());
-            if (slot != null) System.out.println(slot.getSlotType());
-            else System.out.println("null");
+            if (slot == null) return false;
+            else return slot.isWithinSlot(mh.getClickPosition());
         }
+        return false;
+    }
+
+    private void checkStartDraggingFromSlot()
+    {
+        MouseHandler mh = hud.gc.mouseHandler;
+        if (clickedOnSlot())
+        {
+            ScreenSlot slot = hud.getScreenSlotAt(mh.getClickPosition());
+            if (slot.getItem() != null)
+            {
+                if (slot.getSlotType() == SlotType.mainInvSlot)   // main inventory
+                {
+                    draggedItem = hud.gc.player.getInventory().getItemAt(slot.getSlotNumberX(), slot.getSlotNumberY());
+                    draggingItem = true;
+                    hud.gc.player.getInventory().removeItem(draggedItem);
+
+                }
+                else if (slot.getSlotType() == SlotType.beltSlot) // belt inventory
+                {
+                    draggedItem = hud.gc.player.getInventory().getItemAt(slot.getSlotNumberX(), 0);
+                    draggingItem = true;
+                    hud.gc.player.getInventory().removeItem(draggedItem);
+                }
+                else    // equipped inventory
+                {
+
+                }
+            }
+        }
+    }
+
+    private void checkEndDraggingFromSlot()
+    {
+        MouseHandler mh = hud.gc.mouseHandler;
+        if (!clickedOnSlot() && draggingItem)
+        {
+            Position worldPosition = Position.screenToWorldPosition(mh.getClickPosition().x, mh.getClickPosition().y);
+            dropDraggedItemOnGround(worldPosition);
+        }
+    }
+
+    private void dropDraggedItemOnGround(Position worldPosition)
+    {
+        draggingItem = false;
+        draggedItem.setOnGround(true);
+        draggedItem.setWorldPosition(worldPosition);
+
     }
 
     private void updateHealthBar()

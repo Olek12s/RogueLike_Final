@@ -42,4 +42,9 @@ public class HUD
         }
         return null;
     }
+
+    public ScreenSlot getScreenSlotAt(int x, int y)
+    {
+        return getScreenSlotAt(new Position(x, y));
+    }
 }

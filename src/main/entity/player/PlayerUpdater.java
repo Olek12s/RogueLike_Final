@@ -1,6 +1,7 @@
 package main.entity.player;
 
 import main.Direction;
+import main.controller.GameState;
 import main.controller.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
@@ -30,8 +31,8 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         super.update();
         updatePlayerDirection();
         checkEnteranceCollision();
+        checkPickUpItem();
         checkCrouch();
-        if (entity.gc.keyHandler.F_PRESSED) entity.pickUpItem();
         counter++;
         if (counter == 60)  // DEBUG
         {
@@ -39,6 +40,12 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
             //System.out.println(entity.getWorldPosition().x/Tile.tileSize + " " + entity.getWorldPosition().y/Tile.tileSize);
             //System.out.println("Level: " + entity.gc.mapController.getCurrentMap().getLevel());
         }
+    }
+
+    private void checkPickUpItem()
+    {
+       // if (entity.gc.keyHandler.F_PRESSED && entity.gc.gameStateController.getCurrentGameState() == GameState.PENDING) entity.pickUpItem();
+        if (entity.gc.keyHandler.F_PRESSED) entity.pickUpItem();
     }
 
     private void checkCrouch()

@@ -34,6 +34,9 @@ public abstract class Item
     public Position getWorldPosition() {return worldPosition;}
     public Hitbox getHitbox() {return hitbox;}
     public Sprite getSprite() {return ItemManager.getItemSprite(itemID);}
+    public ItemID getItemID() {return itemID;}
+
+    public void setWorldPosition(Position worldPosition) {this.worldPosition = worldPosition;}
 
     public MapLevels getLevel() {return level;}
     public void setLevel(MapLevels level) {this.level = level;}

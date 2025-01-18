@@ -1,10 +1,11 @@
 package utilities;
 
 import main.controller.GameController;
+import main.controller.Updatable;
 
 import java.awt.event.*;
 
-public class MouseHandler implements MouseListener, MouseMotionListener, MouseWheelListener
+public class MouseHandler implements MouseListener, MouseMotionListener, MouseWheelListener, Updatable
 {
     private final GameController gc;
 
@@ -12,7 +13,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
     private int mouseY = -1;
     public int scrollCount = 0;
 
-    public boolean leftButtonPressed = false;
+    public boolean leftButtonClicked = false;
+    private boolean clickedFlag = false;
+
 
     public Position getClickPosition() {return new Position(mouseX, mouseY);}
 
@@ -22,28 +25,45 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
     public MouseHandler(GameController gameController)
     {
         this.gc = gameController;
+        this.gc.updatables.add(this);
+    }
+
+    @Override
+    public void update()
+    {
+        if (clickedFlag == false)
+        {
+            leftButtonClicked = false;
+        }
+        clickedFlag = false;
     }
 
     @Override
     public void mouseClicked(MouseEvent e)
     {
-
+        int code = e.getButton();
+        clickedFlag = true;
+        switch(code)
+        {
+            case MouseEvent.BUTTON1: leftButtonClicked = true; break;
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e)
     {
+
         mouseX = e.getX();
         mouseY = e.getY();
         Position cameraPosition = gc.camera.getCameraPosition();
 
-        System.out.println("mouse clicked at: [" + mouseX + ", " + mouseY + "] Angle: " + gc.cursor.getAngle(cameraPosition));
+        //System.out.println("mouse clicked at: [" + mouseX + ", " + mouseY + "] Angle: " + gc.cursor.getAngle(cameraPosition));
 
-        int code = e.getButton();
-        switch(code)
-        {
-            case MouseEvent.BUTTON1: leftButtonPressed = true; break;
-        }
+        //int code = e.getButton();
+        //switch(code)
+        //{
+        //    case MouseEvent.BUTTON1: leftButtonClicked = true; break;
+        //}
     }
 
     @Override
@@ -52,7 +72,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
         int code = e.getButton();
         switch(code)
         {
-            case MouseEvent.BUTTON1: leftButtonPressed = false; break;
+            case MouseEvent.BUTTON1:
+                leftButtonClicked = false;
+                break;
         }
     }
 

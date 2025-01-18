@@ -11,10 +11,7 @@ import utilities.sprite.Sprite;
 import world.map.tiles.Tile;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 public class HUDRenderer implements Drawable
 {
@@ -66,15 +63,16 @@ public class HUDRenderer implements Drawable
         beltSlots = new ScreenSlot[Inventory.beltWidthSlots];
         screenSlots = new ArrayList<>();
 
+
         for (int i = 0; i < mainInventorySlots.length; i++) {
             for (int j = 0; j < mainInventorySlots[0].length; j++) {
-                mainInventorySlots[i][j] = new ScreenSlot(slotSize, SlotType.mainInvSlot);
+                mainInventorySlots[i][j] = new ScreenSlot(slotSize, SlotType.mainInvSlot, i, j);
                 screenSlots.add(mainInventorySlots[i][j]);
             }
         }
 
         for (int i = 0; i < beltSlots.length; i++) {
-            beltSlots[i] = new ScreenSlot(slotSize, SlotType.beltSlot);
+            beltSlots[i] = new ScreenSlot(slotSize, SlotType.beltSlot, i, -1);
             screenSlots.add(beltSlots[i]);
         }
 
@@ -114,6 +112,7 @@ public class HUDRenderer implements Drawable
             drawMainInventory(g2);
             drawStatisticsFrame(g2);
             drawEquippedFrame(g2);
+            drawDraggingItem(g2);
         }
         if (hud.gc.isDebugMode())
         {
@@ -140,11 +139,17 @@ public class HUDRenderer implements Drawable
         if (hud.gc.player.statistics.hitPoints < 0) hud.gc.player.statistics.hitPoints = 0;
         int healthPercent = (int) ((hud.gc.player.statistics.hitPoints / (double) hud.gc.player.getMaxHitPoints()) * 100);
 
-        g2d.drawRect(45, 24, 300, 26);
-        g2d.setColor(new Color(75, 61, 61, 210));
-        g2d.fillRect(46, 25, 299, 25);
+        int spriteSize = hud.heart.image.getWidth() / Math.max(hud.scale, 1);
+        int width = hud.gc.getWidth();
+        int height = hud.gc.getHeight();
+
+        g2d.setColor(Color.DARK_GRAY);
+        g2d.fillRect((int)(hud.scale/1.4f), (int)(hud.scale/5f), hud.scale*4, (int)(hud.scale/2.6f));
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect((int)(hud.scale/1.4f), (int)(hud.scale/5f), hud.scale*4, (int)(hud.scale/2.6f));
         g2d.setColor(Color.RED);
-        g2d.fillRect(46, 25, (healthPercent * 299) / 100, 25);
+        g2d.fillRect((int)(hud.scale/1.4f)+1, (int)(hud.scale/5f)+1, (healthPercent * hud.scale*4) / 100, (int)(hud.scale/2.6f)-1);
+
         g2d.drawImage(hud.heart.image, 0, 0, hud.scale, hud.scale, null);
     }
 
@@ -281,6 +286,18 @@ public class HUDRenderer implements Drawable
             renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 3, 1, 0.5f);
             beltSlots[i].updateSlot(slotSize, frameX, frameY);
         }
+
+        for (int i = 0; i < hud.gc.player.getInventory().getBeltItemList().size(); i++)
+        {
+            Item item = hud.gc.player.getInventory().getBeltItemList().get(i);
+            if (item != null)
+            {
+                int x = beltX + i * slotSize;
+                drawInventoryItem(g2d, item, x, beltY);
+                screenSlots.get(i).setItem(item);
+            }
+        }
+
         //   g2.dispose();
     }
 
@@ -327,11 +344,13 @@ public class HUDRenderer implements Drawable
             }
         }
 
-        for (Item item : hud.gc.player.getInventory().getItems())
+        for (int i = 0; i < hud.gc.player.getInventory().getItems().size(); i++)
         {
+            Item item = hud.gc.player.getInventory().getItems().get(i);
             if (item != null)
             {
-                drawItem(g2d, item, inventoryFrameX, inventoryFrameY);
+                drawInventoryItem(g2d, item, inventoryFrameX, inventoryFrameY);
+                screenSlots.get(i).setItem(item);
             }
         }
         //  g2.dispose();
@@ -344,7 +363,7 @@ public class HUDRenderer implements Drawable
      * @param inventoryX    - starting X of frame
      * @param inventoryY    - starting Y of frame
      */
-    private void drawItem(Graphics2D g2d, Item item, int inventoryX, int inventoryY)
+    public void drawInventoryItem(Graphics2D g2d, Item item, int inventoryX, int inventoryY)
     {
         Position position = item.getInventoryPosition(); // position of item in inventory
         if (position == null)
@@ -377,6 +396,42 @@ public class HUDRenderer implements Drawable
         int drawY = itemPixelY + (itemPixelHeight - drawHeight) / 2; // Centered Y
 
         g2d.drawImage(sprite.image, drawX, drawY, drawWidth, drawHeight, null);
+    }
+
+    public void drawItemAtMousePosition(Graphics2D g2d, Item item, int x, int y)
+    {
+        int itemSlotWidth = item.getSlotWidth();    // width of item
+        int itemSlotHeight = item.getSlotHeight();  // height of item
+        int itemPixelWidth = itemSlotWidth * slotSize;
+        int itemPixelHeight = itemSlotHeight * slotSize;
+        Sprite sprite = item.getSprite();
+
+        // scaling and centering
+        int spriteWidth = sprite.image.getWidth();
+        int spriteHeight = sprite.image.getHeight();
+        float scaleX = (float) itemPixelWidth / spriteWidth;
+        float scaleY = (float) itemPixelHeight / spriteHeight;
+        float scale = Math.min(scaleX, scaleY);
+
+        int drawWidth = (int) (spriteWidth * scale);
+        int drawHeight = (int) (spriteHeight * scale);
+
+        int drawX = x + (itemPixelWidth - drawWidth) / 2; // Centered X
+        int drawY = y + (itemPixelHeight - drawHeight) / 2; // Centered Y
+
+        g2d.drawImage(sprite.image, drawX, drawY, drawWidth, drawHeight, null);
+    }
+
+    private void drawDraggingItem(Graphics g2)
+    {
+        Graphics2D g2d = (Graphics2D) g2.create();
+        int mouseX = hud.gc.mouseHandler.getMouseX();
+        int mouseY = hud.gc.mouseHandler.getMouseY();
+
+        if (hud.hudUpdater.isDraggingItem())
+        {
+            drawItemAtMousePosition(g2d, hud.hudUpdater.getDraggedItem(), mouseX, mouseY);
+        }
     }
 
     public void drawStatisticsFrame(Graphics g2)

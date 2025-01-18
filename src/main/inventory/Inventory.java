@@ -13,14 +13,22 @@ public class Inventory
     public static int beltWidthSlots = 6;
 
     private List<Item> itemList;
+    private List<Item> beltItemList;
     private Item[][] slots;
 
     public List<Item> getItems() {return itemList;}
+    public static int getBeltWidthSlots() {return beltWidthSlots;}
+    public static void setBeltWidthSlots(int beltWidthSlots) {Inventory.beltWidthSlots = beltWidthSlots;}
+    public List<Item> getItemList() {return itemList;}
+    public void setItemList(List<Item> itemList) {this.itemList = itemList;}
+    public List<Item> getBeltItemList() {return beltItemList;}
+    public void setBeltItemList(List<Item> beltItemList) {this.beltItemList = beltItemList;}
 
     public Inventory()
     {
         slots = new Item[INVENTORY_WIDTH_SLOTS][INVENTORY_HEIGHT_SLOTS];
         itemList = new ArrayList<>();
+        beltItemList = new ArrayList<>();
     }
 
     public boolean addItem(Item item, int slotX, int slotY)
