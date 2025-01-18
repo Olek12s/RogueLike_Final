@@ -29,6 +29,7 @@ public class HUDUpdater implements Updatable
     @Override
     public void update()
     {
+        hud.hudRenderer.updateSizes();
         updateHealthBar();
         checkStartDraggingFromSlot();
         checkEndDraggingFromSlot();

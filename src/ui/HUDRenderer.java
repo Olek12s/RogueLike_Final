@@ -104,9 +104,9 @@ public class HUDRenderer implements Drawable
     @Override
     public void draw(Graphics g2)
     {
-        updateSizes();
         renderHealthBar(g2);
         drawInventoryBar(g2);
+        renderFPSTopRight(g2);
         if (hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
         {
             drawMainInventory(g2);
@@ -122,7 +122,7 @@ public class HUDRenderer implements Drawable
         hud.gc.incrementRenderCount();
     }
 
-    private void updateSizes()
+    public void updateSizes()
     {
         scaledFontSize = (int) (baseFontSize * hud.scale / 64);
         HUDFont = new Font("Monospaced", Font.BOLD, scaledFontSize);
@@ -178,6 +178,26 @@ public class HUDRenderer implements Drawable
         for (int i = 0; i < debugLines.length; i++) {
             g2d.drawString(debugLines[i], scaledX, scaledY + i * (scaledFontSize + 5));
         }
+    }
+
+    private void renderFPSTopRight(Graphics g2)
+    {
+        Graphics2D g2d = (Graphics2D) g2.create(); // Tworzymy nowy kontekst graficzny
+
+        int x = hud.gc.getWidth() - hud.gc.getWidth() / 11;
+        int y = 40;
+
+
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(HUDFont);
+
+        long totalTimePerFrame = hud.gc.getRenderTime() + hud.gc.getUpdateTime();
+        int fpsVal = totalTimePerFrame > 0 ? (int) (1_000_000_000L / totalTimePerFrame) : 0;
+        fpsVal = Math.min(hud.gc.getTargetDrawFrame(), fpsVal);
+
+        String fps = String.format("FPS: %d", fpsVal);
+        g2d.drawString(fps, x, y);
+
     }
 
     private void renderDebugInfoLeftTop(Graphics g2)
