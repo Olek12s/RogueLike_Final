@@ -12,6 +12,7 @@ import utilities.*;
 import world.map.MapLevels;
 
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Entity
 {
@@ -22,6 +23,8 @@ public abstract class Entity
 
     protected Sprite currentSprite;
     protected Hitbox hitbox;
+    protected int detectionRadius;
+    protected int loseInterestRadius;
     protected Direction direction;
     protected Position worldPosition = new Position(0,0);
     private Chunk currentChunk;
@@ -69,6 +72,8 @@ public abstract class Entity
     public abstract EntityUpdater setUpdater();
     public abstract void attack(Entity target);
     public abstract void setupStatistics();
+    public abstract void setDetectionRadius();
+    public abstract void setLoseInterestRadius();
     //ABSTRACTS
 
     public Position getWorldPosition() {return worldPosition;}
@@ -90,6 +95,22 @@ public abstract class Entity
     public void setSpeed(int speed) {this.statistics.currentMovementSpeed = Math.min(speed, statistics.maxMovementSpeed);}
     public int getMaxMovementSpeed() {return statistics.getMaxMovementSpeed();}
     public Inventory getInventory() {return inventory;}
+    public int getDetectionRadius() {return detectionRadius;}
+    public int getLoseInterestRadius() {return loseInterestRadius;}
+
+    public void setDetectionRadius(int r)
+    {
+        Random random = new Random();
+        this.detectionRadius = r;
+        int randomOffset = (int) (r * (random.nextDouble() * 0.2 - 0.1)); // multiple (-0.1 to 0.1) randomly
+        this.detectionRadius = r + randomOffset;
+    }
+    public void setLoseInterestRadius(int r)
+    {
+        Random random = new Random();
+        int randomIncrease = (int) (r * (random.nextDouble() * 0.1)); // multiple (0 to 0.1) randomly
+        this.loseInterestRadius = r + randomIncrease;
+    }
 
     public void initializeEntitySpriteAssets(int id)
     {

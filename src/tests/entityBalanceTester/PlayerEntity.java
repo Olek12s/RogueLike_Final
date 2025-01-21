@@ -41,6 +41,16 @@ public class PlayerEntity extends Entity
     }
 
     @Override
+    public void setDetectionRadius() {
+        setDetectionRadius(0);
+    }
+
+    @Override
+    public void setLoseInterestRadius() {
+        setLoseInterestRadius(0);
+    }
+
+    @Override
     public void setDefaultSprite()
     {
         currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();

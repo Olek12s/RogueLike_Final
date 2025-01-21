@@ -72,7 +72,12 @@ public class EntityRenderer implements Drawable
                 {
                     g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
                     entity.gc.incrementRenderCount();
-                    if (entity.gc.isDebugMode()) drawEntityHitbox(g2);
+                    if (entity.gc.isDebugMode())
+                    {
+                        drawEntityHitbox(g2);
+                        drawEntityDetectionRadius(g2);
+                        drawEntityLoseInterestRadius(g2);
+                    }
                 }
 
             }
@@ -123,5 +128,75 @@ public class EntityRenderer implements Drawable
         g2.setColor (Color.ORANGE);
         g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);
         entity.gc.incrementRenderCount();
+    }
+
+    /*
+    private void drawEntityDetectionRadius(Graphics g2)
+    {
+        double scaleFactor = entity.gc.camera.getScaleFactor();
+        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
+
+        int x = entity.getHitbox().getCenterWorldPosition().x;
+        int y = entity.getHitbox().getCenterWorldPosition().y;
+        int radius = entity.getDetectionRadius();
+        int scaledRadius = (int) (radius * scaleFactor);
+
+        g2.drawOval(x, y, entity.getDetectionRadius(), radius);
+    }
+
+    private void drawEntityLoseInterestRadius(Graphics g2)
+    {
+        double scaleFactor = entity.gc.camera.getScaleFactor();
+        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
+
+        int x = entity.getHitbox().getCenterWorldPosition().x;
+        int y = entity.getHitbox().getCenterWorldPosition().y;
+        int radius = entity.getLoseInterestRadius();
+        int scaledRadius = (int) (radius * scaleFactor);
+
+        g2.drawOval(x, y, entity.getDetectionRadius(), radius);
+    }
+     */
+
+    private void drawEntityDetectionRadius(Graphics g2)
+    {
+        // Skalowanie
+        double scaleFactor = entity.gc.camera.getScaleFactor();
+
+        // Zastosowanie offsetu kamery do pozycji
+        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
+
+        // Środek okręgu (współrzędne na świecie)
+        int x = entity.getHitbox().getCenterWorldPosition().x;
+        int y = entity.getHitbox().getCenterWorldPosition().y;
+
+        // Promień wykrywania, który również musimy przeskalować
+        int radius = entity.getDetectionRadius();
+        int scaledRadius = (int) (radius * scaleFactor);
+
+        // Rysowanie okręgu z uwzględnieniem skali
+        g2.setColor(Color.GREEN); // Możesz ustawić dowolny kolor
+        g2.drawOval((int)(x * scaleFactor) - scaledRadius, (int)(y * scaleFactor) - scaledRadius, scaledRadius * 2, scaledRadius * 2);
+    }
+
+    private void drawEntityLoseInterestRadius(Graphics g2)
+    {
+        // Skalowanie
+        double scaleFactor = entity.gc.camera.getScaleFactor();
+
+        // Zastosowanie offsetu kamery do pozycji
+        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
+
+        // Środek okręgu (współrzędne na świecie)
+        int x = entity.getHitbox().getCenterWorldPosition().x;
+        int y = entity.getHitbox().getCenterWorldPosition().y;
+
+        // Promień utraty zainteresowania, który również musimy przeskalować
+        int radius = entity.getLoseInterestRadius();
+        int scaledRadius = (int) (radius * scaleFactor);
+
+        // Rysowanie okręgu z uwzględnieniem skali
+        g2.setColor(Color.RED); // Możesz ustawić dowolny kolor
+        g2.drawOval((int)(x * scaleFactor) - scaledRadius, (int)(y * scaleFactor) - scaledRadius, scaledRadius * 2, scaledRadius * 2);
     }
 }
