@@ -16,6 +16,7 @@ public class TileObject
     private String name;
     private int id;
     private TileEdge tileEdge;
+    private float traversalCost;
 
     /*
     public Sprite getRandomVariation()
@@ -32,24 +33,27 @@ public class TileObject
     public int getId() {return id;}
     public boolean isCollidable() {return isColliding;}
     public TileEdge getTileEdge() {return tileEdge;}
+    public float getTraversalCost() {return traversalCost;}
 
     public void setSprite(Sprite sprite) {this.sprite = sprite;}
 
-    public TileObject(SpriteSheet spriteSheet, boolean isColliding, String name, int id)
+    public TileObject(SpriteSheet spriteSheet, boolean isColliding, float traversalCost, String name, int id)
     {
         this.sprite = spriteSheet.extractFirst();
         this.spriteSheet = spriteSheet;
         this.isColliding = isColliding;
+        this.traversalCost = traversalCost;
         this.name = name;
         this.id = id;
     }
 
-    public TileObject(SpriteSheet spriteSheet, SpriteSheet edgedSpriteSheet, TileEdge tileEdge, boolean isColliding, String name, int id)
+    public TileObject(SpriteSheet spriteSheet, SpriteSheet edgedSpriteSheet, TileEdge tileEdge, boolean isColliding, float traversalCost, String name, int id)
     {
         this.sprite = spriteSheet.extractFirst();
         this.spriteSheet = spriteSheet;
         this.edgedSpriteSheet = edgedSpriteSheet;
         this.tileEdge = tileEdge;
+        this.traversalCost = traversalCost;
         edgedSprites = initializeEdges();
         this.isColliding = isColliding;
         this.name = name;
@@ -203,7 +207,6 @@ public class TileObject
         if (downEdge == null || sourceEdge.getId() != downEdge.getId()) code += 2;
         if (leftEdge == null || sourceEdge.getId() != leftEdge.getId()) code += 4;
         if (rightEdge == null || sourceEdge.getId() != rightEdge.getId()) code += 8;
-
 
         return EdgeCode.fromId(code);
     }

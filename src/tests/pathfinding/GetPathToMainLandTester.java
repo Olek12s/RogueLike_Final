@@ -2,10 +2,9 @@ package tests.pathfinding;
 
 import test.annotations.Test;
 import test.runner.Assertions;
-import utilities.Pathfinding;
 import utilities.Position;
 
-import static utilities.Pathfinding.*;
+import static utilities.pathfinding.generation.Pathfinding.*;
 
 public class GetPathToMainLandTester
 {

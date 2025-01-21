@@ -1,5 +1,6 @@
-package utilities;
+package utilities.pathfinding.generation;
 
+import utilities.Position;
 import world.map.tiles.TileManager;
 
 import java.util.*;

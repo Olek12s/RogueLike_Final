@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class GameController extends JPanel implements Runnable
 {
     private Thread mainThread;
-    private int targetDrawFrame =  9999;
+    private int targetDrawFrame =  75;
     private int targetLogicFrame = 60;
     private boolean debugMode;
     private long renderTime;

@@ -28,6 +28,8 @@ public class Tile implements Serializable
         this.edgeCode = edgeCode;
     }
 
+    public Position getWorldPosition() {return worldPosition;}
+
     public Sprite getCurrentSprite()
     {
         if (TileManager.getTileObject(id).getEdgedSprites() == null)
@@ -77,5 +79,4 @@ public class Tile implements Serializable
             default -> {return false;}
         }
     }
-
 }

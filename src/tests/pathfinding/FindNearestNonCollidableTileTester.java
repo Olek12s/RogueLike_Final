@@ -2,7 +2,7 @@ package tests.pathfinding;
 
 import test.annotations.Test;
 import test.runner.Assertions;
-import utilities.Pathfinding;
+import utilities.pathfinding.generation.Pathfinding;
 import utilities.Position;
 
 public class FindNearestNonCollidableTileTester

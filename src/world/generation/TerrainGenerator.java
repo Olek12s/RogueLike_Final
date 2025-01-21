@@ -2,7 +2,7 @@ package world.generation;
 
 
 
-import utilities.Pathfinding;
+import utilities.pathfinding.generation.Pathfinding;
 import utilities.Position;
 
 import java.io.*;
