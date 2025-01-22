@@ -8,6 +8,7 @@ import utilities.Position;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;
 import utilities.camera.Camera;
+import world.map.tiles.Tile;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -160,43 +161,27 @@ public class EntityRenderer implements Drawable
 
     private void drawEntityDetectionRadius(Graphics g2)
     {
-        // Skalowanie
         double scaleFactor = entity.gc.camera.getScaleFactor();
+        Position hitboxCenter = entity.getHitbox().getCenterWorldPosition();
+        Position screenPosition = entity.gc.camera.applyCameraOffset(hitboxCenter.x, hitboxCenter.y);
 
-        // Zastosowanie offsetu kamery do pozycji
-        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
-
-        // Środek okręgu (współrzędne na świecie)
-        int x = entity.getHitbox().getCenterWorldPosition().x;
-        int y = entity.getHitbox().getCenterWorldPosition().y;
-
-        // Promień wykrywania, który również musimy przeskalować
         int radius = entity.getDetectionRadius();
         int scaledRadius = (int) (radius * scaleFactor);
 
-        // Rysowanie okręgu z uwzględnieniem skali
-        g2.setColor(Color.GREEN); // Możesz ustawić dowolny kolor
-        g2.drawOval((int)(x * scaleFactor) - scaledRadius, (int)(y * scaleFactor) - scaledRadius, scaledRadius * 2, scaledRadius * 2);
+        g2.setColor(Color.red);
+        g2.drawOval(screenPosition.x - scaledRadius/2, screenPosition.y - scaledRadius/2, scaledRadius, scaledRadius);
     }
 
     private void drawEntityLoseInterestRadius(Graphics g2)
     {
-        // Skalowanie
         double scaleFactor = entity.gc.camera.getScaleFactor();
+        Position hitboxCenter = entity.getHitbox().getCenterWorldPosition();
+        Position screenPosition = entity.gc.camera.applyCameraOffset(hitboxCenter.x, hitboxCenter.y);
 
-        // Zastosowanie offsetu kamery do pozycji
-        Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
-
-        // Środek okręgu (współrzędne na świecie)
-        int x = entity.getHitbox().getCenterWorldPosition().x;
-        int y = entity.getHitbox().getCenterWorldPosition().y;
-
-        // Promień utraty zainteresowania, który również musimy przeskalować
         int radius = entity.getLoseInterestRadius();
         int scaledRadius = (int) (radius * scaleFactor);
 
-        // Rysowanie okręgu z uwzględnieniem skali
-        g2.setColor(Color.RED); // Możesz ustawić dowolny kolor
-        g2.drawOval((int)(x * scaleFactor) - scaledRadius, (int)(y * scaleFactor) - scaledRadius, scaledRadius * 2, scaledRadius * 2);
+        g2.setColor(Color.YELLOW);
+        g2.drawOval(screenPosition.x - scaledRadius/2, screenPosition.y - scaledRadius/2, scaledRadius, scaledRadius);
     }
 }

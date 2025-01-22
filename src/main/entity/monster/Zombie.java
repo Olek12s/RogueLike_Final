@@ -12,6 +12,7 @@ import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
 import utilities.sprite.SpriteSheet;
+import world.map.tiles.Tile;
 
 // entity class level 5
 public class Zombie extends Entity
@@ -43,10 +44,10 @@ public class Zombie extends Entity
     }
 
     @Override
-    public void setDetectionRadius() {setDetectionRadius(100);}
+    public void setDetectionRadius() {setDetectionRadius(8 * Tile.tileSize);}
 
     @Override
-    public void setLoseInterestRadius() {setLoseInterestRadius(110);}
+    public void setLoseInterestRadius() {setLoseInterestRadius(16 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

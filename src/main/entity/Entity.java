@@ -57,9 +57,10 @@ public abstract class Entity
 
         setDirection();
         setHitbox();
+        setDetectionRadius();
+        setLoseInterestRadius();
         this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
         entityUpdater.initUpdate();
-
         this.isMoving = false;
     }
 

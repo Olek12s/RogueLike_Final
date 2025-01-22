@@ -108,7 +108,8 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     private void checkEnteranceCollision()
     {
         Map currentMap = MapController.getCurrentMap();
-        Position currentPosition = entity.getHitbox().getCenterWorldPosition();Tile currentTile = currentMap.getTile(currentPosition);
+        Position currentPosition = entity.getHitbox().getCenterWorldPosition();
+        Tile currentTile = currentMap.getTile(currentPosition);
 
         if (entity.isCollidingWithEnterance && !currentTile.isCavePassage())
         {

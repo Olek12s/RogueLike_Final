@@ -60,12 +60,12 @@ public class Player extends Entity
 
     @Override
     public void setDetectionRadius() {
-        setDetectionRadius(100);
+        setDetectionRadius(8 * Tile.tileSize);
     }
 
     @Override
     public void setLoseInterestRadius() {
-        setLoseInterestRadius(110);
+        setLoseInterestRadius(16 * Tile.tileSize);
     }
 
     @Override
