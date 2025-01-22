@@ -2,6 +2,7 @@ package main.entity;
 
 import main.controller.DrawPriorities;
 import main.controller.Drawable;
+import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import world.map.MapRenderer;
 import utilities.Position;
@@ -78,6 +79,7 @@ public class EntityRenderer implements Drawable
                         drawEntityHitbox(g2);
                         drawEntityDetectionRadius(g2);
                         drawEntityLoseInterestRadius(g2);
+                        drawPath(g2);
                     }
                 }
 
@@ -170,6 +172,19 @@ public class EntityRenderer implements Drawable
 
         g2.setColor(Color.red);
         g2.drawOval(screenPosition.x - scaledRadius/2, screenPosition.y - scaledRadius/2, scaledRadius, scaledRadius);
+    }
+
+    public void drawPath(Graphics g2)
+    {
+        Position[] path = AStar.getPathToEntity(entity, entity.gc.player);
+        System.out.println(path.length);
+        for (int i = 0; i < path.length - 1; i++)
+        {
+            Position current = path[i];
+            Position next = path[i+1];
+          //  System.out.println("a");
+            //g2.drawLine(current.x, current.y, next.x, next.y);
+        }
     }
 
     private void drawEntityLoseInterestRadius(Graphics g2)

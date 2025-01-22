@@ -19,7 +19,7 @@ public class Node
     private boolean isPassable;
 
     public Position getPosition() {return position;}
-    public boolean isPassable() {return isPassable;}
+    //public boolean isPassable() {return isPassable;}
     public int getGCost() {return fCost;}
     public Node getParent() {return parent;}
     public int getfCost() {return fCost;}
@@ -78,5 +78,10 @@ public class Node
             }
         }
         return neighbors;
+    }
+
+    public boolean isPassable()
+    {
+        return this.isPassable && !MapController.getCurrentMap().getTile(position).isColliding();
     }
 }

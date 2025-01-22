@@ -39,7 +39,7 @@ public class Spider extends Entity
         this.statistics.setArmour(1);
         this.statistics.setHitPoints(23, 6, 5);
         this.statistics.setRegeneration(1);
-        this.statistics.setMaxMovementSpeed(37);
+        this.statistics.setMaxMovementSpeed(10);
     }
 
     @Override

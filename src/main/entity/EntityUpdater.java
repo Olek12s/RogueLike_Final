@@ -2,6 +2,8 @@ package main.entity;
 
 import main.Direction;
 import main.controller.Updatable;
+import utilities.Position;
+import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import utilities.Collisions;
 
