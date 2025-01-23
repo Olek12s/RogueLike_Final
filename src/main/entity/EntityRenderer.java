@@ -2,6 +2,7 @@ package main.entity;
 
 import main.controller.DrawPriorities;
 import main.controller.Drawable;
+import main.entity.player.Player;
 import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import world.map.MapRenderer;
@@ -9,7 +10,6 @@ import utilities.Position;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;
 import utilities.camera.Camera;
-import world.map.tiles.Tile;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public class EntityRenderer implements Drawable
                         drawEntityHitbox(g2);
                         drawEntityDetectionRadius(g2);
                         drawEntityLoseInterestRadius(g2);
-                        drawPath(g2);
+                        if (entity instanceof Player == false) drawLineToPlayer(g2);
                     }
                 }
 
@@ -174,9 +174,50 @@ public class EntityRenderer implements Drawable
         g2.drawOval(screenPosition.x - scaledRadius/2, screenPosition.y - scaledRadius/2, scaledRadius, scaledRadius);
     }
 
-    public void drawPath(Graphics g2)
+    int counter = 0;
+    Position[] path;
+    public void drawLineToPlayer(Graphics g2)
     {
+        /*
         Position[] path = AStar.getPathToEntity(entity, entity.gc.player);
+
+        double scaleFactor = Camera.getScaleFactor();
+        Position start = entity.getWorldPosition();
+        Position end = entity.gc.player.getWorldPosition();
+
+        Position screenStart = entity.gc.camera.applyCameraOffset((int) (start.x * scaleFactor), (int) (start.y * scaleFactor));
+        Position screenEnd = entity.gc.camera.applyCameraOffset((int) (end.x * scaleFactor), (int) (end.y * scaleFactor));
+
+        g2.setColor(Color.GREEN);
+        g2.drawLine(screenStart.x, screenStart.y, screenEnd.x, screenEnd.y);
+        */
+
+        if (path == null || counter == 60)
+        {
+            path = AStar.getPathToEntity(entity, entity.gc.player);
+            System.out.println(path.length);
+            counter = 0;
+        }
+        counter++;
+
+        //Position[] path = new Position[2];
+        //path[0] = entity.getHitbox().getCenterWorldPosition();
+        //path[1] = entity.gc.player.getHitbox().getCenterWorldPosition();
+        double scaleFactor = Camera.getScaleFactor();
+
+        for (int i = 0; i < path.length - 1; i++)
+        {
+            Position current = path[i];
+            Position next = path[i + 1];
+
+            Position screenCurrent = entity.gc.camera.applyCameraOffset((int) (current.x * scaleFactor), (int) (current.y * scaleFactor));
+            Position screenNext = entity.gc.camera.applyCameraOffset((int) (next.x * scaleFactor), (int) (next.y * scaleFactor));
+
+            g2.setColor(Color.BLUE);
+            g2.drawLine(screenCurrent.x, screenCurrent.y, screenNext.x, screenNext.y);
+        }
+
+        /*
         System.out.println(path.length);
         for (int i = 0; i < path.length - 1; i++)
         {
@@ -185,7 +226,9 @@ public class EntityRenderer implements Drawable
           //  System.out.println("a");
             //g2.drawLine(current.x, current.y, next.x, next.y);
         }
+        */
     }
+
 
     private void drawEntityLoseInterestRadius(Graphics g2)
     {
