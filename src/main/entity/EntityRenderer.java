@@ -195,28 +195,30 @@ public class EntityRenderer implements Drawable
         if (path == null || counter == 20)
         {
             path = AStar.getPathToEntity(entity, entity.gc.player);
-          if (path.length > 3000)
-              System.out.println(path.length);
+         // if (path.length > 3000)
+             if (path != null) System.out.println(path.length);
             counter = 0;
         }
         counter++;
 
-        path = new Position[2];
-        path[0] = entity.getHitbox().getCenterWorldPosition();
-        path[1] = entity.gc.player.getHitbox().getCenterWorldPosition();
+      //  path = new Position[2];
+        //path[0] = entity.getHitbox().getCenterWorldPosition();
+        //path[1] = entity.gc.player.getHitbox().getCenterWorldPosition();
         double scaleFactor = Camera.getScaleFactor();
         g2.setColor(Color.BLUE);
 
-
-        for (int i = 0; i < path.length - 1; i++)
+        if (path != null)
         {
-            Position current = path[i];
-            Position next = path[i + 1];
+            for (int i = 0; i < path.length - 1; i++)
+            {
+                Position current = path[i];
+                Position next = path[i + 1];
 
-            Position screenCurrent = entity.gc.camera.applyCameraOffset(current.x, current.y);
-            Position screenNext = entity.gc.camera.applyCameraOffset(next.x, next.y);
+                Position screenCurrent = entity.gc.camera.applyCameraOffset(current.x, current.y);
+                Position screenNext = entity.gc.camera.applyCameraOffset(next.x, next.y);
 
-            g2.drawLine(screenCurrent.x, screenCurrent.y, screenNext.x, screenNext.y);
+                g2.drawLine(screenCurrent.x, screenCurrent.y, screenNext.x, screenNext.y);
+            }
         }
 
         /*

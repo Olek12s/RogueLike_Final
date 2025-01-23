@@ -22,16 +22,27 @@ public class AStar
     {
         Position startPos = entitySource.getWorldPosition();
         Position endPos = entityTarget.getWorldPosition();
-        Node startNode = new Node(startPos, MapController.getCurrentMap().getTile(startPos));
-        Node endNode = new Node(endPos, MapController.getCurrentMap().getTile(endPos));
+        Node startNode = new Node(MapController.getCurrentMap().getTile(startPos));
+        Node endNode = new Node(MapController.getCurrentMap().getTile(endPos));
 
         PriorityQueue<Node> openList = new PriorityQueue<>(Comparator.comparingDouble(Node::getfCost)); // unvisited nodes, priority based on fCost of node
         Set<Position> closedList = new HashSet<>(); // visited nodes
         Map<Position, Node> nodes = new HashMap<>();
         openList.add(startNode);
 
-        nodes.put(startPos, startNode);
+        Position[] directions =
+                {
+                        new Position(-1, 0),    // up
+                        new Position(1, 0),     // down
+                        new Position(0, -1),    // left
+                        new Position(0, 1),     // right
+                        new Position(-1, -1),   // up-left
+                        new Position(-1, 1),    // up-right
+                        new Position(1, -1),    // down-left
+                        new Position(1, 1)      // down-right
+                };
 
+        nodes.put(startPos, startNode);
         while (!openList.isEmpty())
         {
             Node currentNode = openList.poll();
@@ -42,9 +53,28 @@ public class AStar
             {
                 LinkedList<Position> path = new LinkedList<>();
                 Node current = currentNode;
+                Node previous = current;
                 while (current != null)
                 {
-                    path.addFirst(current.getPosition());
+
+                    for (Position direction : directions)
+                    {
+                        int maxX = Math.max(previous.getPosition().x, current.getPosition().x);
+                        int minX = Math.min(previous.getPosition().x, current.getPosition().x);
+                        int maxY = Math.max(previous.getPosition().y, current.getPosition().y);
+                        int minY = Math.min(previous.getPosition().y, current.getPosition().y);
+
+
+                        System.out.println(":" + (maxX-minX));
+                        System.out.println(":" + (maxY-minY));
+                        if (((maxX-minX) == (maxY-minY) || (maxX - minX) == (maxX) || (maxX - minX) == (minX)
+                                || (maxY - minY) == (maxY) || (maxY - minY) == (minY)))
+                        {
+                            path.addFirst(current.getPosition());
+                            break;
+                        }
+                    }
+                    previous = current;
                     current = current.getParent();
                 }
                 return path.toArray(new Position[0]);
@@ -58,7 +88,6 @@ public class AStar
                 {
                     continue;
                 }
-
                 Tile neighborTile = MapController.getCurrentMap().getTile(neighbor.getPosition());
                 neighbor.calculateCosts(startNode, endNode, neighborTile);
 

@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Node
 {
+    private Tile tile;
     private Position position;
     private float gCost;  // heuristic cost
     private float hCost;  // cost from starting node to this node
@@ -18,19 +19,21 @@ public class Node
     private Node parent;
     private boolean isPassable;
 
-    public Position getPosition() {return position;}
+    public Tile getTIle() {return tile;}
     //public boolean isPassable() {return isPassable;}
     public float getGCost() {return fCost;}
     public Node getParent() {return parent;}
     public float getfCost() {return fCost;}
     public void setParent(Node parent) {this.parent = parent;}
+    public Position getPosition() {return position;}
 
     public float gethCost() {return hCost;}
     public float getgCost() {return gCost;}
 
-    public Node(Position position, Tile tile)
+    public Node(Tile tile)
     {
-        this.position = position;
+        this.tile = tile;
+        this.position = tile.getWorldPosition();
         boolean isCollidable = TileManager.getTileObject(tile.getId()).isCollidable();
         this.isPassable = !isCollidable;
     }
@@ -61,12 +64,11 @@ public class Node
 
         for (Position direction : directions)
         {
-            Position neighborPos = new Position(node.getPosition().x + direction.x, node.getPosition().y + direction.y);
+            Position neighborPos = new Position(node.getPosition().x + direction.x*Tile.tileSize, node.getPosition().y + direction.y*Tile.tileSize);
             Tile tile = MapController.getCurrentMap().getTile(neighborPos);
-
             if (tile != null)
             {
-                Node neighbor = new Node(neighborPos, tile);
+                Node neighbor = new Node(tile);
                 if (neighbor.isPassable())
                 {
                     neighbors.add(neighbor);
