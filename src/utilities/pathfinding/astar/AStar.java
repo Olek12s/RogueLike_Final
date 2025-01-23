@@ -25,14 +25,15 @@ public class AStar
         Node startNode = new Node(startPos, MapController.getCurrentMap().getTile(startPos));
         Node endNode = new Node(endPos, MapController.getCurrentMap().getTile(endPos));
 
-        PriorityQueue<Node> openList = new PriorityQueue<>(Comparator.comparingInt(Node::getfCost)); // priority based on fCost of node
+        PriorityQueue<Node> openList = new PriorityQueue<>(Comparator.comparingDouble(Node::getfCost)); // unvisited nodes, priority based on fCost of node
+        Set<Position> closedList = new HashSet<>(); // visited nodes
         Map<Position, Node> nodes = new HashMap<>();
         openList.add(startNode);
 
-        Set<Position> closedList = new HashSet<>();
         nodes.put(startPos, startNode);
 
-        while (!openList.isEmpty()) {
+        while (!openList.isEmpty())
+        {
             Node currentNode = openList.poll();
             closedList.add(currentNode.getPosition());
 
@@ -63,7 +64,7 @@ public class AStar
 
                 Node existingNeighbor = nodes.get(neighbor.getPosition());
 
-                if (existingNeighbor == null || neighbor.getgCost() < existingNeighbor.getgCost())
+                if (existingNeighbor == null || neighbor.getfCost() < existingNeighbor.getfCost())
                 {
                     neighbor.setParent(currentNode);
 

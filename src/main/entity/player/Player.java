@@ -21,8 +21,8 @@ public class Player extends Entity
         super(gc, EntityID.Player.ID, new Position(0,0)); // player's entityID is 0!
         int mapSizeInPixels = gc.mapController.getCurrentMap().getMapWidthInPixels();
         int halfMapSizeInTiles = (mapSizeInPixels/Tile.tileSize)/2;
-        Position spawnPosition = randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, halfMapSizeInTiles/4, halfMapSizeInTiles/2);
-        //Position spawnPosition = new Position(-4500, -4000);
+       // Position spawnPosition = randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, halfMapSizeInTiles/4, halfMapSizeInTiles/2);
+        Position spawnPosition = new Position(16050, 7000);
         setWorldPosition(gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(spawnPosition, hitbox));
         setupStatistics();
         entityUpdater.initUpdate();

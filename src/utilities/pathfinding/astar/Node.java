@@ -12,25 +12,21 @@ import java.util.List;
 public class Node
 {
     private Position position;
-    private int gCost;  // cost from starting node to this node
-    private int hCost;  // heuristic cost
-    private int fCost;  // total cost
+    private float gCost;  // heuristic cost
+    private float hCost;  // cost from starting node to this node
+    private float fCost;  // total cost   - fCost = gCost + hCost
     private Node parent;
     private boolean isPassable;
 
     public Position getPosition() {return position;}
     //public boolean isPassable() {return isPassable;}
-    public int getGCost() {return fCost;}
+    public float getGCost() {return fCost;}
     public Node getParent() {return parent;}
-    public int getfCost() {return fCost;}
+    public float getfCost() {return fCost;}
     public void setParent(Node parent) {this.parent = parent;}
 
-    private void updateFCost()
-    {
-        this.fCost = this.gCost + this.hCost;
-    }
-    public int gethCost() {return hCost;}
-    public int getgCost() {return gCost;}
+    public float gethCost() {return hCost;}
+    public float getgCost() {return gCost;}
 
     public Node(Position position, Tile tile)
     {
@@ -39,12 +35,12 @@ public class Node
         this.isPassable = !isCollidable;
     }
 
+
     public void calculateCosts(Node startNode, Node endNode, Tile tile)
     {
-        float traversalCost = TileManager.getTileObject(tile.getId()).getTraversalCost();
-
-        this.gCost = (int) ((Math.abs(position.x - startNode.position.x) + Math.abs(position.y - startNode.position.y)) * traversalCost);
-        this.hCost = Math.abs(position.x - endNode.position.x) + Math.abs(position.y - endNode.position.y);
+        float traversalCost = 1 / TileManager.getTileObject(tile.getId()).getTraversalCost();
+        this.gCost = startNode.gCost + traversalCost;
+        this.hCost = (Math.abs(position.x - endNode.position.x) + Math.abs(position.y - endNode.position.y)) * traversalCost; // Manhattan distance
         this.fCost = this.gCost + this.hCost;
     }
 
@@ -82,6 +78,6 @@ public class Node
 
     public boolean isPassable()
     {
-        return this.isPassable && !MapController.getCurrentMap().getTile(position).isColliding();
+        return isPassable;
     }
 }

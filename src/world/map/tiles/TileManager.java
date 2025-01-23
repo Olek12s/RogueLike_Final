@@ -58,7 +58,7 @@
             createTileObject("resources/tiles/Stone", "resources/edges/Stone", TileEdge.STONE,  true, 0, "Stone", TileID.STONE.getId());
             createTileObject("resources/tiles/Rock", "resources/edges/Stone", TileEdge.STONE,  true, 0, "Rock",   TileID.ROCK.getId());
             createTileObject("resources/tiles/Sand",  false, 0.85f, "Sand", TileID.SAND.getId());
-            createTileObject("resources/tiles/Water", "resources/edges/Water", TileEdge.WATER,false, 0.5f, "Water", TileID.WATER.getId());
+            createTileObject("resources/tiles/Water", "resources/edges/Water", TileEdge.WATER,false, 0.33f, "Water", TileID.WATER.getId());
             createTileObject("resources/tiles/CaveEntrance", false, 1, "Cave Entrance", TileID.CAVE_ENTRANCE.getId());
             createTileObject("resources/tiles/CaveExit",  false, 1, "Cave Exit", TileID.CAVE_EXIT.getId());
             createTileObject("resources/tiles/CaveFloor",  false, 1, "Cave Floor", TileID.CAVE_FLOOR.getId());

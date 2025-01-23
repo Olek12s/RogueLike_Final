@@ -40,7 +40,7 @@ public class VenomousSpider extends Entity
         this.statistics.setArmour(3);
         this.statistics.setHitPoints(30, 7, 7);
         this.statistics.setRegeneration(2);
-        this.statistics.setMaxMovementSpeed(10);
+        this.statistics.setMaxMovementSpeed(1);
     }
 
     @Override

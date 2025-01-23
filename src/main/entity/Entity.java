@@ -34,6 +34,8 @@ public abstract class Entity
     private boolean isAlive;
     private MapLevels level;
     protected Inventory inventory;
+    private Position[] pathToFollow;
+    private BehaviourState behaviourState;
 
     //STATISTICS
     public EntityStatistics statistics;
@@ -54,6 +56,7 @@ public abstract class Entity
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
         this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
         this.inventory = new Inventory();
+        this.behaviourState = BehaviourState.WANDER;
 
         setDirection();
         setHitbox();
@@ -98,6 +101,10 @@ public abstract class Entity
     public Inventory getInventory() {return inventory;}
     public int getDetectionRadius() {return detectionRadius;}
     public int getLoseInterestRadius() {return loseInterestRadius;}
+    public BehaviourState getBehaviourState() {return behaviourState;}
+    public void setBehaviourState(BehaviourState behaviourState) {this.behaviourState = behaviourState;}
+    public Position[] getPathToFollow() {return pathToFollow;}
+    public void setPathToFollow(Position[] pathToFollow) {this.pathToFollow = pathToFollow;}
 
     public void setDetectionRadius(int r)
     {

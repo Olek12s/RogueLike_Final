@@ -3,8 +3,6 @@
   <option name="DESCRIPTION" value="Uncommitted changes before Update at 16.01.2025 07:28 [Changes]" />
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/Drawable.class" />
-    <option name="AFTER_PATH" />
-    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/world/map/tiles/TileManager.class" />
@@ -38,8 +36,6 @@
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/Updatable.class" />
-    <option name="AFTER_PATH" />
-    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/Spider.class" />
@@ -68,8 +64,6 @@
   </binary>
   <binary>
     <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_08_01_2025_21_07_[Changes]/CaveFloor.png" />
-    <option name="AFTER_PATH" />
-    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/entity/bitingSlime/MiniBitingSlime.class" />
@@ -88,8 +82,6 @@
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/GameController.class" />
-    <option name="AFTER_PATH" />
-    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value="out/production/RogueLikeFinall/main/Main.class" />

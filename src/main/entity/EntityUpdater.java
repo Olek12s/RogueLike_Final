@@ -3,7 +3,6 @@ package main.entity;
 import main.Direction;
 import main.controller.Updatable;
 import utilities.Position;
-import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import utilities.Collisions;
 
@@ -30,8 +29,9 @@ public class EntityUpdater implements Updatable
         {
             updateRegeneration();
             updateCurrentSprite();
-            updateRandomizedMovement();
-            move();
+            //updateRandomizedMovement();
+            updateBehaviourBasedOnState();
+            moveTowardsDirection();
             updateHitbox();
             updateChunkAssociation();
             updateAttack();
@@ -126,7 +126,7 @@ public class EntityUpdater implements Updatable
         }
     }
 
-    protected void move()
+    protected void moveTowardsDirection()
     {
         if (entity.isMoving && !Collisions.isColliding(entity) && !Collisions.isCollidingWithOtherHitbox(entity))
         {
@@ -214,4 +214,23 @@ public class EntityUpdater implements Updatable
             entity.setCurrentChunk(newChunk);
         }
     }
+
+    private void updateBehaviourBasedOnState()
+    {
+        BehaviourState behaviourState = entity.getBehaviourState();
+
+        switch (behaviourState)
+        {
+            case WANDER:
+                //System.out.println("WANDER");
+                updateRandomizedMovement();
+                break;
+
+            case CHASE:
+                //System.out.println("CHASE");
+                //pdateDirectionTowardsPath();
+                break;
+        }
+    }
+
 }
