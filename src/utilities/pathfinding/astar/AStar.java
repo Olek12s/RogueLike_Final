@@ -4,11 +4,30 @@ import main.entity.Entity;
 import utilities.Position;
 import world.map.MapController;
 import world.map.tiles.Tile;
+import world.map.tiles.TileManager;
 
 import java.util.*;
 
 public class AStar
 {
+    private static Map<Position, Node> nodes;
+    private static Position startPos;
+    private static Position endPos;
+    private static Node startNode;
+    private static Node endNode;
+
+    private static Position[] directions =
+            {
+                    new Position(0, -1),    // up
+                    new Position(0, 1),     // down
+                    new Position(-1, 0),    // left
+                    new Position(1, 0),     // right
+                    new Position(-1, -1),   // up-left
+                    new Position(1, -1),    // up-right
+                    new Position(-1, 1),    // down-left
+                    new Position(1, 1),     // down-right
+            };
+
     /**
      * returns path from entitySource to entityTarget
      *
@@ -20,96 +39,94 @@ public class AStar
      */
     public static Position[] getPathToEntity(Entity entitySource, Entity entityTarget)
     {
-        Position startPos = entitySource.getWorldPosition();
-        Position endPos = entityTarget.getWorldPosition();
-        Node startNode = new Node(MapController.getCurrentMap().getTile(startPos));
-        Node endNode = new Node(MapController.getCurrentMap().getTile(endPos));
 
-        PriorityQueue<Node> openList = new PriorityQueue<>(Comparator.comparingDouble(Node::getfCost)); // unvisited nodes, priority based on fCost of node
+        ArrayList<Position> path = new ArrayList<>();
+
+        nodes = new HashMap<>();
+        startPos = entitySource.getHitbox().getCenterWorldPosition();
+        endPos = entityTarget.getHitbox().getCenterWorldPosition();
+        startNode = new Node(startPos, startPos, endPos, null);   // endPos and startPos in 1st argument are switched, so algorithm tends to 'hit' target from sides, not diagonals
+        endNode = new Node(endPos, startPos, endPos, null);
+
+        int hitboxWidth = entitySource.getHitbox().getWidth();
+        int hitboxHeight = entitySource.getHitbox().getHeight();
+
+        PriorityQueue<Node> openList = new PriorityQueue<>((n1, n2) ->
+        {
+            int fCostComparison = Float.compare(n1.getfCost(), n2.getfCost());
+            if (fCostComparison != 0) return fCostComparison;
+            else return Float.compare(n1.gethCost(), n2.gethCost());// Prioritize nodes with a lower hCost (more direct path towards goal)
+        });
         Set<Position> closedList = new HashSet<>(); // visited nodes
-        Map<Position, Node> nodes = new HashMap<>();
+
         openList.add(startNode);
-
-        Position[] directions =
-                {
-                        new Position(-1, 0),    // up
-                        new Position(1, 0),     // down
-                        new Position(0, -1),    // left
-                        new Position(0, 1),     // right
-                        new Position(-1, -1),   // up-left
-                        new Position(-1, 1),    // up-right
-                        new Position(1, -1),    // down-left
-                        new Position(1, 1)      // down-right
-                };
-
-        nodes.put(startPos, startNode);
+        System.out.println(Node.nodeCounter);
+        Node.nodeCounter = 0;
         while (!openList.isEmpty())
         {
             Node currentNode = openList.poll();
-            closedList.add(currentNode.getPosition());
+            closedList.add(currentNode.getWorldPosition());
 
-            // If the target is reached, reconstruct the path
-            if (currentNode.getPosition().equals(endNode.getPosition()))
+            if (currentNode.equals(endNode))  // if target was reached - reconstruct path
             {
-                LinkedList<Position> path = new LinkedList<>();
-                Node current = currentNode;
-                Node previous = current;
-                while (current != null)
-                {
-
-                    for (Position direction : directions)
-                    {
-                        int maxX = Math.max(previous.getPosition().x, current.getPosition().x);
-                        int minX = Math.min(previous.getPosition().x, current.getPosition().x);
-                        int maxY = Math.max(previous.getPosition().y, current.getPosition().y);
-                        int minY = Math.min(previous.getPosition().y, current.getPosition().y);
-
-
-                        System.out.println(":" + (maxX-minX));
-                        System.out.println(":" + (maxY-minY));
-                        if (((maxX-minX) == (maxY-minY) || (maxX - minX) == (maxX) || (maxX - minX) == (minX)
-                                || (maxY - minY) == (maxY) || (maxY - minY) == (minY)))
-                        {
-                            path.addFirst(current.getPosition());
-                            break;
-                        }
-                    }
-                    previous = current;
-                    current = current.getParent();
-                }
+                reconstructPath(currentNode, path);
                 return path.toArray(new Position[0]);
             }
 
-            // Process neighbors
-            List<Node> neighbors = Node.getNeighbors(currentNode);
-            for (Node neighbor : neighbors)
+            for (Position direction : directions)   // checking neighbours
             {
-                if (closedList.contains(neighbor.getPosition()) || !neighbor.isPassable())
+                Node neighbour = getNeighbour(currentNode, direction);
+                if (neighbour == null || closedList.contains(neighbour.getWorldPosition()) || neighbour.isColliding())
                 {
                     continue;
                 }
-                Tile neighborTile = MapController.getCurrentMap().getTile(neighbor.getPosition());
-                neighbor.calculateCosts(startNode, endNode, neighborTile);
 
-                Node existingNeighbor = nodes.get(neighbor.getPosition());
+                float cost = currentNode.getfCost();
+                boolean isInOpenList = openList.contains(neighbour);
 
-                if (existingNeighbor == null || neighbor.getfCost() < existingNeighbor.getfCost())
+                if (isInOpenList == false || cost < neighbour.getfCost())
                 {
-                    neighbor.setParent(currentNode);
+                    neighbour.setParent(currentNode);
 
-                    if (existingNeighbor == null)
+                    if (!isInOpenList)
                     {
-                        openList.add(neighbor);
-                        nodes.put(neighbor.getPosition(), neighbor);
-                    }
-                    else
-                    {
-                        openList.remove(existingNeighbor); // Remove outdated node
-                        openList.add(neighbor);            // Add updated node
+                        openList.add(neighbour);
                     }
                 }
+                if (Node.nodeCounter > 30000) return null;
             }
         }
+        //return path.toArray(new Position[0]);
         return null; // If no path is found, return null
+    }
+
+    private static void reconstructPath(Node currentNode, ArrayList<Position> path)
+    {
+        while (currentNode != null)
+        {
+            path.add(currentNode.getWorldPosition());
+            currentNode = currentNode.getParent();
+        }
+        Collections.reverse(path);
+    }
+
+    private static Node getNeighbour(Node sourceNode, Position side)
+    {
+        Position neighbourWorldPosition = new Position(sourceNode.getWorldPosition().x + (side.x*Node.NODE_SIZE), sourceNode.getWorldPosition().y + side.y*Node.NODE_SIZE);
+
+        if (MapController.getCurrentMap().isInWorldBoundaries(neighbourWorldPosition) == false) // if "neighbour" is out of map boundaries
+        {
+            return null;
+        }
+        else if (nodes.get(neighbourWorldPosition) == null) // if neighbour did not exist in map - create new object of it
+        {
+            Node node = new Node(neighbourWorldPosition, startPos, endPos, sourceNode);
+            nodes.put(node.getWorldPosition(), node);
+            return node;
+        }
+        else
+        {
+            return nodes.get(neighbourWorldPosition);
+        }
     }
 }

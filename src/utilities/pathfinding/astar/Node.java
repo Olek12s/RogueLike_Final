@@ -8,78 +8,80 @@ import world.map.tiles.TileManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class Node
 {
-    private Tile tile;
-    private Position position;
-    private float gCost;  // heuristic cost
-    private float hCost;  // cost from starting node to this node
-    private float fCost;  // total cost   - fCost = gCost + hCost
-    private Node parent;
-    private boolean isPassable;
+    public static int NODE_SIZE = 16;
+    private Position worldPosition;
+    private float gCost;                // distance from this node to start
+    private float hCost;                // distance from this node to goal
+    private float fCost;                // total cost   - fCost = gCost + hCost
+    private static float greed = 0.5f;  // greed value - higher the value - higher the greed to follow path closer to the end
+    private boolean isColliding;
+    private Node parent;  // Parent node to track path
 
-    public Tile getTIle() {return tile;}
-    //public boolean isPassable() {return isPassable;}
-    public float getGCost() {return fCost;}
-    public Node getParent() {return parent;}
+    public Position getWorldPosition() {return worldPosition;}
+
     public float getfCost() {return fCost;}
-    public void setParent(Node parent) {this.parent = parent;}
-    public Position getPosition() {return position;}
-
     public float gethCost() {return hCost;}
     public float getgCost() {return gCost;}
 
-    public Node(Tile tile)
+    public void setgCost(float gCost) {this.gCost = gCost;}
+    public void sethCost(float hCost) {this.hCost = hCost;}
+    public void setfCost(float fCost) {this.fCost = fCost;}
+
+    public boolean isColliding() {return isColliding;}
+    public Node getParent() {return parent;}  // Getter for parent
+    public void setParent(Node parent) {this.parent = parent;}  // Setter for parent
+
+    public static int nodeCounter = 0;
+    public Node(Position worldPosition, Position startHitboxCenter, Position endHitboxCenter, Node parent)
     {
-        this.tile = tile;
-        this.position = tile.getWorldPosition();
-        boolean isCollidable = TileManager.getTileObject(tile.getId()).isCollidable();
-        this.isPassable = !isCollidable;
+        Position startPosition = new Position(startHitboxCenter.x - (startHitboxCenter.x % NODE_SIZE), startHitboxCenter.y - (startHitboxCenter.y % NODE_SIZE));
+        Position endPosition = new Position(endHitboxCenter.x - (endHitboxCenter.x % NODE_SIZE), endHitboxCenter.y - (endHitboxCenter.y % NODE_SIZE));
+
+        this.worldPosition = new Position(worldPosition.x - (worldPosition.x % NODE_SIZE), worldPosition.y - (worldPosition.y % NODE_SIZE));    // for instance - in 64x64 tile and 8x8 node, there can be 64 nodes in one tile divided evenly.
+        this.parent = parent;
+        calculateCosts(worldPosition, startPosition, endPosition);
+        this.isColliding = MapController.getCurrentMap().getTile(worldPosition).isColliding();
+        nodeCounter++;
     }
 
+    private void calculateCosts(Position nodePosition, Position startNodePosition, Position endNodePosition) {
+        Tile nodeTile = MapController.getCurrentMap().getTile(worldPosition);
+        float traversalCost = 1 / TileManager.getTileObject(nodeTile.getId()).getTraversalCost();  // Correct cost factor
 
-    public void calculateCosts(Node startNode, Node endNode, Tile tile)
-    {
-        float traversalCost = 1 / TileManager.getTileObject(tile.getId()).getTraversalCost();
-        this.gCost = startNode.gCost + traversalCost;
-        this.hCost = (Math.abs(position.x - endNode.position.x) + Math.abs(position.y - endNode.position.y)) * traversalCost; // Manhattan distance
-        this.fCost = this.gCost + this.hCost;
+        this.gCost = distanceBetweenNodes(nodePosition, startNodePosition);
+        this.hCost = distanceBetweenNodes(nodePosition, endNodePosition);
+
+        this.fCost = gCost + hCost * traversalCost;  // fCost is weighted by tile cost
     }
 
-    public static List<Node> getNeighbors(Node node)
+    public int distanceBetweenNodes(Position nodeSourcePosition, Position nodeTargetPosition)
     {
-        List<Node> neighbors = new ArrayList<>();
-        Position[] directions =
-                {
-                        new Position(-1, 0),    // up
-                        new Position(1, 0),     // down
-                        new Position(0, -1),    // left
-                        new Position(0, 1),     // right
-                        new Position(-1, -1),   // up-left
-                        new Position(-1, 1),    // up-right
-                        new Position(1, -1),    // down-left
-                        new Position(1, 1)      // down-right
-        };
+        int sx = nodeSourcePosition.x;
+        int sy = nodeSourcePosition.y;
+        int tx = nodeTargetPosition.x;
+        int ty = nodeTargetPosition.y;
 
-        for (Position direction : directions)
-        {
-            Position neighborPos = new Position(node.getPosition().x + direction.x*Tile.tileSize, node.getPosition().y + direction.y*Tile.tileSize);
-            Tile tile = MapController.getCurrentMap().getTile(neighborPos);
-            if (tile != null)
-            {
-                Node neighbor = new Node(tile);
-                if (neighbor.isPassable())
-                {
-                    neighbors.add(neighbor);
-                }
-            }
-        }
-        return neighbors;
+        int xDistance = Math.abs(sx - tx);
+        int yDistance = Math.abs(sy - ty);
+
+        return (xDistance + yDistance);
     }
 
-    public boolean isPassable()
-    {
-        return isPassable;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Node node = (Node) obj;
+        return worldPosition.equals(node.worldPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(worldPosition);
     }
 }

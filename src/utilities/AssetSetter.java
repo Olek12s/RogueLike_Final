@@ -54,9 +54,12 @@ public class AssetSetter
         //testEntityZombie = new Zombie(gc, new Position(gc.player.getWorldPosition().x+50, gc.player.getWorldPosition().y + 80));
 
 
-        for (int i = 0; i < 0; i++)
+        for (int i = 0; i <  0; i++)
         {
-            new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - (i * 25), gc.player.getWorldPosition().y));
+            for (int j = 0; j < 15; j++)
+            {
+                new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x + (i * 25), gc.player.getWorldPosition().y + (j * 50)));
+            }
         }
 
 

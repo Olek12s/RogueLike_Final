@@ -178,19 +178,7 @@ public class EntityRenderer implements Drawable
     public Position[] path;
     public void drawLineToPlayer(Graphics g2)
     {
-        /*
         Position[] path = AStar.getPathToEntity(entity, entity.gc.player);
-
-        double scaleFactor = Camera.getScaleFactor();
-        Position start = entity.getWorldPosition();
-        Position end = entity.gc.player.getWorldPosition();
-
-        Position screenStart = entity.gc.camera.applyCameraOffset((int) (start.x * scaleFactor), (int) (start.y * scaleFactor));
-        Position screenEnd = entity.gc.camera.applyCameraOffset((int) (end.x * scaleFactor), (int) (end.y * scaleFactor));
-
-        g2.setColor(Color.GREEN);
-        g2.drawLine(screenStart.x, screenStart.y, screenEnd.x, screenEnd.y);
-        */
 
         if (path == null || counter == 20)
         {
@@ -200,13 +188,7 @@ public class EntityRenderer implements Drawable
             counter = 0;
         }
         counter++;
-
-      //  path = new Position[2];
-        //path[0] = entity.getHitbox().getCenterWorldPosition();
-        //path[1] = entity.gc.player.getHitbox().getCenterWorldPosition();
-        double scaleFactor = Camera.getScaleFactor();
         g2.setColor(Color.BLUE);
-
         if (path != null)
         {
             for (int i = 0; i < path.length - 1; i++)
@@ -220,17 +202,6 @@ public class EntityRenderer implements Drawable
                 g2.drawLine(screenCurrent.x, screenCurrent.y, screenNext.x, screenNext.y);
             }
         }
-
-        /*
-        System.out.println(path.length);
-        for (int i = 0; i < path.length - 1; i++)
-        {
-            Position current = path[i];
-            Position next = path[i+1];
-          //  System.out.println("a");
-            //g2.drawLine(current.x, current.y, next.x, next.y);
-        }
-        */
     }
 
 

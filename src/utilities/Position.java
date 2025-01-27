@@ -37,6 +37,13 @@ public class Position
         return new Position(worldX, worldY);
     }
 
+    public float distanceTo(Position other)
+    {
+        int dx = this.x - other.x;
+        int dy = this.y - other.y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
     @Override
     public String toString()
     {

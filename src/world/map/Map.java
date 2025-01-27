@@ -84,6 +84,14 @@ public class Map
     }
     public Tile getTile(Position position) {return getTile(position.x, position.y);}
 
+    public boolean isInWorldBoundaries(Position position)
+    {
+        int mapWidthInPixels = getMapWidthInPixels();
+        int mapHeightInPixels = getMapHeightInPixels();
+
+        return position.x >= 0 && position.x < mapWidthInPixels && position.y >= 0 && position.y < mapHeightInPixels;
+    }
+
     private void loadMapFromFile()
     {
         int chunkSize = Chunk.getChunkSize();
