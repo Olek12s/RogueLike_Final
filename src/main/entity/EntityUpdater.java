@@ -18,7 +18,7 @@ public class EntityUpdater implements Updatable
     private int movementCounter = 0;
     private int updateStatisticsCounter = 0;
     private int pathUpdateCounter = 0;
-    private int randomthreshold = 20;
+    private int randomthreshold = 30;
 
     public Entity getEntity() {return entity;}
 
@@ -396,7 +396,7 @@ public class EntityUpdater implements Updatable
         double distance = Math.sqrt((dx * dx) + (dy * dy));
 
         // Determine the direction based on dx and dy
-        if (distance <= entity.getMovementSpeed())
+        if (distance < entity.getMovementSpeed()/2)
         {
             // Target reached, remove it from the path
             Position[] newPath = new Position[path.length - 1];
