@@ -13,12 +13,12 @@ import java.util.Objects;
 
 public class Node
 {
-    public static int NODE_SIZE = 16;
+    public static int NODE_SIZE = 16;   // only binary
     private Position worldPosition;
     private float gCost;                // distance from this node to start
     private float hCost;                // distance from this node to goal
     private float fCost;                // total cost   - fCost = gCost + hCost
-    private static float greed = 0.5f;  // greed value - higher the value - higher the greed to follow path closer to the end
+    //private static float greed = 0.5f;  // greed value - higher the value - higher the greed to follow path closer to the end
     private boolean isColliding;
     private Node parent;  // Parent node to track path
 
@@ -52,11 +52,15 @@ public class Node
     private void calculateCosts(Position nodePosition, Position startNodePosition, Position endNodePosition) {
         Tile nodeTile = MapController.getCurrentMap().getTile(worldPosition);
         float traversalCost = 1 / TileManager.getTileObject(nodeTile.getId()).getTraversalCost();  // Correct cost factor
+        float greed = 1;
 
-        this.gCost = distanceBetweenNodes(nodePosition, startNodePosition);
+        this.gCost = distanceBetweenNodes(nodePosition, startNodePosition) * traversalCost; // gCost is weighted by tile cost
         this.hCost = distanceBetweenNodes(nodePosition, endNodePosition);
-
-        this.fCost = gCost + hCost * traversalCost;  // fCost is weighted by tile cost
+        if (nodeCounter > 50)
+        {
+            greed = 99999f;
+        }
+        this.fCost = gCost + (hCost * (greed));
     }
 
     public int distanceBetweenNodes(Position nodeSourcePosition, Position nodeTargetPosition)

@@ -35,11 +35,10 @@ public class AStar
      * @param entityTarget
      * @return an array of n positions, where: P0 is starting points, Pn-1 is middle points of entityTarget's hitbox.
      * New points between P0 and Pn-1 is created, whenever there's need to make a turn to in order to
-     * follow the best heuristics or avoid an obstacle such as other hitbox / collidable tile
+     * follow the best heuristics or avoid an obstacle such as collidable tile
      */
     public static Position[] getPathToEntity(Entity entitySource, Entity entityTarget)
     {
-
         ArrayList<Position> path = new ArrayList<>();
 
         nodes = new HashMap<>();
@@ -60,16 +59,19 @@ public class AStar
         Set<Position> closedList = new HashSet<>(); // visited nodes
 
         openList.add(startNode);
-        System.out.println(Node.nodeCounter);
+     //  System.out.println(Node.nodeCounter);
         Node.nodeCounter = 0;
         while (!openList.isEmpty())
         {
             Node currentNode = openList.poll();
+            path.add(currentNode.getWorldPosition());     // uncomment for all nodes visualization
             closedList.add(currentNode.getWorldPosition());
 
             if (currentNode.equals(endNode))  // if target was reached - reconstruct path
             {
-                reconstructPath(currentNode, path);
+                reconstructPath(currentNode, path, hitboxWidth, hitboxHeight);
+                trimPath(currentNode, path);
+                path.add(endPos);
                 return path.toArray(new Position[0]);
             }
 
@@ -93,14 +95,52 @@ public class AStar
                         openList.add(neighbour);
                     }
                 }
-                if (Node.nodeCounter > 30000) return null;
+                if (Node.nodeCounter > 15000) return null;
             }
         }
         //return path.toArray(new Position[0]);
         return null; // If no path is found, return null
     }
 
-    private static void reconstructPath(Node currentNode, ArrayList<Position> path)
+
+    /**
+     * trims path by leaving only significant points.
+     * @param currentNode node from which ancestors will be read
+     * @param path collection to save reconstructed path
+     */
+    private static void trimPath(Node currentNode, ArrayList<Position> path)
+    {
+        LinkedList<Position> trimmedPath = new LinkedList<>();
+        Position lastDirection = null;
+
+        while (currentNode != null)
+        {
+            Position parentPosition = null;
+            if (currentNode.getParent() != null)
+            {
+                parentPosition = currentNode.getParent().getWorldPosition();
+            }
+
+            Position currentDirection = null;
+            if (parentPosition != null)
+            {
+                currentDirection = new Position(currentNode.getWorldPosition().x - parentPosition.x, currentNode.getWorldPosition().y - parentPosition.y);
+            }
+
+            // add point to the path only if the direction changed
+            if (lastDirection == null || !lastDirection.equals(currentDirection))
+            {
+                trimmedPath.addFirst(currentNode.getWorldPosition());
+                lastDirection = currentDirection;
+            }
+            currentNode = currentNode.getParent();
+        }
+        path.clear();
+        path.addAll(trimmedPath);
+    }
+
+
+    private static void reconstructPath(Node currentNode, ArrayList<Position> path, int hitboxWidth, int hitboxHeight)
     {
         while (currentNode != null)
         {
@@ -108,7 +148,49 @@ public class AStar
             currentNode = currentNode.getParent();
         }
         Collections.reverse(path);
+        shiftPathToAvoidCollisions(path, hitboxWidth, hitboxHeight);
     }
+
+    private static void shiftPathToAvoidCollisions(ArrayList<Position> path, int hitboxWidth, int hitboxHeight)
+    {
+        for (int i = 0; i < path.size()-1; i++) // -1 to ignore hitbox center
+        {
+            Position currentPos = path.get(i);
+            Tile rightTile = MapController.getCurrentMap().getTile(currentPos.x + hitboxWidth, currentPos.y);
+            Tile downTile = MapController.getCurrentMap().getTile(currentPos.x, currentPos.y + hitboxHeight);
+            Tile diagonalRightDownTile = MapController.getCurrentMap().getTile(currentPos.x + hitboxWidth, currentPos.y + hitboxHeight);
+            Tile diagonalLeftDownTile = MapController.getCurrentMap().getTile(currentPos.x - hitboxWidth, currentPos.y + hitboxHeight);
+
+            if (rightTile.isColliding())
+            {
+                int offset = (currentPos.x + hitboxWidth) - rightTile.getWorldPosition().x;
+                currentPos.x -= offset;
+            }
+            if (diagonalRightDownTile.isColliding())
+            {
+                int offsetX = ((currentPos.x + hitboxWidth) - diagonalRightDownTile.getWorldPosition().x)/2;
+                int offsetY = ((currentPos.y + hitboxHeight) - diagonalRightDownTile.getWorldPosition().y)/2;
+                currentPos.x -= offsetX;
+                currentPos.y -= offsetY;
+            }
+
+            if (downTile.isColliding())
+            {
+                int offset = (currentPos.y + hitboxHeight) - downTile.getWorldPosition().y;
+                currentPos.y -= offset;
+            }
+            if (diagonalLeftDownTile.isColliding())
+            {
+                int offsetX = ((currentPos.x - hitboxWidth) - diagonalLeftDownTile.getWorldPosition().x)/2;
+                int offsetY = ((currentPos.y + hitboxHeight) - diagonalLeftDownTile.getWorldPosition().y)/2;
+                currentPos.x += offsetX;
+                currentPos.y -= offsetY;
+            }
+            path.set(i, currentPos);
+        }
+    }
+
+
 
     private static Node getNeighbour(Node sourceNode, Position side)
     {
@@ -121,6 +203,19 @@ public class AStar
         else if (nodes.get(neighbourWorldPosition) == null) // if neighbour did not exist in map - create new object of it
         {
             Node node = new Node(neighbourWorldPosition, startPos, endPos, sourceNode);
+
+            if (side.x != 0 && side.y != 0) // diagonals
+            {
+                Position diagonalCheck1 = new Position(neighbourWorldPosition.x, sourceNode.getWorldPosition().y);
+                Position diagonalCheck2 = new Position(sourceNode.getWorldPosition().x, neighbourWorldPosition.y);
+
+                // if any of diagonals are collidable, return null
+                if (MapController.getCurrentMap().getTile(diagonalCheck1).isColliding() || MapController.getCurrentMap().getTile(diagonalCheck2).isColliding())
+                {
+                    return null;
+                }
+            }
+
             nodes.put(node.getWorldPosition(), node);
             return node;
         }

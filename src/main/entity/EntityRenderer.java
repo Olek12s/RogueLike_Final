@@ -175,20 +175,21 @@ public class EntityRenderer implements Drawable
     }
 
     int counter = 0;
+    int randomNumber = (int) (Math.random() * 21);
     public Position[] path;
     public void drawLineToPlayer(Graphics g2)
     {
-        Position[] path = AStar.getPathToEntity(entity, entity.gc.player);
-
-        if (path == null || counter == 20)
+        if (counter >= randomNumber)
         {
             path = AStar.getPathToEntity(entity, entity.gc.player);
-         // if (path.length > 3000)
-             if (path != null) System.out.println(path.length);
             counter = 0;
+            randomNumber = (int) (Math.random() * 21);
+            // if (path.length > 3000)
+            //if (path != null) System.out.println(path.length);
         }
         counter++;
         g2.setColor(Color.BLUE);
+
         if (path != null)
         {
             for (int i = 0; i < path.length - 1; i++)
