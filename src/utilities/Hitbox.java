@@ -34,6 +34,13 @@ public class Hitbox
         return centerPosition;
     }
 
+    public double getDiagonalLength()
+    {
+        int width = hitboxRect.width;
+        int height = hitboxRect.height;
+        return Math.sqrt(width * width + height * height);
+    }
+
     public Hitbox(Position worldPosition, int width, int height)
     {
         hitboxRect = new Rectangle(worldPosition.x, worldPosition.y, width, height);
@@ -60,6 +67,18 @@ public class Hitbox
         hitboxRect.y = y;
         worldPosition.x = x;
         worldPosition.y = y;
+    }
+
+    public boolean isInsideHitbox(Position point)
+    {
+        Position hitboxCenter = getCenterWorldPosition();
+        int halfWidth = hitboxRect.width/2;
+        int halfHeight = hitboxRect.height/2;
+
+        return point.x >= hitboxCenter.x - halfWidth &&
+                point.x <= hitboxCenter.x + halfWidth &&
+                point.y >= hitboxCenter.y - halfHeight &&
+                point.y <= hitboxCenter.y + halfHeight;
     }
 
 

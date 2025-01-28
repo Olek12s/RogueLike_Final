@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class Node
 {
-    public static int NODE_SIZE = 16;   // only binary
+    public static int NODE_SIZE = 32;   // only binary
     private Position worldPosition;
     private float gCost;                // distance from this node to start
     private float hCost;                // distance from this node to goal
@@ -56,9 +56,10 @@ public class Node
 
         this.gCost = distanceBetweenNodes(nodePosition, startNodePosition) * traversalCost; // gCost is weighted by tile cost
         this.hCost = distanceBetweenNodes(nodePosition, endNodePosition);
-        if (nodeCounter > 50)
+        if (nodeCounter > 500)
         {
             greed = 99999f;
+            //System.out.println("greed");
         }
         this.fCost = gCost + (hCost * (greed));
     }

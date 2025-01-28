@@ -3,7 +3,7 @@ package main.entity;
 public enum BehaviourState
 {
     WANDER(0),
-    CHASE(1);
+    FOLLOW_PATH(1);
 
     private final int id;
 

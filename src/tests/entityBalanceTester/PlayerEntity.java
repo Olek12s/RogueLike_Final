@@ -42,12 +42,12 @@ public class PlayerEntity extends Entity
 
     @Override
     public void setDetectionRadius() {
-        setDetectionRadius(0);
+        setDetectionDiameter(0);
     }
 
     @Override
     public void setLoseInterestRadius() {
-        setLoseInterestRadius(0);
+        setLoseInterestDiameter(0);
     }
 
     @Override

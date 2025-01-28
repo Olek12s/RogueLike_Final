@@ -15,28 +15,33 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EntityRenderer implements Drawable
-{
+public class EntityRenderer implements Drawable {
     private Entity entity;
     //protected SpriteSheet spriteSheet;  // rendundant. replaced with static hashmap of spriteSheets
     private static final Map<Integer, SpriteSheet> spriteSheetsMap = new HashMap<>();
     private static final Map<Integer, Sprite[][]> spriteImagesMap = new HashMap<>();
 
-    public Entity getEntity() {return entity;}
+    public Entity getEntity() {
+        return entity;
+    }
+
     //public SpriteSheet getSpriteSheet() {return spriteSheet;}
-    public static SpriteSheet getSpriteSheetByID(int id) {return spriteSheetsMap.get(id);}
-    public static Sprite[][] getSpriteImagesByID(int id) {return spriteImagesMap.get(id);}
-    public static void putSpriteSheet(SpriteSheet spriteSheet, int id)
-    {
+    public static SpriteSheet getSpriteSheetByID(int id) {
+        return spriteSheetsMap.get(id);
+    }
+
+    public static Sprite[][] getSpriteImagesByID(int id) {
+        return spriteImagesMap.get(id);
+    }
+
+    public static void putSpriteSheet(SpriteSheet spriteSheet, int id) {
         spriteSheetsMap.put(id, spriteSheet);
         loadSpriteImagesToMap(id, spriteSheet);
     }
 
 
-    public EntityRenderer(Entity entity, SpriteSheet spriteSheet)
-    {
-        if (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel())
-        {
+    public EntityRenderer(Entity entity, SpriteSheet spriteSheet) {
+        if (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel()) {
             this.entity = entity;
             //this.spriteSheet = spriteSheet;
             spriteSheetsMap.put(entity.entityID, spriteSheet);
@@ -48,13 +53,13 @@ public class EntityRenderer implements Drawable
     }
 
     @Override
-    public int getDrawPriority() {return DrawPriorities.Entity.value;}
+    public int getDrawPriority() {
+        return DrawPriorities.Entity.value;
+    }
 
     @Override
-    public void draw(Graphics g2)
-    {
-        if (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel())
-        {
+    public void draw(Graphics g2) {
+        if (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel()) {
             double scaleFactor = Camera.getScaleFactor();
             Position screenPosition = entity.gc.camera.applyCameraOffset(entity.worldPosition.x, entity.worldPosition.y);
 
@@ -66,19 +71,16 @@ public class EntityRenderer implements Drawable
             Chunk cameraChunk = entity.gc.mapController.getCurrentMap().getChunk(entity.gc.camera.getCameraPosition());
 
 
-            if (entityChunk != null && cameraChunk != null)
-            {
+            if (entityChunk != null && cameraChunk != null) {
                 //This condition checks whether the entity's chunk is within the rendering distance from the camera's chunk along both the x and y axes.
                 if (Math.abs(entityChunk.getxIndex() - cameraChunk.getxIndex()) <= MapRenderer.chunkRenderDistance &&
-                        Math.abs(entityChunk.getyIndex() - cameraChunk.getyIndex()) <= MapRenderer.chunkRenderDistance)
-                {
+                        Math.abs(entityChunk.getyIndex() - cameraChunk.getyIndex()) <= MapRenderer.chunkRenderDistance) {
                     g2.drawImage(entity.currentSprite.image, screenPosition.x, screenPosition.y, scaledWidth, scaledHeight, null);
                     entity.gc.incrementRenderCount();
-                    if (entity.gc.isDebugMode())
-                    {
+                    if (entity.gc.isDebugMode()) {
                         drawEntityHitbox(g2);
-                        //drawEntityDetectionRadius(g2);
-                        //drawEntityLoseInterestRadius(g2);
+                        drawEntityDetectionRadius(g2);
+                        drawEntityLoseInterestRadius(g2);
                         if (entity instanceof Player == false) drawLineToPlayer(g2);
                     }
                 }
@@ -105,30 +107,26 @@ public class EntityRenderer implements Drawable
         }
     }
      */
-    protected static void loadSpriteImagesToMap(int entityID, SpriteSheet spriteSheet)
-    {
+    protected static void loadSpriteImagesToMap(int entityID, SpriteSheet spriteSheet) {
         int ticks = spriteSheet.countAnimationTicks();
         int variations = spriteSheet.countSpriteVariations();
         Sprite[][] spriteImages = new Sprite[ticks][variations];
 
-        for (int tick = 0; tick < ticks; tick++)
-        {
-            for (int variation = 0; variation < variations; variation++)
-            {
+        for (int tick = 0; tick < ticks; tick++) {
+            for (int variation = 0; variation < variations; variation++) {
                 spriteImages[tick][variation] = spriteSheet.extractSprite(spriteSheet, tick, variation);
             }
         }
         spriteImagesMap.put(entityID, spriteImages);
     }
 
-    private void drawEntityHitbox(Graphics g2)
-    {
+    private void drawEntityHitbox(Graphics g2) {
         double scaleFactor = entity.gc.camera.getScaleFactor();
         Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
 
         int scaledHitboxWidth = (int) (entity.getHitbox().getHitboxRect().width * scaleFactor);
         int scaledHitboxHeight = (int) (entity.getHitbox().getHitboxRect().height * scaleFactor);
-        g2.setColor (Color.ORANGE);
+        g2.setColor(Color.ORANGE);
         g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);
         entity.gc.incrementRenderCount();
     }
@@ -161,37 +159,39 @@ public class EntityRenderer implements Drawable
     }
      */
 
-    private void drawEntityDetectionRadius(Graphics g2)
-    {
+    private void drawEntityDetectionRadius(Graphics g2) {
         double scaleFactor = entity.gc.camera.getScaleFactor();
         Position hitboxCenter = entity.getHitbox().getCenterWorldPosition();
         Position screenPosition = entity.gc.camera.applyCameraOffset(hitboxCenter.x, hitboxCenter.y);
 
-        int radius = entity.getDetectionRadius();
+        int radius = entity.getDetectionDiameter();
         int scaledRadius = (int) (radius * scaleFactor);
 
         g2.setColor(Color.red);
-        g2.drawOval(screenPosition.x - scaledRadius/2, screenPosition.y - scaledRadius/2, scaledRadius, scaledRadius);
+        g2.drawOval(screenPosition.x - scaledRadius / 2, screenPosition.y - scaledRadius / 2, scaledRadius, scaledRadius);
     }
 
-    int counter = 0;
-    int randomNumber = (int) (Math.random() * 21);
-    public Position[] path;
+    private void drawEntityLoseInterestRadius(Graphics g2) {
+        double scaleFactor = entity.gc.camera.getScaleFactor();
+        Position hitboxCenter = entity.getHitbox().getCenterWorldPosition();
+        Position screenPosition = entity.gc.camera.applyCameraOffset(hitboxCenter.x, hitboxCenter.y);
+
+        int radius = entity.getLoseInterestDiameter();
+        int scaledRadius = (int) (radius * scaleFactor);
+
+        g2.setColor(Color.YELLOW);
+        g2.drawOval(screenPosition.x - scaledRadius / 2, screenPosition.y - scaledRadius / 2, scaledRadius, scaledRadius);
+    }
+
+
     public void drawLineToPlayer(Graphics g2)
     {
-        if (counter >= randomNumber)
-        {
-            path = AStar.getPathToEntity(entity, entity.gc.player);
-            counter = 0;
-            randomNumber = (int) (Math.random() * 21);
-            // if (path.length > 3000)
-            //if (path != null) System.out.println(path.length);
-        }
-        counter++;
-        g2.setColor(Color.BLUE);
+        Position[] path = entity.getPathToFollow();
 
-        if (path != null)
-        {
+        // if (path.length > 3000)
+        //if (path != null) System.out.println(path.length);
+        g2.setColor(Color.BLUE);
+        if (path != null) {
             for (int i = 0; i < path.length - 1; i++)
             {
                 Position current = path[i];
@@ -203,19 +203,5 @@ public class EntityRenderer implements Drawable
                 g2.drawLine(screenCurrent.x, screenCurrent.y, screenNext.x, screenNext.y);
             }
         }
-    }
-
-
-    private void drawEntityLoseInterestRadius(Graphics g2)
-    {
-        double scaleFactor = entity.gc.camera.getScaleFactor();
-        Position hitboxCenter = entity.getHitbox().getCenterWorldPosition();
-        Position screenPosition = entity.gc.camera.applyCameraOffset(hitboxCenter.x, hitboxCenter.y);
-
-        int radius = entity.getLoseInterestRadius();
-        int scaledRadius = (int) (radius * scaleFactor);
-
-        g2.setColor(Color.YELLOW);
-        g2.drawOval(screenPosition.x - scaledRadius/2, screenPosition.y - scaledRadius/2, scaledRadius, scaledRadius);
     }
 }

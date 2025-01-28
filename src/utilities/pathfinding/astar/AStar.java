@@ -69,9 +69,11 @@ public class AStar
 
             if (currentNode.equals(endNode))  // if target was reached - reconstruct path
             {
-                reconstructPath(currentNode, path, hitboxWidth, hitboxHeight);
+                reconstructPath(currentNode, path);
                 trimPath(currentNode, path);
-                path.add(endPos);
+                //path.removeIf(point -> entitySource.getHitbox().isInsideHitbox(point));
+                // path.add(startPos);
+                 path.add(endPos);
                 return path.toArray(new Position[0]);
             }
 
@@ -140,7 +142,7 @@ public class AStar
     }
 
 
-    private static void reconstructPath(Node currentNode, ArrayList<Position> path, int hitboxWidth, int hitboxHeight)
+    private static void reconstructPath(Node currentNode, ArrayList<Position> path)
     {
         while (currentNode != null)
         {
@@ -148,49 +150,7 @@ public class AStar
             currentNode = currentNode.getParent();
         }
         Collections.reverse(path);
-        shiftPathToAvoidCollisions(path, hitboxWidth, hitboxHeight);
     }
-
-    private static void shiftPathToAvoidCollisions(ArrayList<Position> path, int hitboxWidth, int hitboxHeight)
-    {
-        for (int i = 0; i < path.size()-1; i++) // -1 to ignore hitbox center
-        {
-            Position currentPos = path.get(i);
-            Tile rightTile = MapController.getCurrentMap().getTile(currentPos.x + hitboxWidth, currentPos.y);
-            Tile downTile = MapController.getCurrentMap().getTile(currentPos.x, currentPos.y + hitboxHeight);
-            Tile diagonalRightDownTile = MapController.getCurrentMap().getTile(currentPos.x + hitboxWidth, currentPos.y + hitboxHeight);
-            Tile diagonalLeftDownTile = MapController.getCurrentMap().getTile(currentPos.x - hitboxWidth, currentPos.y + hitboxHeight);
-
-            if (rightTile.isColliding())
-            {
-                int offset = (currentPos.x + hitboxWidth) - rightTile.getWorldPosition().x;
-                currentPos.x -= offset;
-            }
-            if (diagonalRightDownTile.isColliding())
-            {
-                int offsetX = ((currentPos.x + hitboxWidth) - diagonalRightDownTile.getWorldPosition().x)/2;
-                int offsetY = ((currentPos.y + hitboxHeight) - diagonalRightDownTile.getWorldPosition().y)/2;
-                currentPos.x -= offsetX;
-                currentPos.y -= offsetY;
-            }
-
-            if (downTile.isColliding())
-            {
-                int offset = (currentPos.y + hitboxHeight) - downTile.getWorldPosition().y;
-                currentPos.y -= offset;
-            }
-            if (diagonalLeftDownTile.isColliding())
-            {
-                int offsetX = ((currentPos.x - hitboxWidth) - diagonalLeftDownTile.getWorldPosition().x)/2;
-                int offsetY = ((currentPos.y + hitboxHeight) - diagonalLeftDownTile.getWorldPosition().y)/2;
-                currentPos.x += offsetX;
-                currentPos.y -= offsetY;
-            }
-            path.set(i, currentPos);
-        }
-    }
-
-
 
     private static Node getNeighbour(Node sourceNode, Position side)
     {

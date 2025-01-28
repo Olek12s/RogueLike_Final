@@ -43,10 +43,12 @@ public class Spider extends Entity
     }
 
     @Override
-    public void setDetectionRadius() {setDetectionRadius(8 * Tile.tileSize);}
+    public void setDetectionRadius() {
+        setDetectionDiameter(8 * Tile.tileSize);}
 
     @Override
-    public void setLoseInterestRadius() {setLoseInterestRadius(16 * Tile.tileSize);}
+    public void setLoseInterestRadius() {
+        setLoseInterestDiameter(16 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

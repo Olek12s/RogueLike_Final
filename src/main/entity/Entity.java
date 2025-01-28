@@ -23,8 +23,8 @@ public abstract class Entity
 
     protected Sprite currentSprite;
     protected Hitbox hitbox;
-    protected int detectionRadius;
-    protected int loseInterestRadius;
+    protected int detectionDiameter;
+    protected int loseInterestDiameter;
     protected Direction direction;
     protected Position worldPosition = new Position(0,0);
     private Chunk currentChunk;
@@ -36,6 +36,7 @@ public abstract class Entity
     protected Inventory inventory;
     private Position[] pathToFollow;
     private BehaviourState behaviourState;
+    private boolean isAlerted;
 
     //STATISTICS
     public EntityStatistics statistics;
@@ -99,25 +100,29 @@ public abstract class Entity
     public void setSpeed(int speed) {this.statistics.currentMovementSpeed = Math.min(speed, statistics.maxMovementSpeed);}
     public int getMaxMovementSpeed() {return statistics.getMaxMovementSpeed();}
     public Inventory getInventory() {return inventory;}
-    public int getDetectionRadius() {return detectionRadius;}
-    public int getLoseInterestRadius() {return loseInterestRadius;}
+    public int getDetectionDiameter() {return detectionDiameter;}
+    public int getLoseInterestDiameter() {return loseInterestDiameter;}
+    public int getDetectionRadius() {return detectionDiameter/2;}
+    public int getLoseInterestRadius() {return loseInterestDiameter/2;}
     public BehaviourState getBehaviourState() {return behaviourState;}
     public void setBehaviourState(BehaviourState behaviourState) {this.behaviourState = behaviourState;}
     public Position[] getPathToFollow() {return pathToFollow;}
     public void setPathToFollow(Position[] pathToFollow) {this.pathToFollow = pathToFollow;}
+    public boolean isAlerted() {return isAlerted;}
+    public void setAlerted(boolean alerted) {isAlerted = alerted;}
 
-    public void setDetectionRadius(int r)
+    public void setDetectionDiameter(int r)
     {
         Random random = new Random();
-        this.detectionRadius = r;
+        this.detectionDiameter = r;
         int randomOffset = (int) (r * (random.nextDouble() * 0.2 - 0.1)); // multiple (-0.1 to 0.1) randomly
-        this.detectionRadius = r + randomOffset;
+        this.detectionDiameter = r + randomOffset;
     }
-    public void setLoseInterestRadius(int r)
+    public void setLoseInterestDiameter(int r)
     {
         Random random = new Random();
         int randomIncrease = (int) (r * (random.nextDouble() * 0.1)); // multiple (0 to 0.1) randomly
-        this.loseInterestRadius = r + randomIncrease;
+        this.loseInterestDiameter = r + randomIncrease;
     }
 
     public void initializeEntitySpriteAssets(int id)

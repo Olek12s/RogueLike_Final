@@ -41,14 +41,16 @@ public class MiniBitingSlime extends Entity
         this.statistics.setArmour(0);
         this.statistics.setHitPoints(16, 3,3);
         this.statistics.setRegeneration(1);
-        this.statistics.setMaxMovementSpeed(1);
+        this.statistics.setMaxMovementSpeed(4);
     }
 
     @Override
-    public void setDetectionRadius() {setDetectionRadius(8 * Tile.tileSize);}
+    public void setDetectionRadius() {
+        setDetectionDiameter(100 * Tile.tileSize);}
 
     @Override
-    public void setLoseInterestRadius() {setLoseInterestRadius(16 * Tile.tileSize);}
+    public void setLoseInterestRadius() {
+        setLoseInterestDiameter(110 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

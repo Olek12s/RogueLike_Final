@@ -19,7 +19,7 @@ public class Collisions
         this.gc = gc;
     }
 
-    public static boolean isColliding(Entity entity)
+    public static boolean willCollide(Entity entity)
     {
         Rectangle hitbox = entity.getHitbox().getHitboxRect();
         Rectangle preditctedHitboxRect = new Rectangle(hitbox);
@@ -42,6 +42,37 @@ public class Collisions
             isColliding = true;
         }
         return isColliding;
+    }
+
+    public static boolean isPositionUncollidable(Position position)
+    {
+        try
+        {
+            Tile tile = gc.mapController.getCurrentMap().getTile(position.x, position.y);
+            if (tile.isColliding())
+            {
+                return false; // collision with tile
+            }
+        }
+        catch (IndexOutOfBoundsException ex)
+        {
+            return false; // out of map
+        }
+
+        Chunk chunk = gc.mapController.getCurrentMap().getChunk(position);
+        if (chunk == null)
+        {
+            return true;
+        }
+
+        for (Entity entity : chunk.getEntities())
+        {
+            if (entity.getHitbox().getHitboxRect().contains(position.x, position.y))
+            {
+                return false; // collision with other entity hitbox
+            }
+        }
+        return true;
     }
 
     /*
@@ -112,7 +143,7 @@ public class Collisions
     }
      */
 
-    public static boolean isCollidingWithOtherHitbox(Entity entity)
+    public static boolean willCollideWithOtherHitbox(Entity entity)
     {
         Hitbox sourceHitbox = entity.getHitbox();
         Rectangle predictedHitboxRect = predictFutureHitboxRectPosition(entity);

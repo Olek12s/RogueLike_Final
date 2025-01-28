@@ -2,9 +2,13 @@ package main.entity;
 
 import main.Direction;
 import main.controller.Updatable;
+import main.entity.player.Player;
+import utilities.Hitbox;
 import utilities.Position;
+import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import utilities.Collisions;
+import world.map.MapController;
 
 public class EntityUpdater implements Updatable
 {
@@ -13,6 +17,8 @@ public class EntityUpdater implements Updatable
     private int animationSpeed = 8;
     private int movementCounter = 0;
     private int updateStatisticsCounter = 0;
+    private int pathUpdateCounter = 0;
+    private int randomthreshold = 20;
 
     public Entity getEntity() {return entity;}
 
@@ -29,13 +35,17 @@ public class EntityUpdater implements Updatable
         {
             updateRegeneration();
             updateCurrentSprite();
-            //updateRandomizedMovement();
-            updateBehaviourBasedOnState();
             moveTowardsDirection();
             updateHitbox();
             updateChunkAssociation();
             updateAttack();
             updateAliveStatus();
+
+            if (!(entity instanceof Player))
+            {
+                updateState();
+                updateBehaviourBasedOnState();
+            }
         }
     }
 
@@ -128,46 +138,139 @@ public class EntityUpdater implements Updatable
 
     protected void moveTowardsDirection()
     {
-        if (entity.isMoving && !Collisions.isColliding(entity) && !Collisions.isCollidingWithOtherHitbox(entity))
+        if (entity.isMoving)
         {
+            int moveX = 0;
+            int moveY = 0;
+            // !Collisions.isColliding(entity) && !Collisions.isCollidingWithOtherHitbox(entity);
+
+            if (!Collisions.willCollide(entity) && !Collisions.willCollideWithOtherHitbox(entity))
+            {
+                if (entity.direction == Direction.UP)
+                {
+                    moveY -= entity.getMovementSpeed();
+                }
+                else if (entity.direction == Direction.DOWN)
+                {
+                    moveY += entity.getMovementSpeed();
+                }
+                else if (entity.direction == Direction.LEFT)
+                {
+                    moveX -= entity.getMovementSpeed();
+                }
+                else if (entity.direction == Direction.RIGHT)
+                {
+                    moveX += entity.getMovementSpeed();
+                }
+            }
+
+            int movementSpeed = entity.getMovementSpeed();
+            int entityWidth = entity.getHitbox().getWidth();
+            int entityHeight = entity.getHitbox().getHeight();
+            Position entityPosition = entity.getWorldPosition();
+
+            boolean canMoveLeft =
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x - movementSpeed, entityPosition.y)) && // up-left
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x - movementSpeed, entityPosition.y + entityHeight)); // down-left
+
+
+            boolean canMoveRight =
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth + movementSpeed, entityPosition.y)) && // top-right
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth + movementSpeed, entityPosition.y + entityHeight)); // down-right
+
+
+            boolean canMoveUp =
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x, entityPosition.y - movementSpeed)) && // top-left
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth, entityPosition.y - movementSpeed)); // top-right
+
+
+            boolean canMoveDown =
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x, entityPosition.y + entityHeight + movementSpeed)) && // down-left
+                            Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth, entityPosition.y + entityHeight + movementSpeed)); // down-right
+
+
+            // If entity is stuck, change its direction to the diagonal
+            changeDirectionToDiagonalOnStuck(entity, canMoveUp, canMoveDown, canMoveLeft, canMoveRight);
+
             if (entity.direction == Direction.UP_LEFT)
             {
-                entity.worldPosition.x -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                entity.worldPosition.y -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveLeft) moveX -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveUp) moveY -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
             }
-            else if (entity.direction == Direction.UP_RIGHT)
+            if (entity.direction == Direction.UP_RIGHT)
             {
-                entity.worldPosition.x += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                entity.worldPosition.y -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveRight) moveX += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveUp) moveY -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
             }
-            else if (entity.direction == Direction.DOWN_LEFT)
+            if (entity.direction == Direction.DOWN_LEFT)
             {
-                entity.worldPosition.x -= Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                entity.worldPosition.y += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveLeft) moveX -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveDown) moveY += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
             }
-            else if (entity.direction == Direction.DOWN_RIGHT)
+            if (entity.direction == Direction.DOWN_RIGHT)
             {
-                entity.worldPosition.x += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
-                entity.worldPosition.y += Math.max((int)(entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveRight) moveX += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+               if (canMoveDown) moveY += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
             }
-            else if (entity.direction == Direction.DOWN)
+
+            entity.worldPosition.x += moveX;
+            entity.worldPosition.y += moveY;
+        }
+    }
+
+    private void changeDirectionToDiagonalOnStuck(Entity entity, boolean canMoveUp, boolean canMoveDown, boolean canMoveLeft, boolean canMoveRight)
+    {
+        if ((entity.direction == Direction.RIGHT && !canMoveRight)   ||
+                (entity.direction == Direction.LEFT && !canMoveLeft) ||
+                (entity.direction == Direction.UP && !canMoveUp)     ||
+                (entity.direction == Direction.DOWN && !canMoveDown))
+        {
+            Position entityCenter = entity.getHitbox().getCenterWorldPosition();
+            Position[] path = entity.getPathToFollow();
+            if (path != null && path.length > 0)
             {
-                entity.worldPosition.y += entity.getMovementSpeed();
-            }
-            else if (entity.direction == Direction.LEFT)
-            {
-                entity.worldPosition.x -= entity.getMovementSpeed();
-            }
-            else if (entity.direction == Direction.RIGHT)
-            {
-                entity.worldPosition.x += entity.getMovementSpeed();
-            }
-            else if (entity.direction == Direction.UP)
-            {
-                entity.worldPosition.y -= entity.getMovementSpeed();
+                Position target = path[0];
+                Hitbox entityHitbox = entity.getHitbox();
+
+                if (entityHitbox.getDiagonalLength() * 2 > entityCenter.distanceTo(path[path.length - 1]))   // to prevent wobbling on close contact with targeted entity
+                {
+                    return;
+                }
+
+                Direction newDirection = getNewDirection(entity, entityCenter, target);
+                if (newDirection != null)
+                {
+                    entity.setDirection(newDirection);
+                }
             }
         }
     }
+
+    private Direction getNewDirection(Entity entity, Position entityCenter, Position target)
+    {
+        if (entity.direction == Direction.RIGHT)
+        {
+            if (target.y > entityCenter.y) return Direction.DOWN_RIGHT;
+            if (target.y < entityCenter.y) return Direction.UP_RIGHT;
+        }
+        else if (entity.direction == Direction.LEFT)
+        {
+            if (target.y > entityCenter.y) return Direction.DOWN_LEFT;
+            if (target.y < entityCenter.y) return Direction.UP_LEFT;
+        }
+        else if (entity.direction == Direction.UP)
+        {
+            if (target.x > entityCenter.x) return Direction.UP_RIGHT;
+            if (target.x < entityCenter.x) return Direction.UP_LEFT;
+        }
+        else if (entity.direction == Direction.DOWN)
+        {
+            if (target.x > entityCenter.x) return Direction.DOWN_RIGHT;
+            if (target.x < entityCenter.x) return Direction.DOWN_LEFT;
+        }
+        return null;
+    }
+
 
     private void updateRandomizedMovement()
     {
@@ -215,6 +318,41 @@ public class EntityUpdater implements Updatable
         }
     }
 
+    private void updateState()
+    {
+        int distanceToPlayer = (int) entity.getHitbox().getCenterWorldPosition().distanceTo(entity.gc.player.getHitbox().getCenterWorldPosition());
+
+        if (distanceToPlayer < entity.getDetectionRadius())     // within detection radius
+        {
+            updateChasingPath(entity.gc.player);
+            entity.setBehaviourState(BehaviourState.FOLLOW_PATH);
+            entity.setAlerted(true);
+        }
+        else if (distanceToPlayer <= entity.getLoseInterestRadius() && entity.isAlerted())    // within lose interest radius
+        {
+            updateChasingPath(entity.gc.player);
+            entity.setBehaviourState(BehaviourState.FOLLOW_PATH);
+        }
+        else      // out of any radius
+        {
+            entity.setAlerted(false);
+        }
+    }
+
+    private void updateChasingPath(Entity target)
+    {
+        int randomNumber = (int) (Math.random() * (randomthreshold + 1));
+
+        if (pathUpdateCounter >= randomNumber)
+        {
+            entity.setPathToFollow(AStar.getPathToEntity(entity, target));
+            pathUpdateCounter = 0;
+        }
+        pathUpdateCounter++;
+    }
+
+
+
     private void updateBehaviourBasedOnState()
     {
         BehaviourState behaviourState = entity.getBehaviourState();
@@ -222,15 +360,81 @@ public class EntityUpdater implements Updatable
         switch (behaviourState)
         {
             case WANDER:
-                //System.out.println("WANDER");
                 updateRandomizedMovement();
                 break;
 
-            case CHASE:
-                //System.out.println("CHASE");
-                //pdateDirectionTowardsPath();
+            case FOLLOW_PATH:
+                followPath();
                 break;
         }
+    }
+
+    private void followPath()
+    {
+        Position[] path = entity.getPathToFollow();
+
+        if (path == null || path.length == 0) {
+            entity.isMoving = false;
+            return;
+        }
+
+        // Get the last point in the path
+        Position target;
+        if (path.length > 1) target = path[1];
+        else
+        {
+            entity.setBehaviourState(BehaviourState.WANDER);
+            return;
+        }
+
+        // Current position of the entity's hitbox center
+        Position currentPosition = entity.hitbox.getWorldPosition();
+
+        // Calculate the direction vector
+        int dx = target.x - currentPosition.x;
+        int dy = target.y - currentPosition.y;
+        double distance = Math.sqrt((dx * dx) + (dy * dy));
+
+        // Determine the direction based on dx and dy
+        if (distance <= entity.getMovementSpeed())
+        {
+            // Target reached, remove it from the path
+            Position[] newPath = new Position[path.length - 1];
+            System.arraycopy(path, 1, newPath, 0, path.length - 1);  // Skip the first element since it's already reached
+            entity.setPathToFollow(newPath);
+
+            // If the path is now empty, stop moving
+            if (newPath.length == 0) {
+                entity.isMoving = false;
+            }
+            return;
+        }
+
+        // Normalize the direction vector to determine the direction
+        Direction direction;
+        double angle = Math.toDegrees(Math.atan2(-dy, dx)); // Y-axis is inverted in most 2D coordinate systems
+
+        if (angle >= -22.5 && angle < 22.5) {
+            direction = Direction.RIGHT;
+        } else if (angle >= 22.5 && angle < 67.5) {
+            direction = Direction.UP_RIGHT;
+        } else if (angle >= 67.5 && angle < 112.5) {
+            direction = Direction.UP;
+        } else if (angle >= 112.5 && angle < 157.5) {
+            direction = Direction.UP_LEFT;
+        } else if (angle >= -67.5 && angle < -22.5) {
+            direction = Direction.DOWN_RIGHT;
+        } else if (angle >= -112.5 && angle < -67.5) {
+            direction = Direction.DOWN;
+        } else if (angle >= -157.5 && angle < -112.5) {
+            direction = Direction.DOWN_LEFT;
+        } else {
+            direction = Direction.LEFT;
+        }
+
+        // Update the entity's direction and set it to moving
+        entity.setDirection(direction);
+        entity.isMoving = true;
     }
 
 }
