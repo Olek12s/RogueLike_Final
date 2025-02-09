@@ -276,7 +276,6 @@ public class HUDRenderer implements Drawable
         g2d.setStroke(new BasicStroke(innerWidth));
         g2d.drawRoundRect(x + innerPadding, y + innerPadding, width  - (innerPadding*2), height - (innerPadding*2), arcWidth, arcHeight);
         // g2d.dispose();
-
     }
 
     public void drawInventoryBar(Graphics g2)
@@ -541,9 +540,6 @@ public class HUDRenderer implements Drawable
     public void drawEquippedFrame(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2.create();
-
-
-
         int equippedFrameWidth = slotSize * 5;
         int equippedFrameHeight = slotSize * 10 + slotSize / 4;
 

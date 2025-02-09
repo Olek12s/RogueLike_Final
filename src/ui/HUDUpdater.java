@@ -31,9 +31,6 @@ public class HUDUpdater implements Updatable
     {
         hud.hudRenderer.updateSizes();
         updateHealthBar();
-        checkStartDraggingFromSlot();
-        checkEndDraggingFromSlot();
-        //checkEndClick();
     }
 
     private boolean clickedOnSlot()
@@ -46,53 +43,6 @@ public class HUDUpdater implements Updatable
             else return slot.isWithinSlot(mh.getClickPosition());
         }
         return false;
-    }
-
-    private void checkStartDraggingFromSlot()
-    {
-        MouseHandler mh = hud.gc.mouseHandler;
-        if (clickedOnSlot())
-        {
-            ScreenSlot slot = hud.getScreenSlotAt(mh.getClickPosition());
-            if (slot.getItem() != null)
-            {
-                if (slot.getSlotType() == SlotType.mainInvSlot)   // main inventory
-                {
-                    draggedItem = hud.gc.player.getInventory().getItemAt(slot.getSlotNumberX(), slot.getSlotNumberY());
-                    draggingItem = true;
-                    hud.gc.player.getInventory().removeItem(draggedItem);
-
-                }
-                else if (slot.getSlotType() == SlotType.beltSlot) // belt inventory
-                {
-                    draggedItem = hud.gc.player.getInventory().getItemAt(slot.getSlotNumberX(), 0);
-                    draggingItem = true;
-                    hud.gc.player.getInventory().removeItem(draggedItem);
-                }
-                else    // equipped inventory
-                {
-
-                }
-            }
-        }
-    }
-
-    private void checkEndDraggingFromSlot()
-    {
-        MouseHandler mh = hud.gc.mouseHandler;
-        if (!clickedOnSlot() && draggingItem)
-        {
-            Position worldPosition = Position.screenToWorldPosition(mh.getClickPosition().x, mh.getClickPosition().y);
-            dropDraggedItemOnGround(worldPosition);
-        }
-    }
-
-    private void dropDraggedItemOnGround(Position worldPosition)
-    {
-        draggingItem = false;
-        draggedItem.setOnGround(true);
-        draggedItem.setWorldPosition(worldPosition);
-
     }
 
     private void updateHealthBar()

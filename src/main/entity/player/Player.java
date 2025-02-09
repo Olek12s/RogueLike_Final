@@ -52,7 +52,7 @@ public class Player extends Entity
     public void setupStatistics()
     {
         statistics.maxHitPoints = 100;
-        statistics.setArmour(0);
+        statistics.setArmour(45);
         statistics.setRegeneration(1);
         statistics.hitPoints = statistics.maxHitPoints;
         statistics.setMaxMovementSpeed(12);

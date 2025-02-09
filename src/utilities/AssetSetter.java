@@ -54,7 +54,7 @@ public class AssetSetter
         //testEntityZombie = new Zombie(gc, new Position(gc.player.getWorldPosition().x+50, gc.player.getWorldPosition().y + 80));
 
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 0; i++)
         {
             for (int j = 0; j < 10; j++)
             {
