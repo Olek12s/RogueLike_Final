@@ -8,10 +8,10 @@ public class BitingSlimeWeapon extends Weapon
     public BitingSlimeWeapon()
     {
         this.itemStatistics = new ItemStatistics();
-        this.meleeAttackWidth = 22;
-        this.meleeAttackHeight = 3;
-        this.attackPreparationTime = 5;
-        this.attackRestTime = 30;
+        this.meleeAttackWidth = 84;
+        this.meleeAttackHeight = 55;
+        this.attackPreparationTime = 3;
+        this.attackRestTime = 15;
         this.itemStatistics.setPhysicalDamage(1);
     }
 
