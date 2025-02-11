@@ -20,6 +20,9 @@ public class HUD
     int scaleY;
     int scale;
 
+    public HUDRenderer getHudRenderer() {return hudRenderer;}
+    public HUDUpdater getHudUpdater() {return hudUpdater;}
+
     public HUD(GameController gc)
     {
         this.gc = gc;
@@ -27,24 +30,5 @@ public class HUD
         hudUpdater = new HUDUpdater(this);
         this.heartSpriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/hud/heartsSpriteSheet"), 27);
         this.heart = heartSpriteSheet.extractFirst();
-    }
-
-    public ScreenSlot getScreenSlotAt(Position position)
-    {
-        ArrayList<ScreenSlot> screenSlots = hudRenderer.getScreenSlots();
-
-        for (ScreenSlot slot : screenSlots)
-        {
-            if (slot != null && slot.isWithinSlot(position))
-            {
-                return slot;
-            }
-        }
-        return null;
-    }
-
-    public ScreenSlot getScreenSlotAt(int x, int y)
-    {
-        return getScreenSlotAt(new Position(x, y));
     }
 }

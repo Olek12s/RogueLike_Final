@@ -1,7 +1,9 @@
 package ui;
 
+import main.controller.GameController;
 import main.controller.GameState;
 import main.controller.Updatable;
+import main.inventory.Slot;
 import main.item.Item;
 import main.item.ItemID;
 import main.item.ItemManager;
@@ -14,11 +16,6 @@ import java.util.ArrayList;
 public class HUDUpdater implements Updatable
 {
     HUD hud;
-    private boolean draggingItem;
-    private Item draggedItem;
-
-    public boolean isDraggingItem() {return draggingItem;}
-    public Item getDraggedItem() {return draggedItem;}
 
     public HUDUpdater(HUD hud)
     {
@@ -31,19 +28,10 @@ public class HUDUpdater implements Updatable
     {
         hud.hudRenderer.updateSizes();
         updateHealthBar();
+        clickedOnSlot();
     }
 
-    private boolean clickedOnSlot()
-    {
-        MouseHandler mh = hud.gc.mouseHandler;
-        if (mh.leftButtonClicked)
-        {
-            ScreenSlot slot = hud.getScreenSlotAt(mh.getClickPosition());
-            if (slot == null) return false;
-            else return slot.isWithinSlot(mh.getClickPosition());
-        }
-        return false;
-    }
+
 
     private void updateHealthBar()
     {
@@ -63,5 +51,10 @@ public class HUDUpdater implements Updatable
         if (healthRatio < 0.2) tick = 4;
 
         hud.heart = hud.heartSpriteSheet.extractSprite(hud.heartSpriteSheet, tick, 0);
+    }
+
+    private Slot clickedOnSlot()
+    {
+        return null;
     }
 }

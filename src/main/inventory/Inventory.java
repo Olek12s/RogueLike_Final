@@ -1,5 +1,6 @@
 package main.inventory;
 
+import main.controller.GameController;
 import main.item.Item;
 import utilities.Position;
 
@@ -8,33 +9,80 @@ import java.util.List;
 
 public class Inventory
 {
+    GameController gc;
     public static final int INVENTORY_WIDTH_SLOTS = 9;
     public static final int INVENTORY_HEIGHT_SLOTS = 4;
-    public static int beltWidthSlots = 6;
+    public static final int INVENTORY_BELT_SLOTS = 6;
 
-    private List<Item> itemList;
-    private List<Item> beltItemList;
-    private Item[][] slots;
+    private List<Item> inventoryItemList;
+    private Slot[][] inventorySlots;
+    private Slot[] beltSlots;
+    private Slot helmetSlot;
+    private Slot chestplateSlot;
+    private Slot pantsSlot;
+    private Slot bootsSlot;
+    private Slot shieldSlot;
+    private Slot ring1Slot;
+    private Slot ring2Slot;
+    private Slot amuletSlot;
 
-    public List<Item> getItems() {return itemList;}
-    public static int getBeltWidthSlots() {return beltWidthSlots;}
-    public static void setBeltWidthSlots(int beltWidthSlots) {Inventory.beltWidthSlots = beltWidthSlots;}
-    public List<Item> getItemList() {return itemList;}
-    public void setItemList(List<Item> itemList) {this.itemList = itemList;}
-    public List<Item> getBeltItemList() {return beltItemList;}
-    public void setBeltItemList(List<Item> beltItemList) {this.beltItemList = beltItemList;}
-
-    public Inventory()
+    public List<Item> getInventoryItemList() {return inventoryItemList;}
+    public List<Item> getBeltItemList()
     {
-        slots = new Item[INVENTORY_WIDTH_SLOTS][INVENTORY_HEIGHT_SLOTS];
-        itemList = new ArrayList<>();
-        beltItemList = new ArrayList<>();
+        List<Item> beltItems = new ArrayList<>();
+        for (Slot slot : beltSlots) {
+            if (slot.getStoredItem() != null)
+            {
+                beltItems.add(slot.getStoredItem());
+            }
+        }
+        return beltItems;
     }
 
-    public boolean addItem(Item item, int slotX, int slotY)
+    public Slot[][] getInventorySlots() {return inventorySlots;}
+    public Slot[] getBeltSlots() {return beltSlots;}
+    public Slot getHelmetSlot() {return helmetSlot;}
+    public Slot getChestplateSlot() {return chestplateSlot;}
+    public Slot getPantsSlot() {return pantsSlot;}
+    public Slot getBootsSlot() {return bootsSlot;}
+    public Slot getShieldSlot() {return shieldSlot;}
+    public Slot getRing1Slot() {return ring1Slot;}
+    public Slot getRing2Slot() {return ring2Slot;}
+    public Slot getAmuletSlot() {return amuletSlot;}
+
+    public Inventory(GameController gc)
     {
+        this.gc = gc;
+        inventorySlots = new Slot[INVENTORY_WIDTH_SLOTS][INVENTORY_HEIGHT_SLOTS];
+        for (int i = 0; i < INVENTORY_WIDTH_SLOTS; i++)
+        {
+            for (int j = 0; j < INVENTORY_HEIGHT_SLOTS; j++)
+            {
+                inventorySlots[i][j] = new Slot(SlotType.mainInvSlot, SlotType.getWidthMultipler(SlotType.mainInvSlot), SlotType.getHeightMultipler(SlotType.mainInvSlot));
+            }
+        }
+        inventoryItemList = new ArrayList<>();
+        beltSlots = new Slot[INVENTORY_BELT_SLOTS];
+        for (int i = 0; i < INVENTORY_BELT_SLOTS; i++)
+        {
+            beltSlots[i] = new Slot(SlotType.beltSlot, SlotType.getWidthMultipler(SlotType.beltSlot), SlotType.getHeightMultipler(SlotType.beltSlot));
+        }
+
+        helmetSlot = new Slot(SlotType.helmetSlot, SlotType.getWidthMultipler(SlotType.helmetSlot), SlotType.getHeightMultipler(SlotType.helmetSlot));
+        chestplateSlot = new Slot(SlotType.chestplateSlot, SlotType.getWidthMultipler(SlotType.chestplateSlot), SlotType.getHeightMultipler(SlotType.chestplateSlot));
+        pantsSlot = new Slot(SlotType.pantsSlot, SlotType.getWidthMultipler(SlotType.pantsSlot), SlotType.getHeightMultipler(SlotType.pantsSlot));
+        bootsSlot = new Slot(SlotType.bootsSlot, SlotType.getWidthMultipler(SlotType.bootsSlot), SlotType.getHeightMultipler(SlotType.bootsSlot));
+        shieldSlot = new Slot(SlotType.shieldSlot, SlotType.getWidthMultipler(SlotType.shieldSlot), SlotType.getHeightMultipler(SlotType.shieldSlot));
+        ring1Slot = new Slot(SlotType.ring1Slot, SlotType.getWidthMultipler(SlotType.ring1Slot), SlotType.getHeightMultipler(SlotType.ring1Slot));
+        ring2Slot = new Slot(SlotType.ring2Slot, SlotType.getWidthMultipler(SlotType.ring2Slot), SlotType.getHeightMultipler(SlotType.ring2Slot));
+        amuletSlot = new Slot(SlotType.amuletSlot, SlotType.getWidthMultipler(SlotType.amuletSlot), SlotType.getHeightMultipler(SlotType.amuletSlot));
+    }
+
+    private boolean addItem(Item item, int slotX, int slotY)
+    {
+
         if (slotX + item.getSlotWidth() > INVENTORY_WIDTH_SLOTS     // check if item's dimensions fit
-        ||  slotY + item.getSlotHeight() > INVENTORY_HEIGHT_SLOTS)
+                ||  slotY + item.getSlotHeight() > INVENTORY_HEIGHT_SLOTS)
         {
             return false;
         }
@@ -44,7 +92,7 @@ public class Inventory
         {
             for (int j = slotY; j < slotY + item.getSlotHeight(); j++)
             {
-                if (slots[i][j] != null)
+                if (inventorySlots[i][j].getStoredItem() != null)
                 {
                     return false;   // if slot is occupied - return null
                 }
@@ -56,12 +104,11 @@ public class Inventory
         {
             for (int j = slotY; j < slotY + item.getSlotHeight(); j++)
             {
-               slots[i][j] = item;
+                inventorySlots[i][j].setStoredItem(item);
             }
         }
-
         item.setInventoryPosition(new Position(slotX, slotY));
-        itemList.add(item);
+        inventoryItemList.add(item);
         return true;
     }
 
@@ -80,7 +127,7 @@ public class Inventory
         return false;
     }
 
-    public void removeItem(Item item)
+    public void removeItemFromMainInv(Item item)
     {
         Position itemPosition = item.getInventoryPosition();
         if (itemPosition == null) return;
@@ -89,20 +136,20 @@ public class Inventory
         {
             for (int j = itemPosition.y; j < itemPosition.y + item.getSlotHeight(); j++)
             {
-                slots[i][j] = null;
+                inventorySlots[i][j].setStoredItem(null);
             }
         }
 
         item.setInventoryPosition(null);
-        itemList.remove(item);
+        inventoryItemList.remove(item);
     }
 
-    public void removeItem(int x, int y)
+    public void removeItemFromMainInv(int x, int y)
     {
         Item item = getItemAt(x, y);
         if (item != null)
         {
-            removeItem(item);
+            removeItemFromMainInv(item);
         }
     }
 
@@ -112,51 +159,6 @@ public class Inventory
         {
             return null;
         }
-        return slots[x][y];
-    }
-
-    public boolean moveItem(Item item, int newX, int newY)
-    {
-        Position oldPosition = item.getInventoryPosition();
-        if (oldPosition == null) return false;
-
-        // check if new position is valid
-        if (newX + item.getSlotWidth() > INVENTORY_WIDTH_SLOTS || newY + item.getSlotHeight() > INVENTORY_HEIGHT_SLOTS)
-        {
-            return false;
-        }
-
-        // check if new position is not occupied by other items
-        for (int i = newX; i < newX + item.getSlotWidth(); i++)
-        {
-            for (int j = newY; j < newY + item.getSlotHeight(); j++)
-            {
-                if (slots[i][j] != null && slots[i][j] != item)
-                {
-                    return false;
-                }
-            }
-        }
-
-        // dispode old slots
-        for (int i = oldPosition.x; i < oldPosition.x + item.getSlotWidth(); i++)
-        {
-            for (int j = oldPosition.y; j < oldPosition.y + item.getSlotHeight(); j++)
-            {
-                slots[i][j] = null;
-            }
-        }
-
-        // occupy new slots
-        for (int i = newX; i < newX + item.getSlotWidth(); i++)
-        {
-            for (int j = newY; j < newY + item.getSlotHeight(); j++)
-            {
-                slots[i][j] = item;
-            }
-        }
-
-        item.setInventoryPosition(new Position(newX, newY));
-        return true;
+        return inventorySlots[x][y].getStoredItem();
     }
 }

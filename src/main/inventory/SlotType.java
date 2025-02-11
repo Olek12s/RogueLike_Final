@@ -1,4 +1,4 @@
-package ui;
+package main.inventory;
 
 public enum SlotType
 {
@@ -11,7 +11,7 @@ public enum SlotType
     shieldSlot(6),
     ring1Slot(7),
     ring2Slot(8),
-    amuletSLot(9);
+    amuletSlot(9);
 
     private final int id;
 
@@ -31,7 +31,7 @@ public enum SlotType
         throw new IllegalArgumentException("Illegal ID");
     }
 
-    public static int getSlotWidthMultipler(SlotType ID)
+    public static int getWidthMultipler(SlotType ID)
     {
         switch (ID)
         {
@@ -44,12 +44,12 @@ public enum SlotType
             case shieldSlot: return 2;
             case ring1Slot: return 1;
             case ring2Slot: return 1;
-            case amuletSLot: return 1;
+            case amuletSlot: return 1;
             default: return 1;
         }
     }
 
-    public static int getSlotHeightMultipler(SlotType ID)
+    public static int getHeightMultipler(SlotType ID)
     {
         switch (ID)
         {
@@ -62,7 +62,7 @@ public enum SlotType
             case shieldSlot: return 2;
             case ring1Slot: return 1;
             case ring2Slot: return 1;
-            case amuletSLot: return 1;
+            case amuletSlot: return 1;
             default: return 1;
         }
     }

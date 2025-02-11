@@ -36,6 +36,10 @@ public abstract class Item
     public Sprite getSprite() {return ItemManager.getItemSprite(itemID);}
     public ItemID getItemID() {return itemID;}
 
+    public ItemStatistics getStatistics() {
+        return statistics;
+    }
+
     public void setWorldPosition(Position worldPosition) {this.worldPosition = worldPosition;}
 
     public MapLevels getLevel() {return level;}

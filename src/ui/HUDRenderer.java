@@ -11,7 +11,6 @@ import utilities.sprite.Sprite;
 import world.map.tiles.Tile;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class HUDRenderer implements Drawable
 {
@@ -31,69 +30,17 @@ public class HUDRenderer implements Drawable
     // FRAME POSITIONS //
     Position mainInventoryPosition;
     Position equippedPosition;
-    Position barPosition;
+    Position beltPosition;
     // FRAME POSITIONS //
 
-    // SLOTS POSITIONS //
-    ScreenSlot[][] mainInventorySlots;
-    ScreenSlot[] beltSlots;
-    ScreenSlot helmetSlot;
-    ScreenSlot chestplateSlot;
-    ScreenSlot pantsSlot;
-    ScreenSlot bootsSlot;
-    ScreenSlot shieldSlot;
-    ScreenSlot ring1Slot;
-    ScreenSlot ring2Slot;
-    ScreenSlot amuletSLot;
-    // SLOTS POSITIONS //
 
-    ArrayList<ScreenSlot> screenSlots;
-    public ArrayList<ScreenSlot> getScreenSlots() {return screenSlots;}
 
     public HUDRenderer(HUD hud)
     {
         this.hud = hud;
         hud.gc.drawables.add(this);
-        initScreenSlotsArrayList();
     }
 
-    private void initScreenSlotsArrayList()
-    {
-        mainInventorySlots = new ScreenSlot[Inventory.INVENTORY_WIDTH_SLOTS][Inventory.INVENTORY_HEIGHT_SLOTS];
-        beltSlots = new ScreenSlot[Inventory.beltWidthSlots];
-        screenSlots = new ArrayList<>();
-
-
-        for (int i = 0; i < mainInventorySlots.length; i++) {
-            for (int j = 0; j < mainInventorySlots[0].length; j++) {
-                mainInventorySlots[i][j] = new ScreenSlot(slotSize, SlotType.mainInvSlot, i, j);
-                screenSlots.add(mainInventorySlots[i][j]);
-            }
-        }
-
-        for (int i = 0; i < beltSlots.length; i++) {
-            beltSlots[i] = new ScreenSlot(slotSize, SlotType.beltSlot, i, -1);
-            screenSlots.add(beltSlots[i]);
-        }
-
-        helmetSlot = new ScreenSlot(slotSize, SlotType.helmetSlot);
-        chestplateSlot = new ScreenSlot(slotSize, SlotType.chestplateSlot);
-        pantsSlot = new ScreenSlot(slotSize, SlotType.pantsSlot);
-        bootsSlot = new ScreenSlot(slotSize, SlotType.bootsSlot);
-        shieldSlot = new ScreenSlot(slotSize, SlotType.shieldSlot);
-        ring1Slot = new ScreenSlot(slotSize, SlotType.ring1Slot);
-        ring2Slot = new ScreenSlot(slotSize, SlotType.ring2Slot);
-        amuletSLot = new ScreenSlot(slotSize, SlotType.amuletSLot);
-
-        screenSlots.add(helmetSlot);
-        screenSlots.add(chestplateSlot);
-        screenSlots.add(pantsSlot);
-        screenSlots.add(bootsSlot);
-        screenSlots.add(shieldSlot);
-        screenSlots.add(ring1Slot);
-        screenSlots.add(ring2Slot);
-        screenSlots.add(amuletSLot);
-    }
 
     @Override
     public int getDrawPriority()
@@ -105,14 +52,13 @@ public class HUDRenderer implements Drawable
     public void draw(Graphics g2)
     {
         renderHealthBar(g2);
-        drawInventoryBar(g2);
+        renderInventorybelt(g2);
         renderFPSTopRight(g2);
         if (hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
         {
-            drawMainInventory(g2);
-            drawStatisticsFrame(g2);
-            drawEquippedFrame(g2);
-            drawDraggingItem(g2);
+           renderMainInventory(g2);
+           renderStatisticsFrame(g2);
+           renderEquippedFrame(g2);
         }
         if (hud.gc.isDebugMode())
         {
@@ -122,16 +68,7 @@ public class HUDRenderer implements Drawable
         hud.gc.incrementRenderCount();
     }
 
-    public void updateSizes()
-    {
-        scaledFontSize = (int) (baseFontSize * hud.scale / 64);
-        HUDFont = new Font("Monospaced", Font.BOLD, scaledFontSize);
-
-        slotSize = (baseSlotSize * hud.scale) / 64;
-    }
-
-    private void renderHealthBar(Graphics g2)
-    {
+    private void renderHealthBar(Graphics g2) {
         Graphics2D g2d = (Graphics2D) g2;
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(3));
@@ -152,9 +89,7 @@ public class HUDRenderer implements Drawable
 
         g2d.drawImage(hud.heart.image, 0, 0, hud.scale, hud.scale, null);
     }
-
-    private void renderDebugInfoLeft(Graphics g2)
-    {
+    private void renderDebugInfoLeft(Graphics g2) {
         renderDebugInfoCounter++;
         if (renderDebugInfoCounter >= 60)
         {
@@ -179,9 +114,7 @@ public class HUDRenderer implements Drawable
             g2d.drawString(debugLines[i], scaledX, scaledY + i * (scaledFontSize + 5));
         }
     }
-
-    private void renderFPSTopRight(Graphics g2)
-    {
+    private void renderFPSTopRight(Graphics g2) {
         Graphics2D g2d = (Graphics2D) g2.create(); // Tworzymy nowy kontekst graficzny
 
         int x = hud.gc.getWidth() - hud.gc.getWidth() / 11;
@@ -199,9 +132,7 @@ public class HUDRenderer implements Drawable
         g2d.drawString(fps, x, y);
 
     }
-
-    private void renderDebugInfoLeftTop(Graphics g2)
-    {
+    private void renderDebugInfoLeftTop(Graphics g2) {
         Graphics2D g2d = (Graphics2D) g2;
         g2d.setColor(Color.WHITE);
         g2d.setFont(HUDFont);
@@ -220,9 +151,7 @@ public class HUDRenderer implements Drawable
         g2d.drawString(cameraPosX, scaledX, scaledY);
         g2d.drawString(cameraPosY, scaledX, scaledY + (scaledFontSize + 5));
     }
-
-    private void updateTimers()
-    {
+    private void updateTimers() {
         renderTime = String.format("Render time: %.2f ms (%.2f%%)",
                 hud.gc.getRenderTime() / 1_000_000.0f,
                 (hud.gc.getRenderTime() / 1_000_000.0f) / (1000.0f / hud.gc.getTargetDrawFrame()) * 100.0f);
@@ -236,30 +165,22 @@ public class HUDRenderer implements Drawable
                 ((hud.gc.getRenderTime() / 1_000_000.0f) / (1000.0f / hud.gc.getTargetDrawFrame()) * 100.0f) +
                         ((hud.gc.getUpdateTime() / 1_000_000.0f) / (1000.0f / hud.gc.getTargetLogicFrame()) * 100.0f));
     }
-
     private String getTimers()
     {
         return renderTime + "\n" + updateTime + "\n" + summaryTime;
     }
-
-    private void updateDrawCount()
-    {
+    private void updateDrawCount() {
         long count = hud.gc.getRenderCount();
         drawCount = "Draw count: " + count;
     }
 
-    public void renderFrame(Graphics g, int x, int y, int width, int height, int innerPadding, int outerWidth, int innerWidth, float opacity)
+    private void renderFrame(Graphics g, int x, int y, int width, int height, int innerPadding, int outerWidth, int innerWidth, float opacity)
     {
         Graphics2D g2d = (Graphics2D)g.create();
 
         // rounding parameters
         int arcWidth = 10;
         int arcHeight = 10;
-
-        //int innerOpacity = 2;
-        //int outerWidth = 3;
-        //int innerWidth = 1;
-
 
         // inner part of frame
         g2d.setStroke(new BasicStroke());
@@ -278,22 +199,65 @@ public class HUDRenderer implements Drawable
         // g2d.dispose();
     }
 
-    public void drawInventoryBar(Graphics g2)
+    /**
+     *
+     * @param g2d            - Graphics2D object
+     * @param item              - Item to draw
+     * @param inventoryX        - starting X of frame
+     * @param inventoryY        - starting Y of frame
+     * @param scaleToFitSlot    - should scale on draw to fit 1x1 slot (depending on item's width and height)
+     */
+    public void renderInventoryItem(Graphics2D g2d, Item item, int inventoryX, int inventoryY, boolean scaleToFitSlot)
+    {
+        if (item == null) return;
+        int itemSlotWidth = item.getSlotWidth();    // width of item
+        int itemSlotHeight = item.getSlotHeight();  // height of item
+
+        // counting new position and item's sprite size in pixels
+        int itemPixelX = inventoryX;
+        int itemPixelY = inventoryY;
+        int itemPixelWidth = itemSlotWidth * slotSize;
+        int itemPixelHeight = itemSlotHeight * slotSize;
+
+        Sprite sprite = item.getSprite();
+        int spriteWidth = sprite.image.getWidth();
+        int spriteHeight = sprite.image.getHeight();
+
+        if (scaleToFitSlot)    // scaling and centering
+        {
+            float scaleX = (float) itemPixelWidth / spriteWidth;
+            float scaleY = (float) itemPixelHeight / spriteHeight;
+            float scale = Math.min(scaleX, scaleY);
+            int scaledSpriteWidth = (int) (spriteWidth * scale);
+            int scaledSpriteHeight = (int) (spriteHeight * scale);
+
+            int drawX = itemPixelX + (itemPixelWidth - scaledSpriteWidth) / 2;      // centering X
+            int drawY = itemPixelY + (itemPixelHeight - scaledSpriteHeight) / 2;    // centering Y
+            int drawWidth = scaledSpriteWidth/item.getSlotWidth();
+            int drawHeight = scaledSpriteHeight/item.getSlotHeight();
+            g2d.drawImage(sprite.image, drawX, drawY, drawWidth, drawHeight, null);
+        }
+        else
+        {
+            g2d.drawImage(sprite.image, itemPixelX, itemPixelY, itemPixelWidth, itemPixelHeight, null);
+        }
+    }
+
+    private void renderInventorybelt(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2;
-        int slotCount = Inventory.beltWidthSlots;
+        int slotCount = Inventory.INVENTORY_BELT_SLOTS;
         int totalWidth = slotCount * slotSize;
-
 
         int marginFromBottom = 10;
         int beltX = (hud.gc.getWidth() - totalWidth) / 2;
         int beltY = hud.gc.getHeight() - slotSize - marginFromBottom;
 
-        if (barPosition == null) barPosition = new Position(beltX, beltY);
+        if (beltPosition == null) beltPosition = new Position(beltX, beltY);
         else
         {
-            barPosition.x = beltX;
-            barPosition.y = beltY;
+            beltPosition.x = beltX;
+            beltPosition.y = beltY;
         }
 
         for (int i = 0; i < slotCount; i++)
@@ -303,7 +267,6 @@ public class HUDRenderer implements Drawable
 
 
             renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 3, 1, 0.5f);
-            beltSlots[i].updateSlot(slotSize, frameX, frameY);
         }
 
         for (int i = 0; i < hud.gc.player.getInventory().getBeltItemList().size(); i++)
@@ -312,15 +275,12 @@ public class HUDRenderer implements Drawable
             if (item != null)
             {
                 int x = beltX + i * slotSize;
-                drawInventoryItem(g2d, item, x, beltY);
-                screenSlots.get(i).setItem(item);
+                renderInventoryItem(g2d, item, x, beltY, true);
             }
         }
-
-        //   g2.dispose();
     }
 
-    public void drawMainInventory(Graphics g2)
+    private void renderMainInventory(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2.create();
 
@@ -334,9 +294,9 @@ public class HUDRenderer implements Drawable
         int totalWidth = widthSlots * slotSize;
         int totalHeight = heightSlots * slotSize;
 
-        int beltSlotCount = Inventory.beltWidthSlots;
+        int beltSlotCount = Inventory.INVENTORY_BELT_SLOTS;
         int beltTotalWidth = beltSlotCount * slotSize;
-        int beltY = barPosition.y - height/2;
+        int beltY = beltPosition.y - height/2;
 
 
         // set main inventory position above inventory bar
@@ -359,109 +319,33 @@ public class HUDRenderer implements Drawable
                 int slotY = inventoryFrameY + j * slotSize;
 
                 renderFrame(g2d, slotX, slotY, slotSize, slotSize, 0, 0, 1, 0.7f);
-                mainInventorySlots[i][j].updateSlot(slotSize, slotX, slotY);
             }
         }
 
-        for (int i = 0; i < hud.gc.player.getInventory().getItems().size(); i++)
+        // Drawing item sprites in main inventory
+        for (int i = 0; i < hud.gc.player.getInventory().getInventoryItemList().size(); i++)
         {
-            Item item = hud.gc.player.getInventory().getItems().get(i);
+            Item item = hud.gc.player.getInventory().getInventoryItemList().get(i);
             if (item != null)
             {
-                drawInventoryItem(g2d, item, inventoryFrameX, inventoryFrameY);
-                screenSlots.get(i).setItem(item);
+                Position pos = item.getInventoryPosition();
+                int itemX = inventoryFrameX + pos.x * slotSize;
+                int itemY = inventoryFrameY + pos.y * slotSize;
+
+                renderInventoryItem(g2d, item, itemX, itemY, false);;
             }
         }
-        //  g2.dispose();
     }
 
-    /**
-     *
-     * @param g2d           - Graphics2D object
-     * @param item          - Item to draw
-     * @param inventoryX    - starting X of frame
-     * @param inventoryY    - starting Y of frame
-     */
-    public void drawInventoryItem(Graphics2D g2d, Item item, int inventoryX, int inventoryY)
-    {
-        Position position = item.getInventoryPosition(); // position of item in inventory
-        if (position == null)
-        {
-            return;
-        }
-
-        int itemSlotWidth = item.getSlotWidth();    // width of item
-        int itemSlotHeight = item.getSlotHeight();  // height of item
-
-        // counting new position and item's sprite size in pixels
-        int itemPixelX = inventoryX + position.x * slotSize;
-        int itemPixelY = inventoryY + position.y * slotSize;
-        int itemPixelWidth = itemSlotWidth * slotSize;
-        int itemPixelHeight = itemSlotHeight * slotSize;
-
-        Sprite sprite = item.getSprite();
-
-        // scaling and centering
-        int spriteWidth = sprite.image.getWidth();
-        int spriteHeight = sprite.image.getHeight();
-        float scaleX = (float) itemPixelWidth / spriteWidth;
-        float scaleY = (float) itemPixelHeight / spriteHeight;
-        float scale = Math.min(scaleX, scaleY);
-
-        int drawWidth = (int) (spriteWidth * scale);
-        int drawHeight = (int) (spriteHeight * scale);
-
-        int drawX = itemPixelX + (itemPixelWidth - drawWidth) / 2; // Centered X
-        int drawY = itemPixelY + (itemPixelHeight - drawHeight) / 2; // Centered Y
-
-        g2d.drawImage(sprite.image, drawX, drawY, drawWidth, drawHeight, null);
-    }
-
-    public void drawItemAtMousePosition(Graphics2D g2d, Item item, int x, int y)
-    {
-        int itemSlotWidth = item.getSlotWidth();    // width of item
-        int itemSlotHeight = item.getSlotHeight();  // height of item
-        int itemPixelWidth = itemSlotWidth * slotSize;
-        int itemPixelHeight = itemSlotHeight * slotSize;
-        Sprite sprite = item.getSprite();
-
-        // scaling and centering
-        int spriteWidth = sprite.image.getWidth();
-        int spriteHeight = sprite.image.getHeight();
-        float scaleX = (float) itemPixelWidth / spriteWidth;
-        float scaleY = (float) itemPixelHeight / spriteHeight;
-        float scale = Math.min(scaleX, scaleY);
-
-        int drawWidth = (int) (spriteWidth * scale);
-        int drawHeight = (int) (spriteHeight * scale);
-
-        int drawX = x + (itemPixelWidth - drawWidth) / 2; // Centered X
-        int drawY = y + (itemPixelHeight - drawHeight) / 2; // Centered Y
-
-        g2d.drawImage(sprite.image, drawX, drawY, drawWidth, drawHeight, null);
-    }
-
-    private void drawDraggingItem(Graphics g2)
-    {
-        Graphics2D g2d = (Graphics2D) g2.create();
-        int mouseX = hud.gc.mouseHandler.getMouseX();
-        int mouseY = hud.gc.mouseHandler.getMouseY();
-
-        if (hud.hudUpdater.isDraggingItem())
-        {
-            drawItemAtMousePosition(g2d, hud.hudUpdater.getDraggedItem(), mouseX, mouseY);
-        }
-    }
-
-    public void drawStatisticsFrame(Graphics g2)
+    public void renderStatisticsFrame(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2.create();
 
         int width = hud.gc.getWidth();
         int height = hud.gc.getHeight();
 
-        int beltSlotCount = Inventory.beltWidthSlots;
-        int beltY = barPosition.y - height / 2;
+        int beltSlotCount = Inventory.INVENTORY_BELT_SLOTS;
+        int beltY = beltPosition.y - height / 2;
 
         int totalWidth = Inventory.INVENTORY_WIDTH_SLOTS * slotSize;    // width of main inventory
         int totalHeight =  Inventory.INVENTORY_HEIGHT_SLOTS * slotSize;  // height of main inventory
@@ -537,11 +421,12 @@ public class HUDRenderer implements Drawable
         g2d.dispose();
     }
 
-    public void drawEquippedFrame(Graphics g2)
+    public void renderEquippedFrame(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2.create();
         int equippedFrameWidth = slotSize * 5;
         int equippedFrameHeight = slotSize * 10 + slotSize / 4;
+        Inventory playerInventory = hud.gc.player.getInventory();
 
         // positions of equipped frame
         int width = hud.gc.getWidth();
@@ -550,7 +435,7 @@ public class HUDRenderer implements Drawable
         int heightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
         int totalWidth = widthSlots * slotSize;    // width of main inventory
         int totalHeight = heightSlots * slotSize;  // height of main inventory
-        int beltY = barPosition.y - height/2;
+        int beltY = beltPosition.y - height/2;
 
         // position of equipped frame
         int equippedFrameX = mainInventoryPosition.x + totalWidth;
@@ -569,51 +454,60 @@ public class HUDRenderer implements Drawable
         int helmetX = equippedFrameX + (slotSize / 4);
         int helmetY = equippedFrameY + (slotSize / 4);
         renderFrame(g2d, helmetX, helmetY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
-        helmetSlot.updateSlot(slotSize, helmetX, helmetY);
+        renderInventoryItem(g2d, playerInventory.getHelmetSlot().getStoredItem(), helmetX, helmetY, false);
 
 
         // 2. Chestplate (2x3)
         int chestX = helmetX;
         int chestY = helmetY + slotSize * 2 + (slotSize / 4);
         renderFrame(g2d, chestX, chestY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
-        chestplateSlot.updateSlot(slotSize, chestX, chestY);
+        renderInventoryItem(g2d, playerInventory.getChestplateSlot().getStoredItem(), chestX, chestY, false);
 
         // 3. Pants (2x3)
         int pantsX = chestX;
         int pantsY = chestY + slotSize * 3 + (slotSize / 4);
         renderFrame(g2d, pantsX, pantsY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
-        pantsSlot.updateSlot(slotSize, pantsX, pantsY);
+        renderInventoryItem(g2d, playerInventory.getPantsSlot().getStoredItem(), pantsX, pantsY, false);
 
         // 4. Boots (2x1)
         int bootsX = pantsX;
         int bootsY = pantsY + slotSize * 3 + (slotSize / 4);
         renderFrame(g2d, bootsX, bootsY, slotSize * 2, slotSize, 0, 0, 1, 0.7f);
-        bootsSlot.updateSlot(slotSize, bootsX, bootsY);
+        renderInventoryItem(g2d, playerInventory.getBootsSlot().getStoredItem(), bootsX, bootsY, false);
 
         // 5. Ring1 (1x1)
         int ring1X = equippedFrameX + slotSize * 2 + (slotSize / 2);
         int ring1Y = equippedFrameY + (equippedFrameHeight / 2) - (slotSize * 2);
         renderFrame(g2d, ring1X, ring1Y, slotSize, slotSize, 0, 0, 1, 0.7f);
-        ring1Slot.updateSlot(slotSize, ring1X, ring1Y);
+        renderInventoryItem(g2d, playerInventory.getRing1Slot().getStoredItem(), ring1X, ring1Y, false);
 
         // 6. Ring2 (1x1)
         int ring2X = ring1X + slotSize + (slotSize / 4);
         int ring2Y = ring1Y;
         renderFrame(g2d, ring2X, ring2Y, slotSize, slotSize, 0, 0, 1, 0.7f);
-        ring2Slot.updateSlot(slotSize, ring2X, ring2Y);
+        renderInventoryItem(g2d, playerInventory.getRing2Slot().getStoredItem(), ring2X, ring2Y, false);
 
         // 7. Amulet (1x1)
         int amuletX = ring1X + (slotSize / 2) + ((slotSize / 4) / 2);
         int amuletY = ring1Y - slotSize - (slotSize / 4);
         renderFrame(g2d, amuletX, amuletY, slotSize, slotSize, 0, 0, 1, 0.7f);
-        amuletSLot.updateSlot(slotSize, amuletX, amuletY);
+        renderInventoryItem(g2d, playerInventory.getAmuletSlot().getStoredItem(), amuletX, amuletY, false);
 
         // 8. Shield (2x2)
         int shieldX = ring1X + ((slotSize / 4) / 2);
         int shieldY = ring2Y + slotSize + (slotSize / 4);
         renderFrame(g2d, shieldX, shieldY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
-        shieldSlot.updateSlot(slotSize, shieldX, shieldY);
+        renderInventoryItem(g2d, playerInventory.getShieldSlot().getStoredItem(), shieldX, shieldY, false);
 
         g2d.dispose();
+    }
+
+
+    public void updateSizes()
+    {
+        scaledFontSize = (int) (baseFontSize * hud.scale / 64);
+        HUDFont = new Font("Monospaced", Font.BOLD, scaledFontSize);
+
+        slotSize = (baseSlotSize * hud.scale) / 64;
     }
 }
