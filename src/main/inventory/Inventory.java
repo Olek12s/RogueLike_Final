@@ -2,6 +2,8 @@ package main.inventory;
 
 import main.controller.GameController;
 import main.item.Item;
+import main.item.armor.WoodenShield;
+import main.item.potion.health.SmallHealthPotion;
 import utilities.Position;
 
 import java.util.ArrayList;
@@ -58,24 +60,24 @@ public class Inventory
         {
             for (int j = 0; j < INVENTORY_HEIGHT_SLOTS; j++)
             {
-                inventorySlots[i][j] = new Slot(SlotType.mainInvSlot, SlotType.getWidthMultipler(SlotType.mainInvSlot), SlotType.getHeightMultipler(SlotType.mainInvSlot));
+                inventorySlots[i][j] = new Slot(SlotType.mainInvSlot, SlotType.getWidthMultipler(SlotType.mainInvSlot), SlotType.getHeightMultipler(SlotType.mainInvSlot), i, j);
             }
         }
         inventoryItemList = new ArrayList<>();
         beltSlots = new Slot[INVENTORY_BELT_SLOTS];
         for (int i = 0; i < INVENTORY_BELT_SLOTS; i++)
         {
-            beltSlots[i] = new Slot(SlotType.beltSlot, SlotType.getWidthMultipler(SlotType.beltSlot), SlotType.getHeightMultipler(SlotType.beltSlot));
+            beltSlots[i] = new Slot(SlotType.beltSlot, SlotType.getWidthMultipler(SlotType.beltSlot), SlotType.getHeightMultipler(SlotType.beltSlot), i, 0);
         }
 
-        helmetSlot = new Slot(SlotType.helmetSlot, SlotType.getWidthMultipler(SlotType.helmetSlot), SlotType.getHeightMultipler(SlotType.helmetSlot));
-        chestplateSlot = new Slot(SlotType.chestplateSlot, SlotType.getWidthMultipler(SlotType.chestplateSlot), SlotType.getHeightMultipler(SlotType.chestplateSlot));
-        pantsSlot = new Slot(SlotType.pantsSlot, SlotType.getWidthMultipler(SlotType.pantsSlot), SlotType.getHeightMultipler(SlotType.pantsSlot));
-        bootsSlot = new Slot(SlotType.bootsSlot, SlotType.getWidthMultipler(SlotType.bootsSlot), SlotType.getHeightMultipler(SlotType.bootsSlot));
-        shieldSlot = new Slot(SlotType.shieldSlot, SlotType.getWidthMultipler(SlotType.shieldSlot), SlotType.getHeightMultipler(SlotType.shieldSlot));
-        ring1Slot = new Slot(SlotType.ring1Slot, SlotType.getWidthMultipler(SlotType.ring1Slot), SlotType.getHeightMultipler(SlotType.ring1Slot));
-        ring2Slot = new Slot(SlotType.ring2Slot, SlotType.getWidthMultipler(SlotType.ring2Slot), SlotType.getHeightMultipler(SlotType.ring2Slot));
-        amuletSlot = new Slot(SlotType.amuletSlot, SlotType.getWidthMultipler(SlotType.amuletSlot), SlotType.getHeightMultipler(SlotType.amuletSlot));
+        helmetSlot = new Slot(SlotType.helmetSlot, SlotType.getWidthMultipler(SlotType.helmetSlot), SlotType.getHeightMultipler(SlotType.helmetSlot), 0, 0);
+        chestplateSlot = new Slot(SlotType.chestplateSlot, SlotType.getWidthMultipler(SlotType.chestplateSlot), SlotType.getHeightMultipler(SlotType.chestplateSlot), 0, 0);
+        pantsSlot = new Slot(SlotType.pantsSlot, SlotType.getWidthMultipler(SlotType.pantsSlot), SlotType.getHeightMultipler(SlotType.pantsSlot), 0, 0);
+        bootsSlot = new Slot(SlotType.bootsSlot, SlotType.getWidthMultipler(SlotType.bootsSlot), SlotType.getHeightMultipler(SlotType.bootsSlot), 0, 0);
+        shieldSlot = new Slot(SlotType.shieldSlot, SlotType.getWidthMultipler(SlotType.shieldSlot), SlotType.getHeightMultipler(SlotType.shieldSlot), 0, 0);
+        ring1Slot = new Slot(SlotType.ring1Slot, SlotType.getWidthMultipler(SlotType.ring1Slot), SlotType.getHeightMultipler(SlotType.ring1Slot), 0, 0);
+        ring2Slot = new Slot(SlotType.ring2Slot, SlotType.getWidthMultipler(SlotType.ring2Slot), SlotType.getHeightMultipler(SlotType.ring2Slot), 0, 0);
+        amuletSlot = new Slot(SlotType.amuletSlot, SlotType.getWidthMultipler(SlotType.amuletSlot), SlotType.getHeightMultipler(SlotType.amuletSlot), 0, 0);
     }
 
     private boolean addItem(Item item, int slotX, int slotY)
@@ -144,6 +146,11 @@ public class Inventory
         inventoryItemList.remove(item);
     }
 
+    /**
+     *
+     * @param x - x index of inventory
+     * @param y - y index of inventory
+     */
     public void removeItemFromMainInv(int x, int y)
     {
         Item item = getItemAt(x, y);
@@ -153,6 +160,11 @@ public class Inventory
         }
     }
 
+    /**
+     *
+     * @param x - x index of inventory
+     * @param y - y index of inventory
+     */
     public Item getItemAt(int x, int y)
     {
         if (x < 0 || x >= INVENTORY_WIDTH_SLOTS || y < 0 || y >= INVENTORY_HEIGHT_SLOTS) // boundaries

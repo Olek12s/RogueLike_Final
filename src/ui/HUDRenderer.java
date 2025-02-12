@@ -5,6 +5,8 @@ import main.controller.Drawable;
 import main.controller.GameState;
 import main.entity.EntityStatistics;
 import main.inventory.Inventory;
+import main.inventory.Slot;
+import main.inventory.SlotType;
 import main.item.Item;
 import utilities.Position;
 import utilities.sprite.Sprite;
@@ -28,9 +30,17 @@ public class HUDRenderer implements Drawable
     private int slotSize;
 
     // FRAME POSITIONS //
-    Position mainInventoryPosition;
-    Position equippedPosition;
-    Position beltPosition;
+    private Position mainInventoryPosition;
+    private Position equippedPosition;
+    private Position beltPosition;
+    private Position helmetSlotPosition;
+    private Position chestplateSlotPosition;
+    private Position pantsSlotPosition;
+    private Position bootsSlotPosition;
+    private Position shieldSlotPosition;
+    private Position ring1SlotPosition;
+    private Position ring2SlotPosition;
+    private Position amuletSlotPosition;
     // FRAME POSITIONS //
 
 
@@ -198,6 +208,72 @@ public class HUDRenderer implements Drawable
         g2d.drawRoundRect(x + innerPadding, y + innerPadding, width  - (innerPadding*2), height - (innerPadding*2), arcWidth, arcHeight);
         // g2d.dispose();
     }
+
+    public Slot getSlotAtPosition(Position pos)
+    {
+        // checking main inventory slots
+        for (int i = 0; i < hud.gc.player.getInventory().getInventorySlots().length; i++)
+        {
+            for (int j = 0; j < hud.gc.player.getInventory().getInventorySlots()[i].length; j++)
+            {
+                Slot slot = hud.gc.player.getInventory().getInventorySlots()[i][j];
+                if (isPositionWithinSlot(pos, i, j, mainInventoryPosition, SlotType.getWidthMultipler(SlotType.mainInvSlot), SlotType.getHeightMultipler(SlotType.mainInvSlot)))
+                {
+                    return slot;
+                }
+            }
+        }
+
+        // checking belt slots
+        for (int i = 0; i < hud.gc.player.getInventory().getBeltSlots().length; i++)
+        {
+            Slot slot = hud.gc.player.getInventory().getBeltSlots()[i];
+            if (isPositionWithinSlot(pos, i, 0, beltPosition, SlotType.getWidthMultipler(SlotType.mainInvSlot), SlotType.getHeightMultipler(SlotType.mainInvSlot)))
+            {
+                return slot;
+            }
+        }
+
+        // Checking equipment slots
+        if (isPositionWithinSlot(pos, 0, 0, helmetSlotPosition, SlotType.getWidthMultipler(SlotType.helmetSlot), SlotType.getHeightMultipler(SlotType.helmetSlot)))
+            return hud.gc.player.getInventory().getHelmetSlot();
+
+        if (isPositionWithinSlot(pos, 0, 0, chestplateSlotPosition, SlotType.getWidthMultipler(SlotType.chestplateSlot), SlotType.getHeightMultipler(SlotType.chestplateSlot)))
+            return hud.gc.player.getInventory().getChestplateSlot();
+
+        if (isPositionWithinSlot(pos, 0, 0, pantsSlotPosition, SlotType.getWidthMultipler(SlotType.pantsSlot), SlotType.getHeightMultipler(SlotType.pantsSlot)))
+            return hud.gc.player.getInventory().getPantsSlot();
+
+        if (isPositionWithinSlot(pos, 0, 0, bootsSlotPosition, SlotType.getWidthMultipler(SlotType.bootsSlot), SlotType.getHeightMultipler(SlotType.bootsSlot)))
+            return hud.gc.player.getInventory().getBootsSlot();
+
+        if (isPositionWithinSlot(pos, 0, 0, shieldSlotPosition, SlotType.getWidthMultipler(SlotType.shieldSlot), SlotType.getHeightMultipler(SlotType.shieldSlot)))
+            return hud.gc.player.getInventory().getShieldSlot();
+
+        if (isPositionWithinSlot(pos, 0, 0, ring1SlotPosition, SlotType.getWidthMultipler(SlotType.ring1Slot), SlotType.getHeightMultipler(SlotType.ring1Slot)))
+            return hud.gc.player.getInventory().getRing1Slot();
+
+        if (isPositionWithinSlot(pos, 0, 0, ring2SlotPosition, SlotType.getWidthMultipler(SlotType.ring2Slot), SlotType.getHeightMultipler(SlotType.ring2Slot)))
+            return hud.gc.player.getInventory().getRing2Slot();
+
+        if (isPositionWithinSlot(pos, 0, 0, amuletSlotPosition, SlotType.getWidthMultipler(SlotType.amuletSlot), SlotType.getHeightMultipler(SlotType.amuletSlot)))
+            return hud.gc.player.getInventory().getAmuletSlot();
+
+        return null; // if no slot was found
+    }
+
+    private boolean isPositionWithinSlot(Position pos, int slotX, int slotY, Position basePosition, int widthMultiplier, int heightMultiplier)
+    {
+        int startX = basePosition.x + slotX * slotSize;
+        int startY = basePosition.y + slotY * slotSize;
+        int endX = startX + widthMultiplier * slotSize;
+        int endY = startY + heightMultiplier * slotSize;
+
+        return pos.x >= startX && pos.x < endX &&
+                pos.y >= startY && pos.y < endY;
+    }
+
+
 
     /**
      *
@@ -453,6 +529,12 @@ public class HUDRenderer implements Drawable
         // 1. Helmet (2x2)
         int helmetX = equippedFrameX + (slotSize / 4);
         int helmetY = equippedFrameY + (slotSize / 4);
+        if (helmetSlotPosition == null) helmetSlotPosition = new Position(helmetX, helmetY);
+        else
+        {
+            helmetSlotPosition.x = helmetX;
+            helmetSlotPosition.y = helmetY;
+        }
         renderFrame(g2d, helmetX, helmetY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getHelmetSlot().getStoredItem(), helmetX, helmetY, false);
 
@@ -462,42 +544,84 @@ public class HUDRenderer implements Drawable
         int chestY = helmetY + slotSize * 2 + (slotSize / 4);
         renderFrame(g2d, chestX, chestY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getChestplateSlot().getStoredItem(), chestX, chestY, false);
+        if (chestplateSlotPosition == null) chestplateSlotPosition = new Position(chestX, chestY);
+        else
+        {
+            chestplateSlotPosition.x = chestX;
+            chestplateSlotPosition.y = chestY;
+        }
 
         // 3. Pants (2x3)
         int pantsX = chestX;
         int pantsY = chestY + slotSize * 3 + (slotSize / 4);
         renderFrame(g2d, pantsX, pantsY, slotSize * 2, slotSize * 3, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getPantsSlot().getStoredItem(), pantsX, pantsY, false);
+        if (pantsSlotPosition == null) pantsSlotPosition = new Position(pantsX, pantsY);
+        else
+        {
+            pantsSlotPosition.x = pantsX;
+            pantsSlotPosition.y = pantsY;
+        }
 
         // 4. Boots (2x1)
         int bootsX = pantsX;
         int bootsY = pantsY + slotSize * 3 + (slotSize / 4);
         renderFrame(g2d, bootsX, bootsY, slotSize * 2, slotSize, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getBootsSlot().getStoredItem(), bootsX, bootsY, false);
+        if (bootsSlotPosition == null) bootsSlotPosition = new Position(bootsX, bootsY);
+        else
+        {
+            bootsSlotPosition.x = bootsX;
+            bootsSlotPosition.y = bootsY;
+        }
 
         // 5. Ring1 (1x1)
         int ring1X = equippedFrameX + slotSize * 2 + (slotSize / 2);
         int ring1Y = equippedFrameY + (equippedFrameHeight / 2) - (slotSize * 2);
         renderFrame(g2d, ring1X, ring1Y, slotSize, slotSize, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getRing1Slot().getStoredItem(), ring1X, ring1Y, false);
+        if (ring1SlotPosition == null) ring1SlotPosition = new Position(ring1X, ring1Y);
+        else
+        {
+            ring1SlotPosition.x = ring1X;
+            ring1SlotPosition.y = ring1Y;
+        }
 
         // 6. Ring2 (1x1)
         int ring2X = ring1X + slotSize + (slotSize / 4);
         int ring2Y = ring1Y;
         renderFrame(g2d, ring2X, ring2Y, slotSize, slotSize, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getRing2Slot().getStoredItem(), ring2X, ring2Y, false);
+        if (ring2SlotPosition == null) ring2SlotPosition = new Position(ring2X, ring2Y);
+        else
+        {
+            ring2SlotPosition.x = ring2X;
+            ring2SlotPosition.y = ring2Y;
+        }
 
         // 7. Amulet (1x1)
         int amuletX = ring1X + (slotSize / 2) + ((slotSize / 4) / 2);
         int amuletY = ring1Y - slotSize - (slotSize / 4);
         renderFrame(g2d, amuletX, amuletY, slotSize, slotSize, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getAmuletSlot().getStoredItem(), amuletX, amuletY, false);
+        if (amuletSlotPosition == null) amuletSlotPosition = new Position(amuletX, amuletY);
+        else
+        {
+            amuletSlotPosition.x = amuletX;
+            amuletSlotPosition.y = amuletY;
+        }
 
         // 8. Shield (2x2)
         int shieldX = ring1X + ((slotSize / 4) / 2);
         int shieldY = ring2Y + slotSize + (slotSize / 4);
         renderFrame(g2d, shieldX, shieldY, slotSize * 2, slotSize * 2, 0, 0, 1, 0.7f);
         renderInventoryItem(g2d, playerInventory.getShieldSlot().getStoredItem(), shieldX, shieldY, false);
+        if (shieldSlotPosition == null) shieldSlotPosition = new Position(shieldX, shieldY);
+        else
+        {
+            shieldSlotPosition.x = shieldX;
+            shieldSlotPosition.y = shieldY;
+        }
 
         g2d.dispose();
     }

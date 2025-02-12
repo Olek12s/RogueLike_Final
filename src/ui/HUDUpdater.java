@@ -55,6 +55,22 @@ public class HUDUpdater implements Updatable
 
     private Slot clickedOnSlot()
     {
+        MouseHandler mh = hud.gc.mouseHandler;
+        if (mh.leftButtonClicked)
+        {
+            Position clickPos = mh.getClickPosition();
+            Slot slot =  hud.hudRenderer.getSlotAtPosition(clickPos);
+            if (slot != null)
+            {
+                System.out.println(slot.getRowNum() + " " + slot.getColNum());
+                hud.gc.player.getInventory().removeItemFromMainInv(slot.getRowNum(), slot.getColNum());
+            }
+            else
+            {
+                System.out.println("null");
+            }
+            return slot;
+        }
         return null;
     }
 }
