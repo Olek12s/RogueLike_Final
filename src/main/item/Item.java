@@ -40,7 +40,18 @@ public abstract class Item
         return statistics;
     }
 
-    public void setWorldPosition(Position worldPosition) {this.worldPosition = worldPosition;}
+    public void setWorldPosition(Position worldPosition)
+    {
+        this.worldPosition = worldPosition;
+        this.hitbox.setWorldPosition(worldPosition);
+    }
+
+    public void setWorldPosition(int x, int y)
+    {
+        this.worldPosition.x = x;
+        this.worldPosition.y = y;
+        this.hitbox.setWorldPosition(new Position(x, y));
+    }
 
     public MapLevels getLevel() {return level;}
     public void setLevel(MapLevels level) {this.level = level;}

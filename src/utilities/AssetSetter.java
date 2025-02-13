@@ -53,6 +53,16 @@ public class AssetSetter
         //testEntityVenomousSpider = new VenomousSpider(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y + 80));
         //testEntityZombie = new Zombie(gc, new Position(gc.player.getWorldPosition().x+50, gc.player.getWorldPosition().y + 80));
 
+        gc.player.getInventory().getBeltSlots()[0].setStoredItem(new WoodenShield(gc));
+        gc.player.getInventory().getBeltSlots()[1].setStoredItem(new MediumEnergyPotion(gc));
+        gc.player.getInventory().getBeltSlots()[2].setStoredItem(new WoodenBoots(gc));
+        gc.player.getInventory().getBeltSlots()[4].setStoredItem(new WoodenPickaxe(gc));
+        gc.player.getInventory().getBeltSlots()[5].setStoredItem(new WoodenShield(gc));
+
+        gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenPickaxe(gc));
+        gc.player.getInventory().getChestplateSlot().setStoredItem(new LargeManaPotion(gc));
+        gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenShield(gc));
+
 
         for (int i = 0; i < 0; i++)
         {

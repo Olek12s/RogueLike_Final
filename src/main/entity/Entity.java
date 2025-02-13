@@ -56,7 +56,7 @@ public abstract class Entity
         this.isAlive = true;
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
         this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
-        this.inventory = new Inventory(gc);
+        this.inventory = new Inventory(gc, this);
         this.behaviourState = BehaviourState.WANDER;
 
         setDirection();

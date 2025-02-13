@@ -1,17 +1,11 @@
 package ui;
 
-import main.controller.GameController;
 import main.controller.GameState;
 import main.controller.Updatable;
 import main.inventory.Slot;
-import main.item.Item;
-import main.item.ItemID;
-import main.item.ItemManager;
+import main.inventory.SlotType;
 import utilities.MouseHandler;
 import utilities.Position;
-import world.map.MapController;
-
-import java.util.ArrayList;
 
 public class HUDUpdater implements Updatable
 {
@@ -26,9 +20,15 @@ public class HUDUpdater implements Updatable
     @Override
     public void update()
     {
+        MouseHandler mh = hud.gc.mouseHandler;
         hud.hudRenderer.updateSizes();
         updateHealthBar();
-        clickedOnSlot();
+
+        if (mh.leftButtonClicked)
+        {
+            pickUpClickedItemFromSlot();
+        }
+
     }
 
 
@@ -53,24 +53,57 @@ public class HUDUpdater implements Updatable
         hud.heart = hud.heartSpriteSheet.extractSprite(hud.heartSpriteSheet, tick, 0);
     }
 
-    private Slot clickedOnSlot()
+    private Slot getClickedInventorySlot()
     {
         MouseHandler mh = hud.gc.mouseHandler;
-        if (mh.leftButtonClicked)
+        if (mh.leftButtonClicked && hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
         {
             Position clickPos = mh.getClickPosition();
             Slot slot =  hud.hudRenderer.getSlotAtPosition(clickPos);
             if (slot != null)
             {
-                System.out.println(slot.getRowNum() + " " + slot.getColNum());
-                hud.gc.player.getInventory().removeItemFromMainInv(slot.getRowNum(), slot.getColNum());
+                System.out.println(slot.getRowNum() + " " + slot.getColNum() + " " + slot.getSlotType());
+                //deleteItemFromSlotOnClick(slot);
             }
             else
             {
-                System.out.println("null");
+                //System.out.println("null");
             }
             return slot;
         }
         return null;
+    }
+
+    private void pickUpClickedItemFromSlot()
+    {
+        Slot slot = getClickedInventorySlot();
+        if (slot == null || slot.getStoredItem() == null) return;
+
+        hud.gc.player.getInventory().setHeldItem(slot.getStoredItem());
+        deleteItemFromSlotOnClick(slot);
+    }
+
+    private void deleteItemFromSlotOnClick(Slot slot)
+    {
+        if (slot.getSlotType() == SlotType.mainInvSlot) hud.gc.player.getInventory().removeItemFromMainInv(slot.getRowNum(), slot.getColNum());
+        else if (slot.getSlotType() == SlotType.beltSlot) hud.gc.player.getInventory().removeItemFromBelt(slot.getRowNum());
+        else
+        {
+            SlotType slotType = slot.getSlotType();
+            switch(slotType)
+            {
+                case beltSlot:
+                case helmetSlot:
+                case chestplateSlot:
+                case pantsSlot:
+                case bootsSlot:
+                case shieldSlot:
+                case ring1Slot:
+                case ring2Slot:
+                case amuletSlot:
+                    hud.gc.player.getInventory().removeItemFromEquipped(slot); break;
+                default: return;
+            }
+        }
     }
 }

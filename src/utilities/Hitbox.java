@@ -10,9 +10,16 @@ public class Hitbox
     private Rectangle hitboxRect;
     private Position worldPosition;
 
-    public Rectangle getHitboxRect() {return hitboxRect;}
 
+
+    public Rectangle getHitboxRect() {return hitboxRect;}
     public Position getWorldPosition() {return worldPosition;}
+    public void setWorldPosition(Position worldPosition)
+    {
+        this.worldPosition = worldPosition;
+        this.hitboxRect.x = worldPosition.x;
+        this.hitboxRect.y = worldPosition.y;
+    }
     public void setHitboxRect(Rectangle hitboxRect) {this.hitboxRect = hitboxRect;}
     public int getWidth() {return hitboxRect.width;}
     public void setWidth(int width)

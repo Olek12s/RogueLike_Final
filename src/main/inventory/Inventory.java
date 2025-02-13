@@ -1,10 +1,15 @@
 package main.inventory;
 
 import main.controller.GameController;
+import main.entity.Entity;
 import main.item.Item;
+import main.item.armor.WoodenBoots;
 import main.item.armor.WoodenShield;
-import main.item.potion.health.SmallHealthPotion;
+import main.item.potion.energy.MediumEnergyPotion;
+import main.item.potion.mana.LargeManaPotion;
+import main.item.tool.WoodenPickaxe;
 import utilities.Position;
+import world.map.MapController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +17,7 @@ import java.util.List;
 public class Inventory
 {
     GameController gc;
+    private Entity entity;
     public static final int INVENTORY_WIDTH_SLOTS = 9;
     public static final int INVENTORY_HEIGHT_SLOTS = 4;
     public static final int INVENTORY_BELT_SLOTS = 6;
@@ -28,6 +34,8 @@ public class Inventory
     private Slot ring2Slot;
     private Slot amuletSlot;
 
+    private Item heldItem;
+
     public List<Item> getInventoryItemList() {return inventoryItemList;}
     public List<Item> getBeltItemList()
     {
@@ -36,6 +44,10 @@ public class Inventory
             if (slot.getStoredItem() != null)
             {
                 beltItems.add(slot.getStoredItem());
+            }
+            else
+            {
+                beltItems.add(null);
             }
         }
         return beltItems;
@@ -51,10 +63,13 @@ public class Inventory
     public Slot getRing1Slot() {return ring1Slot;}
     public Slot getRing2Slot() {return ring2Slot;}
     public Slot getAmuletSlot() {return amuletSlot;}
+    public Item getHeldItem() {return heldItem;}
+    public void setHeldItem(Item item) {heldItem = item;}
 
-    public Inventory(GameController gc)
+    public Inventory(GameController gc, Entity entity)
     {
         this.gc = gc;
+        this.entity = entity;
         inventorySlots = new Slot[INVENTORY_WIDTH_SLOTS][INVENTORY_HEIGHT_SLOTS];
         for (int i = 0; i < INVENTORY_WIDTH_SLOTS; i++)
         {
@@ -144,33 +159,71 @@ public class Inventory
 
         item.setInventoryPosition(null);
         inventoryItemList.remove(item);
+        System.out.println("DELETED FROM MAIN INV");
     }
 
-    /**
-     *
-     * @param x - x index of inventory
-     * @param y - y index of inventory
-     */
     public void removeItemFromMainInv(int x, int y)
     {
-        Item item = getItemAt(x, y);
+        Item item = getItemAtFromMainInventory(x, y);
         if (item != null)
         {
             removeItemFromMainInv(item);
         }
     }
 
+    public void removeItemFromBelt(int x)
+    {
+        Item item = beltSlots[x].getStoredItem();
+        if (item != null)
+        {
+            beltSlots[x].setStoredItem(null);
+            System.out.println("DELETED FROM BELT");
+        }
+    }
+
+    public void removeItemFromEquipped(Slot slot)
+    {
+        SlotType slotType = slot.getSlotType();
+
+        switch(slotType)
+        {
+            case beltSlot: slot.setStoredItem(null); break;
+            case helmetSlot: slot.setStoredItem(null); break;
+            case chestplateSlot: slot.setStoredItem(null); break;
+            case pantsSlot: slot.setStoredItem(null); break;
+            case bootsSlot: slot.setStoredItem(null); break;
+            case shieldSlot: slot.setStoredItem(null); break;
+            case ring1Slot: slot.setStoredItem(null); break;
+            case ring2Slot: slot.setStoredItem(null); break;
+            case amuletSlot: slot.setStoredItem(null); break;
+            default: return;
+        }
+        System.out.println("DELETED FROM EQUIPPED");
+    }
+
     /**
      *
      * @param x - x index of inventory
      * @param y - y index of inventory
      */
-    public Item getItemAt(int x, int y)
+    public Item getItemAtFromMainInventory(int x, int y)
     {
         if (x < 0 || x >= INVENTORY_WIDTH_SLOTS || y < 0 || y >= INVENTORY_HEIGHT_SLOTS) // boundaries
         {
             return null;
         }
         return inventorySlots[x][y].getStoredItem();
+    }
+
+    public void dropItemOnGround(Item item)
+    {
+        Position dropPosition = entity.getHitbox().getWorldPosition();
+        System.out.println(dropPosition);
+
+        item.setOnGround(true);
+        item.setLevel(entity.getLevel());
+        item.setWorldPosition(dropPosition.x, dropPosition.y);
+
+        MapController.getCurrentMap().getChunk(dropPosition).addItem(item);
     }
 }

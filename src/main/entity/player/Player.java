@@ -22,7 +22,7 @@ public class Player extends Entity
         int mapSizeInPixels = gc.mapController.getCurrentMap().getMapWidthInPixels();
         int halfMapSizeInTiles = (mapSizeInPixels/Tile.tileSize)/2;
        // Position spawnPosition = randomPlayerStartingPosition(mapSizeInPixels, mapSizeInPixels, halfMapSizeInTiles/4, halfMapSizeInTiles/2);
-        Position spawnPosition = new Position(10250, 9000);
+        Position spawnPosition = new Position(64*9, 0);
         setWorldPosition(gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(spawnPosition, hitbox));
         setupStatistics();
         entityUpdater.initUpdate();

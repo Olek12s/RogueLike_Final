@@ -1,8 +1,10 @@
 package main.entity;
 
 import main.Direction;
+import main.controller.GameState;
 import main.controller.Updatable;
 import main.entity.player.Player;
+import main.item.Item;
 import utilities.Hitbox;
 import utilities.Position;
 import utilities.pathfinding.astar.AStar;
@@ -19,6 +21,7 @@ public class EntityUpdater implements Updatable
     private int updateStatisticsCounter = 0;
     private int pathUpdateCounter = 0;
     private int randomthreshold = 30;
+    private GameState previousGameState;
 
     public Entity getEntity() {return entity;}
 
@@ -46,6 +49,11 @@ public class EntityUpdater implements Updatable
                 updateState();
                 updateBehaviourBasedOnState();
             }
+            if (entity instanceof Player)
+            {
+                updateHeldItemOnClosingInventory();
+            }
+            previousGameState = entity.gc.gameStateController.getCurrentGameState();
         }
     }
 
@@ -435,6 +443,20 @@ public class EntityUpdater implements Updatable
         // Update the entity's direction and set it to moving
         entity.setDirection(direction);
         entity.isMoving = true;
+    }
+
+    /**
+     * Function that ensures, if player closed inventory, then held item is released on the ground below the player.
+     */
+    public void updateHeldItemOnClosingInventory()
+    {
+        if (entity.getInventory().getHeldItem() == null) return;
+
+        if (previousGameState == GameState.INVENTORY && entity.gc.gameStateController.getCurrentGameState() != GameState.INVENTORY)
+        {
+            Item heldItem = entity.inventory.getHeldItem();
+            entity.getInventory().dropItemOnGround(heldItem);
+        }
     }
 
 }

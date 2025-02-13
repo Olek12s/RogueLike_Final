@@ -69,6 +69,7 @@ public class HUDRenderer implements Drawable
            renderMainInventory(g2);
            renderStatisticsFrame(g2);
            renderEquippedFrame(g2);
+           renderHeldItem(g2);
         }
         if (hud.gc.isDebugMode())
         {
@@ -626,6 +627,37 @@ public class HUDRenderer implements Drawable
         g2d.dispose();
     }
 
+    public void renderHeldItem(Graphics g2)
+    {
+        Graphics2D g2d = (Graphics2D) g2.create();
+        int mouseX = hud.gc.mouseHandler.getMouseX();
+        int mouseY = hud.gc.mouseHandler.getMouseY();
+
+        Item heldItem = hud.gc.player.getInventory().getHeldItem();
+
+        if (heldItem == null) return;
+
+        int itemSlotWidth = heldItem.getSlotWidth();    // width of item
+        int itemSlotHeight = heldItem.getSlotHeight();  // height of item
+        int itemPixelWidth = itemSlotWidth * slotSize;
+        int itemPixelHeight = itemSlotHeight * slotSize;
+        Sprite sprite = heldItem.getSprite();
+
+        // scaling and centering
+        int spriteWidth = sprite.image.getWidth();
+        int spriteHeight = sprite.image.getHeight();
+        float scaleX = (float) itemPixelWidth / spriteWidth;
+        float scaleY = (float) itemPixelHeight / spriteHeight;
+        float scale = Math.min(scaleX, scaleY);
+
+        int drawWidth = (int) (spriteWidth * scale);
+        int drawHeight = (int) (spriteHeight * scale);
+
+        int drawX = mouseX + (itemPixelWidth - drawWidth) / 2; // Centered X
+        int drawY = mouseY + (itemPixelHeight - drawHeight) / 2; // Centered Y
+
+        g2d.drawImage(sprite.image, drawX, drawY, drawWidth, drawHeight, null);
+    }
 
     public void updateSizes()
     {
