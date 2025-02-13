@@ -5,6 +5,8 @@ import main.controller.GameState;
 import main.controller.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
+import main.inventory.Slot;
+import utilities.MouseHandler;
 import utilities.Position;
 import world.generation.CaveNegativeOneGenerator;
 import world.generation.CaveNegativeTwoGenerator;

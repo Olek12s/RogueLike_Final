@@ -2,6 +2,7 @@ package ui;
 
 import main.controller.GameState;
 import main.controller.Updatable;
+import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.inventory.SlotType;
 import utilities.MouseHandler;
@@ -26,7 +27,8 @@ public class HUDUpdater implements Updatable
 
         if (mh.leftButtonClicked)
         {
-            pickUpClickedItemFromSlot();
+            checkPickUpClickedItemFromSlot();
+            checkDropHeldItemOnClick();
         }
 
     }
@@ -62,7 +64,7 @@ public class HUDUpdater implements Updatable
             Slot slot =  hud.hudRenderer.getSlotAtPosition(clickPos);
             if (slot != null)
             {
-                System.out.println(slot.getRowNum() + " " + slot.getColNum() + " " + slot.getSlotType());
+                //System.out.println(slot.getRowNum() + " " + slot.getColNum() + " " + slot.getSlotType());
                 //deleteItemFromSlotOnClick(slot);
             }
             else
@@ -74,7 +76,7 @@ public class HUDUpdater implements Updatable
         return null;
     }
 
-    private void pickUpClickedItemFromSlot()
+    private void checkPickUpClickedItemFromSlot()
     {
         Slot slot = getClickedInventorySlot();
         if (slot == null || slot.getStoredItem() == null) return;
@@ -103,6 +105,22 @@ public class HUDUpdater implements Updatable
                 case amuletSlot:
                     hud.gc.player.getInventory().removeItemFromEquipped(slot); break;
                 default: return;
+            }
+        }
+    }
+
+    public void checkDropHeldItemOnClick()
+    {
+        MouseHandler mh = hud.gc.mouseHandler;
+        Inventory playerInventory = hud.gc.player.getInventory();
+        if (mh.leftButtonClicked && hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY && playerInventory.getHeldItem() != null)
+        {
+            Position clickPos = mh.getClickPosition();
+            Slot slot =  hud.gc.hud.getHudRenderer().getSlotAtPosition(clickPos);
+
+            if (slot == null)   // if clicked outside of slot
+            {
+                playerInventory.dropItemOnGround(playerInventory.getHeldItem());
             }
         }
     }

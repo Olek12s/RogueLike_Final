@@ -48,9 +48,7 @@ public abstract class Item
 
     public void setWorldPosition(int x, int y)
     {
-        this.worldPosition.x = x;
-        this.worldPosition.y = y;
-        this.hitbox.setWorldPosition(new Position(x, y));
+        setWorldPosition(new Position(x, y));
     }
 
     public MapLevels getLevel() {return level;}
@@ -84,10 +82,12 @@ public abstract class Item
         this.gc = gc;
         this.itemID = itemID;
         this.statistics = new ItemStatistics();
+        this.worldPosition = new Position(0,0);
         setRenderer();
         setStatistics();
         setSlotWidth();
         setSlotHeight();
+        setHitbox();
     }
 
 }

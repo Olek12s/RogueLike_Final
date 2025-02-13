@@ -159,7 +159,6 @@ public class Inventory
 
         item.setInventoryPosition(null);
         inventoryItemList.remove(item);
-        System.out.println("DELETED FROM MAIN INV");
     }
 
     public void removeItemFromMainInv(int x, int y)
@@ -177,7 +176,6 @@ public class Inventory
         if (item != null)
         {
             beltSlots[x].setStoredItem(null);
-            System.out.println("DELETED FROM BELT");
         }
     }
 
@@ -198,7 +196,6 @@ public class Inventory
             case amuletSlot: slot.setStoredItem(null); break;
             default: return;
         }
-        System.out.println("DELETED FROM EQUIPPED");
     }
 
     /**
@@ -215,15 +212,24 @@ public class Inventory
         return inventorySlots[x][y].getStoredItem();
     }
 
+    /**
+     * Method which drops item below entity with slight random offset based on 1/3 of entity's hitbox.
+     *
+     * @param item  - item do be dropped
+     */
     public void dropItemOnGround(Item item)
     {
         Position dropPosition = entity.getHitbox().getWorldPosition();
-        System.out.println(dropPosition);
+        int offsetX = entity.getHitbox().getWidth() / 2;
+        int offsetY = entity.getHitbox().getHeight() / 2;
+
+        int randomOffsetX = (int) (Math.random() * 2 * offsetX - offsetX);
+        int randomOffsetY = (int) (Math.random() * 2 * offsetY - offsetY);
 
         item.setOnGround(true);
         item.setLevel(entity.getLevel());
-        item.setWorldPosition(dropPosition.x, dropPosition.y);
-
+        item.setWorldPosition(dropPosition.x + randomOffsetX, dropPosition.y + randomOffsetY);
         MapController.getCurrentMap().getChunk(dropPosition).addItem(item);
+        heldItem = null;
     }
 }

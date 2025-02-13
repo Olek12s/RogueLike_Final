@@ -49,7 +49,7 @@ public class EntityUpdater implements Updatable
                 updateState();
                 updateBehaviourBasedOnState();
             }
-            if (entity instanceof Player)
+            if (entity instanceof Player)   // special case where previous gamestate is required. if previous gamestate is not needed - use PlayerUpdater class
             {
                 updateHeldItemOnClosingInventory();
             }
