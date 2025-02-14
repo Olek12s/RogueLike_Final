@@ -34,6 +34,7 @@ public abstract class Entity
     private boolean isAlive;
     private MapLevels level;
     protected Inventory inventory;
+    private int currentBeltSlotIndex;
     private Position[] pathToFollow;
     private BehaviourState behaviourState;
     private boolean isAlerted;
@@ -57,6 +58,7 @@ public abstract class Entity
         //this.currentSprite = entityRenderer.spriteSheet.extractFirst();
         this.currentSprite = EntityRenderer.getSpriteSheetByID(entityID).extractFirst();
         this.inventory = new Inventory(gc, this);
+        this.currentBeltSlotIndex = 0;
         this.behaviourState = BehaviourState.WANDER;
 
         setDirection();
@@ -110,6 +112,8 @@ public abstract class Entity
     public void setPathToFollow(Position[] pathToFollow) {this.pathToFollow = pathToFollow;}
     public boolean isAlerted() {return isAlerted;}
     public void setAlerted(boolean alerted) {isAlerted = alerted;}
+    public int getCurrentBeltSlotIndex() {return currentBeltSlotIndex;}
+    public void setCurrentBeltSlotIndex(int currentBeltSlotIndex) {this.currentBeltSlotIndex = currentBeltSlotIndex;}
 
     public void setDetectionDiameter(int r)
     {

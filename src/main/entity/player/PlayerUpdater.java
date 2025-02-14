@@ -1,12 +1,11 @@
 package main.entity.player;
 
 import main.Direction;
-import main.controller.GameState;
 import main.controller.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
-import main.inventory.Slot;
-import utilities.MouseHandler;
+import main.inventory.Inventory;
+import utilities.KeyHandler;
 import utilities.Position;
 import world.generation.CaveNegativeOneGenerator;
 import world.generation.CaveNegativeTwoGenerator;
@@ -19,6 +18,7 @@ import world.map.tiles.TileID;
 public class PlayerUpdater extends EntityUpdater implements Updatable
 {
     Player entity;
+    private boolean beltKeyProcessed = false;
 
     public PlayerUpdater(Entity entity)
     {
@@ -35,6 +35,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         checkEnteranceCollision();
         checkPickUpItem();
         checkCrouch();
+        updateCurrentBeltSlotIndex();
         counter++;
         if (counter == 60)  // DEBUG
         {
@@ -165,5 +166,35 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
                 entity.isCollidingWithEnterance = true;
             }
         }
+    }
+
+    /**
+     * Updates currently selected slot from belt on-click. By default currently selected slot index is 0.
+     */
+    private void updateCurrentBeltSlotIndex()
+    {
+        KeyHandler kh = entity.gc.keyHandler;
+        int slotCount = Inventory.INVENTORY_BELT_SLOTS;
+
+        boolean[] numberKeys = {
+                kh.ONE_PRESSED, kh.TWO_PRESSED, kh.THREE_PRESSED,
+                kh.FOUR_PRESSED, kh.FIVE_PRESSED, kh.SIX_PRESSED,
+                kh.SEVEN_PRESSED, kh.EIGHT_PRESSED, kh.NINE_PRESSED
+        };
+
+        for (int i = 0; i < numberKeys.length && i < slotCount; i++)
+        {
+            if (numberKeys[i])
+            {
+                if (!beltKeyProcessed)
+                {
+                    System.out.println(i);
+                    entity.setCurrentBeltSlotIndex(i);
+                    beltKeyProcessed = true;
+                }
+                return;
+            }
+        }
+        beltKeyProcessed = false;
     }
 }

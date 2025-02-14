@@ -29,6 +29,16 @@ public class KeyHandler implements KeyListener
 
     public boolean CTRL_PRESSED = false;
 
+    public boolean ONE_PRESSED = false;
+    public boolean TWO_PRESSED = false;
+    public boolean THREE_PRESSED = false;
+    public boolean FOUR_PRESSED = false;
+    public boolean FIVE_PRESSED = false;
+    public boolean SIX_PRESSED = false;
+    public boolean SEVEN_PRESSED = false;
+    public boolean EIGHT_PRESSED = false;
+    public boolean NINE_PRESSED = false;
+
 
     public KeyHandler(GameController gc)
     {
@@ -64,6 +74,16 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_F: F_PRESSED = true; break;
 
             case KeyEvent.VK_CONTROL: CTRL_PRESSED = true; break;
+
+            case KeyEvent.VK_1: ONE_PRESSED = true; break;
+            case KeyEvent.VK_2: TWO_PRESSED = true; break;
+            case KeyEvent.VK_3: THREE_PRESSED = true; break;
+            case KeyEvent.VK_4: FOUR_PRESSED = true; break;
+            case KeyEvent.VK_5: FIVE_PRESSED = true; break;
+            case KeyEvent.VK_6: SIX_PRESSED = true; break;
+            case KeyEvent.VK_7: SEVEN_PRESSED = true; break;
+            case KeyEvent.VK_8: EIGHT_PRESSED = true; break;
+            case KeyEvent.VK_9: NINE_PRESSED = true; break;
         }
         if  (TIDE_PRESSED == true) gc.setDebugMode(!gc.isDebugMode());
         if (MULTIPLE_PRESSED == true) Camera.setScaleFactor(1);
@@ -95,6 +115,16 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_F: F_PRESSED = false; break;
 
             case KeyEvent.VK_CONTROL: CTRL_PRESSED = false; break;
+
+            case KeyEvent.VK_1: ONE_PRESSED = false; break;
+            case KeyEvent.VK_2: TWO_PRESSED = false; break;
+            case KeyEvent.VK_3: THREE_PRESSED = false; break;
+            case KeyEvent.VK_4: FOUR_PRESSED = false; break;
+            case KeyEvent.VK_5: FIVE_PRESSED = false; break;
+            case KeyEvent.VK_6: SIX_PRESSED = false; break;
+            case KeyEvent.VK_7: SEVEN_PRESSED = false; break;
+            case KeyEvent.VK_8: EIGHT_PRESSED = false; break;
+            case KeyEvent.VK_9: NINE_PRESSED = false; break;
         }
     }
 }

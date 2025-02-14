@@ -343,7 +343,11 @@ public class HUDRenderer implements Drawable
             int frameY = beltY;
 
 
-            renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 3, 1, 0.5f);
+            if (i == hud.gc.player.getCurrentBeltSlotIndex())   // highlight currently selected slot
+            {
+                renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 6, 3, 0.5f);
+            }
+            else renderFrame(g2d, frameX, frameY, slotSize, slotSize, 3, 3, 1, 0.5f);
         }
 
         for (int i = 0; i < hud.gc.player.getInventory().getBeltItemList().size(); i++)

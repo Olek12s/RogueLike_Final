@@ -42,7 +42,6 @@ public class HUDUpdater implements Updatable
     }
 
 
-
     private void updateHealthBar()
     {
         hud.scaleX = hud.gc.getWidth() / 16;

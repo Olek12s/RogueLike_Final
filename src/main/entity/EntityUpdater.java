@@ -6,6 +6,7 @@ import main.controller.Updatable;
 import main.entity.player.Player;
 import main.item.Item;
 import utilities.Hitbox;
+import utilities.KeyHandler;
 import utilities.Position;
 import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
@@ -458,5 +459,4 @@ public class EntityUpdater implements Updatable
             entity.getInventory().dropItemOnGround(heldItem);
         }
     }
-
 }
