@@ -5,6 +5,9 @@ import main.controller.Updatable;
 import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.inventory.SlotType;
+import main.item.Item;
+import main.item.ItemSubType;
+import main.item.ItemType;
 import utilities.MouseHandler;
 import utilities.Position;
 
@@ -25,10 +28,15 @@ public class HUDUpdater implements Updatable
         hud.hudRenderer.updateSizes();
         updateHealthBar();
 
+        boolean droppedItemThisFrame = false;
+
         if (mh.leftButtonClicked)
         {
-            checkPickUpClickedItemFromSlot();
-            checkDropHeldItemOnClick();
+            droppedItemThisFrame = checkDropHeldItemOnClick();  // set boolean if dropped item
+            if (!droppedItemThisFrame)
+            {
+                checkPickUpClickedItemFromSlot(); // if nothing was dropped in this frame, check picking
+            }
         }
 
     }
@@ -78,6 +86,7 @@ public class HUDUpdater implements Updatable
 
     private void checkPickUpClickedItemFromSlot()
     {
+        if (hud.gc.player.getInventory().getHeldItem() != null) return;
         Slot slot = getClickedInventorySlot();
         if (slot == null || slot.getStoredItem() == null) return;
 
@@ -107,9 +116,10 @@ public class HUDUpdater implements Updatable
                 default: return;
             }
         }
+        System.out.println("picked up");
     }
 
-    public void checkDropHeldItemOnClick()
+    public boolean checkDropHeldItemOnClick()
     {
         MouseHandler mh = hud.gc.mouseHandler;
         Inventory playerInventory = hud.gc.player.getInventory();
@@ -121,7 +131,115 @@ public class HUDUpdater implements Updatable
             if (slot == null)   // if clicked outside of slot
             {
                 playerInventory.dropItemOnGround(playerInventory.getHeldItem());
+                return true;
             }
+            else    // if clicked on the slot
+            {
+                checkClickedOnSlotWhileHoldingItem(slot);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkClickedOnSlotWhileHoldingItem(Slot clickedSlot)
+    {
+        Inventory playerInventory = hud.gc.player.getInventory();
+        int slotIndexX = clickedSlot.getRowNum();
+        int slotIndexY = clickedSlot.getColNum();
+
+        Item heldItem = playerInventory.getHeldItem();
+        Item mainInvItem = playerInventory.getItemAtFromMainInventory(slotIndexX, slotIndexY);
+
+        if (clickedSlot.getSlotType() == SlotType.mainInvSlot)  // if clicked on main inv
+        {
+            if (mainInvItem == null)
+            {
+                System.out.println("0");
+                if (playerInventory.addItem(heldItem, slotIndexX, slotIndexY))  // if can add item on the empty slot
+                {
+                    playerInventory.setHeldItem(null);
+                }
+            }
+            else if (heldItem.getSlotWidth() == mainInvItem.getSlotWidth() && heldItem.getSlotHeight() == mainInvItem.getSlotHeight()) // if clicked on main inv and item (item sizes are the same)
+            {
+                playerInventory.removeItemFromMainInv(slotIndexX, slotIndexY);
+                playerInventory.setHeldItem(mainInvItem);
+                playerInventory.addItem(heldItem, slotIndexX, slotIndexY);
+            }
+        }
+        else if (clickedSlot.getSlotType() == SlotType.beltSlot)    // if clicked on belt
+        {
+            Item beltItem = playerInventory.getItemAtFromBelt(slotIndexX);
+
+            if (beltItem == null && heldItem != null)
+            {
+                playerInventory.getBeltSlots()[slotIndexX].setStoredItem(heldItem);
+                playerInventory.setHeldItem(null);
+            }
+            else if (beltItem != null && heldItem != null)
+            {
+                Item slotItem = playerInventory.getItemAtFromBelt(slotIndexX);
+                playerInventory.getBeltSlots()[slotIndexX].setStoredItem(heldItem);
+                playerInventory.setHeldItem(slotItem);
+            }
+        }
+        else     // if clicked on equipped
+        {
+            if (heldItem.getItemType() != ItemType.ARMOR) return;
+            switch(clickedSlot.getSlotType())
+            {
+                case helmetSlot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.HELMET) return;
+                    playerInventory.getHelmetSlot().setStoredItem(heldItem);
+                    break;
+                }
+                case chestplateSlot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.CHESTPLATE) return;
+                    playerInventory.getChestplateSlot().setStoredItem(heldItem);
+                    break;
+                }
+                case pantsSlot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.PANTS) return;
+                    playerInventory.getPantsSlot().setStoredItem(heldItem);
+                    break;
+                }
+                case bootsSlot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.BOOTS) return;
+                    playerInventory.getBootsSlot().setStoredItem(heldItem);
+                    break;
+                }
+                case shieldSlot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.SHIELD) return;
+                    playerInventory.getShieldSlot().setStoredItem(heldItem);
+                    break;
+                }
+                case ring1Slot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.RING) return;
+                    playerInventory.getRing1Slot().setStoredItem(heldItem);
+                    break;
+                }
+                case ring2Slot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.RING) return;
+                    playerInventory.getRing2Slot().setStoredItem(heldItem);
+                    break;
+                }
+                case amuletSlot:
+                {
+                    if (heldItem.getItemSubType() != ItemSubType.AMULET) return;
+                    playerInventory.getAmuletSlot().setStoredItem(heldItem);
+                    break;
+                }
+                default: return;    // leave function
+            }
+            playerInventory.setHeldItem(null);
         }
     }
 }

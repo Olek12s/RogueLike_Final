@@ -3,11 +3,6 @@ package main.inventory;
 import main.controller.GameController;
 import main.entity.Entity;
 import main.item.Item;
-import main.item.armor.WoodenBoots;
-import main.item.armor.WoodenShield;
-import main.item.potion.energy.MediumEnergyPotion;
-import main.item.potion.mana.LargeManaPotion;
-import main.item.tool.WoodenPickaxe;
 import utilities.Position;
 import world.map.MapController;
 
@@ -95,7 +90,7 @@ public class Inventory
         amuletSlot = new Slot(SlotType.amuletSlot, SlotType.getWidthMultipler(SlotType.amuletSlot), SlotType.getHeightMultipler(SlotType.amuletSlot), 0, 0);
     }
 
-    private boolean addItem(Item item, int slotX, int slotY)
+    public boolean addItem(Item item, int slotX, int slotY)
     {
 
         if (slotX + item.getSlotWidth() > INVENTORY_WIDTH_SLOTS     // check if item's dimensions fit
@@ -210,6 +205,15 @@ public class Inventory
             return null;
         }
         return inventorySlots[x][y].getStoredItem();
+    }
+
+    public Item getItemAtFromBelt(int x)
+    {
+        if (x < 0 || x >= INVENTORY_BELT_SLOTS) // boundaries
+        {
+            return null;
+        }
+        return beltSlots[x].getStoredItem();
     }
 
     /**

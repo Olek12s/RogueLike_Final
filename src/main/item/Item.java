@@ -19,6 +19,8 @@ public abstract class Item
     private Position inventoryPosition;
     protected ItemStatistics statistics;
     protected ItemID itemID;
+    protected ItemType itemType;
+    protected ItemSubType itemSubType;
     private boolean isOnGround;
     protected Hitbox hitbox;
 
@@ -35,6 +37,8 @@ public abstract class Item
     public Hitbox getHitbox() {return hitbox;}
     public Sprite getSprite() {return ItemManager.getItemSprite(itemID);}
     public ItemID getItemID() {return itemID;}
+    public ItemType getItemType() {return itemType;}
+    public ItemSubType getItemSubType() {return itemSubType;}
 
     public ItemStatistics getStatistics() {
         return statistics;
@@ -60,6 +64,8 @@ public abstract class Item
     public abstract void setStatistics();
     public abstract void setSlotWidth();
     public abstract void setSlotHeight();
+    public abstract void setItemType();
+    public abstract void setItemSubType();
     // ABSTRACTS
 
     public Item(GameController gc, ItemID itemID, Position worldPosition)
@@ -75,6 +81,8 @@ public abstract class Item
         setSlotWidth();
         setSlotHeight();
         setHitbox();
+        setItemType();
+        setItemSubType();
     }
 
     public Item(GameController gc, ItemID itemID)
@@ -88,6 +96,8 @@ public abstract class Item
         setSlotWidth();
         setSlotHeight();
         setHitbox();
+        setItemType();
+        setItemSubType();
     }
 
 }

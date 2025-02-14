@@ -3,8 +3,8 @@ package utilities;
 import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.monster.*;
-import main.item.armor.WoodenBoots;
-import main.item.armor.WoodenShield;
+import main.item.armor.boots.WoodenBoots;
+import main.item.armor.shield.WoodenShield;
 import main.item.potion.energy.LargeEnergyPotion;
 import main.item.potion.energy.MediumEnergyPotion;
 import main.item.potion.energy.SmallEnergyPotion;
@@ -14,7 +14,7 @@ import main.item.potion.health.SmallHealthPotion;
 import main.item.potion.mana.LargeManaPotion;
 import main.item.potion.mana.MediumManaPotion;
 import main.item.potion.mana.SmallManaPotion;
-import main.item.tool.WoodenPickaxe;
+import main.item.tool.pickaxe.WoodenPickaxe;
 
 import java.util.List;
 

@@ -57,4 +57,10 @@ public abstract class ManaPotion extends Item implements Consumable
     {
         slotHeight = 1;
     }
+
+    @Override
+    public void setItemType() { itemType = ItemType.POTION; }
+
+    @Override
+    public void setItemSubType() {itemSubType = ItemSubType.MANA_POTION;}
 }

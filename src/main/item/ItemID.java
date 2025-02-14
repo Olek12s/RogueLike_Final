@@ -16,7 +16,14 @@ public enum ItemID
 
     WOODEN_SHIELD(9),
     WOODEN_BOOTS(10),
-    WOODEN_PICKAXE(11);
+    WOODEN_PANTS(11),
+    WOODEN_CHESTPLATE(12),
+    WOODEN_HELMET(13),
+    GEL_AMULET(14),
+    GEL_RING(15),
+
+    WOODEN_PICKAXE(16),
+    WOODEN_AXE(17);
 
     private final int id;
 

@@ -1,25 +1,22 @@
-package main.item.tool;
+package main.item.tool.pickaxe;
 
 import main.controller.GameController;
-import main.item.Item;
-import main.item.ItemID;
-import main.item.ItemRenderer;
+import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
 
-public class WoodenPickaxe extends Item
+public class Pickaxe extends Item
 {
-
-    public WoodenPickaxe(GameController gc, Position worldPosition)
+    public Pickaxe(GameController gc, ItemID itemID, Position worldPosition)
     {
-        super(gc, ItemID.WOODEN_PICKAXE, worldPosition);
+        super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public WoodenPickaxe(GameController gc)
+    public Pickaxe(GameController gc, ItemID itemID)
     {
-        super(gc, ItemID.WOODEN_PICKAXE);
+        super(gc, itemID);
     }
 
     @Override
@@ -53,4 +50,10 @@ public class WoodenPickaxe extends Item
     {
         slotHeight = 2;
     }
+
+    @Override
+    public void setItemType() { itemType = ItemType.TOOL;}
+
+    @Override
+    public void setItemSubType() {itemSubType = ItemSubType.PICKAXE;}
 }

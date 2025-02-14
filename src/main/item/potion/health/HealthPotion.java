@@ -55,4 +55,10 @@ public abstract class HealthPotion extends Item implements Consumable
     {
         slotHeight = 1;
     }
+
+    @Override
+    public void setItemType() { itemType = ItemType.POTION; }
+
+    @Override
+    public void setItemSubType() {itemSubType = ItemSubType.HEALTH_POTION;}
 }
