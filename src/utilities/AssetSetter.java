@@ -3,7 +3,12 @@ package utilities;
 import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.monster.*;
+import main.item.armor.amulet.GelAmulet;
 import main.item.armor.boots.WoodenBoots;
+import main.item.armor.chestplate.WoodenChestplate;
+import main.item.armor.helemt.WoodenHelmet;
+import main.item.armor.pants.WoodenPants;
+import main.item.armor.ring.GelRing;
 import main.item.armor.shield.WoodenShield;
 import main.item.potion.energy.LargeEnergyPotion;
 import main.item.potion.energy.MediumEnergyPotion;
@@ -59,9 +64,9 @@ public class AssetSetter
         gc.player.getInventory().getBeltSlots()[4].setStoredItem(new WoodenPickaxe(gc));
         gc.player.getInventory().getBeltSlots()[5].setStoredItem(new WoodenShield(gc));
 
-        gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenPickaxe(gc));
-        gc.player.getInventory().getChestplateSlot().setStoredItem(new LargeManaPotion(gc));
-        gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenShield(gc));
+        //gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenPickaxe(gc));
+        //gc.player.getInventory().getChestplateSlot().setStoredItem(new LargeManaPotion(gc));
+        //gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenShield(gc));
 
 
         for (int i = 0; i < 0; i++)
@@ -86,8 +91,16 @@ public class AssetSetter
         MediumEnergyPotion mep = new MediumEnergyPotion(gc, new Position(startX+64, startY+64*2));
         LargeEnergyPotion lep = new LargeEnergyPotion(gc, new Position(startX+96, startY+64*2));
 
-        WoodenShield shield = new WoodenShield(gc, new Position(startX-60, startY));
-        WoodenBoots boots = new WoodenBoots(gc, new Position(startX-120, startY));
+        WoodenHelmet wh = new WoodenHelmet(gc, new Position(startX-50, startY));
+        WoodenChestplate cp = new WoodenChestplate(gc, new Position(startX-80, startY));
+        WoodenPants wp = new WoodenPants(gc, new Position(startX-120, startY));
+        WoodenBoots wb = new WoodenBoots(gc, new Position(startX-50, startY-30));
+        GelAmulet gg = new GelAmulet(gc, new Position(startX-50, startY-60));
+        GelRing rr = new GelRing(gc, new Position(startX-50, startY-90));
+        WoodenShield sh = new WoodenShield(gc, new Position(startX-50, startY-120));
+
+
+
         WoodenPickaxe pickaxe = new WoodenPickaxe(gc, new Position(startX-150, startY));
 
         for (int i = 0; i < 600; i++)

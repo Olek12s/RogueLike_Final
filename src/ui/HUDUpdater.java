@@ -187,59 +187,68 @@ public class HUDUpdater implements Updatable
         else     // if clicked on equipped
         {
             if (heldItem.getItemType() != ItemType.ARMOR) return;
+            Item storedItem;
             switch(clickedSlot.getSlotType())
             {
                 case helmetSlot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.HELMET) return;
+                    storedItem = playerInventory.getHelmetSlot().getStoredItem();
                     playerInventory.getHelmetSlot().setStoredItem(heldItem);
                     break;
                 }
                 case chestplateSlot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.CHESTPLATE) return;
+                    storedItem = playerInventory.getChestplateSlot().getStoredItem();
                     playerInventory.getChestplateSlot().setStoredItem(heldItem);
                     break;
                 }
                 case pantsSlot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.PANTS) return;
+                    storedItem = playerInventory.getPantsSlot().getStoredItem();
                     playerInventory.getPantsSlot().setStoredItem(heldItem);
                     break;
                 }
                 case bootsSlot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.BOOTS) return;
+                    storedItem = playerInventory.getBootsSlot().getStoredItem();
                     playerInventory.getBootsSlot().setStoredItem(heldItem);
                     break;
                 }
                 case shieldSlot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.SHIELD) return;
+                    storedItem = playerInventory.getShieldSlot().getStoredItem();
                     playerInventory.getShieldSlot().setStoredItem(heldItem);
                     break;
                 }
                 case ring1Slot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.RING) return;
+                    storedItem = playerInventory.getRing1Slot().getStoredItem();
                     playerInventory.getRing1Slot().setStoredItem(heldItem);
                     break;
                 }
                 case ring2Slot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.RING) return;
+                    storedItem = playerInventory.getRing2Slot().getStoredItem();
                     playerInventory.getRing2Slot().setStoredItem(heldItem);
                     break;
                 }
                 case amuletSlot:
                 {
                     if (heldItem.getItemSubType() != ItemSubType.AMULET) return;
+                    storedItem = playerInventory.getAmuletSlot().getStoredItem();
                     playerInventory.getAmuletSlot().setStoredItem(heldItem);
                     break;
                 }
                 default: return;    // leave function
             }
-            playerInventory.setHeldItem(null);
+            playerInventory.setHeldItem(storedItem);
         }
     }
 }

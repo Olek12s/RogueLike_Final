@@ -39,8 +39,14 @@ public class ItemManager
         spriteMap.put(ItemID.MEDIUM_ENERGY_POTION, new Sprite(FileManipulation.loadImage("resources/items/potions/MediumEnergyPotion"), 16));
         spriteMap.put(ItemID.LARGE_ENERGY_POTION, new Sprite(FileManipulation.loadImage("resources/items/potions/LargeEnergyPotion"), 16));
 
-        spriteMap.put(ItemID.WOODEN_SHIELD, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenShield"), 32));
+        spriteMap.put(ItemID.WOODEN_HELMET, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenHelmet"), 32));
+        spriteMap.put(ItemID.WOODEN_CHESTPLATE, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenChestplate"), 48));
+        spriteMap.put(ItemID.WOODEN_PANTS, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenPants"), 48));
         spriteMap.put(ItemID.WOODEN_BOOTS, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenBoots"), 32));
+        spriteMap.put(ItemID.GEL_RING, new Sprite(FileManipulation.loadImage("resources/items/armor/GelRing"), 16));
+        spriteMap.put(ItemID.GEL_AMULET, new Sprite(FileManipulation.loadImage("resources/items/armor/GelAmulet"), 16));
+        spriteMap.put(ItemID.WOODEN_SHIELD, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenShield"), 32));
+
         spriteMap.put(ItemID.WOODEN_PICKAXE, new Sprite(FileManipulation.loadImage("resources/items/tool/WoodenPickaxe"), 32));
     }
 }
