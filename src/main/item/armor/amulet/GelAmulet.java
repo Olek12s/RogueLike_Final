@@ -27,5 +27,7 @@ public class GelAmulet extends Amulet
         statistics.setItemName("Gel Amulet");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+        statistics.setMagicalArmor(7);
+        statistics.setArmor(4);
     }
 }

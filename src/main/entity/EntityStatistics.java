@@ -4,26 +4,28 @@ public class EntityStatistics
 {
     Entity entity;
 
-    public int maxHitPoints = 1;                // maximum hit points
-    public int hitPoints = maxHitPoints;        // current hit points - if 0 or lower - entity dies
-    protected int regeneration = 1;             // regeneration of health per second. By default 1
+    private int maxHitPoints = 1;                // maximum hit points
+    private int hitPoints = maxHitPoints;        // current hit points - if 0 or lower - entity dies
+    private int regeneration = 1;             // regeneration of health per second. By default 1
 
-    public int maxMana = 1;                     // current mana - needed to cast spells or hold specific items
-    public int mana = maxMana;                  // max mana - how much spells you can cast at short amount of time
+    private int maxMana = 1;                     // current mana - needed to cast spells or hold specific items
+    private int mana = maxMana;                  // max mana - how much spells you can cast at short amount of time
 
-    protected int maxMovementSpeed;         // how fast entity travels through map
-    protected int currentMovementSpeed;
+    private int maxMovementSpeed;         // how fast entity travels through map
+    private int currentMovementSpeed;
 
-    protected int armour;                       // how resistant entity is against physical damage
-    protected int magicArmour;                  // how resistant entity is against magical damage
+    private int baseArmour;
+    private int baseMagicArmour;
+    private int armour;                       // how resistant entity is against physical damage
+    private int magicArmour;                  // how resistant entity is against magical damage
 
-    protected int strength;                     // statistic exclusive for melee weapons - how strong you hit
-    protected int dexterity;                    // statistic exclusive for bows and actions needing dexterity - how powerful you can shoot
-    protected int intellect;                    // statistic exclusive for magic - how strong your spells are
+    private int strength;                     // statistic exclusive for melee weapons - how strong you hit
+    private int dexterity;                    // statistic exclusive for bows and actions needing dexterity - how powerful you can shoot
+    private int intellect;                    // statistic exclusive for magic - how strong your spells are
 
-    protected int stamina;                      // statistic used in blocking attacks and fighting melee weapons. Lower stamina = lower damage and weaker ability to block
-    protected int exp;
-    protected int nextLevelExp;
+    private int stamina;                      // statistic used in blocking attacks and fighting melee weapons. Lower stamina = lower damage and weaker ability to block
+    private int exp;
+    private int nextLevelExp;
 
     public int getMaxHitPoints() {return maxHitPoints;}
     public void setMaxHitPoints(int maxHitPoints) {this.maxHitPoints = maxHitPoints;}
@@ -40,8 +42,15 @@ public class EntityStatistics
     public int getMana() {return mana;}
     public void setMana(int mana) {this.mana = mana;}
     public int getMaxMovementSpeed() {return maxMovementSpeed;}
+    public Entity getEntity() {return entity;}
+    public void setEntity(Entity entity) {this.entity = entity;}
+    public void setStrength(int strength) {this.strength = strength;}
+    public void setExp(int exp) {this.exp = exp;}
+    public void setNextLevelExp(int nextLevelExp) {this.nextLevelExp = nextLevelExp;}
 
     public int getCurrentMovementSpeed() {return currentMovementSpeed;}
+    public void setCurrentMovementSpeed(int currentMovementSpeed) {this.currentMovementSpeed = currentMovementSpeed;}
+
     public int getExp() {return exp;}
     public int getNextLevelExp() {return nextLevelExp;}
 
@@ -52,12 +61,17 @@ public class EntityStatistics
         {
             maxMovementSpeed = Math.max(speed, 1);
         }
-        currentMovementSpeed = maxMovementSpeed;
     }
     public int getArmour() {return armour;}
     public void setArmour(int armour) {this.armour = armour;}
     public int getMagicArmour() {return magicArmour;}
     public void setMagicArmour(int magicArmour) {this.magicArmour = magicArmour;}
+
+    public int getBaseArmour() {return baseArmour;}
+    public void setBaseArmour(int baseArmour) {this.baseArmour = baseArmour;}
+    public int getBaseMagicArmour() {return baseMagicArmour;}
+    public void setBaseMagicArmour(int baseMagicArmour) {this.baseMagicArmour = baseMagicArmour;}
+
     public int getStrength() {return strength;}
 
     /**

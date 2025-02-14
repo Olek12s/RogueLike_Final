@@ -3,12 +3,14 @@ package utilities;
 import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.monster.*;
+import main.item.ItemID;
 import main.item.armor.amulet.GelAmulet;
 import main.item.armor.boots.WoodenBoots;
 import main.item.armor.chestplate.WoodenChestplate;
 import main.item.armor.helemt.WoodenHelmet;
 import main.item.armor.pants.WoodenPants;
 import main.item.armor.ring.GelRing;
+import main.item.armor.shield.Shield;
 import main.item.armor.shield.WoodenShield;
 import main.item.potion.energy.LargeEnergyPotion;
 import main.item.potion.energy.MediumEnergyPotion;
@@ -96,7 +98,8 @@ public class AssetSetter
         WoodenPants wp = new WoodenPants(gc, new Position(startX-120, startY));
         WoodenBoots wb = new WoodenBoots(gc, new Position(startX-50, startY-30));
         GelAmulet gg = new GelAmulet(gc, new Position(startX-50, startY-60));
-        GelRing rr = new GelRing(gc, new Position(startX-50, startY-90));
+        GelRing rr1 = new GelRing(gc, new Position(startX-50, startY-90));
+        GelRing rr2 = new GelRing(gc, new Position(startX-50, startY-100));
         WoodenShield sh = new WoodenShield(gc, new Position(startX-50, startY-120));
 
 
@@ -128,7 +131,6 @@ public class AssetSetter
                             currentChunkEntities.add(miniBitingSlime);
                         }
                     }
-
                 }
             }
         }

@@ -8,14 +8,14 @@ import utilities.Position;
 public class Amulet extends Item
 {
 
-    public Amulet(GameController gc, ItemID itemID, Position worldPosition)
+    protected Amulet(GameController gc, ItemID itemID, Position worldPosition)
     {
         super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public Amulet(GameController gc, ItemID itemID)
+    protected Amulet(GameController gc, ItemID itemID)
     {
         super(gc, itemID);
     }

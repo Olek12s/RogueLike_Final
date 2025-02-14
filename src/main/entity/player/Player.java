@@ -51,10 +51,10 @@ public class Player extends Entity
     @Override
     public void setupStatistics()
     {
-        statistics.maxHitPoints = 100;
-        statistics.setArmour(45);
+        statistics.setMaxHitPoints(100);
+        statistics.setBaseArmour(0);
         statistics.setRegeneration(1);
-        statistics.hitPoints = statistics.maxHitPoints;
+        statistics.setHitPoints(statistics.getMaxHitPoints());
         statistics.setMaxMovementSpeed(12);
     }
 

@@ -84,8 +84,8 @@ public class HUDRenderer implements Drawable
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(3));
 
-        if (hud.gc.player.statistics.hitPoints < 0) hud.gc.player.statistics.hitPoints = 0;
-        int healthPercent = (int) ((hud.gc.player.statistics.hitPoints / (double) hud.gc.player.getMaxHitPoints()) * 100);
+        if (hud.gc.player.statistics.getHitPoints() < 0) hud.gc.player.statistics.setHitPoints(0);
+        int healthPercent = (int) ((hud.gc.player.statistics.getHitPoints() / (double) hud.gc.player.getMaxHitPoints()) * 100);
 
         int spriteSize = hud.heart.image.getWidth() / Math.max(hud.scale, 1);
         int width = hud.gc.getWidth();
@@ -457,9 +457,9 @@ public class HUDRenderer implements Drawable
 
         EntityStatistics stats = hud.gc.player.statistics;
 
-        int hp = stats.hitPoints;
+        int hp = stats.getHitPoints();
         int maxHp = stats.getMaxHitPoints();
-        int mana = stats.mana;
+        int mana = stats.getMana();
         int maxMana = stats.getMaxMana();
         int regen = stats.getRegeneration();
         int movementSpeed = stats.getCurrentMovementSpeed();

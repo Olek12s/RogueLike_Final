@@ -7,14 +7,14 @@ import utilities.Position;
 
 public class Pants extends Item
 {
-    public Pants(GameController gc, ItemID itemID, Position worldPosition)
+    protected Pants(GameController gc, ItemID itemID, Position worldPosition)
     {
         super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public Pants(GameController gc, ItemID itemID)
+    protected Pants(GameController gc, ItemID itemID)
     {
         super(gc, itemID);
     }

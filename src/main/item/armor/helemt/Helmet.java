@@ -7,14 +7,14 @@ import utilities.Position;
 
 public class Helmet extends Item
 {
-    public Helmet(GameController gc, ItemID itemID, Position worldPosition)
+    protected Helmet(GameController gc, ItemID itemID, Position worldPosition)
     {
         super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public Helmet(GameController gc, ItemID itemID)
+    protected Helmet(GameController gc, ItemID itemID)
     {
         super(gc, itemID);
     }

@@ -37,7 +37,7 @@ public class VenomousSpider extends Entity
     public void setupStatistics()  // add poison effect
     {
         this.statistics.setStrength(6, 3, 2);
-        this.statistics.setArmour(3);
+        this.statistics.setBaseArmour(3);
         this.statistics.setHitPoints(30, 7, 7);
         this.statistics.setRegeneration(2);
         this.statistics.setMaxMovementSpeed(1);

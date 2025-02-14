@@ -25,5 +25,7 @@ public class GelRing extends Ring
         statistics.setItemName("Gel Ring");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+        statistics.setMagicalArmor(4);
+        statistics.setArmor(2);
     }
 }

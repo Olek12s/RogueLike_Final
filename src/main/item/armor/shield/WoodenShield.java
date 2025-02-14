@@ -29,5 +29,7 @@ public class WoodenShield extends Shield
         statistics.setItemName("Wooden Shield");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+        statistics.setArmor(10);
+        statistics.setMovementSpeedPenalty(0.3f);
     }
 }

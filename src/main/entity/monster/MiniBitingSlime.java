@@ -38,7 +38,7 @@ public class MiniBitingSlime extends Entity
     public void setupStatistics()
     {
         this.statistics.setStrength(8, 0, 2);
-        this.statistics.setArmour(0);
+        this.statistics.setBaseArmour(0);
         this.statistics.setHitPoints(16, 3,3);
         this.statistics.setRegeneration(1);
         this.statistics.setMaxMovementSpeed(5);

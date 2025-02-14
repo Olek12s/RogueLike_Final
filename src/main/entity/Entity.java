@@ -38,11 +38,12 @@ public abstract class Entity
     private Position[] pathToFollow;
     private BehaviourState behaviourState;
     private boolean isAlerted;
+    protected boolean crouching;
 
     //STATISTICS
     public EntityStatistics statistics;
-    public int getCurrentHealth() {return statistics.hitPoints;}
-    public int getMaximumHealth() {return statistics.maxHitPoints;}
+    public int getCurrentHealth() {return statistics.getHitPoints();}
+    public int getMaximumHealth() {return statistics.getMaxHitPoints();}
     //STATISTICS
 
     public Entity(GameController gc, int entityID, Position worldPosition)
@@ -87,19 +88,18 @@ public abstract class Entity
     public Sprite getCurrentSprite() {return currentSprite;}
     public Direction getDirection() {return direction;}
     public void setDirection(Direction direction) {this.direction = direction;}
-    public int getMovementSpeed() {return statistics.currentMovementSpeed;}
+    public int getMovementSpeed() {return statistics.getCurrentMovementSpeed();}
     public Hitbox getHitbox() {return hitbox;}
     public Chunk getCurrentChunk() {return currentChunk;}
     public void setCurrentChunk(Chunk chunk) {this.currentChunk = chunk;}
     public int getID() {return entityID;}
-    public int getMaxHitPoints() {return statistics.maxHitPoints;}
+    public int getMaxHitPoints() {return statistics.getMaxHitPoints();}
     public boolean isAlive() {return isAlive;}
     public void setAlive(boolean alive) {isAlive = alive;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public MapLevels getLevel() {return level;}
     public void setLevel(MapLevels level) {this.level = level;}
-    public void setSpeed(int speed) {this.statistics.currentMovementSpeed = Math.min(speed, statistics.maxMovementSpeed);}
     public int getMaxMovementSpeed() {return statistics.getMaxMovementSpeed();}
     public Inventory getInventory() {return inventory;}
     public int getDetectionDiameter() {return detectionDiameter;}
@@ -114,6 +114,8 @@ public abstract class Entity
     public void setAlerted(boolean alerted) {isAlerted = alerted;}
     public int getCurrentBeltSlotIndex() {return currentBeltSlotIndex;}
     public void setCurrentBeltSlotIndex(int currentBeltSlotIndex) {this.currentBeltSlotIndex = currentBeltSlotIndex;}
+    public boolean isCrouching() {return crouching;}
+    public void setCrouching(boolean crouching) {this.crouching = crouching;}
 
     public void setDetectionDiameter(int r)
     {
@@ -152,12 +154,12 @@ public abstract class Entity
             case PHYSICAL:
                 //int receivedPhysical = damageInput - statistics.armour;
                 //statistics.hitPoints -= Math.max(1, receivedPhysical);
-                if (statistics.armour != 0) damageMultipler = (double) damageInput / (damageInput + statistics.armour);
+                if (statistics.getArmour() != 0) damageMultipler = (double) damageInput / (damageInput + statistics.getArmour());
                 else damageMultipler = 1;
                 break;
 
             case MAGICAL:
-                if (statistics.magicArmour != 0) damageMultipler = (double) damageInput / (damageInput + statistics.magicArmour);
+                if (statistics.getMagicArmour() != 0) damageMultipler = (double) damageInput / (damageInput + statistics.getMagicArmour());
                 else damageMultipler = 1;
                 break;
 
@@ -170,14 +172,14 @@ public abstract class Entity
         int receivedDamage = (int) (damageMultipler*damageInput);
         if (receivedDamage <= 0) receivedDamage = 1;
         //System.out.println("RECEIVED DAMAGE: " + receivedDamage);
-        statistics.hitPoints -= receivedDamage;
+        statistics.setHitPoints(statistics.getHitPoints() - receivedDamage);
 
     }
     public int calculateDamageOutput(Weapon weapon)
     {
         int output = 0;
 
-        output += statistics.strength + weapon.getDamageOutput(); // divided by Math.Max(0.2, (currentEnergy/maxEnergy) * 100));
+        output += statistics.getStrength() + weapon.getDamageOutput(); // divided by Math.Max(0.2, (currentEnergy/maxEnergy) * 100));
         double randomMultiplier = 0.8 + (Math.random() * 0.4); // random between 0.8 to 1.2
         double criticalChance = 0.05;
 

@@ -25,5 +25,6 @@ public class WoodenChestplate extends Chestplate
         statistics.setItemName("Wooden Chestplate");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+        statistics.setArmor(6);
     }
 }

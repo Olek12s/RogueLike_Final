@@ -4,6 +4,8 @@ import main.Direction;
 import main.controller.GameState;
 import main.controller.Updatable;
 import main.entity.player.Player;
+import main.inventory.Inventory;
+import main.inventory.Slot;
 import main.item.Item;
 import utilities.Hitbox;
 import utilities.KeyHandler;
@@ -12,6 +14,8 @@ import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import utilities.Collisions;
 import world.map.MapController;
+
+import java.util.ArrayList;
 
 public class EntityUpdater implements Updatable
 {
@@ -23,6 +27,8 @@ public class EntityUpdater implements Updatable
     private int pathUpdateCounter = 0;
     private int randomthreshold = 30;
     private GameState previousGameState;
+
+    private ArrayList<Slot> equippedSlots = new ArrayList<>();
 
     public Entity getEntity() {return entity;}
 
@@ -37,6 +43,8 @@ public class EntityUpdater implements Updatable
     {
         if (entity != null && (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel()))
         {
+            updateEquippedSlots();
+            updateStatistics();
             updateRegeneration();
             updateCurrentSprite();
             moveTowardsDirection();
@@ -68,14 +76,30 @@ public class EntityUpdater implements Updatable
         }
     }
 
+    private void updateEquippedSlots()
+    {
+        equippedSlots.clear();
+        Inventory entityInventory = entity.getInventory();
+
+        equippedSlots.add(entityInventory.getHelmetSlot());
+        equippedSlots.add(entityInventory.getChestplateSlot());
+        equippedSlots.add(entityInventory.getPantsSlot());
+        equippedSlots.add(entityInventory.getBootsSlot());
+        equippedSlots.add(entityInventory.getShieldSlot());
+        equippedSlots.add(entityInventory.getRing1Slot());
+        equippedSlots.add(entityInventory.getRing2Slot());
+        equippedSlots.add(entityInventory.getAmuletSlot());
+    }
+
     public void updateRegeneration()
     {
         if (updateStatisticsCounter == 120) // once per 2 seconds
         {
-            if (entity.statistics.hitPoints < entity.statistics.maxHitPoints)
+            if (entity.statistics.getHitPoints() < entity.statistics.getMaxHitPoints())
             {
-                int healUpAmount = entity.statistics.hitPoints + entity.statistics.regeneration;
-                entity.statistics.hitPoints = Math.min(healUpAmount, entity.statistics.maxHitPoints);
+                int healUpAmount = entity.statistics.getHitPoints() + entity.statistics.getRegeneration();
+                int newHitPoints = Math.min(healUpAmount, entity.statistics.getMaxHitPoints());
+                entity.statistics.setHitPoints(newHitPoints);
             }
             updateStatisticsCounter = 0;
         }
@@ -458,5 +482,42 @@ public class EntityUpdater implements Updatable
             Item heldItem = entity.inventory.getHeldItem();
             entity.getInventory().dropItemOnGround(heldItem);
         }
+    }
+
+    /**
+     * Updates entity's current statistics based on effects, currently equipped items, etc...
+     */
+    public void updateStatistics()
+    {
+        updateStatisticsArmor();
+        updateStatisticsMovementSpeed();
+    }
+
+    private void updateStatisticsArmor()
+    {
+        int armorFromEquippedItems = 0;
+        int magicArmorFromEquippedItems = 0;
+
+        for (Slot slot : equippedSlots)
+        {
+            if (slot.getStoredItem() == null) continue;
+            armorFromEquippedItems += slot.getStoredItem().getStatistics().getArmor();
+            magicArmorFromEquippedItems += slot.getStoredItem().getStatistics().getMagicalArmor();
+        }
+        entity.statistics.setArmour(armorFromEquippedItems + entity.statistics.getBaseArmour());
+        entity.statistics.setMagicArmour(magicArmorFromEquippedItems + entity.statistics.getBaseMagicArmour());
+    }
+
+    public void updateStatisticsMovementSpeed()
+    {
+        int updatedMovementSpeed = entity.getMaxMovementSpeed();
+        for (Slot slot : equippedSlots)
+        {
+            if (slot.getStoredItem() == null) continue;
+            updatedMovementSpeed *= (float)(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
+            System.out.println(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
+        }
+        if (entity.isCrouching()) updatedMovementSpeed /= 3;
+        entity.statistics.setCurrentMovementSpeed(updatedMovementSpeed);
     }
 }

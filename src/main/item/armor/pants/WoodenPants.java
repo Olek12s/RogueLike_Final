@@ -25,5 +25,6 @@ public class WoodenPants extends Pants
         statistics.setItemName("Wooden Pants");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+        statistics.setArmor(5);
     }
 }

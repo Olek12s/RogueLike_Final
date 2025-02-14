@@ -25,5 +25,6 @@ public class WoodenHelmet extends Helmet
         statistics.setItemName("Wooden Helmet");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+        statistics.setArmor(4);
     }
 }

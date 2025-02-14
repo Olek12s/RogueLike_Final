@@ -7,14 +7,14 @@ import utilities.Position;
 
 public class Ring extends Item
 {
-    public Ring(GameController gc, ItemID itemID, Position worldPosition)
+    protected Ring(GameController gc, ItemID itemID, Position worldPosition)
     {
         super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public Ring(GameController gc, ItemID itemID)
+    protected Ring(GameController gc, ItemID itemID)
     {
         super(gc, itemID);
     }

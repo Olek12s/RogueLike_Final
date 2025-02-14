@@ -7,14 +7,14 @@ import utilities.Position;
 
 public class Chestplate extends Item
 {
-    public Chestplate(GameController gc, ItemID itemID, Position worldPosition)
+    protected Chestplate(GameController gc, ItemID itemID, Position worldPosition)
     {
         super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public Chestplate(GameController gc, ItemID itemID)
+    protected Chestplate(GameController gc, ItemID itemID)
     {
         super(gc, itemID);
     }

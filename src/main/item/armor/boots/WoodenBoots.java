@@ -28,5 +28,6 @@ public class WoodenBoots extends Boots
         statistics.setItemName("Wooden Boots");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+        statistics.setArmor(3);
     }
 }

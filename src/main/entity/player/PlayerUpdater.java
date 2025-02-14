@@ -55,12 +55,9 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     {
         if (entity.gc.keyHandler.CTRL_PRESSED)
         {
-            entity.setSpeed(entity.getMaxMovementSpeed() / 3);
+            entity.setCrouching(true);
         }
-        else
-        {
-            entity.setSpeed(entity.getMaxMovementSpeed());
-        }
+        else entity.setCrouching(false);
     }
 
     private void updatePlayerDirection()
