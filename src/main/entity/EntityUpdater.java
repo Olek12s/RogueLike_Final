@@ -8,12 +8,10 @@ import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.item.Item;
 import utilities.Hitbox;
-import utilities.KeyHandler;
 import utilities.Position;
 import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import utilities.Collisions;
-import world.map.MapController;
 
 import java.util.ArrayList;
 
@@ -27,6 +25,7 @@ public class EntityUpdater implements Updatable
     private int pathUpdateCounter = 0;
     private int randomthreshold = 30;
     private GameState previousGameState;
+
 
     private ArrayList<Slot> equippedSlots = new ArrayList<>();
 
@@ -50,13 +49,13 @@ public class EntityUpdater implements Updatable
             moveTowardsDirection();
             updateHitbox();
             updateChunkAssociation();
-            updateAttack();
             updateAliveStatus();
 
             if (!(entity instanceof Player))
             {
                 updateState();
                 updateBehaviourBasedOnState();
+                updateMeleeAttack(entity.gc.player);
             }
             if (entity instanceof Player)   // special case where previous gamestate is required. if previous gamestate is not needed - use PlayerUpdater class
             {
@@ -111,10 +110,26 @@ public class EntityUpdater implements Updatable
         entity.getHitbox().centerPositionToEntity(entity);
     }
 
-    public void updateAttack()
+
+    /**
+     * Performs melee attack against target entity. If target is null - anything within attack hitbox will be damaged.
+     * There's possibility to melee attack multiple targets at once, if target is null.
+     * There's possibility to melee attack only one target, if target is specified.
+     *
+     * @param target - target to be damaged. If null - every target except source will be damaged.
+     */
+    public void updateMeleeAttack(Entity target)
     {
-        entity.attack(entity.gc.player);
-    }   // change it to the updateAttackHitbox, which will check all antities around hitbox and damage first found (if single target) or multiple (if multi hit like hammer or smth)
+        if (target == entity.gc.player)
+        {
+
+        }
+        else if (target == null)
+        {
+
+        }
+        entity.updateAttackHitbox(entity.gc.player);
+    }
 
     public void updateCurrentSprite()
     {
@@ -515,7 +530,6 @@ public class EntityUpdater implements Updatable
         {
             if (slot.getStoredItem() == null) continue;
             updatedMovementSpeed *= (float)(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
-            System.out.println(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
         }
         if (entity.isCrouching()) updatedMovementSpeed /= 3;
         entity.statistics.setCurrentMovementSpeed(updatedMovementSpeed);

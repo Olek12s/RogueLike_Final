@@ -5,6 +5,7 @@ import main.controller.Updatable;
 import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.inventory.SlotType;
+import main.item.Consumable;
 import main.item.Item;
 import main.item.ItemSubType;
 import main.item.ItemType;
@@ -154,7 +155,6 @@ public class HUDUpdater implements Updatable
         {
             if (mainInvItem == null)
             {
-                System.out.println("0");
                 if (playerInventory.addItem(heldItem, slotIndexX, slotIndexY))  // if can add item on the empty slot
                 {
                     playerInventory.setHeldItem(null);

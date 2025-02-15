@@ -1,6 +1,7 @@
 package main.item.potion.health;
 
 import main.controller.GameController;
+import main.entity.Entity;
 import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
@@ -27,9 +28,9 @@ public abstract class HealthPotion extends Item implements Consumable
     }
 
     @Override
-    public void consume()
+    public void consume(Entity entity)
     {
-        System.out.println("consumed");
+        System.out.println("consumed health potion " + regenerationPower);
     }
 
     @Override

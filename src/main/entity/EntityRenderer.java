@@ -3,6 +3,7 @@ package main.entity;
 import main.controller.DrawPriorities;
 import main.controller.Drawable;
 import main.entity.player.Player;
+import utilities.Hitbox;
 import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
 import world.map.MapRenderer;
@@ -120,12 +121,19 @@ public class EntityRenderer implements Drawable {
         spriteImagesMap.put(entityID, spriteImages);
     }
 
-    private void drawEntityHitbox(Graphics g2) {
+    private void drawEntityHitbox(Graphics g2)
+    {
+        drawHitbox(g2, entity.getHitbox());
+        entity.gc.incrementRenderCount();
+    }
+
+    public void drawHitbox(Graphics g2, Hitbox hitbox)
+    {
         double scaleFactor = entity.gc.camera.getScaleFactor();
         Position screenPosition = entity.gc.camera.applyCameraOffset(entity.hitbox.getHitboxRect().x, entity.hitbox.getHitboxRect().y);
 
-        int scaledHitboxWidth = (int) (entity.getHitbox().getHitboxRect().width * scaleFactor);
-        int scaledHitboxHeight = (int) (entity.getHitbox().getHitboxRect().height * scaleFactor);
+        int scaledHitboxWidth = (int) (hitbox.getHitboxRect().width * scaleFactor);
+        int scaledHitboxHeight = (int) (hitbox.getHitboxRect().height * scaleFactor);
         g2.setColor(Color.ORANGE);
         g2.drawRect(screenPosition.x, screenPosition.y, scaledHitboxWidth, scaledHitboxHeight);
         entity.gc.incrementRenderCount();

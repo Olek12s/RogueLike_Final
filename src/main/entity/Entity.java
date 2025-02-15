@@ -4,7 +4,9 @@ import main.DamageType;
 import main.Direction;
 import main.controller.GameController;
 import main.inventory.Inventory;
-import main.item.weapon.Weapon;
+import main.inventory.Slot;
+import main.item.Item;
+import main.item.mobweapon.BareHands;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;
 import world.map.Chunk;
@@ -20,6 +22,12 @@ public abstract class Entity
     public EntityRenderer entityRenderer;
     public EntityUpdater entityUpdater;
     public int entityID;
+
+
+    private int attackPreparationCounter = 0;
+    private int attackRestCounter = 0;
+    private int attackTimeCoutner = 0;
+    public static final int ATTACK_TIME = 5;    // 5 ticks
 
     protected Sprite currentSprite;
     protected Hitbox hitbox;
@@ -39,6 +47,8 @@ public abstract class Entity
     private BehaviourState behaviourState;
     private boolean isAlerted;
     protected boolean crouching;
+    private final Item bareHands;
+    private Hitbox attackHitbox;
 
     //STATISTICS
     public EntityStatistics statistics;
@@ -69,6 +79,7 @@ public abstract class Entity
         this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
         entityUpdater.initUpdate();
         this.isMoving = false;
+        bareHands = new BareHands(gc, new Position(0,0));
     }
 
     //ABSTRACTS
@@ -78,7 +89,6 @@ public abstract class Entity
     public abstract void setWorldPosition(Position worldPosition);
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();
-    public abstract void attack(Entity target);
     public abstract void setupStatistics();
     public abstract void setDetectionRadius();
     public abstract void setLoseInterestRadius();
@@ -114,8 +124,12 @@ public abstract class Entity
     public void setAlerted(boolean alerted) {isAlerted = alerted;}
     public int getCurrentBeltSlotIndex() {return currentBeltSlotIndex;}
     public void setCurrentBeltSlotIndex(int currentBeltSlotIndex) {this.currentBeltSlotIndex = currentBeltSlotIndex;}
+    public Slot getCurrentBeltSlot() {return inventory.getBeltSlots()[currentBeltSlotIndex];}
     public boolean isCrouching() {return crouching;}
     public void setCrouching(boolean crouching) {this.crouching = crouching;}
+    public Item getBareHands() {return bareHands;}
+    public Hitbox getAttackHitbox() {return attackHitbox;}
+    public void setAttackHitbox(Hitbox hitbox) {this.attackHitbox = hitbox;}
 
     public void setDetectionDiameter(int r)
     {
@@ -137,6 +151,61 @@ public abstract class Entity
          //EntityRenderer = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 22);
     }
 
+    public double distanceBetween(Entity other)
+    {
+        Rectangle thisHitbox = this.getHitbox().getHitboxRect();
+        Rectangle otherHitbox = other.getHitbox().getHitboxRect();
+
+        if (thisHitbox.intersects(otherHitbox)) return 0;
+
+        // calc shortest distance
+        double dx = Math.max(0, Math.max(otherHitbox.x - (thisHitbox.x + thisHitbox.width), thisHitbox.x - (otherHitbox.x + otherHitbox.width)));
+        double dy = Math.max(0, Math.max(otherHitbox.y - (thisHitbox.y + thisHitbox.height), thisHitbox.y - (otherHitbox.y + otherHitbox.height)));
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /**
+     * Executes the melee attack. Creates a hitbox for short period of time (5 ticks).
+     * There's delay 'attackPreparationCounter' for every item, which indicates how many game ticks
+     * need to pass before creating hitbox. Another Hitbox cannot be created for next 'attackRestCounter' ticks.
+     *
+     * 1) preparing for attack
+     * 2) performing attack for 5 ticks
+     * 3) resting after attack
+     */
+    public void updateAttackHitbox()
+    {
+        Item currentlyHeldItem = inventory.getItemAtFromBelt(currentBeltSlotIndex);
+        if (currentlyHeldItem == null) currentlyHeldItem =  bareHands;
+        if (isAlive() == false) return; // can't attack if dead
+        if (attackRestCounter < currentlyHeldItem.getAttackRestTime())
+        {
+            attackRestCounter++;
+            return; // can't attack when resting
+        }
+        attackPreparationCounter++;
+
+
+        // continue charging attack even if target is out of range
+        if (attackPreparationCounter > 0)
+        {
+            if (attackPreparationCounter < currentlyHeldItem.getAttackPreparationTime())
+            {
+                attackPreparationCounter++;
+            }
+            else // if attack is charged - attack (add animation)
+            {
+                if (this.distanceBetween(target) <= currentlyHeldItem.getMeleeAttackHeight()) // if target is within range (change it to the hitbox which will damage first target?)
+                {
+                    target.receiveDamage(calculateDamageOutput(currentlyHeldItem), currentlyHeldItem.getDamageType());
+                }
+
+                attackPreparationCounter = 0;
+                attackRestCounter = 0;
+            }
+        }
+    }
+
     /**
      * this method calculates, how many damage should entity receive lowered by armor factor by formula:
      * X/(X+1.5*D)
@@ -147,13 +216,11 @@ public abstract class Entity
      */
     public void receiveDamage(int damageInput, DamageType type)
     {
-       //System.out.println("BASE DAMAGE: " + damageInput);
+        //System.out.println("BASE DAMAGE: " + damageInput);
         double damageMultipler;
         switch (type)
         {
             case PHYSICAL:
-                //int receivedPhysical = damageInput - statistics.armour;
-                //statistics.hitPoints -= Math.max(1, receivedPhysical);
                 if (statistics.getArmour() != 0) damageMultipler = (double) damageInput / (damageInput + statistics.getArmour());
                 else damageMultipler = 1;
                 break;
@@ -171,11 +238,16 @@ public abstract class Entity
         }
         int receivedDamage = (int) (damageMultipler*damageInput);
         if (receivedDamage <= 0) receivedDamage = 1;
-        //System.out.println("RECEIVED DAMAGE: " + receivedDamage);
         statistics.setHitPoints(statistics.getHitPoints() - receivedDamage);
 
     }
-    public int calculateDamageOutput(Weapon weapon)
+
+    /**
+     *  Calculates damage output with currently held statistics and items
+     * @param weapon    - currently held weapon
+     * @return
+     */
+    public int calculateDamageOutput(Item weapon)
     {
         int output = 0;
 
@@ -183,25 +255,10 @@ public abstract class Entity
         double randomMultiplier = 0.8 + (Math.random() * 0.4); // random between 0.8 to 1.2
         double criticalChance = 0.05;
 
-        if (Math.random() < criticalChance) // Math.random returns between 0-1, that's why there's 5% chance for this condidiot to be true
+        if (Math.random() < criticalChance) // Math.random returns between 0-1, that's why there's 5% chance for this condition to be true
         {
-            randomMultiplier *= 1.5;    //
+            randomMultiplier *= 1.5;
         }
-
         return (int) (output * randomMultiplier);
-    }
-
-
-    public double distanceBetween(Entity other)
-    {
-        Rectangle thisHitbox = this.getHitbox().getHitboxRect();
-        Rectangle otherHitbox = other.getHitbox().getHitboxRect();
-
-        if (thisHitbox.intersects(otherHitbox)) return 0;
-
-        // calc shortest distance
-        double dx = Math.max(0, Math.max(otherHitbox.x - (thisHitbox.x + thisHitbox.width), thisHitbox.x - (otherHitbox.x + otherHitbox.width)));
-        double dy = Math.max(0, Math.max(otherHitbox.y - (thisHitbox.y + thisHitbox.height), thisHitbox.y - (otherHitbox.y + otherHitbox.height)));
-        return Math.sqrt(dx * dx + dy * dy);
     }
 }

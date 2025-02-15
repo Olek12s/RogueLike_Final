@@ -1,5 +1,6 @@
 package main.item;
 
+import main.DamageType;
 import main.controller.GameController;
 import utilities.Hitbox;
 import utilities.Position;
@@ -24,6 +25,11 @@ public abstract class Item
     private boolean isOnGround;
     protected Hitbox hitbox;
 
+    protected int meleeAttackWidth;
+    protected int meleeAttackHeight;
+    protected int attackPreparationTime;     // time in x/60 seconds of how long entity prepares an attack
+    protected int attackRestTime;           // time in x/60 seconds until next attack
+
     private MapLevels level;
 
     public boolean isOnGround() {return isOnGround;}
@@ -39,6 +45,49 @@ public abstract class Item
     public ItemID getItemID() {return itemID;}
     public ItemType getItemType() {return itemType;}
     public ItemSubType getItemSubType() {return itemSubType;}
+
+    public int getMeleeAttackWidth() {return meleeAttackWidth;}
+    public int getMeleeAttackHeight() {return meleeAttackHeight;}
+    public int getAttackPreparationTime() {return attackPreparationTime;}
+    public int getAttackRestTime() {return attackRestTime;}
+
+    /**
+     * Outputs type with the highest number of physical/magical/inevitable damage from item's statistics
+     * @return
+     */
+    public DamageType getDamageType()
+    {
+        int physical = statistics.getPhysicalDamage();
+        int magical = statistics.getMagicalDamage();
+        int inevitable = statistics.getInevitableDamage();
+
+        if (physical >= magical && physical >= inevitable) {
+            return DamageType.PHYSICAL;
+        } else if (magical >= physical && magical >= inevitable) {
+            return DamageType.MAGICAL;
+        } else {
+            return DamageType.INEVITABLE;
+        }
+    }
+
+    /**
+     * Outputs the highest number from physical/magical/inevitable damage from item's statistics
+     * @return
+     */
+    public int getDamageOutput()
+    {
+        int physical = statistics.getPhysicalDamage();
+        int magical = statistics.getMagicalDamage();
+        int inevitable = statistics.getInevitableDamage();
+
+        if (physical >= magical && physical >= inevitable) {
+            return physical;
+        } else if (magical >= physical && magical >= inevitable) {
+            return magical;
+        } else {
+            return inevitable;
+        }
+    }
 
     public ItemStatistics getStatistics() {
         return statistics;

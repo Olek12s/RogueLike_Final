@@ -6,7 +6,8 @@ import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.weapon.ZombieWeapon;
+import main.item.mobweapon.SpiderWeapon;
+import main.item.mobweapon.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -24,7 +25,7 @@ public class PlayerEntity extends Entity
     {
         super(gc, 5, worldPosition);
         this.worldPosition = worldPosition;
-        this.weapon = new ZombieWeapon();
+        this.getInventory().getBeltSlots()[0].setStoredItem(new ZombieWeapon(gc, worldPosition));
         this.isImmobilised = true;
         this.name = "Player";
         setupStatistics();

@@ -50,7 +50,7 @@ public class EntityTester
     {
         entityB.statistics.setHitPoints(50);
         entityA.statistics.setStrength(35, 0, 0);
-        for (int i = 0; i < 50; i++) entityA.attack(entityB);
+        for (int i = 0; i < 50; i++) entityA.updateAttackHitbox(entityB);
         Assertions.assertTrue(entityB.getCurrentHealth() != 50);
     }
 

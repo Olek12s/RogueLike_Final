@@ -48,5 +48,10 @@ public class ItemManager
         spriteMap.put(ItemID.WOODEN_SHIELD, new Sprite(FileManipulation.loadImage("resources/items/armor/WoodenShield"), 32));
 
         spriteMap.put(ItemID.WOODEN_PICKAXE, new Sprite(FileManipulation.loadImage("resources/items/tool/WoodenPickaxe"), 32));
+
+        spriteMap.put(ItemID.HANDS_WEAPON, new Sprite(FileManipulation.loadImage("resources/items/weapon/MobWeapon"), 16));
+        spriteMap.put(ItemID.BITING_SLIME_WEAPON, new Sprite(FileManipulation.loadImage("resources/items/weapon/MobWeapon"), 16));
+        spriteMap.put(ItemID.SPIDER_WEAPON, new Sprite(FileManipulation.loadImage("resources/items/weapon/MobWeapon"), 16));
+        spriteMap.put(ItemID.ZOMBIE_WEAPON, new Sprite(FileManipulation.loadImage("resources/items/weapon/MobWeapon"), 16));
     }
 }
