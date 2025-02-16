@@ -14,7 +14,8 @@ public enum ItemSubType
     HEALTH_POTION(8),
     MANA_POTION(9),
 
-    PICKAXE(10);
+    PICKAXE(10),
+    SWORD(11);
 
     private final int id;
 

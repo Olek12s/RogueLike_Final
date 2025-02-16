@@ -23,7 +23,12 @@ public enum ItemID
     GEL_RING(15),
 
     WOODEN_PICKAXE(16),
-    WOODEN_AXE(17);
+    WOODEN_AXE(17),
+
+    BITING_SLIME_WEAPON(18),
+    SPIDER_WEAPON(19),
+    ZOMBIE_WEAPON(20),
+    HANDS_WEAPON(21);
 
     private final int id;
 

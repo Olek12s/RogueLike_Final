@@ -8,7 +8,6 @@ import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.item.Item;
 import utilities.Hitbox;
-import utilities.KeyHandler;
 import utilities.Position;
 import utilities.pathfinding.astar.AStar;
 import world.map.Chunk;
@@ -16,6 +15,7 @@ import utilities.Collisions;
 import world.map.MapController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EntityUpdater implements Updatable
 {
@@ -28,9 +28,22 @@ public class EntityUpdater implements Updatable
     private int randomthreshold = 30;
     private GameState previousGameState;
 
+    private int attackPreparationCounter = 0;
+    private int attackRestCounter = 0;
+    private int attackTimeCounter = 0;
+    public static final int ATTACK_TIME = 30;    // 5 ticks
+    private List<Entity> damagedEntities;
+
+
     private ArrayList<Slot> equippedSlots = new ArrayList<>();
 
     public Entity getEntity() {return entity;}
+    public int getAttackPreparationCounter() {return attackPreparationCounter;}
+    public void setAttackPreparationCounter(int attackPreparationCounter) {this.attackPreparationCounter = attackPreparationCounter;}
+    public int getAttackRestCounter() {return attackRestCounter;}
+    public void setAttackRestCounter(int attackRestCounter) {this.attackRestCounter = attackRestCounter;}
+    public int getAttackTimeCounter() {return attackTimeCounter;}
+    public void setAttackTimeCounter(int attackTimeCounter) {this.attackTimeCounter = attackTimeCounter;}
 
     public EntityUpdater(Entity entity)
     {
@@ -41,7 +54,7 @@ public class EntityUpdater implements Updatable
     @Override
     public void update()
     {
-        if (entity != null && (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel()))
+        if (entity != null && (entity.getLevel() == entity.gc.mapController.getCurrentMap().getLevel()) && entity.isAlive())
         {
             updateEquippedSlots();
             updateStatistics();
@@ -50,13 +63,12 @@ public class EntityUpdater implements Updatable
             moveTowardsDirection();
             updateHitbox();
             updateChunkAssociation();
-            updateAttack();
-            updateAliveStatus();
 
             if (!(entity instanceof Player))
             {
                 updateState();
                 updateBehaviourBasedOnState();
+                updateMeleeAttack(entity.gc.player);
             }
             if (entity instanceof Player)   // special case where previous gamestate is required. if previous gamestate is not needed - use PlayerUpdater class
             {
@@ -64,6 +76,7 @@ public class EntityUpdater implements Updatable
             }
             previousGameState = entity.gc.gameStateController.getCurrentGameState();
         }
+        updateAliveStatus();
     }
 
     public void initUpdate()
@@ -111,10 +124,107 @@ public class EntityUpdater implements Updatable
         entity.getHitbox().centerPositionToEntity(entity);
     }
 
-    public void updateAttack()
+
+    /**
+     * Performs melee attack against target entity. If target is null - anything within attack hitbox will be damaged.
+     * There's possibility to melee attack multiple targets at once, if target is null.
+     * There's possibility to melee attack only one target, if target is specified.
+     *
+     * @param target - target to be damaged. If null - every target except source will be damaged.
+     */
+    public void updateMeleeAttack(Entity target)
     {
-        entity.attack(entity.gc.player);
-    }   // change it to the updateAttackHitbox, which will check all antities around hitbox and damage first found (if single target) or multiple (if multi hit like hammer or smth)
+        if (target == entity.gc.player) // attack only player if intersects attackHitbox
+        {
+            if (entity.distanceBetween(target) <= entity.getCurrentBeltSlot().getStoredItem().getMaxMeleeAttackRange())
+            {
+                entity.setDuringMeleeAttack(true);
+            }
+        }
+        if (!entity.isDuringMeleeAttack()) return;
+        else if (target == null)    // attack every target which intersects with attackHitbox
+        {
+
+        }
+        updateAttackHitbox();
+    }
+
+    /**
+     * Executes the melee attack. Creates a hitbox for short period of time (5 ticks).
+     * There's delay 'attackPreparationCounter' for every item, which indicates how many game ticks
+     * need to pass before creating hitbox. Another Hitbox cannot be created for next 'attackRestCounter' ticks.
+     *
+     * 1) preparing for attack
+     * 2) performing attack for 5 ticks
+     * 3) resting after attack
+     */
+    public void updateAttackHitbox()
+    {
+        if (entity.getItemHeldDuringAttack() == null) entity.setItemHeldDuringAttack(entity.getInventory().getItemAtFromBelt(entity.getCurrentBeltSlotIndex()));
+        if (entity.getItemHeldDuringAttack() == null) entity.setItemHeldDuringAttack(entity.getBareHands());
+        if (damagedEntities == null) damagedEntities = new ArrayList<>();
+        if (entity.isAlive() == false) return; // can't attack if dead
+        if (attackPreparationCounter < entity.getItemHeldDuringAttack().getAttackPreparationTime())
+        {
+            attackPreparationCounter++;
+            //return; // can't attack when preparing
+        }
+        else if (attackTimeCounter < ATTACK_TIME)    // melee attack period
+        {
+            attackTimeCounter++;
+            entity.createAttackHitbox();
+            damageEntitiesInHitboxRange(entity.getAttackHitbox(), entity.getItemHeldDuringAttack());
+        }
+        else if (attackRestCounter < entity.getItemHeldDuringAttack().getAttackRestTime())
+        {
+            if (entity.getAttackHitbox() != null) entity.setAttackHitbox(null);
+            attackRestCounter++;
+            return; // can't attack when resting
+        }
+        else
+        {
+            entity.setAttackHitbox(null);
+            entity.setDuringMeleeAttack(false);
+            entity.setItemHeldDuringAttack(null);
+            attackRestCounter = 0;
+            attackPreparationCounter = 0;
+            attackTimeCounter = 0;
+            damagedEntities = null;
+        }
+    }
+
+    public void damageEntitiesInHitboxRange(Hitbox attackHitbox, Item weapon)
+    {
+        ArrayList<Chunk> chunks = new ArrayList<>();
+        Chunk sourceChunk = MapController.getCurrentMap().getChunk(attackHitbox.getCenterWorldPosition());
+        chunks.add(sourceChunk);
+        chunks.addAll(MapController.getCurrentMap().getChunkNeighborsDiagonals(sourceChunk));
+        if (entity.entityID == EntityID.Player.ID)
+        {
+            for (Chunk chunk : chunks)
+            {
+                for (Entity targetEntity : chunk.getEntities())
+                {
+                    if (damagedEntities.contains(targetEntity)) continue;   // do not damage same entity multiple times
+                    if (targetEntity.getHitbox().getHitboxRect().intersects(attackHitbox.getHitboxRect()))    // if hitboxes intersects
+                    {
+                        damagedEntities.add(targetEntity);
+                        entity.meleeDamageTarget(targetEntity, weapon);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Entity targetEntity = entity.gc.player;
+            if (damagedEntities.contains(targetEntity)) return;
+            if (targetEntity.getHitbox().getHitboxRect().intersects(attackHitbox.getHitboxRect()))    // if hitboxes intersects
+            {
+                damagedEntities.add(targetEntity);
+                entity.meleeDamageTarget(targetEntity, weapon);
+            }
+        }
+    }
 
     public void updateCurrentSprite()
     {
@@ -142,13 +252,8 @@ public class EntityUpdater implements Updatable
         if (entity.isAlive() == false)
         {
             entity.gc.drawables.remove(entity.entityRenderer);
-
-            entity.entityUpdater = null;
-            entity.entityRenderer = null;
-
-
+            entity.gc.updatables.remove(this);
             entity.getCurrentChunk().removeEntity(entity);
-            entity.gc.updatables.remove(entity.entityUpdater);
             entity = null;
         }
     }
@@ -414,9 +519,11 @@ public class EntityUpdater implements Updatable
         // Get the last point in the path
         Position target;
         if (path.length > 1) target = path[1];
-        else
+        else return;
+        if (entity.hitbox.isInsideHitbox(path[path.length-1]))
         {
             entity.setBehaviourState(BehaviourState.WANDER);
+            entity.setPathToFollow(null);
             return;
         }
 
@@ -515,7 +622,6 @@ public class EntityUpdater implements Updatable
         {
             if (slot.getStoredItem() == null) continue;
             updatedMovementSpeed *= (float)(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
-            System.out.println(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
         }
         if (entity.isCrouching()) updatedMovementSpeed /= 3;
         entity.statistics.setCurrentMovementSpeed(updatedMovementSpeed);

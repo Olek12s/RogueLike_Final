@@ -33,19 +33,19 @@ public class BattleSimulation
 
                 if (entityB.getName().equals("Player"))
                 {
-                    if (Math.random() > playerDodgeChance) entityA.attack(entityB);
+                    if (Math.random() > playerDodgeChance) entityA.entityUpdater.updateAttackHitbox();
                 }
                 else
                 {
-                    entityA.attack(entityB);
+                    entityA.entityUpdater.updateAttackHitbox();
                 }
                 if (entityA.getName().equals("Player"))
                 {
-                    if (Math.random() > playerDodgeChance) entityB.attack(entityA);
+                    if (Math.random() > playerDodgeChance) entityB.entityUpdater.updateAttackHitbox();
                 }
                 else
                 {
-                    entityB.attack(entityA);
+                    entityB.entityUpdater.updateAttackHitbox();
                 }
                 if (entityB.getCurrentHealth() <= 0) entityB.setAlive(false);
                 if (entityA.getCurrentHealth() <= 0) entityA.setAlive(false);

@@ -43,16 +43,13 @@ public class Player extends Entity
         return new PlayerUpdater(this);
     }
 
-    @Override
-    public void attack(Entity target) {
-
-    }
 
     @Override
     public void setupStatistics()
     {
         statistics.setMaxHitPoints(100);
         statistics.setBaseArmour(0);
+        statistics.setStrength(3);  // 3
         statistics.setRegeneration(1);
         statistics.setHitPoints(statistics.getMaxHitPoints());
         statistics.setMaxMovementSpeed(12);

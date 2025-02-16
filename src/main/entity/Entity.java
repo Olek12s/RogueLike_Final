@@ -3,8 +3,11 @@ package main.entity;
 import main.DamageType;
 import main.Direction;
 import main.controller.GameController;
+import main.entity.player.Player;
 import main.inventory.Inventory;
-import main.item.weapon.Weapon;
+import main.inventory.Slot;
+import main.item.Item;
+import main.item.mobweapon.BareHands;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;
 import world.map.Chunk;
@@ -20,6 +23,9 @@ public abstract class Entity
     public EntityRenderer entityRenderer;
     public EntityUpdater entityUpdater;
     public int entityID;
+
+    private Item itemHeldDuringAttack;
+    private boolean isDuringMeleeAttack;
 
     protected Sprite currentSprite;
     protected Hitbox hitbox;
@@ -39,6 +45,8 @@ public abstract class Entity
     private BehaviourState behaviourState;
     private boolean isAlerted;
     protected boolean crouching;
+    private final Item bareHands;
+    private Hitbox attackHitbox;
 
     //STATISTICS
     public EntityStatistics statistics;
@@ -69,6 +77,7 @@ public abstract class Entity
         this.worldPosition = gc.mapController.getCurrentMap().seekForNearestNonCollidableSpawnPosition(worldPosition, hitbox);
         entityUpdater.initUpdate();
         this.isMoving = false;
+        bareHands = new BareHands(gc, new Position(0,0));
     }
 
     //ABSTRACTS
@@ -78,7 +87,6 @@ public abstract class Entity
     public abstract void setWorldPosition(Position worldPosition);
     public abstract EntityRenderer setRenderer();
     public abstract EntityUpdater setUpdater();
-    public abstract void attack(Entity target);
     public abstract void setupStatistics();
     public abstract void setDetectionRadius();
     public abstract void setLoseInterestRadius();
@@ -114,8 +122,16 @@ public abstract class Entity
     public void setAlerted(boolean alerted) {isAlerted = alerted;}
     public int getCurrentBeltSlotIndex() {return currentBeltSlotIndex;}
     public void setCurrentBeltSlotIndex(int currentBeltSlotIndex) {this.currentBeltSlotIndex = currentBeltSlotIndex;}
+    public Slot getCurrentBeltSlot() {return inventory.getBeltSlots()[currentBeltSlotIndex];}
     public boolean isCrouching() {return crouching;}
     public void setCrouching(boolean crouching) {this.crouching = crouching;}
+    public Item getBareHands() {return bareHands;}
+    public Hitbox getAttackHitbox() {return attackHitbox;}
+    public void setAttackHitbox(Hitbox hitbox) {this.attackHitbox = hitbox;}
+    public boolean isDuringMeleeAttack() {return isDuringMeleeAttack;}
+    public void setDuringMeleeAttack(boolean duringMeleeAttack) {isDuringMeleeAttack = duringMeleeAttack;}
+    public Item getItemHeldDuringAttack() {return itemHeldDuringAttack;}
+    public void setItemHeldDuringAttack(Item itemHeldDuringAttack) {this.itemHeldDuringAttack = itemHeldDuringAttack;}
 
     public void setDetectionDiameter(int r)
     {
@@ -124,6 +140,7 @@ public abstract class Entity
         int randomOffset = (int) (r * (random.nextDouble() * 0.2 - 0.1)); // multiple (-0.1 to 0.1) randomly
         this.detectionDiameter = r + randomOffset;
     }
+
     public void setLoseInterestDiameter(int r)
     {
         Random random = new Random();
@@ -137,6 +154,19 @@ public abstract class Entity
          //EntityRenderer = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 22);
     }
 
+    public double distanceBetween(Entity other)
+    {
+        Rectangle thisHitbox = this.getHitbox().getHitboxRect();
+        Rectangle otherHitbox = other.getHitbox().getHitboxRect();
+
+        if (thisHitbox.intersects(otherHitbox)) return 0;
+
+        // calc shortest distance
+        double dx = Math.max(0, Math.max(otherHitbox.x - (thisHitbox.x + thisHitbox.width), thisHitbox.x - (otherHitbox.x + otherHitbox.width)));
+        double dy = Math.max(0, Math.max(otherHitbox.y - (thisHitbox.y + thisHitbox.height), thisHitbox.y - (otherHitbox.y + otherHitbox.height)));
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     /**
      * this method calculates, how many damage should entity receive lowered by armor factor by formula:
      * X/(X+1.5*D)
@@ -147,13 +177,11 @@ public abstract class Entity
      */
     public void receiveDamage(int damageInput, DamageType type)
     {
-       //System.out.println("BASE DAMAGE: " + damageInput);
+        //System.out.println("BASE DAMAGE: " + damageInput);
         double damageMultipler;
         switch (type)
         {
             case PHYSICAL:
-                //int receivedPhysical = damageInput - statistics.armour;
-                //statistics.hitPoints -= Math.max(1, receivedPhysical);
                 if (statistics.getArmour() != 0) damageMultipler = (double) damageInput / (damageInput + statistics.getArmour());
                 else damageMultipler = 1;
                 break;
@@ -171,11 +199,17 @@ public abstract class Entity
         }
         int receivedDamage = (int) (damageMultipler*damageInput);
         if (receivedDamage <= 0) receivedDamage = 1;
-        //System.out.println("RECEIVED DAMAGE: " + receivedDamage);
+        if (this instanceof Player) System.out.println("player received damage: " + receivedDamage);
+        else System.out.println("NPC received damage: " + receivedDamage);
         statistics.setHitPoints(statistics.getHitPoints() - receivedDamage);
-
     }
-    public int calculateDamageOutput(Weapon weapon)
+
+    /**
+     *  Calculates damage output with currently held statistics and items
+     * @param weapon    - currently held weapon
+     * @return
+     */
+    public int calculateDamageOutput(Item weapon)
     {
         int output = 0;
 
@@ -183,25 +217,90 @@ public abstract class Entity
         double randomMultiplier = 0.8 + (Math.random() * 0.4); // random between 0.8 to 1.2
         double criticalChance = 0.05;
 
-        if (Math.random() < criticalChance) // Math.random returns between 0-1, that's why there's 5% chance for this condidiot to be true
+        if (Math.random() < criticalChance) // Math.random returns between 0-1, that's why there's 5% chance for this condition to be true
         {
-            randomMultiplier *= 1.5;    //
+            randomMultiplier *= 1.5;
         }
-
         return (int) (output * randomMultiplier);
     }
 
-
-    public double distanceBetween(Entity other)
+    public void meleeDamageTarget(Entity target, Item weapon)
     {
-        Rectangle thisHitbox = this.getHitbox().getHitboxRect();
-        Rectangle otherHitbox = other.getHitbox().getHitboxRect();
+        int damage = calculateDamageOutput(weapon);
+        DamageType damageType = weapon.getDamageType();
+        target.receiveDamage(damage, damageType);
+    }
 
-        if (thisHitbox.intersects(otherHitbox)) return 0;
+    /**
+     * Modifies hitbox location based on entity's direction. If hitbox is null, creates new object.
+     *
+     */
+    public void createAttackHitbox()
+    {
+        int attackWidth = itemHeldDuringAttack.getMeleeAttackWidth();
+        int attackHeight = itemHeldDuringAttack.getMeleeAttackHeight();
+        int halfAttackWidth = attackWidth / 2;
+        int halfAttackHeight = attackHeight / 2;
+        Position entityHitbox = this.hitbox.getWorldPosition();
+        int entityHitboxXCenter = entityHitbox.x + (this.hitbox.getWidth() / 2);
+        int entityHitboxYCenter = entityHitbox.y + (this.hitbox.getHeight() / 2);
 
-        // calc shortest distance
-        double dx = Math.max(0, Math.max(otherHitbox.x - (thisHitbox.x + thisHitbox.width), thisHitbox.x - (otherHitbox.x + otherHitbox.width)));
-        double dy = Math.max(0, Math.max(otherHitbox.y - (thisHitbox.y + thisHitbox.height), thisHitbox.y - (otherHitbox.y + otherHitbox.height)));
-        return Math.sqrt(dx * dx + dy * dy);
+        Position attackHitboxPos;
+        int boxWidth = attackWidth;
+        int boxHeight = attackHeight;
+        int diagSize = (int) ((attackWidth + attackHeight) / Math.sqrt(2));
+        switch (direction) {
+            case UP: {
+                attackHitboxPos = new Position(entityHitboxXCenter - halfAttackWidth, entityHitbox.y - attackHeight);
+                break;
+            }
+            case DOWN: {
+                attackHitboxPos = new Position(entityHitboxXCenter - halfAttackWidth, entityHitbox.y + this.hitbox.getHeight());
+                break;
+            }
+            case LEFT: {
+                boxWidth = attackHeight;
+                boxHeight = attackWidth;
+                attackHitboxPos = new Position(entityHitbox.x - boxWidth, entityHitboxYCenter - (boxHeight / 2));
+                break;
+            }
+            case RIGHT: {
+                boxWidth = attackHeight;
+                boxHeight = attackWidth;
+                attackHitboxPos = new Position(entityHitbox.x + this.hitbox.getWidth(), entityHitboxYCenter - (boxHeight / 2));
+                break;
+            }
+            case UP_LEFT: {
+                boxWidth = diagSize;
+                boxHeight = diagSize;
+                attackHitboxPos = new Position(entityHitbox.x - diagSize, entityHitbox.y - diagSize);
+                break;
+            }
+            case UP_RIGHT: {
+                boxWidth = diagSize;
+                boxHeight = diagSize;
+                attackHitboxPos = new Position(entityHitbox.x + this.hitbox.getWidth(), entityHitbox.y - diagSize);
+                break;
+            }
+            case DOWN_LEFT: {
+                boxWidth = diagSize;
+                boxHeight = diagSize;
+                attackHitboxPos = new Position(entityHitbox.x - diagSize, entityHitbox.y + this.hitbox.getHeight());
+                break;
+            }
+            case DOWN_RIGHT: {
+                boxWidth = diagSize;
+                boxHeight = diagSize;
+                attackHitboxPos = new Position(entityHitbox.x + this.hitbox.getWidth(), entityHitbox.y + this.hitbox.getHeight());
+                break;
+            }
+            default:
+                try {
+                    throw new Exception("direction was not determined while creating attack hitbox");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+        }
+        attackHitbox = new Hitbox(attackHitboxPos, boxWidth, boxHeight);
     }
 }

@@ -163,7 +163,7 @@ public class GameController extends JPanel implements Runnable
     private void updateLogic()    // UPDATE LOGIC
     {
         long start = System.nanoTime();
-        for (Updatable updatable : updatables)
+        for (Updatable updatable : new ArrayList<>(updatables)) // copy of list for safe removing during iteration
         {
             updatable.update();
         }

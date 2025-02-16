@@ -1,6 +1,7 @@
 package main.item.potion.mana;
 
 import main.controller.GameController;
+import main.entity.Entity;
 import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
@@ -29,9 +30,9 @@ public abstract class ManaPotion extends Item implements Consumable
     }
 
     @Override
-    public void consume()
+    public void consume(Entity entity)
     {
-        System.out.println("consumed");
+        System.out.println("consumed mana potion " + regenerationPower);
     }
 
     @Override

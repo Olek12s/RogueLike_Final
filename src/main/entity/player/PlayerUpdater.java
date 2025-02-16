@@ -5,6 +5,10 @@ import main.controller.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
 import main.inventory.Inventory;
+import main.inventory.Slot;
+import main.item.Consumable;
+import main.item.Item;
+import utilities.Hitbox;
 import utilities.KeyHandler;
 import utilities.Position;
 import world.generation.CaveNegativeOneGenerator;
@@ -19,6 +23,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
 {
     Player entity;
     private boolean beltKeyProcessed = false;
+    private boolean attackKeyProcessed = false;
 
     public PlayerUpdater(Entity entity)
     {
@@ -31,17 +36,23 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     public void update()
     {
         super.update();
-        updatePlayerDirection();
-        checkEnteranceCollision();
-        checkPickUpItem();
-        checkCrouch();
-        updateCurrentBeltSlotIndex();
-        counter++;
-        if (counter == 60)  // DEBUG
+        //entity.gc.player = null;
+        if (entity != null && entity.isAlive())
         {
-            counter = 0;
-            //System.out.println(entity.getWorldPosition().x/Tile.tileSize + " " + entity.getWorldPosition().y/Tile.tileSize);
-            //System.out.println("Level: " + entity.gc.mapController.getCurrentMap().getLevel());
+            updatePlayerDirection();
+            checkEnteranceCollision();
+            checkPickUpItem();
+            checkCrouch();
+            processClickedSlotIndex();
+            attackIfClicked();
+            updateMeleeAttack(null);
+            counter++;
+            if (counter == 60)  // DEBUG
+            {
+                counter = 0;
+                //System.out.println(entity.getWorldPosition().x/Tile.tileSize + " " + entity.getWorldPosition().y/Tile.tileSize);
+                //System.out.println("Level: " + entity.gc.mapController.getCurrentMap().getLevel());
+            }
         }
     }
 
@@ -167,31 +178,69 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
 
     /**
      * Updates currently selected slot from belt on-click. By default currently selected slot index is 0.
+     * If clicked slot can be processed, index of selected item won't change, but action of implemented interface
+     * will be executed first.
+     * Clicked slot is processed only once on button hold.
      */
-    private void updateCurrentBeltSlotIndex()
+    private void processClickedSlotIndex()
     {
         KeyHandler kh = entity.gc.keyHandler;
         int slotCount = Inventory.INVENTORY_BELT_SLOTS;
+        int clickedIDX = -1;
 
         boolean[] numberKeys = {
                 kh.ONE_PRESSED, kh.TWO_PRESSED, kh.THREE_PRESSED,
                 kh.FOUR_PRESSED, kh.FIVE_PRESSED, kh.SIX_PRESSED,
                 kh.SEVEN_PRESSED, kh.EIGHT_PRESSED, kh.NINE_PRESSED
         };
-
         for (int i = 0; i < numberKeys.length && i < slotCount; i++)
         {
             if (numberKeys[i])
             {
-                if (!beltKeyProcessed)
-                {
-                    System.out.println(i);
-                    entity.setCurrentBeltSlotIndex(i);
-                    beltKeyProcessed = true;
-                }
-                return;
+                clickedIDX = i;
+                break;
             }
         }
-        beltKeyProcessed = false;
+        if (clickedIDX == -1)
+        {
+            beltKeyProcessed = false;
+            return;
+        }
+        if (beltKeyProcessed) return;
+
+        // CONSUMABLE LOGIC //
+        Slot clickedSlot = entity.getInventory().getBeltSlots()[clickedIDX];
+        if (clickedSlot.getStoredItem() instanceof Consumable)
+        {
+            ((Consumable) clickedSlot.getStoredItem()).consume(entity);
+            clickedSlot.setStoredItem(null);
+        }
+
+        // CHANGING SLOT INDEX //
+        else
+        {
+            entity.setCurrentBeltSlotIndex(clickedIDX);
+        }
+        beltKeyProcessed = true;
+    }
+
+    private void attackIfClicked()
+    {
+        KeyHandler kh = entity.gc.keyHandler;
+        Item currentWeapon = entity.getCurrentBeltSlot().getStoredItem();
+        if (currentWeapon == null) currentWeapon = entity.getBareHands();
+        int attackWidth = currentWeapon.getMeleeAttackWidth();
+        int attackHeight = currentWeapon.getMeleeAttackHeight();
+
+        if (kh.SPACE_PRESSED && !attackKeyProcessed)
+        {
+            attackKeyProcessed = true;
+            //updateMeleeAttack(null);
+            entity.setDuringMeleeAttack(true);
+        }
+        if (!kh.SPACE_PRESSED)
+        {
+            attackKeyProcessed = false;
+        }
     }
 }

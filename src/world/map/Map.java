@@ -200,6 +200,14 @@ public class Map
         return tiles;
     }
 
+    /**
+     * Returns a list of neighboring chunks for the given source chunk,
+     * excluding diagonal neighbors. Only chunks directly above, below,
+     * to the left, or to the right of the source chunk are returned.
+     *
+     * @param sourceChunk The source chunk for which to retrieve non-diagonal neighbors.
+     * @return An ArrayList containing the non-diagonal neighboring chunks.
+     */
     public ArrayList<Chunk> getChunkNeighborsNotDiagonals(Chunk sourceChunk)
     {
         ArrayList<Chunk> resultChunks = new ArrayList<>();
@@ -229,6 +237,13 @@ public class Map
         return resultChunks;
     }
 
+    /**
+     * Returns a list of all neighboring chunks for the given source chunk,
+     * including diagonal neighbors. The source chunk itself is excluded.
+     *
+     * @param sourceChunk The source chunk for which to retrieve all neighbors.
+     * @return An ArrayList containing all neighboring chunks, including those located diagonally.
+     */
     public ArrayList<Chunk> getChunkNeighborsDiagonals(Chunk sourceChunk)
     {
         ArrayList<Chunk> resultChunks = new ArrayList<>();
