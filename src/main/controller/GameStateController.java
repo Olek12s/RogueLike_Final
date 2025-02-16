@@ -7,6 +7,7 @@ public class GameStateController implements Updatable
     private boolean inventoryKeyReleased = true;
 
     public GameState getCurrentGameState() {return currentGameState;}
+    public void setCurrentGameState(GameState currentGameState) {this.currentGameState = currentGameState;}
 
     public GameStateController(GameController gc)
     {

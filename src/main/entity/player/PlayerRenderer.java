@@ -4,19 +4,18 @@ import main.controller.DrawPriorities;
 import main.controller.Drawable;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
-import utilities.Hitbox;
 import utilities.sprite.SpriteSheet;
 
 import java.awt.*;
 
 public class PlayerRenderer extends EntityRenderer implements Drawable
 {
-    Entity entity;
+    Entity playerEntity;
 
     public PlayerRenderer(Entity entity, SpriteSheet spriteSheet)
     {
         super(entity, spriteSheet);
-        this.entity = entity;
+        this.playerEntity = entity;
 
     }
 

@@ -4,7 +4,8 @@ public enum GameState
 {
     PENDING(0),
     INVENTORY(1),
-    PAUSED(10);
+    PAUSED(10),
+    GAME_OVER(100);
 
     private final int id;
 

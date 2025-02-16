@@ -1,6 +1,8 @@
 package main.entity.player;
 
 import main.Direction;
+import main.controller.GameController;
+import main.controller.GameState;
 import main.controller.Updatable;
 import main.entity.Entity;
 import main.entity.EntityUpdater;
@@ -8,7 +10,6 @@ import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.item.Consumable;
 import main.item.Item;
-import utilities.Hitbox;
 import utilities.KeyHandler;
 import utilities.Position;
 import world.generation.CaveNegativeOneGenerator;
@@ -21,14 +22,14 @@ import world.map.tiles.TileID;
 
 public class PlayerUpdater extends EntityUpdater implements Updatable
 {
-    Player entity;
+    Player playerEntity;
     private boolean beltKeyProcessed = false;
     private boolean attackKeyProcessed = false;
 
     public PlayerUpdater(Entity entity)
     {
         super(entity);
-        this.entity = (Player)entity;
+        this.playerEntity = (Player)entity;
     }
 
     int counter = 0;
@@ -36,8 +37,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     public void update()
     {
         super.update();
-        //entity.gc.player = null;
-        if (entity != null && entity.isAlive())
+        if (playerEntity.isAlive())
         {
             updatePlayerDirection();
             checkEnteranceCollision();
@@ -54,80 +54,85 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
                 //System.out.println("Level: " + entity.gc.mapController.getCurrentMap().getLevel());
             }
         }
+        if (!playerEntity.isAlive())    // called only once, when player changes state to not alive
+        {
+            playerEntity.gc.gameStateController.setCurrentGameState(GameState.GAME_OVER);
+            System.out.println("A");
+        }
     }
 
     private void checkPickUpItem()
     {
        // if (entity.gc.keyHandler.F_PRESSED && entity.gc.gameStateController.getCurrentGameState() == GameState.PENDING) entity.pickUpItem();
-        if (entity.gc.keyHandler.F_PRESSED) entity.pickUpItem();
+        if (playerEntity.gc.keyHandler.F_PRESSED) playerEntity.pickUpItem();
     }
 
     private void checkCrouch()
     {
-        if (entity.gc.keyHandler.CTRL_PRESSED)
+        if (playerEntity.gc.keyHandler.CTRL_PRESSED)
         {
-            entity.setCrouching(true);
+            playerEntity.setCrouching(true);
         }
-        else entity.setCrouching(false);
+        else playerEntity.setCrouching(false);
     }
 
     private void updatePlayerDirection()
     {
-        entity.isMoving = false;
-        if (entity.gc.keyHandler.W_PRESSED && entity.gc.keyHandler.A_PRESSED || entity.gc.keyHandler.UP_PRESSED && entity.gc.keyHandler.LEFT_PRESSED)     // Direction Up-Left
+        playerEntity.isMoving = false;
+        if (playerEntity.gc.keyHandler.W_PRESSED && playerEntity.gc.keyHandler.A_PRESSED || playerEntity.gc.keyHandler.UP_PRESSED && playerEntity.gc.keyHandler.LEFT_PRESSED)     // Direction Up-Left
         {
-            entity.setDirection(Direction.UP_LEFT);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.UP_LEFT);
+            playerEntity.isMoving = true;
         }
-        else if (entity.gc.keyHandler.W_PRESSED && entity.gc.keyHandler.D_PRESSED || entity.gc.keyHandler.UP_PRESSED && entity.gc.keyHandler.RIGHT_PRESSED)     // Direction Up-Right
+        else if (playerEntity.gc.keyHandler.W_PRESSED && playerEntity.gc.keyHandler.D_PRESSED || playerEntity.gc.keyHandler.UP_PRESSED && playerEntity.gc.keyHandler.RIGHT_PRESSED)     // Direction Up-Right
         {
-            entity.setDirection(Direction.UP_RIGHT);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.UP_RIGHT);
+            playerEntity.isMoving = true;
         }
-        else if (entity.gc.keyHandler.S_PRESSED && entity.gc.keyHandler.A_PRESSED || entity.gc.keyHandler.DOWN_PRESSED && entity.gc.keyHandler.LEFT_PRESSED)     // Direction Down-Left
+        else if (playerEntity.gc.keyHandler.S_PRESSED && playerEntity.gc.keyHandler.A_PRESSED || playerEntity.gc.keyHandler.DOWN_PRESSED && playerEntity.gc.keyHandler.LEFT_PRESSED)     // Direction Down-Left
         {
-            entity.setDirection(Direction.DOWN_LEFT);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.DOWN_LEFT);
+            playerEntity.isMoving = true;
         }
-        else if (entity.gc.keyHandler.S_PRESSED && entity.gc.keyHandler.D_PRESSED || entity.gc.keyHandler.DOWN_PRESSED && entity.gc.keyHandler.RIGHT_PRESSED)     // Direction Down-Right
+        else if (playerEntity.gc.keyHandler.S_PRESSED && playerEntity.gc.keyHandler.D_PRESSED || playerEntity.gc.keyHandler.DOWN_PRESSED && playerEntity.gc.keyHandler.RIGHT_PRESSED)     // Direction Down-Right
         {
-            entity.setDirection(Direction.DOWN_RIGHT);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.DOWN_RIGHT);
+            playerEntity.isMoving = true;
         }
-        else if (entity.gc.keyHandler.S_PRESSED || entity.gc.keyHandler.DOWN_PRESSED)   // Direction Down
+        else if (playerEntity.gc.keyHandler.S_PRESSED || playerEntity.gc.keyHandler.DOWN_PRESSED)   // Direction Down
         {
-            entity.setDirection(Direction.DOWN);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.DOWN);
+            playerEntity.isMoving = true;
         }
-        else if (entity.gc.keyHandler.A_PRESSED || entity.gc.keyHandler.LEFT_PRESSED)  // Direction Left
+        else if (playerEntity.gc.keyHandler.A_PRESSED || playerEntity.gc.keyHandler.LEFT_PRESSED)  // Direction Left
         {
-            entity.setDirection(Direction.LEFT);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.LEFT);
+            playerEntity.isMoving = true;
         }
-        else if (entity.gc.keyHandler.D_PRESSED || entity.gc.keyHandler.RIGHT_PRESSED) // Direction right
+        else if (playerEntity.gc.keyHandler.D_PRESSED || playerEntity.gc.keyHandler.RIGHT_PRESSED) // Direction right
         {
-            entity.setDirection(Direction.RIGHT);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.RIGHT);
+            playerEntity.isMoving = true;
         }
-        else if (entity.gc.keyHandler.W_PRESSED || entity.gc.keyHandler.UP_PRESSED)   // Direction up
+        else if (playerEntity.gc.keyHandler.W_PRESSED || playerEntity.gc.keyHandler.UP_PRESSED)   // Direction up
         {
-            entity.setDirection(Direction.UP);
-            entity.isMoving = true;
+            playerEntity.setDirection(Direction.UP);
+            playerEntity.isMoving = true;
         }
     }
 
     private void checkEnteranceCollision()
     {
         Map currentMap = MapController.getCurrentMap();
-        Position currentPosition = entity.getHitbox().getCenterWorldPosition();
+        Position currentPosition = playerEntity.getHitbox().getCenterWorldPosition();
         Tile currentTile = currentMap.getTile(currentPosition);
 
-        if (entity.isCollidingWithEnterance && !currentTile.isCavePassage())
+        if (playerEntity.isCollidingWithEnterance && !currentTile.isCavePassage())
         {
-            entity.isCollidingWithEnterance = false;
+            playerEntity.isCollidingWithEnterance = false;
         }
 
-        if (!entity.isCollidingWithEnterance)
+        if (!playerEntity.isCollidingWithEnterance)
         {
             int tileId = currentMap.getTile(currentPosition).getId();
             TileID tileID = TileID.fromId(tileId);
@@ -141,37 +146,37 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
                         CaveNegativeOneGenerator.createCaveNegativeOneMap(1024, 1024);
                     }
 
-                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
+                    playerEntity.gc.mapController.changeMapForPlayer((Player) playerEntity, MapLevels.CAVE_NEGATIVE_ONE);
                     break;
                 case CAVE_DEEP_ENTRANCE:
                     if (MapController.getMapByLevel(MapLevels.CAVE_NEGATIVE_TWO) == null)
                     {
                         CaveNegativeTwoGenerator.createCaveNegativeTwoMap(1024, 1024);
                     }
-                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
+                    playerEntity.gc.mapController.changeMapForPlayer((Player) playerEntity, MapLevels.CAVE_NEGATIVE_TWO);
 
                     break;
                 case CAVE_RUINS_ENTRANCE:
                     if (MapController.getMapByLevel(MapLevels.CAVE_RUINS) == null)
                     {
                         //generator
-                        entity.gc.mapController.changeMapForPlayer((Player) entity, MapLevels.CAVE_RUINS);
+                        playerEntity.gc.mapController.changeMapForPlayer((Player) playerEntity, MapLevels.CAVE_RUINS);
                     }
                     break;
 
                 case CAVE_EXIT:
-                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.SURFACE);
+                    playerEntity.gc.mapController.changeMapForPlayer((Player) playerEntity, MapLevels.SURFACE);
                     break;
                 case CAVE_DEEP_EXIT:
-                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_ONE);
+                    playerEntity.gc.mapController.changeMapForPlayer((Player) playerEntity, MapLevels.CAVE_NEGATIVE_ONE);
                     break;
                 case CAVE_RUINS_EXIT:
-                    entity.gc.mapController.changeMapForPlayer((Player)entity, MapLevels.CAVE_NEGATIVE_TWO);
+                    playerEntity.gc.mapController.changeMapForPlayer((Player) playerEntity, MapLevels.CAVE_NEGATIVE_TWO);
                     break;
             }
             if (currentTile.isCavePassage())
             {
-                entity.isCollidingWithEnterance = true;
+                playerEntity.isCollidingWithEnterance = true;
             }
         }
     }
@@ -184,7 +189,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
      */
     private void processClickedSlotIndex()
     {
-        KeyHandler kh = entity.gc.keyHandler;
+        KeyHandler kh = playerEntity.gc.keyHandler;
         int slotCount = Inventory.INVENTORY_BELT_SLOTS;
         int clickedIDX = -1;
 
@@ -209,26 +214,26 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         if (beltKeyProcessed) return;
 
         // CONSUMABLE LOGIC //
-        Slot clickedSlot = entity.getInventory().getBeltSlots()[clickedIDX];
+        Slot clickedSlot = playerEntity.getInventory().getBeltSlots()[clickedIDX];
         if (clickedSlot.getStoredItem() instanceof Consumable)
         {
-            ((Consumable) clickedSlot.getStoredItem()).consume(entity);
+            ((Consumable) clickedSlot.getStoredItem()).consume(playerEntity);
             clickedSlot.setStoredItem(null);
         }
 
         // CHANGING SLOT INDEX //
         else
         {
-            entity.setCurrentBeltSlotIndex(clickedIDX);
+            playerEntity.setCurrentBeltSlotIndex(clickedIDX);
         }
         beltKeyProcessed = true;
     }
 
     private void attackIfClicked()
     {
-        KeyHandler kh = entity.gc.keyHandler;
-        Item currentWeapon = entity.getCurrentBeltSlot().getStoredItem();
-        if (currentWeapon == null) currentWeapon = entity.getBareHands();
+        KeyHandler kh = playerEntity.gc.keyHandler;
+        Item currentWeapon = playerEntity.getCurrentBeltSlot().getStoredItem();
+        if (currentWeapon == null) currentWeapon = playerEntity.getBareHands();
         int attackWidth = currentWeapon.getMeleeAttackWidth();
         int attackHeight = currentWeapon.getMeleeAttackHeight();
 
@@ -236,7 +241,7 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         {
             attackKeyProcessed = true;
             //updateMeleeAttack(null);
-            entity.setDuringMeleeAttack(true);
+            playerEntity.setDuringMeleeAttack(true);
         }
         if (!kh.SPACE_PRESSED)
         {
