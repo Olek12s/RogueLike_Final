@@ -68,7 +68,7 @@ public class AssetSetter
 
         //gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenPickaxe(gc));
         //gc.player.getInventory().getChestplateSlot().setStoredItem(new LargeManaPotion(gc));
-        //gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenShield(gc));
+        //gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenShield(gc));;
 
 
         for (int i = 0; i < 0; i++)
