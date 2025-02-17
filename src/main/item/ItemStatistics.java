@@ -16,7 +16,7 @@ public class ItemStatistics
     private int armor = 0;
     private int magicalArmor = 0;
 
-    private float movementSpeedPenalty = 0;   // by percent
+    private float movementSpeedPenalty = 1;   // multipied by percent
 
     public ItemStatistics()
     {

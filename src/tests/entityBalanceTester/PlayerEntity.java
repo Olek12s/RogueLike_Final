@@ -1,13 +1,11 @@
 package tests.entityBalanceTester;
 
-import main.DamageType;
 import main.Direction;
 import main.controller.GameController;
 import main.entity.Entity;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.mobweapon.SpiderWeapon;
-import main.item.mobweapon.ZombieWeapon;
+import main.item.weapon.mobweapon.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -25,7 +23,7 @@ public class PlayerEntity extends Entity
     {
         super(gc, 5, worldPosition);
         this.worldPosition = worldPosition;
-        this.getInventory().getBeltSlots()[0].setStoredItem(new ZombieWeapon(gc, worldPosition));
+        this.getInventory().getBeltSlots()[0].setStoredItem(new ZombieWeapon(gc));
         this.isImmobilised = true;
         this.name = "Player";
         setupStatistics();

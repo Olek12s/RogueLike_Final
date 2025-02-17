@@ -1,29 +1,24 @@
-package main.item.tool.pickaxe;
+package main.item.weapon.sword;
 
 import main.controller.GameController;
 import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
 
-public class Pickaxe extends Item
+public class Sword extends Item
 {
-    public Pickaxe(GameController gc, ItemID itemID, Position worldPosition)
+    public Sword(GameController gc, ItemID itemID, Position worldPosition)
     {
         super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public Pickaxe(GameController gc, ItemID itemID)
+    public Sword(GameController gc, ItemID itemID)
     {
         super(gc, itemID);
     }
 
-    @Override
-    public void setHitbox()
-    {
-        hitbox = new Hitbox(worldPosition, slotPixelSize*1, slotPixelSize*2);
-    }
 
     @Override
     public void setRenderer()
@@ -34,9 +29,15 @@ public class Pickaxe extends Item
     @Override
     public void setStatistics()
     {
-        statistics.setItemName("pickaxe");
+        statistics.setItemName("Sword");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+    }
+
+    @Override
+    public void setHitbox()
+    {
+        hitbox = new Hitbox(worldPosition, slotPixelSize*1, slotPixelSize*2);
     }
 
     @Override
@@ -52,8 +53,8 @@ public class Pickaxe extends Item
     }
 
     @Override
-    public void setItemType() { itemType = ItemType.TOOL;}
+    public void setItemType() { itemType = ItemType.WEAPON;}
 
     @Override
-    public void setItemSubType() {itemSubType = ItemSubType.PICKAXE;}
+    public void setItemSubType() {itemSubType = ItemSubType.SWORD;}
 }

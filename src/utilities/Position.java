@@ -1,5 +1,6 @@
 package utilities;
 
+import main.Direction;
 import main.controller.GameController;
 import utilities.camera.Camera;
 
@@ -42,6 +43,42 @@ public class Position
         int dx = this.x - other.x;
         int dy = this.y - other.y;
         return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /** Calculates and returns the counter direction based on the positions of target and source.
+     * Examples:
+     *
+     * If target is above source -> method returns DOWN
+     * if target is below source -> method returns UP
+     * If target is in the TOP-LEFT of source -> method returns DOWN-RIGHT
+     * If target is on the LEFT of source -> method returns RIGHT
+     * @param target
+     * @param source
+     * @return
+     */
+    public static Direction getCounterDirection(Position target, Position source)
+    {
+        double dx = target.x - source.x;
+        double dy = target.y - source.y;
+        double angle = Math.toDegrees(Math.atan2(dy, dx));
+
+        if (angle >= -22.5 && angle < 22.5) {
+            return Direction.RIGHT;
+        } else if (angle >= 22.5 && angle < 67.5) {
+            return Direction.UP_RIGHT;
+        } else if (angle >= 67.5 && angle < 112.5) {
+            return Direction.DOWN;
+        } else if (angle >= 112.5 && angle < 157.5) {
+            return Direction.UP_LEFT;
+        } else if (angle >= -67.5 && angle < -22.5) {
+            return Direction.DOWN_RIGHT;
+        } else if (angle >= -112.5 && angle < -67.5) {
+            return Direction.UP;
+        } else if (angle >= -157.5 && angle < -112.5) {
+            return Direction.DOWN_LEFT;
+        } else {
+            return Direction.LEFT;
+        }
     }
 
     @Override

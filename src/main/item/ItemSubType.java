@@ -15,7 +15,8 @@ public enum ItemSubType
     MANA_POTION(9),
 
     PICKAXE(10),
-    SWORD(11);
+    SWORD(11),
+    AXE(12);
 
     private final int id;
 

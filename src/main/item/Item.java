@@ -51,6 +51,74 @@ public abstract class Item
     public int getMaxMeleeAttackRange() {return Math.max(meleeAttackWidth, meleeAttackHeight);}
     public int getAttackPreparationTime() {return attackPreparationTime;}
     public int getAttackRestTime() {return attackRestTime;}
+    public ItemStatistics getStatistics() {
+        return statistics;
+    }
+
+    public void setWorldPosition(Position worldPosition)
+    {
+        this.worldPosition = worldPosition;
+        this.hitbox.setWorldPosition(worldPosition);
+    }
+
+    private void setDefaultMeleeStatistics()
+    {
+        this.meleeAttackWidth = 12;
+        this.meleeAttackHeight = 30;
+        this.attackPreparationTime = 0;
+        this.attackRestTime = 5;
+    }
+
+    public void setWorldPosition(int x, int y)
+    {
+        setWorldPosition(new Position(x, y));
+    }
+    public MapLevels getLevel() {return level;}
+    public void setLevel(MapLevels level) {this.level = level;}
+
+    // ABSTRACTS
+    public abstract void setHitbox();
+    public abstract void setRenderer();
+    public abstract void setStatistics();
+    public abstract void setSlotWidth();
+    public abstract void setSlotHeight();
+    public abstract void setItemType();
+    public abstract void setItemSubType();
+    // ABSTRACTS
+
+    public Item(GameController gc, ItemID itemID, Position worldPosition)
+    {
+        this.gc = gc;
+        this.itemID = itemID;
+        this.statistics = new ItemStatistics();
+        this.worldPosition = worldPosition;
+        this.level = gc.mapController.getCurrentMap().getLevel();
+        MapController.getCurrentMap().getChunk(worldPosition).addItem(this);
+        setDefaultMeleeStatistics();
+        setRenderer();
+        setStatistics();
+        setSlotWidth();
+        setSlotHeight();
+        setHitbox();
+        setItemType();
+        setItemSubType();
+    }
+
+    public Item(GameController gc, ItemID itemID)
+    {
+        this.gc = gc;
+        this.itemID = itemID;
+        this.statistics = new ItemStatistics();
+        this.worldPosition = new Position(0,0);
+        setRenderer();
+        setStatistics();
+        setSlotWidth();
+        setSlotHeight();
+        setHitbox();
+        setItemType();
+        setItemSubType();
+        setDefaultMeleeStatistics();
+    }
 
     /**
      * Outputs type with the highest number of physical/magical/inevitable damage from item's statistics
@@ -89,65 +157,4 @@ public abstract class Item
             return inevitable;
         }
     }
-
-    public ItemStatistics getStatistics() {
-        return statistics;
-    }
-
-    public void setWorldPosition(Position worldPosition)
-    {
-        this.worldPosition = worldPosition;
-        this.hitbox.setWorldPosition(worldPosition);
-    }
-
-    public void setWorldPosition(int x, int y)
-    {
-        setWorldPosition(new Position(x, y));
-    }
-
-    public MapLevels getLevel() {return level;}
-    public void setLevel(MapLevels level) {this.level = level;}
-
-    // ABSTRACTS
-    public abstract void setHitbox();
-    public abstract void setRenderer();
-    public abstract void setStatistics();
-    public abstract void setSlotWidth();
-    public abstract void setSlotHeight();
-    public abstract void setItemType();
-    public abstract void setItemSubType();
-    // ABSTRACTS
-
-    public Item(GameController gc, ItemID itemID, Position worldPosition)
-    {
-        this.gc = gc;
-        this.itemID = itemID;
-        this.statistics = new ItemStatistics();
-        this.worldPosition = worldPosition;
-        this.level = gc.mapController.getCurrentMap().getLevel();
-        MapController.getCurrentMap().getChunk(worldPosition).addItem(this);
-        setRenderer();
-        setStatistics();
-        setSlotWidth();
-        setSlotHeight();
-        setHitbox();
-        setItemType();
-        setItemSubType();
-    }
-
-    public Item(GameController gc, ItemID itemID)
-    {
-        this.gc = gc;
-        this.itemID = itemID;
-        this.statistics = new ItemStatistics();
-        this.worldPosition = new Position(0,0);
-        setRenderer();
-        setStatistics();
-        setSlotWidth();
-        setSlotHeight();
-        setHitbox();
-        setItemType();
-        setItemSubType();
-    }
-
 }

@@ -20,7 +20,7 @@ public class Shield extends Item
     }
 
     @Override
-    public void setHitbox() { hitbox = new Hitbox(worldPosition, slotPixelSize*3, slotPixelSize*3); }
+    public void setHitbox() { hitbox = new Hitbox(worldPosition, slotPixelSize*2, slotPixelSize*2); }
 
     @Override
     public void setRenderer() {renderer = new ItemRenderer(this);}

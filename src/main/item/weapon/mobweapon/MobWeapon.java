@@ -1,4 +1,4 @@
-package main.item.mobweapon;
+package main.item.weapon.mobweapon;
 
 import main.controller.GameController;
 import main.item.*;

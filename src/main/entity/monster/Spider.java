@@ -6,8 +6,7 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.mobweapon.BitingSlimeWeapon;
-import main.item.mobweapon.SpiderWeapon;
+import main.item.weapon.mobweapon.SpiderWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -23,7 +22,7 @@ public class Spider extends Entity
     public Spider(GameController gc, Position worldPosition)
     {
         super(gc, EntityID.Spider.ID, worldPosition);
-        this.getInventory().getBeltSlots()[0].setStoredItem(new SpiderWeapon(gc, worldPosition));
+        this.getInventory().getBeltSlots()[0].setStoredItem(new SpiderWeapon(gc));
         this.isImmobilised = false;
         this.name = "Spider";
         setupStatistics();

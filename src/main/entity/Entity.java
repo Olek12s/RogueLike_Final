@@ -7,7 +7,7 @@ import main.entity.player.Player;
 import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.item.Item;
-import main.item.mobweapon.BareHands;
+import main.item.weapon.mobweapon.BareHands;
 import utilities.sprite.Sprite;
 import utilities.sprite.SpriteSheet;
 import world.map.Chunk;
@@ -34,7 +34,7 @@ public abstract class Entity
     protected Direction direction;
     protected Position worldPosition = new Position(0,0);
     private Chunk currentChunk;
-    public boolean isMoving;
+    private boolean isMoving;
     protected String name = "";
     public boolean isImmobilised;
     private boolean isAlive;
@@ -132,6 +132,8 @@ public abstract class Entity
     public void setDuringMeleeAttack(boolean duringMeleeAttack) {isDuringMeleeAttack = duringMeleeAttack;}
     public Item getItemHeldDuringAttack() {return itemHeldDuringAttack;}
     public void setItemHeldDuringAttack(Item itemHeldDuringAttack) {this.itemHeldDuringAttack = itemHeldDuringAttack;}
+    public boolean isMoving() {return isMoving;}
+    public void setMoving(boolean moving) {isMoving = moving;}
 
     public void setDetectionDiameter(int r)
     {
@@ -171,11 +173,12 @@ public abstract class Entity
      * this method calculates, how many damage should entity receive lowered by armor factor by formula:
      * X/(X+1.5*D)
      * WHere X is damage and D is armor
+     * Knockback is applied according to the source Position. If source Position is null - no knocback will be applied
      *
      * @param damageInput   - base damage calculated by calculateDamageOutput()
      * @param type          - type of the damage (physical/magical/inevitable)
      */
-    public void receiveDamage(int damageInput, DamageType type)
+    public void receiveDamage(int damageInput, DamageType type, Position sourcePosition)
     {
         //System.out.println("BASE DAMAGE: " + damageInput);
         double damageMultipler;
@@ -199,9 +202,13 @@ public abstract class Entity
         }
         int receivedDamage = (int) (damageMultipler*damageInput);
         if (receivedDamage <= 0) receivedDamage = 1;
-        if (this instanceof Player) System.out.println("player received damage: " + receivedDamage);
-        else System.out.println("NPC received damage: " + receivedDamage);
         statistics.setHitPoints(statistics.getHitPoints() - receivedDamage);
+
+        if (sourcePosition != null) // apply knockback away from the sourcePosition
+        {
+            Direction knockbackDirection = Position.getCounterDirection(hitbox.getCenterWorldPosition(), sourcePosition);
+            entityUpdater.knockback(receivedDamage, knockbackDirection);
+        }
     }
 
     /**
@@ -228,7 +235,7 @@ public abstract class Entity
     {
         int damage = calculateDamageOutput(weapon);
         DamageType damageType = weapon.getDamageType();
-        target.receiveDamage(damage, damageType);
+        target.receiveDamage(damage, damageType, hitbox.getCenterWorldPosition());
     }
 
     /**

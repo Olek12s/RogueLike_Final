@@ -21,7 +21,10 @@ import main.item.potion.health.SmallHealthPotion;
 import main.item.potion.mana.LargeManaPotion;
 import main.item.potion.mana.MediumManaPotion;
 import main.item.potion.mana.SmallManaPotion;
+import main.item.tool.axe.WoodenAxe;
 import main.item.tool.pickaxe.WoodenPickaxe;
+import main.item.weapon.sword.LongWoodenSword;
+import main.item.weapon.sword.WoodenSword;
 
 import java.util.List;
 
@@ -52,18 +55,18 @@ public class AssetSetter
 
         //gc.mapController.getCurrentMap().safeSpawnEntityOnMap(new MiniBitingSlime(gc, new Position(20, 20)));
         testEntity1 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
-        testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
-        testEntity3 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y - 40));
+       // testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
+       // testEntity3 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y - 40));
         //testEntitySmallSlime = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-150, gc.player.getWorldPosition().y + 80));
         //testEntitySlime = new BitingSlime(gc, new Position(gc.player.getWorldPosition().x-100, gc.player.getWorldPosition().y + 80));
         //testEntitySpider = new Spider(gc, new Position(gc.player.getWorldPosition().x-50, gc.player.getWorldPosition().y + 80));
         //testEntityVenomousSpider = new VenomousSpider(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y + 80));
         //testEntityZombie = new Zombie(gc, new Position(gc.player.getWorldPosition().x+50, gc.player.getWorldPosition().y + 80));
 
-        gc.player.getInventory().getBeltSlots()[0].setStoredItem(new WoodenShield(gc));
-        gc.player.getInventory().getBeltSlots()[1].setStoredItem(new MediumEnergyPotion(gc));
-        gc.player.getInventory().getBeltSlots()[2].setStoredItem(new WoodenBoots(gc));
-        gc.player.getInventory().getBeltSlots()[4].setStoredItem(new WoodenPickaxe(gc));
+        //gc.player.getInventory().getBeltSlots()[0].setStoredItem(new WoodenShield(gc));
+        //gc.player.getInventory().getBeltSlots()[1].setStoredItem(new MediumEnergyPotion(gc));
+        //gc.player.getInventory().getBeltSlots()[2].setStoredItem(new WoodenBoots(gc));
+        //gc.player.getInventory().getBeltSlots()[4].setStoredItem(new WoodenPickaxe(gc));
         gc.player.getInventory().getBeltSlots()[5].setStoredItem(new WoodenShield(gc));
 
         //gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenPickaxe(gc));
@@ -102,9 +105,13 @@ public class AssetSetter
         GelRing rr2 = new GelRing(gc, new Position(startX-50, startY-100));
         WoodenShield sh = new WoodenShield(gc, new Position(startX-50, startY-120));
 
+        WoodenSword sw1 = new WoodenSword(gc, new Position(startX-50, startY+30));
+        LongWoodenSword sw2 = new LongWoodenSword(gc, new Position(startX-50, startY+60));
+
 
 
         WoodenPickaxe pickaxe = new WoodenPickaxe(gc, new Position(startX-150, startY));
+        WoodenAxe axe = new WoodenAxe(gc, new Position(startX-20, startY));
 
         for (int i = 0; i < 600; i++)
         {

@@ -6,7 +6,7 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.mobweapon.BitingSlimeWeapon;
+import main.item.weapon.mobweapon.BitingSlimeWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -23,7 +23,7 @@ public class BitingSlime extends Entity
     public BitingSlime(GameController gc, Position worldPosition)
     {
         super(gc, EntityID.BitingSlime.ID, worldPosition);
-        this.getInventory().getBeltSlots()[0].setStoredItem(new BitingSlimeWeapon(gc, worldPosition));
+        this.getInventory().getBeltSlots()[0].setStoredItem(new BitingSlimeWeapon(gc));
         this.isImmobilised = false;
         this.name = "Slime";
         setupStatistics();

@@ -18,4 +18,14 @@ public class WoodenPickaxe extends Pickaxe
     {
         super(gc, ItemID.WOODEN_PICKAXE);
     }
+
+    @Override
+    public void setStatistics()
+    {
+        statistics.setItemName("Wooden Pickaxe");
+        statistics.setStackable(false);
+        meleeAttackHeight = 30;
+        statistics.setPhysicalDamage(3);
+        attackRestTime = 20;
+    }
 }

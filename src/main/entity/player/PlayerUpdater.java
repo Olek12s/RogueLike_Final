@@ -57,7 +57,6 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
         if (!playerEntity.isAlive())    // called only once, when player changes state to not alive
         {
             playerEntity.gc.gameStateController.setCurrentGameState(GameState.GAME_OVER);
-            System.out.println("A");
         }
     }
 
@@ -78,46 +77,46 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
 
     private void updatePlayerDirection()
     {
-        playerEntity.isMoving = false;
+        playerEntity.setMoving(false);
         if (playerEntity.gc.keyHandler.W_PRESSED && playerEntity.gc.keyHandler.A_PRESSED || playerEntity.gc.keyHandler.UP_PRESSED && playerEntity.gc.keyHandler.LEFT_PRESSED)     // Direction Up-Left
         {
             playerEntity.setDirection(Direction.UP_LEFT);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
         else if (playerEntity.gc.keyHandler.W_PRESSED && playerEntity.gc.keyHandler.D_PRESSED || playerEntity.gc.keyHandler.UP_PRESSED && playerEntity.gc.keyHandler.RIGHT_PRESSED)     // Direction Up-Right
         {
             playerEntity.setDirection(Direction.UP_RIGHT);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
         else if (playerEntity.gc.keyHandler.S_PRESSED && playerEntity.gc.keyHandler.A_PRESSED || playerEntity.gc.keyHandler.DOWN_PRESSED && playerEntity.gc.keyHandler.LEFT_PRESSED)     // Direction Down-Left
         {
             playerEntity.setDirection(Direction.DOWN_LEFT);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
         else if (playerEntity.gc.keyHandler.S_PRESSED && playerEntity.gc.keyHandler.D_PRESSED || playerEntity.gc.keyHandler.DOWN_PRESSED && playerEntity.gc.keyHandler.RIGHT_PRESSED)     // Direction Down-Right
         {
             playerEntity.setDirection(Direction.DOWN_RIGHT);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
         else if (playerEntity.gc.keyHandler.S_PRESSED || playerEntity.gc.keyHandler.DOWN_PRESSED)   // Direction Down
         {
             playerEntity.setDirection(Direction.DOWN);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
         else if (playerEntity.gc.keyHandler.A_PRESSED || playerEntity.gc.keyHandler.LEFT_PRESSED)  // Direction Left
         {
             playerEntity.setDirection(Direction.LEFT);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
         else if (playerEntity.gc.keyHandler.D_PRESSED || playerEntity.gc.keyHandler.RIGHT_PRESSED) // Direction right
         {
             playerEntity.setDirection(Direction.RIGHT);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
         else if (playerEntity.gc.keyHandler.W_PRESSED || playerEntity.gc.keyHandler.UP_PRESSED)   // Direction up
         {
             playerEntity.setDirection(Direction.UP);
-            playerEntity.isMoving = true;
+            playerEntity.setMoving(true);
         }
     }
 

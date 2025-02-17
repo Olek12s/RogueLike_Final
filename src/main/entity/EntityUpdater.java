@@ -28,10 +28,14 @@ public class EntityUpdater implements Updatable
     private int randomthreshold = 30;
     private GameState previousGameState;
 
+    private int remainingKnockbackCounter = 0;
+    private int knockbackStrength = 0;
+    Direction knockbackDirection;
+
     private int attackPreparationCounter = 0;
     private int attackRestCounter = 0;
     private int attackTimeCounter = 0;
-    public static final int ATTACK_TIME = 30;    // 5 ticks
+    public static final int ATTACK_TIME = 5;    // 5 ticks
     private List<Entity> damagedEntities;
 
 
@@ -63,6 +67,7 @@ public class EntityUpdater implements Updatable
             moveTowardsDirection();
             updateHitbox();
             updateChunkAssociation();
+            updateKnockback();
 
             if (!(entity instanceof Player))
             {
@@ -228,7 +233,7 @@ public class EntityUpdater implements Updatable
 
     public void updateCurrentSprite()
     {
-        if (entity.isMoving)
+        if (entity.isMoving())
         {
             //spriteCounter = (spriteCounter + 1) % (entity.entityRenderer.spriteImages.length * animationSpeed);
             spriteCounter = (spriteCounter + 1) % (EntityRenderer.getSpriteImagesByID(entity.getID()).length * animationSpeed);
@@ -274,9 +279,9 @@ public class EntityUpdater implements Updatable
         }
     }
 
-    protected void moveTowardsDirection()
+    private void moveTowardsDirection(Direction direction, int movementSpeed)
     {
-        if (entity.isMoving)
+        if (entity.isMoving())
         {
             int moveX = 0;
             int moveY = 0;
@@ -284,76 +289,85 @@ public class EntityUpdater implements Updatable
 
             if (!Collisions.willCollide(entity) && !Collisions.willCollideWithOtherHitbox(entity))
             {
-                if (entity.direction == Direction.UP)
+                if (direction == Direction.UP)
                 {
-                    moveY -= entity.getMovementSpeed();
+                    moveY -= movementSpeed;
                 }
-                else if (entity.direction == Direction.DOWN)
+                else if (direction == Direction.DOWN)
                 {
-                    moveY += entity.getMovementSpeed();
+                    moveY += movementSpeed;
                 }
-                else if (entity.direction == Direction.LEFT)
+                else if (direction == Direction.LEFT)
                 {
-                    moveX -= entity.getMovementSpeed();
+                    moveX -= movementSpeed;
                 }
-                else if (entity.direction == Direction.RIGHT)
+                else if (direction == Direction.RIGHT)
                 {
-                    moveX += entity.getMovementSpeed();
+                    moveX += movementSpeed;
                 }
             }
 
-            int movementSpeed = entity.getMovementSpeed();
             int entityWidth = entity.getHitbox().getWidth();
             int entityHeight = entity.getHitbox().getHeight();
             Position entityPosition = entity.getWorldPosition();
 
             boolean canMoveLeft =
-                            Collisions.isPositionUncollidable(new Position(entityPosition.x - movementSpeed, entityPosition.y)) && // up-left
+                    Collisions.isPositionUncollidable(new Position(entityPosition.x -movementSpeed, entityPosition.y)) && // up-left
                             Collisions.isPositionUncollidable(new Position(entityPosition.x - movementSpeed, entityPosition.y + entityHeight)); // down-left
 
 
             boolean canMoveRight =
-                            Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth + movementSpeed, entityPosition.y)) && // top-right
+                    Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth + movementSpeed, entityPosition.y)) && // top-right
                             Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth + movementSpeed, entityPosition.y + entityHeight)); // down-right
 
 
             boolean canMoveUp =
-                            Collisions.isPositionUncollidable(new Position(entityPosition.x, entityPosition.y - movementSpeed)) && // top-left
+                    Collisions.isPositionUncollidable(new Position(entityPosition.x, entityPosition.y - movementSpeed)) && // top-left
                             Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth, entityPosition.y - movementSpeed)); // top-right
 
 
             boolean canMoveDown =
-                            Collisions.isPositionUncollidable(new Position(entityPosition.x, entityPosition.y + entityHeight + movementSpeed)) && // down-left
+                    Collisions.isPositionUncollidable(new Position(entityPosition.x, entityPosition.y + entityHeight + movementSpeed)) && // down-left
                             Collisions.isPositionUncollidable(new Position(entityPosition.x + entityWidth, entityPosition.y + entityHeight + movementSpeed)); // down-right
 
 
             // If entity is stuck, change its direction to the diagonal
             changeDirectionToDiagonalOnStuck(entity, canMoveUp, canMoveDown, canMoveLeft, canMoveRight);
 
-            if (entity.direction == Direction.UP_LEFT)
+            if (direction== Direction.UP_LEFT)
             {
-               if (canMoveLeft) moveX -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
-               if (canMoveUp) moveY -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                if (canMoveLeft) moveX -= Math.max((int) (movementSpeed / Math.sqrt(2)), 1);
+                if (canMoveUp) moveY -= Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
             }
-            if (entity.direction == Direction.UP_RIGHT)
+            if (direction == Direction.UP_RIGHT)
             {
-               if (canMoveRight) moveX += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
-               if (canMoveUp) moveY -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                if (canMoveRight) moveX += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
+                if (canMoveUp) moveY -= Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
             }
-            if (entity.direction == Direction.DOWN_LEFT)
+            if (direction == Direction.DOWN_LEFT)
             {
-               if (canMoveLeft) moveX -= Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
-               if (canMoveDown) moveY += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                if (canMoveLeft) moveX -= Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
+                if (canMoveDown) moveY += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
             }
-            if (entity.direction == Direction.DOWN_RIGHT)
+            if (direction == Direction.DOWN_RIGHT)
             {
-               if (canMoveRight) moveX += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
-               if (canMoveDown) moveY += Math.max((int) (entity.getMovementSpeed() / Math.sqrt(2)), 1);
+                if (canMoveRight) moveX += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
+                if (canMoveDown) moveY += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
             }
 
             entity.worldPosition.x += moveX;
             entity.worldPosition.y += moveY;
         }
+    }
+
+    private void moveTowardsDirection(Direction direction)
+    {
+        moveTowardsDirection(direction, entity.getMovementSpeed());
+    }
+
+    protected void moveTowardsDirection()
+    {
+        moveTowardsDirection(entity.direction);
     }
 
     private void changeDirectionToDiagonalOnStuck(Entity entity, boolean canMoveUp, boolean canMoveDown, boolean canMoveLeft, boolean canMoveRight)
@@ -432,8 +446,8 @@ public class EntityUpdater implements Updatable
                     case 7: entity.direction = Direction.DOWN_RIGHT; break;
                 }
 
-                if (randomIsMoving == 0 || entity.isImmobilised) entity.isMoving = false;
-                else entity.isMoving = true;
+                if (randomIsMoving == 0 || entity.isImmobilised) entity.setMoving(false);
+                else entity.setMoving(true);
             }
         }
         movementCounter++;
@@ -512,7 +526,7 @@ public class EntityUpdater implements Updatable
         Position[] path = entity.getPathToFollow();
 
         if (path == null || path.length == 0) {
-            entity.isMoving = false;
+            entity.setMoving(false);
             return;
         }
 
@@ -545,7 +559,7 @@ public class EntityUpdater implements Updatable
 
             // If the path is now empty, stop moving
             if (newPath.length == 0) {
-                entity.isMoving = false;
+                entity.setMoving(false);
             }
             return;
         }
@@ -574,7 +588,7 @@ public class EntityUpdater implements Updatable
 
         // Update the entity's direction and set it to moving
         entity.setDirection(direction);
-        entity.isMoving = true;
+        entity.setMoving(true);
     }
 
     /**
@@ -623,7 +637,55 @@ public class EntityUpdater implements Updatable
             if (slot.getStoredItem() == null) continue;
             updatedMovementSpeed *= (float)(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
         }
+        Item storedItem = entity.getCurrentBeltSlot().getStoredItem();
+        if (storedItem != null) updatedMovementSpeed *=storedItem.getStatistics().getMovementSpeedPenalty();
         if (entity.isCrouching()) updatedMovementSpeed /= 3;
         entity.statistics.setCurrentMovementSpeed(updatedMovementSpeed);
+    }
+
+    /**
+     * Applies a knockback effect to the entity, pushing it in the specified direction.
+     * The strength of the knockback is determined by the percentage of the entity's
+     * maximum health. if direction is null - no knockback will be applied
+     *
+     * @param receivedDamage The amount of damage received.
+     * @param direction The direction in which the entity shall be pushed.
+     */
+    public void knockback(int receivedDamage, Direction direction)
+    {
+        if (entity == null || !entity.isAlive() || entity.isImmobilised || direction == null)
+        {
+            remainingKnockbackCounter = 0;
+            knockbackStrength = 0;
+            return;
+        }
+        if (remainingKnockbackCounter == 0) remainingKnockbackCounter = 20;
+
+        knockbackDirection = direction;
+        double damagePercentage = (double) receivedDamage / entity.getMaximumHealth();
+        int scalingFactor = 400;
+
+        knockbackStrength = Math.max(1, (int)(damagePercentage * scalingFactor));   // minimal knockback strength value
+        if (knockbackStrength > 30) knockbackStrength = 30;                         // maximal knockback strength value
+
+        System.out.println("Knockback initiated with strength: " + knockbackStrength + " " + direction);
+    }
+
+    private void updateKnockback()
+    {
+        if (remainingKnockbackCounter > 0 && knockbackDirection != null)
+        {
+            entity.setMoving(true);
+            System.out.println(knockbackStrength);
+          //  moveTowardsDirection(knockbackDirection, knockbackStrength);
+            entity.setMoving(false);
+            knockbackStrength /= 2;
+            remainingKnockbackCounter--;
+
+            if (remainingKnockbackCounter <= 0)
+            {
+                knockbackDirection = null;
+            }
+        }
     }
 }

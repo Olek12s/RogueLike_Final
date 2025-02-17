@@ -6,8 +6,7 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.mobweapon.SpiderWeapon;
-import main.item.mobweapon.ZombieWeapon;
+import main.item.weapon.mobweapon.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -24,7 +23,7 @@ public class Zombie extends Entity
     public Zombie(GameController gc, Position worldPosition)
     {
         super(gc, EntityID.Zombie.ID, worldPosition);
-        this.getInventory().getBeltSlots()[0].setStoredItem(new ZombieWeapon(gc, worldPosition));
+        this.getInventory().getBeltSlots()[0].setStoredItem(new ZombieWeapon(gc));
         this.isImmobilised = false;
         this.name = "Zombie";
         setupStatistics();

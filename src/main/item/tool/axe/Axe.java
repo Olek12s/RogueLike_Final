@@ -1,20 +1,20 @@
-package main.item.tool.pickaxe;
+package main.item.tool.axe;
 
 import main.controller.GameController;
 import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
 
-public class Pickaxe extends Item
+public class Axe extends Item
 {
-    public Pickaxe(GameController gc, ItemID itemID, Position worldPosition)
+    public Axe(GameController gc, ItemID itemID, Position worldPosition)
     {
         super(gc, itemID, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public Pickaxe(GameController gc, ItemID itemID)
+    public Axe(GameController gc, ItemID itemID)
     {
         super(gc, itemID);
     }
@@ -34,7 +34,7 @@ public class Pickaxe extends Item
     @Override
     public void setStatistics()
     {
-        statistics.setItemName("pickaxe");
+        statistics.setItemName("Axe");
         statistics.setStackable(false);
         statistics.setStackSize(1);
     }
@@ -55,5 +55,5 @@ public class Pickaxe extends Item
     public void setItemType() { itemType = ItemType.TOOL;}
 
     @Override
-    public void setItemSubType() {itemSubType = ItemSubType.PICKAXE;}
+    public void setItemSubType() {itemSubType = ItemSubType.AXE;}
 }

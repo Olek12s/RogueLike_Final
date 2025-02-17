@@ -6,7 +6,7 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.mobweapon.BitingSlimeWeapon;
+import main.item.weapon.mobweapon.BitingSlimeWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
@@ -24,7 +24,7 @@ public class MiniBitingSlime extends Entity
     public MiniBitingSlime(GameController gc, Position worldPosition)
     {
         super(gc, EntityID.MiniBitingSlime.ID, worldPosition);
-        this.getInventory().getBeltSlots()[0].setStoredItem(new BitingSlimeWeapon(gc, worldPosition));
+        this.getInventory().getBeltSlots()[0].setStoredItem(new BitingSlimeWeapon(gc));
         this.isImmobilised = false;
         this.name = "Small slime";
         setupStatistics();
@@ -33,7 +33,7 @@ public class MiniBitingSlime extends Entity
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(6, 0, 2); // 6
+        this.statistics.setStrength(2, 0, 2);
         this.statistics.setBaseArmour(0);
         this.statistics.setHitPoints(16, 3,3);
         this.statistics.setRegeneration(1);
