@@ -336,23 +336,23 @@ public class EntityUpdater implements Updatable
 
             if (direction== Direction.UP_LEFT)
             {
-                if (canMoveLeft) moveX -= Math.max((int) (movementSpeed / Math.sqrt(2)), 1);
-                if (canMoveUp) moveY -= Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
+                if (canMoveLeft) moveX -= movementSpeed / Math.sqrt(2);
+                if (canMoveUp) moveY -= movementSpeed  / Math.sqrt(2);
             }
             if (direction == Direction.UP_RIGHT)
             {
-                if (canMoveRight) moveX += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
-                if (canMoveUp) moveY -= Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
+                if (canMoveRight) moveX += movementSpeed  / Math.sqrt(2);
+                if (canMoveUp) moveY -= movementSpeed  / Math.sqrt(2);
             }
             if (direction == Direction.DOWN_LEFT)
             {
-                if (canMoveLeft) moveX -= Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
-                if (canMoveDown) moveY += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
+                if (canMoveLeft) moveX -= movementSpeed  / Math.sqrt(2);
+                if (canMoveDown) moveY += movementSpeed  / Math.sqrt(2);
             }
             if (direction == Direction.DOWN_RIGHT)
             {
-                if (canMoveRight) moveX += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
-                if (canMoveDown) moveY += Math.max((int) (movementSpeed  / Math.sqrt(2)), 1);
+                if (canMoveRight) moveX += movementSpeed  / Math.sqrt(2);
+                if (canMoveDown) moveY += movementSpeed  / Math.sqrt(2);
             }
 
             entity.worldPosition.x += moveX;
@@ -659,14 +659,14 @@ public class EntityUpdater implements Updatable
             knockbackStrength = 0;
             return;
         }
-        if (remainingKnockbackCounter == 0) remainingKnockbackCounter = 20;
+        if (remainingKnockbackCounter == 0) remainingKnockbackCounter = 5;
 
         knockbackDirection = direction;
         double damagePercentage = (double) receivedDamage / entity.getMaximumHealth();
-        int scalingFactor = 400;
+        int scalingFactor = 200;
 
-        knockbackStrength = Math.max(1, (int)(damagePercentage * scalingFactor));   // minimal knockback strength value
-        if (knockbackStrength > 30) knockbackStrength = 30;                         // maximal knockback strength value
+        knockbackStrength = Math.max(1, (int)(damagePercentage*1.2f * scalingFactor));   // minimal knockback strength value
+        if (knockbackStrength > 18) knockbackStrength = 18;                             // maximal knockback strength value
 
         System.out.println("Knockback initiated with strength: " + knockbackStrength + " " + direction);
     }
@@ -676,10 +676,9 @@ public class EntityUpdater implements Updatable
         if (remainingKnockbackCounter > 0 && knockbackDirection != null)
         {
             entity.setMoving(true);
-            System.out.println(knockbackStrength);
-          //  moveTowardsDirection(knockbackDirection, knockbackStrength);
+            moveTowardsDirection(knockbackDirection, knockbackStrength);
             entity.setMoving(false);
-            knockbackStrength /= 2;
+            if (knockbackStrength >= 2) knockbackStrength -= 2;
             remainingKnockbackCounter--;
 
             if (remainingKnockbackCounter <= 0)
