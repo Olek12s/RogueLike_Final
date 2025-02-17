@@ -22,7 +22,7 @@ public class LongWoodenSword extends Sword
         statistics.setStackable(false);
         meleeAttackHeight = 45;
         statistics.setPhysicalDamage(5);
-        statistics.setMovementSpeedPenalty(0.5f);
+        statistics.setMovementSpeedPenalty(1.5f);
         attackRestTime = 10;
     }
 

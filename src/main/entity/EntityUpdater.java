@@ -635,10 +635,10 @@ public class EntityUpdater implements Updatable
         for (Slot slot : equippedSlots)
         {
             if (slot.getStoredItem() == null) continue;
-            updatedMovementSpeed *= (float)(1 - slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
+            updatedMovementSpeed /= (float)(slot.getStoredItem().getStatistics().getMovementSpeedPenalty());
         }
         Item storedItem = entity.getCurrentBeltSlot().getStoredItem();
-        if (storedItem != null) updatedMovementSpeed *=storedItem.getStatistics().getMovementSpeedPenalty();
+        if (storedItem != null) updatedMovementSpeed /= (float)(storedItem.getStatistics().getMovementSpeedPenalty());
         if (entity.isCrouching()) updatedMovementSpeed /= 3;
         entity.statistics.setCurrentMovementSpeed(updatedMovementSpeed);
     }
@@ -668,7 +668,6 @@ public class EntityUpdater implements Updatable
         knockbackStrength = Math.max(1, (int)(damagePercentage*1.2f * scalingFactor));   // minimal knockback strength value
         if (knockbackStrength > 18) knockbackStrength = 18;                             // maximal knockback strength value
 
-        System.out.println("Knockback initiated with strength: " + knockbackStrength + " " + direction);
     }
 
     private void updateKnockback()

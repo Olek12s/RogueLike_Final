@@ -39,6 +39,7 @@ public class KeyHandler implements KeyListener
     public boolean SEVEN_PRESSED = false;
     public boolean EIGHT_PRESSED = false;
     public boolean NINE_PRESSED = false;
+    public boolean PLUS_PRESSED = false;
 
 
     public KeyHandler(GameController gc)
@@ -86,9 +87,14 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_7: SEVEN_PRESSED = true; break;
             case KeyEvent.VK_8: EIGHT_PRESSED = true; break;
             case KeyEvent.VK_9: NINE_PRESSED = true; break;
+            case KeyEvent.VK_ADD: PLUS_PRESSED = true; break;
         }
         if  (TIDE_PRESSED == true) gc.setDebugMode(!gc.isDebugMode());
         if (MULTIPLE_PRESSED == true) Camera.setScaleFactor(1);
+        if (PLUS_PRESSED)   // debug
+        {
+            gc.player.statistics.setHitPoints(gc.player.statistics.getMaxHitPoints());
+        }
     }
 
     @Override
@@ -128,6 +134,7 @@ public class KeyHandler implements KeyListener
             case KeyEvent.VK_7: SEVEN_PRESSED = false; break;
             case KeyEvent.VK_8: EIGHT_PRESSED = false; break;
             case KeyEvent.VK_9: NINE_PRESSED = false; break;
+            case KeyEvent.VK_ADD: PLUS_PRESSED = false; break;
         }
     }
 }

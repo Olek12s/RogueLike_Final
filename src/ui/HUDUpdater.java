@@ -116,7 +116,6 @@ public class HUDUpdater implements Updatable
                 default: return;
             }
         }
-        System.out.println("picked up");
     }
 
     public boolean checkDropHeldItemOnClick()

@@ -16,7 +16,7 @@ public class ItemStatistics
     private int armor = 0;
     private int magicalArmor = 0;
 
-    private float movementSpeedPenalty = 1;   // multipied by percent
+    private float movementSpeedPenalty = 1;   // multipied by this value. 1 - no penalty. greater than 1 - penalty. lower than 1 - negative penalty
 
     public ItemStatistics()
     {
@@ -39,8 +39,7 @@ public class ItemStatistics
 
     public void setMovementSpeedPenalty(float movementSpeedPenalty)
     {
-        if (movementSpeedPenalty > 1) this.movementSpeedPenalty = 1;
-        else if (movementSpeedPenalty < 0) this.movementSpeedPenalty = 0;
+        if (movementSpeedPenalty < 0) this.movementSpeedPenalty = 0;
         else this.movementSpeedPenalty = movementSpeedPenalty;
     }
 
