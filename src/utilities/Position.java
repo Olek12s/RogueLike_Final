@@ -65,17 +65,17 @@ public class Position
         if (angle >= -22.5 && angle < 22.5) {
             return Direction.RIGHT;
         } else if (angle >= 22.5 && angle < 67.5) {
-            return Direction.UP_RIGHT;
+            return Direction.DOWN_RIGHT;
         } else if (angle >= 67.5 && angle < 112.5) {
             return Direction.DOWN;
         } else if (angle >= 112.5 && angle < 157.5) {
-            return Direction.UP_LEFT;
+            return Direction.DOWN_LEFT;
         } else if (angle >= -67.5 && angle < -22.5) {
-            return Direction.DOWN_RIGHT;
+            return Direction.UP_RIGHT;
         } else if (angle >= -112.5 && angle < -67.5) {
             return Direction.UP;
         } else if (angle >= -157.5 && angle < -112.5) {
-            return Direction.DOWN_LEFT;
+            return Direction.UP_LEFT;
         } else {
             return Direction.LEFT;
         }

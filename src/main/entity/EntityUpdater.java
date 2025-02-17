@@ -663,7 +663,7 @@ public class EntityUpdater implements Updatable
 
         knockbackDirection = direction;
         double damagePercentage = (double) receivedDamage / entity.getMaximumHealth();
-        int scalingFactor = 200;
+        int scalingFactor = 230;
 
         knockbackStrength = Math.max(1, (int)(damagePercentage*1.2f * scalingFactor));   // minimal knockback strength value
         if (knockbackStrength > 18) knockbackStrength = 18;                             // maximal knockback strength value
@@ -678,7 +678,7 @@ public class EntityUpdater implements Updatable
             entity.setMoving(true);
             moveTowardsDirection(knockbackDirection, knockbackStrength);
             entity.setMoving(false);
-            if (knockbackStrength >= 2) knockbackStrength -= 2;
+            if (knockbackStrength >= 3) knockbackStrength -= 3; // how fast knockback fades away
             remainingKnockbackCounter--;
 
             if (remainingKnockbackCounter <= 0)
