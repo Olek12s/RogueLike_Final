@@ -37,6 +37,7 @@ public class Zombie extends Entity
         this.statistics.setHitPoints(39, 10, 3);
         this.statistics.setRegeneration(1);
         this.statistics.setMaxMovementSpeed(1);
+        this.statistics.setExpReward(80);
     }
 
     @Override

@@ -53,6 +53,7 @@ public class Player extends Entity
         statistics.setRegeneration(1);
         statistics.setHitPoints(statistics.getMaxHitPoints());
         statistics.setMaxMovementSpeed(12);
+        statistics.setNextLevelExp(5);
     }
 
     @Override

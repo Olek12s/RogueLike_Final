@@ -4,6 +4,17 @@ public class EntityStatistics
 {
     Entity entity;
 
+    public static int HP_UPDATE_BONUS = 10;
+    public static int MANA_UPDATE_BONUS = 10;
+    public static int ARMOUR_UPDATE_BONUS = 1;
+    public static int MAGIC_ARMOUR_UPDATE_BONUS = 1;
+    public static int STRENGTH_UPDATE_BONUS = 1;
+    public static int STAMINA_UPDATE_BONUS = 5;
+    public static int REGENERATION_UPDATE_BONUS = 1;
+    public static int DEXTERITY_UPDATE_BONUS = 1;
+    public static int INTELLECT_UPDATE_BONUS = 1;
+    public static float NEXT_LEVEL_EXP_MULTIPLER = 1.618f;
+
     private int maxHitPoints = 1;                // maximum hit points
     private int hitPoints = maxHitPoints;        // current hit points - if 0 or lower - entity dies
     private int regeneration = 1;             // regeneration of health per second. By default 1
@@ -25,6 +36,7 @@ public class EntityStatistics
 
     private int stamina;                      // statistic used in blocking attacks and fighting melee weapons. Lower stamina = lower damage and weaker ability to block
     private int exp;
+    private int expReward;
     private int nextLevelExp;
 
     public int getMaxHitPoints() {return maxHitPoints;}
@@ -53,6 +65,9 @@ public class EntityStatistics
 
     public int getExp() {return exp;}
     public int getNextLevelExp() {return nextLevelExp;}
+
+    public int getExpReward() {return expReward;}
+    public void setExpReward(int expReward) {this.expReward = expReward;}
 
     public void setMaxMovementSpeed(int speed)
     {

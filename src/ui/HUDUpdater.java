@@ -2,10 +2,10 @@ package ui;
 
 import main.controller.GameState;
 import main.controller.Updatable;
+import main.entity.EntityStatistics;
 import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.inventory.SlotType;
-import main.item.Consumable;
 import main.item.Item;
 import main.item.ItemSubType;
 import main.item.ItemType;
@@ -39,10 +39,13 @@ public class HUDUpdater implements Updatable
                 checkPickUpClickedItemFromSlot(); // if nothing was dropped in this frame, check picking
             }
         }
-        checkLevelUpIconClick();
+        checkLevelUpOnIconClick();
     }
 
-    public void checkLevelUpIconClick()
+    /**
+     * Performs an upgrade of the player's desired statistic on click. Resets EXP after an upgrade.
+     */
+    public void checkLevelUpOnIconClick()
     {
         MouseHandler mh = hud.gc.mouseHandler;
         if (!mh.leftButtonClicked) return;
@@ -59,21 +62,75 @@ public class HUDUpdater implements Updatable
                 if (mouseX >= buttonPosition.x && mouseX <= buttonPosition.x + iconSize && mouseY >= buttonPosition.y && mouseY <= buttonPosition.y + iconSize)
                 {
                     String clickedText = "";
+                    EntityStatistics playerStats = hud.gc.player.statistics;
                     switch(i)
                     {
-                        case 0: clickedText = "HP: " + hud.gc.player.statistics.getHitPoints() + " / " + hud.gc.player.statistics.getMaxHitPoints(); break;
-                        case 1: clickedText = "Mana: " + hud.gc.player.statistics.getMana() + " / " + hud.gc.player.statistics.getMaxMana(); break;
-                        case 2: clickedText = "Regeneration: " + hud.gc.player.statistics.getRegeneration(); break;
-                        case 3: clickedText = "Movement Speed: " + hud.gc.player.statistics.getCurrentMovementSpeed() + " / " + hud.gc.player.statistics.getMaxMovementSpeed(); break;
-                        case 4: clickedText = "Armour: " + hud.gc.player.statistics.getArmour(); break;
-                        case 5: clickedText = "Magic Armour: " + hud.gc.player.statistics.getMagicArmour(); break;
-                        case 6: clickedText = "Strength: " + hud.gc.player.statistics.getStrength(); break;
-                        case 7: clickedText = "Dexterity: " + hud.gc.player.statistics.getDexterity(); break;
-                        case 8: clickedText = "Intellect: " + hud.gc.player.statistics.getIntellect(); break;
-                        case 9: clickedText = "Stamina: " + hud.gc.player.statistics.getStamina(); break;
-                        case 10: clickedText = "EXP: " + hud.gc.player.statistics.getExp() + " / " + hud.gc.player.statistics.getNextLevelExp(); break;
-                        default: clickedText = "unknown"; break;
+                        case 0:
+                        {
+                            clickedText = "HP: " + hud.gc.player.statistics.getHitPoints() + " / " + hud.gc.player.statistics.getMaxHitPoints();
+                            playerStats.setMaxHitPoints(EntityStatistics.HP_UPDATE_BONUS + playerStats.getMaxHitPoints());
+                            break;
+                        }
+                        case 1:
+                        {
+                            clickedText = "Mana: " + hud.gc.player.statistics.getMana() + " / " + hud.gc.player.statistics.getMaxMana();
+                            playerStats.setMaxMana(EntityStatistics.MANA_UPDATE_BONUS + playerStats.getMaxMana());
+                            break;
+                        }
+                        case 2:
+                        {
+                            clickedText = "Armour: " + hud.gc.player.statistics.getArmour();
+                            playerStats.setArmour(EntityStatistics.ARMOUR_UPDATE_BONUS + playerStats.getBaseArmour());
+                            break;
+                        }
+                        case 3:
+                        {
+                            clickedText = "Magic Armour: " + hud.gc.player.statistics.getMagicArmour();
+                            playerStats.setMagicArmour(EntityStatistics.MAGIC_ARMOUR_UPDATE_BONUS + playerStats.getBaseMagicArmour());
+                            break;
+                        }
+                        case 4:
+                        {
+                            clickedText = "Strength: " + hud.gc.player.statistics.getStrength();
+                            playerStats.setStrength(EntityStatistics.STRENGTH_UPDATE_BONUS + playerStats.getStrength());
+                            break;
+                        }
+                        case 5:
+                        {
+                            clickedText = "Stamina: " + hud.gc.player.statistics.getStamina();
+                            playerStats.setStamina(EntityStatistics.STAMINA_UPDATE_BONUS + playerStats.getStamina());
+                            break;
+                        }
+                        case 6:
+                        {
+                            clickedText = "Regeneration: " + hud.gc.player.statistics.getRegeneration();
+                            playerStats.setRegeneration(EntityStatistics.REGENERATION_UPDATE_BONUS + playerStats.getRegeneration());
+                            break;
+                        }
+                        case 7:
+                        {
+                            clickedText = "Dexterity: " + hud.gc.player.statistics.getDexterity();
+                            playerStats.setDexterity(EntityStatistics.DEXTERITY_UPDATE_BONUS + playerStats.getDexterity());
+                            break;
+                        }
+                        case 8:
+                        {
+                            clickedText = "Intellect: " + hud.gc.player.statistics.getIntellect();
+                            playerStats.setIntellect(EntityStatistics.INTELLECT_UPDATE_BONUS + playerStats.getIntellect());
+                            break;
+                        }
+                        case 9:
+                        {
+                            //break;
+                        }
+                        case 10:
+                        {
+                            break;
+                        }
+                        default: break;
                     }
+                    playerStats.setExp(playerStats.getExp() - playerStats.getNextLevelExp());   // reset exp
+                    playerStats.setNextLevelExp((int)(playerStats.getNextLevelExp() * EntityStatistics.NEXT_LEVEL_EXP_MULTIPLER));
                     System.out.println(clickedText);
                     break;
                 }

@@ -420,10 +420,11 @@ public class HUDRenderer implements Drawable
         }
     }
 
-    private boolean test = true;
     public void renderStatisticsFrame(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2.create();
+        boolean playerNextLevel = hud.gc.player.statistics.getExp() >= hud.gc.player.statistics.getNextLevelExp();
+
 
         int width = hud.gc.getWidth();
         int height = hud.gc.getHeight();
@@ -477,14 +478,14 @@ public class HUDRenderer implements Drawable
         String[] statTexts = {
                 "HP: " + hp + " / " + maxHp,
                 "Mana: " + mana + " / " + maxMana,
-                "Regeneration: " + regen,
-                "Movement Speed: " + movementSpeed + " / " + maxMovementSpeed,
                 "Armour: " + armour,
                 "Magic Armour: " + magicArmour,
                 "Strength: " + strength,
+                "Stamina: " + stamina,
+                "Regeneration: " + regen,
                 "Dexterity: " + dexterity,
                 "Intellect: " + intellect,
-                "Stamina: " + stamina,
+                "Movement Speed: " + movementSpeed + " / " + maxMovementSpeed,
                 "EXP: " + exp + " / " + nextLevelExp
         };
 
@@ -500,7 +501,7 @@ public class HUDRenderer implements Drawable
         int textX = statsFrameX + leftMargin + iconSize + iconTextSpacing;
         int textY = statsFrameY + 30;
 
-        if (test)
+        if (playerNextLevel)
         {
             levelUpIconPositions = new Position[statTexts.length];
         }
@@ -512,7 +513,7 @@ public class HUDRenderer implements Drawable
         for (int i = 0; i < statTexts.length; i++)
         {
             int currentY = textY + i * (scaledFontSize + 5);
-            if (test)
+            if (playerNextLevel && i < statTexts.length - 2)    // don't render 2 last buttons
             {
                 int iconX = statsFrameX + leftMargin;
                 int iconY = currentY - fm.getAscent() + (fm.getHeight() - iconSize) / 2;

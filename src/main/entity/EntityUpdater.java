@@ -256,6 +256,8 @@ public class EntityUpdater implements Updatable
 
         if (entity.isAlive() == false)
         {
+            EntityStatistics playerStats = entity.gc.player.statistics;
+            playerStats.setExp(playerStats.getExp() + entity.statistics.getExpReward());
             entity.gc.drawables.remove(entity.entityRenderer);
             entity.gc.updatables.remove(this);
             entity.getCurrentChunk().removeEntity(entity);
