@@ -63,7 +63,7 @@ public abstract class Item
 
     private void setDefaultMeleeStatistics()
     {
-        this.meleeAttackWidth = 12;
+        this.meleeAttackWidth = 24;
         this.meleeAttackHeight = 30;
         this.attackPreparationTime = 0;
         this.attackRestTime = 5;

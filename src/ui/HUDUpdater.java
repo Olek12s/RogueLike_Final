@@ -39,7 +39,46 @@ public class HUDUpdater implements Updatable
                 checkPickUpClickedItemFromSlot(); // if nothing was dropped in this frame, check picking
             }
         }
+        checkLevelUpIconClick();
+    }
 
+    public void checkLevelUpIconClick()
+    {
+        MouseHandler mh = hud.gc.mouseHandler;
+        if (!mh.leftButtonClicked) return;
+        if (hud.hudRenderer.getLevelUpIconPositions() == null) return;
+        int iconSize = hud.hudRenderer.getScaledFontSize();
+        int mouseX = mh.getMouseX();
+        int mouseY = mh.getMouseY();
+
+        for (int i = 0; i < hud.hudRenderer.getLevelUpIconPositions().length; i++)
+        {
+            Position buttonPosition = hud.hudRenderer.getLevelUpIconPositions()[i];
+            if (buttonPosition != null)
+            {
+                if (mouseX >= buttonPosition.x && mouseX <= buttonPosition.x + iconSize && mouseY >= buttonPosition.y && mouseY <= buttonPosition.y + iconSize)
+                {
+                    String clickedText = "";
+                    switch(i)
+                    {
+                        case 0: clickedText = "HP: " + hud.gc.player.statistics.getHitPoints() + " / " + hud.gc.player.statistics.getMaxHitPoints(); break;
+                        case 1: clickedText = "Mana: " + hud.gc.player.statistics.getMana() + " / " + hud.gc.player.statistics.getMaxMana(); break;
+                        case 2: clickedText = "Regeneration: " + hud.gc.player.statistics.getRegeneration(); break;
+                        case 3: clickedText = "Movement Speed: " + hud.gc.player.statistics.getCurrentMovementSpeed() + " / " + hud.gc.player.statistics.getMaxMovementSpeed(); break;
+                        case 4: clickedText = "Armour: " + hud.gc.player.statistics.getArmour(); break;
+                        case 5: clickedText = "Magic Armour: " + hud.gc.player.statistics.getMagicArmour(); break;
+                        case 6: clickedText = "Strength: " + hud.gc.player.statistics.getStrength(); break;
+                        case 7: clickedText = "Dexterity: " + hud.gc.player.statistics.getDexterity(); break;
+                        case 8: clickedText = "Intellect: " + hud.gc.player.statistics.getIntellect(); break;
+                        case 9: clickedText = "Stamina: " + hud.gc.player.statistics.getStamina(); break;
+                        case 10: clickedText = "EXP: " + hud.gc.player.statistics.getExp() + " / " + hud.gc.player.statistics.getNextLevelExp(); break;
+                        default: clickedText = "unknown"; break;
+                    }
+                    System.out.println(clickedText);
+                    break;
+                }
+            }
+        }
     }
 
 

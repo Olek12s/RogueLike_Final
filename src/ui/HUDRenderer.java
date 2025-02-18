@@ -42,8 +42,10 @@ public class HUDRenderer implements Drawable
     private Position ring2SlotPosition;
     private Position amuletSlotPosition;
     // FRAME POSITIONS //
+    private Position[] levelUpIconPositions;
 
-
+    public Position[] getLevelUpIconPositions() {return levelUpIconPositions;}
+    public int getScaledFontSize() {return scaledFontSize;}
 
     public HUDRenderer(HUD hud)
     {
@@ -418,6 +420,7 @@ public class HUDRenderer implements Drawable
         }
     }
 
+    private boolean test = true;
     public void renderStatisticsFrame(Graphics g2)
     {
         Graphics2D g2d = (Graphics2D) g2.create();
@@ -431,14 +434,12 @@ public class HUDRenderer implements Drawable
         int totalWidth = Inventory.INVENTORY_WIDTH_SLOTS * slotSize;    // width of main inventory
         int totalHeight =  Inventory.INVENTORY_HEIGHT_SLOTS * slotSize;  // height of main inventory
 
-        float statsToInvRatio = 0.52f;
+        float statsToInvRatio = 0.62f;
         int statsFrameWidth = (int) (statsToInvRatio * totalWidth);
-        int statsFrameHeight = totalHeight+50;
-
+        int statsFrameHeight = totalHeight + slotSize;
 
         int statsFrameX = mainInventoryPosition.x - statsFrameWidth;
         int statsFrameY = mainInventoryPosition.y;
-
 
         if (statsFrameX < 0)
         {
@@ -490,13 +491,35 @@ public class HUDRenderer implements Drawable
         g2d.setColor(Color.WHITE);
         g2d.setFont(HUDFont);
 
-        int textX = statsFrameX + 10;
+        FontMetrics fm = g2d.getFontMetrics(HUDFont);
+
+        int leftMargin = 10;
+        int iconTextSpacing = 5;
+        int iconSize = scaledFontSize;
+
+        int textX = statsFrameX + leftMargin + iconSize + iconTextSpacing;
         int textY = statsFrameY + 30;
 
-        for (String stat : statTexts)
+        if (test)
         {
-            g2d.drawString(stat, textX, textY);
-            textY += scaledFontSize + 5;
+            levelUpIconPositions = new Position[statTexts.length];
+        }
+        else
+        {
+            levelUpIconPositions = null;
+        }
+
+        for (int i = 0; i < statTexts.length; i++)
+        {
+            int currentY = textY + i * (scaledFontSize + 5);
+            if (test)
+            {
+                int iconX = statsFrameX + leftMargin;
+                int iconY = currentY - fm.getAscent() + (fm.getHeight() - iconSize) / 2;
+                g2d.drawImage(hud.levelUp.image, iconX, iconY, iconSize, iconSize, null);
+                levelUpIconPositions[i] = new Position(iconX, iconY);
+            }
+            g2d.drawString(statTexts[i], textX, currentY);
         }
 
         g2d.dispose();

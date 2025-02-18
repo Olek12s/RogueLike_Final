@@ -14,6 +14,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
     public int scrollCount = 0;
 
     public boolean leftButtonClicked = false;
+    public boolean leftButtonReleased = false;
     private boolean clickedFlag = false;
 
 
@@ -36,6 +37,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
             leftButtonClicked = false;
         }
         clickedFlag = false;
+
+        if (leftButtonReleased)
+        {
+            leftButtonReleased = false;
+        }
     }
 
     @Override
@@ -74,6 +80,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
         {
             case MouseEvent.BUTTON1:
                 leftButtonClicked = false;
+                leftButtonReleased = true;
                 break;
         }
     }
