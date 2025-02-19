@@ -5,7 +5,8 @@ public enum ItemType
     ARMOR(0),
     POTION(1),
     TOOL(2),
-    WEAPON(3);
+    WEAPON(3),
+    INGREDIENT(4);
 
     private final int id;
 

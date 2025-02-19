@@ -16,7 +16,9 @@ public enum ItemSubType
 
     PICKAXE(10),
     SWORD(11),
-    AXE(12);
+    AXE(12),
+
+    FLOWER(13);
 
     private final int id;
 

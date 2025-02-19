@@ -2,7 +2,13 @@ package main.item.potion.mana;
 
 import main.controller.GameController;
 import main.item.ItemID;
+import main.item.Recipe;
+import main.item.RecipeIngredient;
+import main.item.ingredients.BlueFlower;
+import main.item.potion.energy.SmallEnergyPotion;
 import utilities.Position;
+
+import java.util.List;
 
 public class SmallManaPotion extends ManaPotion
 {
@@ -24,5 +30,11 @@ public class SmallManaPotion extends ManaPotion
         statistics.setItemName("Small mana potion");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+    }
+
+    private void setRecipe()
+    {
+        recipe = new Recipe(List.of(
+                new RecipeIngredient(new BlueFlower(gc), 4)), this);
     }
 }

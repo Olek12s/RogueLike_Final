@@ -2,7 +2,12 @@ package main.item.potion.energy;
 
 import main.controller.GameController;
 import main.item.ItemID;
+import main.item.Recipe;
+import main.item.RecipeIngredient;
+import main.item.ingredients.YellowFlower;
 import utilities.Position;
+
+import java.util.List;
 
 public class SmallEnergyPotion extends EnergyPotion
 {
@@ -24,5 +29,11 @@ public class SmallEnergyPotion extends EnergyPotion
         statistics.setItemName("Small energy potion");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+    }
+
+    private void setRecipe()
+    {
+        recipe = new Recipe(List.of(
+                new RecipeIngredient(new YellowFlower(gc), 4)), this);
     }
 }

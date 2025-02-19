@@ -30,7 +30,11 @@ public enum ItemID
     BITING_SLIME_WEAPON(20),
     SPIDER_WEAPON(21),
     ZOMBIE_WEAPON(22),
-    HANDS_WEAPON(23);
+    HANDS_WEAPON(23),
+
+    RED_FLOWER(24),
+    YELLOW_FLOWER(25),
+    BLUE_FLOWER(26);
 
     private final int id;
 
