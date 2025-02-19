@@ -23,11 +23,14 @@ public class HUDRenderer implements Drawable
     private String summaryTime = "-";
     private String drawCount = "-";
     private final int baseSlotSize = 45;
+    private int craftingPage;
 
     private Font HUDFont;
     private final int baseFontSize = 14;
     private int scaledFontSize;
     private int slotSize;
+    private int craftingArrowWidth;
+    private int craftingArrowHeight;
 
     // FRAME POSITIONS //
     private Position mainInventoryFramePosition;
@@ -44,9 +47,18 @@ public class HUDRenderer implements Drawable
     private Position amuletSlotPosition;
     // FRAME POSITIONS //
     private Position[] levelUpIconPositions;
+    private Position craftingRightArrowPosition;
+    private Position craftingLeftArrowPosition;
 
     public Position[] getLevelUpIconPositions() {return levelUpIconPositions;}
     public int getScaledFontSize() {return scaledFontSize;}
+
+    public Position getCraftingRightArrowPosition() {return craftingRightArrowPosition;}
+    public Position getCraftingLeftArrowPosition() {return craftingLeftArrowPosition;}
+    public int getCraftingArrowWidth() {return craftingArrowWidth;}
+    public int getCraftingArrowHeight() {return craftingArrowHeight;}
+    public int getCraftingPage() {return craftingPage;}
+    public void setCraftingPage(int craftingPage) {this.craftingPage = craftingPage;}
 
     public HUDRenderer(HUD hud)
     {
@@ -67,16 +79,13 @@ public class HUDRenderer implements Drawable
         renderHealthBar(g2);
         renderInventorybelt(g2);
         renderFPSTopRight(g2);
+        renderCrafting(g2);
         if (hud.gc.gameStateController.getCurrentGameState() == GameState.INVENTORY)
         {
            renderMainInventory(g2);
            renderStatisticsFrame(g2);
            renderEquippedFrame(g2);
            renderHeldItem(g2);
-        }
-        if (hud.gc.gameStateController.getCurrentGameState() == GameState.CRAFTING)
-        {
-            renderCrafting(g2);
         }
         if (hud.gc.isDebugMode())
         {
@@ -700,12 +709,19 @@ public class HUDRenderer implements Drawable
         slotSize = (baseSlotSize * hud.scale) / 64;
     }
 
-    public void renderCrafting(Graphics g2) {
+    public void renderCrafting(Graphics g2)
+    {
         Graphics2D g2d = (Graphics2D) g2.create();
+
+        if (hud.gc.gameStateController.getCurrentGameState() != GameState.CRAFTING)
+        {
+            craftingLeftArrowPosition = null;
+            craftingRightArrowPosition = null;
+            return;
+        }
 
         int width = hud.gc.getWidth();
         int height = hud.gc.getHeight();
-
         int invWidthSlots = Inventory.INVENTORY_BELT_SLOTS;
         int invHeightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
         int totalWidth = invWidthSlots * slotSize;
@@ -725,6 +741,31 @@ public class HUDRenderer implements Drawable
         }
 
         renderFrame(g2d, craftingFrameX, craftingFrameY, frameWidth, frameHeight, 0, 0, 1, 0.7f);
+
+        // RENDERING NAVIGATION ARROWS
+
+        int arrowWidth = hud.scale / 2;
+        int arrowHeight = hud.scale / 2;
+        craftingArrowWidth = hud.scale / 2;
+        craftingArrowHeight = hud.scale / 2;
+
+        if (craftingRightArrowPosition == null) craftingRightArrowPosition = new Position((craftingFrameX + frameWidth - arrowWidth), craftingFrameY);
+        else
+        {
+            craftingRightArrowPosition.x = (craftingFrameX + frameWidth - arrowWidth);
+            craftingRightArrowPosition.y = craftingFrameY+1;
+        }
+
+        if (craftingLeftArrowPosition == null) craftingLeftArrowPosition = new Position(craftingFrameX, craftingFrameY);
+        else
+        {
+            craftingLeftArrowPosition.x = craftingFrameX+1;
+            craftingLeftArrowPosition.y = craftingFrameY+1;
+        }
+
+        g2d.drawImage(hud.arrowRight.image, craftingRightArrowPosition.x, craftingRightArrowPosition.y, arrowWidth, arrowHeight, null);
+        g2d.drawImage(hud.arrowLeft.image, craftingLeftArrowPosition.x, craftingLeftArrowPosition.y, arrowWidth, arrowHeight, null);
+
         g2d.dispose();
     }
 }

@@ -8,6 +8,8 @@ import utilities.sprite.Sprite;
 import world.map.MapController;
 import world.map.MapLevels;
 
+import java.util.Objects;
+
 public abstract class Item
 {
     public static int slotPixelSize = 16;
@@ -24,7 +26,7 @@ public abstract class Item
     protected ItemSubType itemSubType;
     private boolean isOnGround;
     protected Hitbox hitbox;
-    protected Recipe recipe;
+    protected Crafting recipe;
 
     protected int meleeAttackWidth;
     protected int meleeAttackHeight;
@@ -46,7 +48,7 @@ public abstract class Item
     public ItemID getItemID() {return itemID;}
     public ItemType getItemType() {return itemType;}
     public ItemSubType getItemSubType() {return itemSubType;}
-    public Recipe getRecipe() {return recipe;}
+    public Crafting getRecipe() {return recipe;}
 
     public int getMeleeAttackWidth() {return meleeAttackWidth;}
     public int getMeleeAttackHeight() {return meleeAttackHeight;}
@@ -158,5 +160,18 @@ public abstract class Item
         } else {
             return inevitable;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Item item = (Item) obj;
+        return Objects.equals(itemID, item.itemID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemID);
     }
 }

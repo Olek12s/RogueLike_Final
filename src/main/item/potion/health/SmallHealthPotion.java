@@ -2,10 +2,9 @@ package main.item.potion.health;
 
 import main.controller.GameController;
 import main.item.ItemID;
-import main.item.Recipe;
+import main.item.Crafting;
 import main.item.RecipeIngredient;
 import main.item.ingredients.RedFlower;
-import main.item.potion.energy.SmallEnergyPotion;
 import utilities.Position;
 
 import java.util.List;
@@ -22,6 +21,7 @@ public class SmallHealthPotion extends HealthPotion
         super(gc, ItemID.SMALL_HP_POTION, worldPosition,30);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
+        setRecipe();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SmallHealthPotion extends HealthPotion
 
     private void setRecipe()
     {
-        recipe = new Recipe(List.of(
+        recipe = Crafting.getOrCreate(List.of(
                 new RecipeIngredient(new RedFlower(gc), 4)), this);
     }
 }

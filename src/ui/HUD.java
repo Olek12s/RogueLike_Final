@@ -15,6 +15,8 @@ public class HUD
     protected HUDUpdater hudUpdater;
     public SpriteSheet heartSpriteSheet;
     public Sprite levelUp;
+    public Sprite arrowRight;
+    public Sprite arrowLeft;
     public Sprite heart;
 
     int scaleX;
@@ -31,6 +33,8 @@ public class HUD
         hudUpdater = new HUDUpdater(this);
         this.heartSpriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/hud/heartsSpriteSheet"), 27);
         this.levelUp = new Sprite(FileManipulation.loadImage("resources/hud/LevelUp"), 9);
+        this.arrowRight = new Sprite(FileManipulation.loadImage("resources/hud/ArrowRight"), 9);
+        this.arrowLeft = new Sprite(FileManipulation.loadImage("resources/hud/ArrowLeft"), 9);
         this.heart = heartSpriteSheet.extractFirst();
     }
 }

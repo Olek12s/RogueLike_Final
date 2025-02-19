@@ -2,7 +2,7 @@ package main.item.potion.energy;
 
 import main.controller.GameController;
 import main.item.ItemID;
-import main.item.Recipe;
+import main.item.Crafting;
 import main.item.RecipeIngredient;
 import main.item.ingredients.YellowFlower;
 import utilities.Position;
@@ -21,6 +21,7 @@ public class SmallEnergyPotion extends EnergyPotion
         super(gc, ItemID.SMALL_ENERGY_POTION, worldPosition, 30);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
+        setRecipe();
     }
 
     @Override
@@ -33,7 +34,7 @@ public class SmallEnergyPotion extends EnergyPotion
 
     private void setRecipe()
     {
-        recipe = new Recipe(List.of(
+        recipe = Crafting.getOrCreate(List.of(
                 new RecipeIngredient(new YellowFlower(gc), 4)), this);
     }
 }
