@@ -49,7 +49,7 @@ public class Player extends Entity
     {
         statistics.setMaxHitPoints(100);
         statistics.setBaseArmour(0);
-        statistics.setStrength(3);  // 3
+        statistics.setStrength(3);  //
         statistics.setRegeneration(1);
         statistics.setHitPoints(statistics.getMaxHitPoints());
         statistics.setMaxMovementSpeed(12);

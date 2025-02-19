@@ -4,6 +4,7 @@ public enum GameState
 {
     PENDING(0),
     INVENTORY(1),
+    CRAFTING(2),
     PAUSED(10),
     GAME_OVER(100);
 

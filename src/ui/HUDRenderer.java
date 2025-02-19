@@ -30,7 +30,8 @@ public class HUDRenderer implements Drawable
     private int slotSize;
 
     // FRAME POSITIONS //
-    private Position mainInventoryPosition;
+    private Position mainInventoryFramePosition;
+    private Position craftingFramePosition;
     private Position equippedPosition;
     private Position beltPosition;
     private Position helmetSlotPosition;
@@ -72,6 +73,10 @@ public class HUDRenderer implements Drawable
            renderStatisticsFrame(g2);
            renderEquippedFrame(g2);
            renderHeldItem(g2);
+        }
+        if (hud.gc.gameStateController.getCurrentGameState() == GameState.CRAFTING)
+        {
+            renderCrafting(g2);
         }
         if (hud.gc.isDebugMode())
         {
@@ -220,7 +225,7 @@ public class HUDRenderer implements Drawable
             for (int j = 0; j < hud.gc.player.getInventory().getInventorySlots()[i].length; j++)
             {
                 Slot slot = hud.gc.player.getInventory().getInventorySlots()[i][j];
-                if (isPositionWithinSlot(pos, i, j, mainInventoryPosition, SlotType.getWidthMultipler(SlotType.mainInvSlot), SlotType.getHeightMultipler(SlotType.mainInvSlot)))
+                if (isPositionWithinSlot(pos, i, j, mainInventoryFramePosition, SlotType.getWidthMultipler(SlotType.mainInvSlot), SlotType.getHeightMultipler(SlotType.mainInvSlot)))
                 {
                     return slot;
                 }
@@ -386,11 +391,11 @@ public class HUDRenderer implements Drawable
         int inventoryFrameX = (width - totalWidth) / 2;
         int inventoryFrameY = beltY - totalHeight;
 
-        if (mainInventoryPosition == null) mainInventoryPosition = new Position(inventoryFrameX, inventoryFrameY);
+        if (mainInventoryFramePosition == null) mainInventoryFramePosition = new Position(inventoryFrameX, inventoryFrameY);
         else
         {
-            mainInventoryPosition.x = inventoryFrameX;
-            mainInventoryPosition.y = inventoryFrameY;
+            mainInventoryFramePosition.x = inventoryFrameX;
+            mainInventoryFramePosition.y = inventoryFrameY;
         }
 
         // Drawing every inventory slot
@@ -439,13 +444,13 @@ public class HUDRenderer implements Drawable
         int statsFrameWidth = (int) (statsToInvRatio * totalWidth);
         int statsFrameHeight = totalHeight + slotSize;
 
-        int statsFrameX = mainInventoryPosition.x - statsFrameWidth;
-        int statsFrameY = mainInventoryPosition.y;
+        int statsFrameX = mainInventoryFramePosition.x - statsFrameWidth;
+        int statsFrameY = mainInventoryFramePosition.y;
 
         if (statsFrameX < 0)
         {
 
-            statsFrameWidth = mainInventoryPosition.x;
+            statsFrameWidth = mainInventoryFramePosition.x;
             statsFrameX = 0;
             if (statsFrameWidth < 0)
             {
@@ -543,8 +548,8 @@ public class HUDRenderer implements Drawable
         int beltY = beltPosition.y - height/2;
 
         // position of equipped frame
-        int equippedFrameX = mainInventoryPosition.x + totalWidth;
-        int equippedFrameY = mainInventoryPosition.y;
+        int equippedFrameX = mainInventoryFramePosition.x + totalWidth;
+        int equippedFrameY = mainInventoryFramePosition.y;
 
         if (equippedPosition == null) equippedPosition = new Position(equippedFrameX, equippedFrameY);
         else
@@ -693,5 +698,33 @@ public class HUDRenderer implements Drawable
         HUDFont = new Font("Monospaced", Font.BOLD, scaledFontSize);
 
         slotSize = (baseSlotSize * hud.scale) / 64;
+    }
+
+    public void renderCrafting(Graphics g2) {
+        Graphics2D g2d = (Graphics2D) g2.create();
+
+        int width = hud.gc.getWidth();
+        int height = hud.gc.getHeight();
+
+        int invWidthSlots = Inventory.INVENTORY_BELT_SLOTS;
+        int invHeightSlots = Inventory.INVENTORY_HEIGHT_SLOTS;
+        int totalWidth = invWidthSlots * slotSize;
+        int totalHeight = invHeightSlots * slotSize;
+        int craftingFrameX = (width - totalWidth) / 2;
+
+        int beltY = beltPosition.y - height / 2;
+        int craftingFrameY = beltY - totalHeight;
+        int frameWidth = Inventory.INVENTORY_BELT_SLOTS * slotSize;
+        int frameHeight = (int)(height/1.8f);
+
+        if (craftingFramePosition == null) {
+            craftingFramePosition = new Position(craftingFrameX, craftingFrameY);
+        } else {
+            craftingFramePosition.x = craftingFrameX;
+            craftingFramePosition.y = craftingFrameY;
+        }
+
+        renderFrame(g2d, craftingFrameX, craftingFrameY, frameWidth, frameHeight, 0, 0, 1, 0.7f);
+        g2d.dispose();
     }
 }

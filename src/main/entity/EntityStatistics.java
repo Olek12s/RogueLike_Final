@@ -4,7 +4,7 @@ public class EntityStatistics
 {
     Entity entity;
 
-    public static int HP_UPDATE_BONUS = 10;
+    public static int HP_UPDATE_BONUS = 20;
     public static int MANA_UPDATE_BONUS = 10;
     public static int ARMOUR_UPDATE_BONUS = 1;
     public static int MAGIC_ARMOUR_UPDATE_BONUS = 1;

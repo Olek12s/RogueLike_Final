@@ -5,6 +5,7 @@ public class GameStateController implements Updatable
     public GameController gc;
     private GameState currentGameState;
     private boolean inventoryKeyReleased = true;
+    private boolean craftingKeyReleased = true;
 
     public GameState getCurrentGameState() {return currentGameState;}
     public void setCurrentGameState(GameState currentGameState) {this.currentGameState = currentGameState;}
@@ -20,6 +21,7 @@ public class GameStateController implements Updatable
     public void update()
     {
         checkInventoryState();
+        checkCraftingState();
     }
 
     private void checkInventoryState()
@@ -39,6 +41,27 @@ public class GameStateController implements Updatable
                 currentGameState = GameState.PENDING;
             }
             inventoryKeyReleased = false;
+        }
+    }
+
+    private void checkCraftingState()
+    {
+        if (!gc.keyHandler.C_PRESSED)
+        {
+            craftingKeyReleased = true;
+        }
+
+        if (craftingKeyReleased && gc.keyHandler.C_PRESSED)
+        {
+            if (currentGameState == GameState.PENDING)
+            {
+                currentGameState = GameState.CRAFTING;
+            }
+            else if (currentGameState == GameState.CRAFTING)
+            {
+                currentGameState = GameState.PENDING;
+            }
+            craftingKeyReleased = false;
         }
     }
 }
