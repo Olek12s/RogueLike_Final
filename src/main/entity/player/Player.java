@@ -150,6 +150,7 @@ public class Player extends Entity
         List<Item> itemsInChunk = currentChunk.getItems();
         for (Item item : itemsInChunk)  // checking if player's hitbox intersects item's hitbox, then item can be added to inventory
         {
+            if (!item.isOnGround()) return;
             if (this.getHitbox().getHitboxRect().intersects(item.getHitbox().getHitboxRect()))
             {
                 if (inventory.addItem(item))

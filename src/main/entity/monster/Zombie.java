@@ -20,7 +20,7 @@ import world.map.tiles.Tile;
 // entity class level 5
 public class Zombie extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22Diamond"), 32);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22Diamond"), 22);
     public int level = 5;
 
 
@@ -38,21 +38,21 @@ public class Zombie extends Entity
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(9, 3, 2);
+        this.statistics.setStrength(35, 0, 0);
         this.statistics.setBaseArmour(5);
-        this.statistics.setHitPoints(39, 10, 3);
+        this.statistics.setHitPoints(180, 10, 3);
         this.statistics.setRegeneration(1);
-        this.statistics.setMaxMovementSpeed(1);
+        this.statistics.setMaxMovementSpeed(4);
         this.statistics.setExpReward(80);
     }
 
     @Override
     public void setDetectionRadius() {
-        setDetectionDiameter(8 * Tile.tileSize);}
+        setDetectionDiameter(14 * Tile.tileSize);}
 
     @Override
     public void setLoseInterestRadius() {
-        setLoseInterestDiameter(16 * Tile.tileSize);}
+        setLoseInterestDiameter(28 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

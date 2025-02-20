@@ -40,21 +40,21 @@ public class BitingSlime extends Entity
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(4, 1, 2);
+        this.statistics.setStrength(10, 0, 0);
         this.statistics.setBaseArmour(0);
-        this.statistics.setHitPoints(23, 4,3);
+        this.statistics.setHitPoints(20, 4,3);
         this.statistics.setRegeneration(1);
-        this.statistics.setMaxMovementSpeed(1);
+        this.statistics.setMaxMovementSpeed(5);
         this.statistics.setExpReward(20);
     }
 
     @Override
     public void setDetectionRadius() {
-        setDetectionDiameter(8 * Tile.tileSize);}
+        setDetectionDiameter(14 * Tile.tileSize);}
 
     @Override
     public void setLoseInterestRadius() {
-        setLoseInterestDiameter(16 * Tile.tileSize);}
+        setLoseInterestDiameter(28 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

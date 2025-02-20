@@ -1,8 +1,14 @@
 package main.item.armor.chestplate;
 
 import main.controller.GameController;
+import main.item.Crafting;
 import main.item.ItemID;
+import main.item.RecipeIngredient;
+import main.item.ingredients.Ruby;
+import main.item.ingredients.Wood;
 import utilities.Position;
+
+import java.util.List;
 
 public class RubyChestplate extends Chestplate
 {
@@ -11,6 +17,7 @@ public class RubyChestplate extends Chestplate
         super(gc, ItemID.RUBY_CHESTPLATE, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
+        setRecipe();
     }
 
     public RubyChestplate(GameController gc)
@@ -25,6 +32,12 @@ public class RubyChestplate extends Chestplate
         statistics.setItemName("Ruby Chestplate");
         statistics.setStackable(false);
         statistics.setStackSize(1);
-        statistics.setArmor(6);
+        statistics.setArmor(68);
+    }
+
+    public void setRecipe()
+    {
+        recipe = Crafting.getOrCreate(List.of(
+                new RecipeIngredient(new Ruby(gc), 5)), this);
     }
 }

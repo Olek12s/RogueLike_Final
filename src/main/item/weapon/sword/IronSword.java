@@ -1,9 +1,15 @@
 package main.item.weapon.sword;
 
 import main.controller.GameController;
+import main.item.Crafting;
 import main.item.ItemID;
+import main.item.RecipeIngredient;
+import main.item.ingredients.IronOre;
+import main.item.ingredients.Wood;
 import utilities.Hitbox;
 import utilities.Position;
+
+import java.util.List;
 
 public class IronSword extends Sword
 {
@@ -12,8 +18,10 @@ public class IronSword extends Sword
         super(gc, ItemID.IRON_SWORD, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-
+        setRecipe();
     }
+
+    public IronSword(GameController gc) {super(gc, ItemID.IRON_SWORD);}
 
     @Override
     public void setStatistics()
@@ -21,7 +29,13 @@ public class IronSword extends Sword
         statistics.setItemName("Iron Sword");
         statistics.setStackable(false);
         meleeAttackHeight = 30;
-        statistics.setPhysicalDamage(3);
+        statistics.setPhysicalDamage(10);
+    }
+
+    public void setRecipe()
+    {
+        recipe = Crafting.getOrCreate(List.of(
+                new RecipeIngredient(new IronOre(gc), 3)), this);
     }
 
 

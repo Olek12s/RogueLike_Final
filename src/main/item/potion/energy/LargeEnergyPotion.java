@@ -35,7 +35,7 @@ public class LargeEnergyPotion extends EnergyPotion
         statistics.setStackSize(1);
     }
 
-    private void setRecipe()
+    public void setRecipe()
     {
         recipe = Crafting.getOrCreate(List.of(
                 new RecipeIngredient(new YellowFlower(gc), 6),

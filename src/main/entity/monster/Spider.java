@@ -20,7 +20,7 @@ import world.map.tiles.Tile;
 // entity class level 3
 public class Spider extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22IronWeak"), 26);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22IronWeak"), 22);
     public int level = 3;
 
     public Spider(GameController gc, Position worldPosition)
@@ -38,21 +38,21 @@ public class Spider extends Entity
 
     public void setupStatistics()
     {
-        this.statistics.setStrength(6, 2, 2);
+        this.statistics.setStrength(18, 0, 0);
         this.statistics.setBaseArmour(1);
-        this.statistics.setHitPoints(23, 6, 5);
+        this.statistics.setHitPoints(65, 6, 5);
         this.statistics.setRegeneration(1);
-        this.statistics.setMaxMovementSpeed(1);
+        this.statistics.setMaxMovementSpeed(5);
         this.statistics.setExpReward(40);
     }
 
     @Override
     public void setDetectionRadius() {
-        setDetectionDiameter(8 * Tile.tileSize);}
+        setDetectionDiameter(14 * Tile.tileSize);}
 
     @Override
     public void setLoseInterestRadius() {
-        setLoseInterestDiameter(16 * Tile.tileSize);}
+        setLoseInterestDiameter(28 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

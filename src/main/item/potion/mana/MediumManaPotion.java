@@ -34,7 +34,7 @@ public class MediumManaPotion extends ManaPotion
         statistics.setStackSize(1);
     }
 
-    private void setRecipe()
+    public void setRecipe()
     {
         recipe = Crafting.getOrCreate(List.of(
                 new RecipeIngredient(new BlueFlower(gc), 5),

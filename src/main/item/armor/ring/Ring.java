@@ -2,8 +2,11 @@ package main.item.armor.ring;
 
 import main.controller.GameController;
 import main.item.*;
+import main.item.ingredients.Wood;
 import utilities.Hitbox;
 import utilities.Position;
+
+import java.util.List;
 
 public class Ring extends Item
 {

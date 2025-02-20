@@ -3,6 +3,7 @@ package main.controller;
 import main.cursor.CursorHUD;
 import main.entity.Entity;
 import main.entity.player.Player;
+import main.item.Crafting;
 import main.item.ItemManager;
 import world.map.MapController;
 import world.map.tiles.TileManager;
@@ -75,6 +76,7 @@ public class GameController extends JPanel implements Runnable
 
             initAbstractCollections();
             initClassInstances();
+            Crafting.initRecipes(this);
             this.addKeyListener(keyHandler);
             this.addMouseWheelListener(mouseHandler);
             this.addMouseListener(mouseHandler);

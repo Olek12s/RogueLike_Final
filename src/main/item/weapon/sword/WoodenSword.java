@@ -1,10 +1,15 @@
 package main.item.weapon.sword;
 
 import main.controller.GameController;
+import main.item.Crafting;
 import main.item.Item;
 import main.item.ItemID;
+import main.item.RecipeIngredient;
+import main.item.ingredients.Wood;
 import utilities.Hitbox;
 import utilities.Position;
+
+import java.util.List;
 
 public class WoodenSword extends Sword
 {
@@ -13,7 +18,12 @@ public class WoodenSword extends Sword
         super(gc, ItemID.WOODEN_SWORD, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
+        setRecipe();
+    }
 
+    public WoodenSword(GameController gc)
+    {
+        super(gc, ItemID.WOODEN_SWORD);
     }
 
     @Override
@@ -22,7 +32,13 @@ public class WoodenSword extends Sword
         statistics.setItemName("Wooden Sword");
         statistics.setStackable(false);
         meleeAttackHeight = 30;
-        statistics.setPhysicalDamage(3);
+        statistics.setPhysicalDamage(5);
+    }
+
+    public void setRecipe()
+    {
+        recipe = Crafting.getOrCreate(List.of(
+                new RecipeIngredient(new Wood(gc), 3)), this);
     }
 
 

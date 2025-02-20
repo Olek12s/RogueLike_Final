@@ -1,9 +1,15 @@
 package main.item.weapon.sword;
 
 import main.controller.GameController;
+import main.item.Crafting;
 import main.item.ItemID;
+import main.item.RecipeIngredient;
+import main.item.ingredients.Diamond;
+import main.item.ingredients.Ruby;
 import utilities.Hitbox;
 import utilities.Position;
+
+import java.util.List;
 
 public class RubySword extends Sword
 {
@@ -12,8 +18,10 @@ public class RubySword extends Sword
         super(gc, ItemID.RUBY_SWORD, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
-
+        setRecipe();
     }
+
+    public RubySword(GameController gc) {super(gc, ItemID.RUBY_SWORD);}
 
     @Override
     public void setStatistics()
@@ -21,7 +29,13 @@ public class RubySword extends Sword
         statistics.setItemName("Ruby Sword");
         statistics.setStackable(false);
         meleeAttackHeight = 30;
-        statistics.setPhysicalDamage(3);
+        statistics.setPhysicalDamage(60);
+    }
+
+    public void setRecipe()
+    {
+        recipe = Crafting.getOrCreate(List.of(
+                new RecipeIngredient(new Ruby(gc), 3)), this);
     }
 
 

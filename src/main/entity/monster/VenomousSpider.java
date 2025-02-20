@@ -20,7 +20,7 @@ import world.map.tiles.Tile;
 // entity class level 4
 public class VenomousSpider extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22IronStrong"), 26);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22IronStrong"), 22);
     public int level = 4;
 
 
@@ -39,21 +39,21 @@ public class VenomousSpider extends Entity
 
     public void setupStatistics()  // add poison effect
     {
-        this.statistics.setStrength(6, 3, 2);
+        this.statistics.setStrength(20, 0, 0);
         this.statistics.setBaseArmour(3);
-        this.statistics.setHitPoints(30, 7, 7);
+        this.statistics.setHitPoints(100, 7, 7);
         this.statistics.setRegeneration(2);
-        this.statistics.setMaxMovementSpeed(1);
+        this.statistics.setMaxMovementSpeed(5);
         this.statistics.setExpReward(60);
     }
 
     @Override
     public void setDetectionRadius() {
-        setDetectionDiameter(8 * Tile.tileSize);}
+        setDetectionDiameter(14 * Tile.tileSize);}
 
     @Override
     public void setLoseInterestRadius() {
-        setLoseInterestDiameter(16 * Tile.tileSize);}
+        setLoseInterestDiameter(28 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

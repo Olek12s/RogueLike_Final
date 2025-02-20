@@ -78,11 +78,49 @@ public class AssetSetter
         //gc.player.getInventory().getBeltSlots()[1].setStoredItem(new MediumEnergyPotion(gc));
         //gc.player.getInventory().getBeltSlots()[2].setStoredItem(new WoodenBoots(gc));
         //gc.player.getInventory().getBeltSlots()[4].setStoredItem(new WoodenPickaxe(gc));
-        gc.player.getInventory().getBeltSlots()[5].setStoredItem(new WoodenShield(gc));
+        //gc.player.getInventory().getBeltSlots()[5].setStoredItem(new WoodenShield(gc));
 
         //gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenPickaxe(gc));
         //gc.player.getInventory().getChestplateSlot().setStoredItem(new LargeManaPotion(gc));
         //gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenShield(gc));;
+
+        //new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
+        //new BitingSlime(gc, new Position(gc.player.getWorldPosition().x - 100, gc.player.getWorldPosition().y - 40));
+        //new Spider(gc, new Position(gc.player.getWorldPosition().x - 150, gc.player.getWorldPosition().y - 40));
+        //new VenomousSpider(gc, new Position(gc.player.getWorldPosition().x - 200, gc.player.getWorldPosition().y - 40));
+        new Zombie(gc, new Position(gc.player.getWorldPosition().x - 250, gc.player.getWorldPosition().y - 40));
+
+        //gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenHelmet(gc));
+        //gc.player.getInventory().getChestplateSlot().setStoredItem(new WoodenChestplate(gc));
+        //gc.player.getInventory().getPantsSlot().setStoredItem(new WoodenPants(gc));
+        //gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenBoots(gc));
+        //gc.player.getInventory().getShieldSlot().setStoredItem(new WoodenShield(gc));
+
+        //gc.player.getInventory().getHelmetSlot().setStoredItem(new IronHelmet(gc));
+        //gc.player.getInventory().getChestplateSlot().setStoredItem(new IronChestplate(gc));
+        //gc.player.getInventory().getPantsSlot().setStoredItem(new IronPants(gc));
+        //gc.player.getInventory().getBootsSlot().setStoredItem(new IronBoots(gc));
+        //gc.player.getInventory().getShieldSlot().setStoredItem(new IronShield(gc));
+
+
+        //gc.player.getInventory().getHelmetSlot().setStoredItem(new DiamondHelmet(gc));
+        //gc.player.getInventory().getChestplateSlot().setStoredItem(new DiamondChestplate(gc));
+        //gc.player.getInventory().getPantsSlot().setStoredItem(new DiamondPants(gc));
+        //gc.player.getInventory().getBootsSlot().setStoredItem(new DiamondBoots(gc));
+        //gc.player.getInventory().getShieldSlot().setStoredItem(new DiamondShield(gc));
+
+
+        gc.player.getInventory().getHelmetSlot().setStoredItem(new RubyHelmet(gc));
+        gc.player.getInventory().getChestplateSlot().setStoredItem(new RubyChestplate(gc));
+        gc.player.getInventory().getPantsSlot().setStoredItem(new RubyPants(gc));
+        gc.player.getInventory().getBootsSlot().setStoredItem(new RubyBoots(gc));
+        gc.player.getInventory().getShieldSlot().setStoredItem(new RubyShield(gc));
+
+        gc.player.getInventory().getBeltSlots()[0].setStoredItem(new WoodenSword(gc));
+        gc.player.getInventory().getBeltSlots()[1].setStoredItem(new IronSword(gc));
+        gc.player.getInventory().getBeltSlots()[2].setStoredItem(new DiamondSword(gc));
+        gc.player.getInventory().getBeltSlots()[3].setStoredItem(new RubySword(gc));
+
 
         new Wood(gc, new Position(startX-(120), startY+80));
         new Coal(gc, new Position(startX-(120), startY+100));
@@ -114,13 +152,6 @@ public class AssetSetter
             }
         }
 
-
-
-        new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
-        //new BitingSlime(gc, new Position(gc.player.getWorldPosition().x - 100, gc.player.getWorldPosition().y - 40));
-        //new Spider(gc, new Position(gc.player.getWorldPosition().x - 150, gc.player.getWorldPosition().y - 40));
-        //new VenomousSpider(gc, new Position(gc.player.getWorldPosition().x - 200, gc.player.getWorldPosition().y - 40));
-        //new Zombie(gc, new Position(gc.player.getWorldPosition().x - 250, gc.player.getWorldPosition().y - 40));
 
         SmallHealthPotion shp = new SmallHealthPotion(gc, new Position(startX+32, startY));
         MediumHealthPotion mhp = new MediumHealthPotion(gc, new Position(startX+64, startY));

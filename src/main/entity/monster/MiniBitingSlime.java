@@ -50,11 +50,11 @@ public class MiniBitingSlime extends Entity
 
     @Override
     public void setDetectionRadius() {
-        setDetectionDiameter(100 * Tile.tileSize);}
+        setDetectionDiameter(14 * Tile.tileSize);}
 
     @Override
     public void setLoseInterestRadius() {
-        setLoseInterestDiameter(110 * Tile.tileSize);}
+        setLoseInterestDiameter(28 * Tile.tileSize);}
 
     @Override
     public void setDefaultSprite()

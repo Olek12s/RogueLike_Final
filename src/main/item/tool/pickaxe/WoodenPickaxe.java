@@ -1,8 +1,14 @@
 package main.item.tool.pickaxe;
 
 import main.controller.GameController;
+import main.item.Crafting;
 import main.item.ItemID;
+import main.item.RecipeIngredient;
+import main.item.ingredients.BlueFlower;
+import main.item.ingredients.Wood;
 import utilities.Position;
+
+import java.util.List;
 
 public class WoodenPickaxe extends Pickaxe
 {
@@ -12,6 +18,7 @@ public class WoodenPickaxe extends Pickaxe
         super(gc, ItemID.WOODEN_PICKAXE, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
+        setRecipe();
     }
 
     public WoodenPickaxe(GameController gc)
@@ -27,5 +34,11 @@ public class WoodenPickaxe extends Pickaxe
         meleeAttackHeight = 30;
         statistics.setPhysicalDamage(3);
         attackRestTime = 20;
+    }
+
+    public void setRecipe()
+    {
+        recipe = Crafting.getOrCreate(List.of(
+                new RecipeIngredient(new Wood(gc), 2)), this);
     }
 }
