@@ -64,5 +64,6 @@ public class ItemManager
         spriteMap.put(ItemID.COAL, new Sprite(FileManipulation.loadImage("resources/items/ingredients/Coal"), 16));
         spriteMap.put(ItemID.IRON_ORE, new Sprite(FileManipulation.loadImage("resources/items/ingredients/IronOre"), 16));
         spriteMap.put(ItemID.DIAMOND, new Sprite(FileManipulation.loadImage("resources/items/ingredients/Diamond"), 16));
+        spriteMap.put(ItemID.SLIME, new Sprite(FileManipulation.loadImage("resources/items/ingredients/Slime"), 16));
     }
 }
