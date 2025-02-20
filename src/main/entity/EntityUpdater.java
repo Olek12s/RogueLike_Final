@@ -258,6 +258,7 @@ public class EntityUpdater implements Updatable
         {
             EntityStatistics playerStats = entity.gc.player.statistics;
             playerStats.setExp(playerStats.getExp() + entity.statistics.getExpReward());
+            dropInventoryOnDeath();
             entity.gc.drawables.remove(entity.entityRenderer);
             entity.gc.updatables.remove(this);
             entity.getCurrentChunk().removeEntity(entity);
@@ -686,6 +687,17 @@ public class EntityUpdater implements Updatable
             {
                 knockbackDirection = null;
             }
+        }
+    }
+
+    private void dropInventoryOnDeath()
+    {
+        Inventory inventory = entity.getInventory();
+        List<Item> items = inventory.getInventoryItemList();
+
+        for (Item item : items)
+        {
+            inventory.dropItemOnGround(item);
         }
     }
 }

@@ -5,16 +5,16 @@ import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
 
-public class YellowFlower extends Item
+public class IronOre extends Item
 {
-    public YellowFlower(GameController gc)
+    public IronOre(GameController gc)
     {
-        super(gc, ItemID.YELLOW_FLOWER);
+        super(gc, ItemID.IRON_ORE);
     }
 
-    public YellowFlower(GameController gc, Position worldPosition)
+    public IronOre(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.YELLOW_FLOWER, worldPosition);
+        super(gc, ItemID.IRON_ORE, worldPosition);
         this.setOnGround(true);
     }
 
@@ -51,7 +51,7 @@ public class YellowFlower extends Item
     @Override
     public void setStatistics()
     {
-        statistics.setItemName("Yellow Flower");
+        statistics.setItemName("Iron Ore");
         statistics.setStackable(false);
         statistics.setStackSize(1);
     }

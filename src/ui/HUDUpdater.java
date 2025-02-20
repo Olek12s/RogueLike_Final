@@ -2,14 +2,13 @@ package ui;
 
 import main.controller.GameState;
 import main.controller.Updatable;
+import main.entity.Entity;
 import main.entity.EntityStatistics;
+import main.entity.player.Player;
 import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.inventory.SlotType;
-import main.item.Crafting;
-import main.item.Item;
-import main.item.ItemSubType;
-import main.item.ItemType;
+import main.item.*;
 import utilities.MouseHandler;
 import utilities.Position;
 
@@ -377,14 +376,33 @@ public class HUDUpdater implements Updatable
         }
     }
 
+    /**
+     * Attempts to craft an item if the player has enough resources.
+     * If crafting is successful, removes the required resources and adds the crafted item
+     * to the player's inventory.
+     * If there is not enough space in the inventory, the crafted item is dropped on the ground.
+     */
     private void checkCraftingRecipeClick()
     {
         MouseHandler mh = hud.gc.mouseHandler;
-        if (!mh.leftButtonClicked) return;
+        if (!mh.leftButtonClicked || hud.gc.gameStateController.getCurrentGameState() != GameState.CRAFTING) return;
         int mouseX = mh.getMouseX();
         int mouseY = mh.getMouseY();
 
-        getClickedCrafting(mouseX, mouseY);
+        Crafting crafting = getClickedCrafting(mouseX, mouseY);
+        if (crafting == null) return;
+
+        Inventory inventory = hud.gc.player.getInventory();
+        Entity player = hud.gc.player;
+
+        if (!crafting.canCraft(inventory)) {
+            System.out.println("Not enough resources to craft this item!");
+            return;
+        }
+
+        crafting.craft(inventory, player);
+
+        System.out.println("Crafted item successfully!");
     }
 
     private Crafting getClickedCrafting(int mouseX, int mouseY)
@@ -392,7 +410,7 @@ public class HUDUpdater implements Updatable
         Position[] subFramePositions = hud.hudRenderer.getCraftingSubFramePositions();
         int subFrameWidth = hud.hudRenderer.getCraftingSubFrameWidth();
         int subFrameHeight = hud.hudRenderer.getCraftingSubFrameHeight();
-        List<Map.Entry<Item, Crafting>> recipeList = new ArrayList<>(Crafting.craftings.entrySet());
+        List<Map.Entry<ItemID, Crafting>> recipeList = new ArrayList<>(Crafting.craftings.entrySet());
         int startIndex = hud.hudRenderer.getCurrentCraftingPage() * hud.hudRenderer.getRecipesPerPage();
 
         for (int i = 0; i < subFramePositions.length; i++)
@@ -404,7 +422,7 @@ public class HUDUpdater implements Updatable
                 int recipeIndex = startIndex + i;
                 if (recipeIndex < recipeList.size())
                 {
-                    String itemName = recipeList.get(recipeIndex).getKey().getStatistics().getItemName();
+                    String itemName = recipeList.get(recipeIndex).getKey().name();
                     return recipeList.get(recipeIndex).getValue();
                 }
             }

@@ -9,6 +9,7 @@ import main.inventory.Slot;
 import main.inventory.SlotType;
 import main.item.Crafting;
 import main.item.Item;
+import main.item.ItemID;
 import main.item.RecipeIngredient;
 import utilities.Position;
 import utilities.sprite.Sprite;
@@ -160,7 +161,7 @@ public class HUDRenderer implements Drawable
         }
     }
     private void renderFPSTopRight(Graphics g2) {
-        Graphics2D g2d = (Graphics2D) g2.create(); // Tworzymy nowy kontekst graficzny
+        Graphics2D g2d = (Graphics2D) g2.create();
 
         int x = hud.gc.getWidth() - hud.gc.getWidth() / 11;
         int y = 40;
@@ -792,13 +793,14 @@ public class HUDRenderer implements Drawable
         int startIndex = currentCraftingPage * recipesPerPage;
         int endIndex = Math.min(startIndex + recipesPerPage, Crafting.craftings.size());
 
-        List<Map.Entry<Item, Crafting>> recipeList = new ArrayList<>(Crafting.craftings.entrySet());    // converting map into list
+        List<Map.Entry<ItemID, Crafting>> recipeList = new ArrayList<>(Crafting.craftings.entrySet());    // converting map into list
+
 
         int numSubFrames = endIndex - startIndex;
         craftingSubFramePositions = new Position[numSubFrames];
         for (int i = startIndex, frameIndex = 0; i < endIndex; i++, frameIndex++)   // loop for page
         {
-            Item resultItem = recipeList.get(i).getKey();
+            Item resultItem = recipeList.get(i).getValue().getResultItem();
             Crafting crafting = recipeList.get(i).getValue();
             int craftingSubFrameYPosition = recipeStartY + (frameIndex * recipeFrameHeight);
             int craftingSubFrameTextYPosition = craftingSubFrameYPosition + recipeFrameHeight / 2;

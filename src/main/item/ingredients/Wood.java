@@ -5,16 +5,16 @@ import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
 
-public class YellowFlower extends Item
+public class Wood extends Item
 {
-    public YellowFlower(GameController gc)
+    public Wood(GameController gc)
     {
-        super(gc, ItemID.YELLOW_FLOWER);
+        super(gc, ItemID.WOOD);
     }
 
-    public YellowFlower(GameController gc, Position worldPosition)
+    public Wood(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.YELLOW_FLOWER, worldPosition);
+        super(gc, ItemID.WOOD, worldPosition);
         this.setOnGround(true);
     }
 
@@ -51,7 +51,7 @@ public class YellowFlower extends Item
     @Override
     public void setStatistics()
     {
-        statistics.setItemName("Yellow Flower");
+        statistics.setItemName("Wood");
         statistics.setStackable(false);
         statistics.setStackSize(1);
     }

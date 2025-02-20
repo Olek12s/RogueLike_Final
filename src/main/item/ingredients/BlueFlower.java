@@ -16,6 +16,7 @@ public class BlueFlower extends Item
     public BlueFlower(GameController gc, Position worldPosition)
     {
         super(gc, ItemID.BLUE_FLOWER, worldPosition);
+        this.setOnGround(true);
     }
 
     @Override

@@ -37,11 +37,11 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     public void update()
     {
         super.update();
+        checkPickUpItem();
         if (playerEntity.isAlive())
         {
             updatePlayerDirection();
             checkEnteranceCollision();
-            checkPickUpItem();
             checkCrouch();
             processClickedSlotIndex();
             attackIfClicked();
@@ -63,7 +63,10 @@ public class PlayerUpdater extends EntityUpdater implements Updatable
     private void checkPickUpItem()
     {
        // if (entity.gc.keyHandler.F_PRESSED && entity.gc.gameStateController.getCurrentGameState() == GameState.PENDING) entity.pickUpItem();
-        if (playerEntity.gc.keyHandler.F_PRESSED) playerEntity.pickUpItem();
+        if (playerEntity.gc.keyHandler.F_PRESSED)
+        {
+            playerEntity.pickUpItem();
+        }
     }
 
     private void checkCrouch()

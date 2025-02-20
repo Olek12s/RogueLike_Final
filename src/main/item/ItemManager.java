@@ -56,5 +56,13 @@ public class ItemManager
         spriteMap.put(ItemID.BITING_SLIME_WEAPON, new Sprite(FileManipulation.loadImage("resources/items/weapon/MobWeapon"), 16));
         spriteMap.put(ItemID.SPIDER_WEAPON, new Sprite(FileManipulation.loadImage("resources/items/weapon/MobWeapon"), 16));
         spriteMap.put(ItemID.ZOMBIE_WEAPON, new Sprite(FileManipulation.loadImage("resources/items/weapon/MobWeapon"), 16));
+
+        spriteMap.put(ItemID.RED_FLOWER, new Sprite(FileManipulation.loadImage("resources/items/ingredients/RedFlower"), 16));
+        spriteMap.put(ItemID.BLUE_FLOWER, new Sprite(FileManipulation.loadImage("resources/items/ingredients/BlueFlower"), 16));
+        spriteMap.put(ItemID.YELLOW_FLOWER, new Sprite(FileManipulation.loadImage("resources/items/ingredients/YellowFlower"), 16));
+        spriteMap.put(ItemID.WOOD, new Sprite(FileManipulation.loadImage("resources/items/ingredients/Wood"), 16));
+        spriteMap.put(ItemID.COAL, new Sprite(FileManipulation.loadImage("resources/items/ingredients/Coal"), 16));
+        spriteMap.put(ItemID.IRON_ORE, new Sprite(FileManipulation.loadImage("resources/items/ingredients/IronOre"), 16));
+        spriteMap.put(ItemID.DIAMOND, new Sprite(FileManipulation.loadImage("resources/items/ingredients/Diamond"), 16));
     }
 }

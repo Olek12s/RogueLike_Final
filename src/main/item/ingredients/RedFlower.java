@@ -16,6 +16,7 @@ public class RedFlower extends Item
     public RedFlower(GameController gc, Position worldPosition)
     {
         super(gc, ItemID.RED_FLOWER, worldPosition);
+        this.setOnGround(true);
     }
 
     @Override

@@ -310,4 +310,15 @@ public abstract class Entity
         }
         attackHitbox = new Hitbox(attackHitboxPos, boxWidth, boxHeight);
     }
+
+    public void giveItemAtChance(Item item, float percentChance)
+    {
+        Random random = new Random();
+        float chance = random.nextFloat() * 100;
+
+        if (chance <= percentChance)
+        {
+            inventory.addItem(item);
+        }
+    }
 }

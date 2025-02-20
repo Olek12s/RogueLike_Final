@@ -53,7 +53,6 @@ public class ItemRenderer implements Drawable
                     item.gc.incrementRenderCount();
                     if (item.gc.isDebugMode()) drawItenOnGroundHitbox(g2);
                 }
-
             }
         }
     }

@@ -12,6 +12,7 @@ import main.item.armor.pants.WoodenPants;
 import main.item.armor.ring.GelRing;
 import main.item.armor.shield.Shield;
 import main.item.armor.shield.WoodenShield;
+import main.item.ingredients.*;
 import main.item.potion.energy.LargeEnergyPotion;
 import main.item.potion.energy.MediumEnergyPotion;
 import main.item.potion.energy.SmallEnergyPotion;
@@ -54,8 +55,9 @@ public class AssetSetter
         int offset = 50;
 
         //gc.mapController.getCurrentMap().safeSpawnEntityOnMap(new MiniBitingSlime(gc, new Position(20, 20)));
-        //testEntity1 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
-        //testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
+        testEntity1 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
+        testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
+
         //testEntity3 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y - 40));
         //testEntitySmallSlime = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-150, gc.player.getWorldPosition().y + 80));
         //testEntitySlime = new BitingSlime(gc, new Position(gc.player.getWorldPosition().x-100, gc.player.getWorldPosition().y + 80));
@@ -72,6 +74,25 @@ public class AssetSetter
         //gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenPickaxe(gc));
         //gc.player.getInventory().getChestplateSlot().setStoredItem(new LargeManaPotion(gc));
         //gc.player.getInventory().getBootsSlot().setStoredItem(new WoodenShield(gc));;
+
+        new Wood(gc, new Position(startX-(120), startY+80));
+        new Coal(gc, new Position(startX-(120), startY+100));
+        new IronOre(gc, new Position(startX-(120), startY+120));
+        new Diamond(gc, new Position(startX-(120), startY+140));
+
+        for (int i = 0; i < 30; i++)
+        {
+            new RedFlower(gc, new Position(startX+(20*i), startY+50));
+        }
+        for (int i = 0; i < 30; i++)
+        {
+            new BlueFlower(gc, new Position(startX+(20*i), startY+100));
+        }
+
+        for (int i = 0; i < 30; i++)
+        {
+            new YellowFlower(gc, new Position(startX+(20*i), startY+150));
+        }
 
 
         for (int i = 0; i < 0; i++)

@@ -34,7 +34,13 @@ public enum ItemID
 
     RED_FLOWER(24),
     YELLOW_FLOWER(25),
-    BLUE_FLOWER(26);
+    BLUE_FLOWER(26),
+    WOOD(27),
+    COAL(28),
+    IRON_ORE(29),
+    DIAMOND(30);
+
+
 
     private final int id;
 
@@ -53,4 +59,5 @@ public enum ItemID
         }
         throw new IllegalArgumentException("Illegal ID");
     }
+
 }
