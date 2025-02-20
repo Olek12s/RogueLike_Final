@@ -6,11 +6,16 @@ import main.entity.EntityStatistics;
 import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.inventory.SlotType;
+import main.item.Crafting;
 import main.item.Item;
 import main.item.ItemSubType;
 import main.item.ItemType;
 import utilities.MouseHandler;
 import utilities.Position;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class HUDUpdater implements Updatable
 {
@@ -41,6 +46,7 @@ public class HUDUpdater implements Updatable
         }
         checkLevelUpOnIconClick();
         checkCraftingArrowClick();
+        checkCraftingRecipeClick();
     }
 
     private void updateHealthBar()
@@ -358,16 +364,51 @@ public class HUDUpdater implements Updatable
         Position rightArrowPosition = hud.hudRenderer.getCraftingRightArrowPosition();
         int arrowWidth = hud.hudRenderer.getCraftingArrowWidth();
         int arrowHeight = hud.hudRenderer.getCraftingArrowHeight();
-
+        int currentPage = hud.hudRenderer.getCurrentCraftingPage();
         // left arrow
-        if (mouseX >= leftArrowPosition.x && mouseX <= leftArrowPosition .x + arrowWidth && mouseY >= leftArrowPosition.y && mouseY <= leftArrowPosition.y + arrowHeight)
+        if (mouseX >= leftArrowPosition.x && mouseX <= leftArrowPosition.x + arrowWidth && mouseY >= leftArrowPosition.y && mouseY <= leftArrowPosition.y + arrowHeight)
         {
-
+            if (currentPage != 0) hud.hudRenderer.setCurrentCraftingPage(currentPage - 1);
         }
         // right arrow
         else if (mouseX >= rightArrowPosition.x && mouseX <= rightArrowPosition.x + arrowWidth && mouseY >= rightArrowPosition.y && mouseY <= rightArrowPosition.y + arrowWidth)
         {
-
+            if (currentPage < hud.hudRenderer.getRecipePagesCount()) hud.hudRenderer.setCurrentCraftingPage(currentPage + 1);
         }
+    }
+
+    private void checkCraftingRecipeClick()
+    {
+        MouseHandler mh = hud.gc.mouseHandler;
+        if (!mh.leftButtonClicked) return;
+        int mouseX = mh.getMouseX();
+        int mouseY = mh.getMouseY();
+
+        getClickedCrafting(mouseX, mouseY);
+    }
+
+    private Crafting getClickedCrafting(int mouseX, int mouseY)
+    {
+        Position[] subFramePositions = hud.hudRenderer.getCraftingSubFramePositions();
+        int subFrameWidth = hud.hudRenderer.getCraftingSubFrameWidth();
+        int subFrameHeight = hud.hudRenderer.getCraftingSubFrameHeight();
+        List<Map.Entry<Item, Crafting>> recipeList = new ArrayList<>(Crafting.craftings.entrySet());
+        int startIndex = hud.hudRenderer.getCurrentCraftingPage() * hud.hudRenderer.getRecipesPerPage();
+
+        for (int i = 0; i < subFramePositions.length; i++)
+        {
+            Position subFramePosition = subFramePositions[i];
+
+            if (mouseX >= subFramePosition.x && mouseX <= subFramePosition.x + subFrameWidth && mouseY >= subFramePosition.y && mouseY <= subFramePosition.y + subFrameHeight)
+            {
+                int recipeIndex = startIndex + i;
+                if (recipeIndex < recipeList.size())
+                {
+                    String itemName = recipeList.get(recipeIndex).getKey().getStatistics().getItemName();
+                    return recipeList.get(recipeIndex).getValue();
+                }
+            }
+        }
+        return null;    // returns null if no crafting was clicked
     }
 }

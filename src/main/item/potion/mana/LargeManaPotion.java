@@ -1,8 +1,13 @@
 package main.item.potion.mana;
 
 import main.controller.GameController;
+import main.item.Crafting;
 import main.item.ItemID;
+import main.item.RecipeIngredient;
+import main.item.ingredients.BlueFlower;
 import utilities.Position;
+
+import java.util.List;
 
 public class LargeManaPotion extends ManaPotion
 {
@@ -16,6 +21,7 @@ public class LargeManaPotion extends ManaPotion
         super(gc, ItemID.LARGE_MANA_POTION, worldPosition, 100);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
+        setRecipe();
     }
 
     @Override
@@ -24,5 +30,11 @@ public class LargeManaPotion extends ManaPotion
         statistics.setItemName("Large mana potion");
         statistics.setStackable(false);
         statistics.setStackSize(1);
+    }
+
+    private void setRecipe()
+    {
+        recipe = Crafting.getOrCreate(List.of(
+                new RecipeIngredient(new BlueFlower(gc), 12)), this);
     }
 }

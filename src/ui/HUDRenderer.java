@@ -7,12 +7,17 @@ import main.entity.EntityStatistics;
 import main.inventory.Inventory;
 import main.inventory.Slot;
 import main.inventory.SlotType;
+import main.item.Crafting;
 import main.item.Item;
+import main.item.RecipeIngredient;
 import utilities.Position;
 import utilities.sprite.Sprite;
 import world.map.tiles.Tile;
 
 import java.awt.*;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 public class HUDRenderer implements Drawable
 {
@@ -23,7 +28,8 @@ public class HUDRenderer implements Drawable
     private String summaryTime = "-";
     private String drawCount = "-";
     private final int baseSlotSize = 45;
-    private int craftingPage;
+    private int currentCraftingPage;
+    private int recipesPerPage = 7;
 
     private Font HUDFont;
     private final int baseFontSize = 14;
@@ -31,6 +37,8 @@ public class HUDRenderer implements Drawable
     private int slotSize;
     private int craftingArrowWidth;
     private int craftingArrowHeight;
+    private int craftingSubFrameWidth;
+    private int craftingSubFrameHeight;
 
     // FRAME POSITIONS //
     private Position mainInventoryFramePosition;
@@ -49,6 +57,7 @@ public class HUDRenderer implements Drawable
     private Position[] levelUpIconPositions;
     private Position craftingRightArrowPosition;
     private Position craftingLeftArrowPosition;
+    private Position[] craftingSubFramePositions;
 
     public Position[] getLevelUpIconPositions() {return levelUpIconPositions;}
     public int getScaledFontSize() {return scaledFontSize;}
@@ -57,8 +66,17 @@ public class HUDRenderer implements Drawable
     public Position getCraftingLeftArrowPosition() {return craftingLeftArrowPosition;}
     public int getCraftingArrowWidth() {return craftingArrowWidth;}
     public int getCraftingArrowHeight() {return craftingArrowHeight;}
-    public int getCraftingPage() {return craftingPage;}
-    public void setCraftingPage(int craftingPage) {this.craftingPage = craftingPage;}
+    public int getCurrentCraftingPage() {return currentCraftingPage;}
+    public int getCraftingSubFrameWidth() {return craftingSubFrameWidth;}
+    public int getCraftingSubFrameHeight() {return craftingSubFrameHeight;}
+    public Position[] getCraftingSubFramePositions() {return craftingSubFramePositions;}
+    public int getRecipesPerPage() {return recipesPerPage;}
+
+    public void setCurrentCraftingPage(int currentCraftingPage) {this.currentCraftingPage = currentCraftingPage;}
+    public int getRecipePagesCount()
+    {
+        return Crafting.craftings.size() / recipesPerPage;
+    }
 
     public HUDRenderer(HUD hud)
     {
@@ -717,6 +735,7 @@ public class HUDRenderer implements Drawable
         {
             craftingLeftArrowPosition = null;
             craftingRightArrowPosition = null;
+            craftingSubFramePositions = null;
             return;
         }
 
@@ -762,10 +781,47 @@ public class HUDRenderer implements Drawable
             craftingLeftArrowPosition.x = craftingFrameX+1;
             craftingLeftArrowPosition.y = craftingFrameY+1;
         }
-
         g2d.drawImage(hud.arrowRight.image, craftingRightArrowPosition.x, craftingRightArrowPosition.y, arrowWidth, arrowHeight, null);
         g2d.drawImage(hud.arrowLeft.image, craftingLeftArrowPosition.x, craftingLeftArrowPosition.y, arrowWidth, arrowHeight, null);
 
+
+        // RENDERING RECIPES
+        int recipeFrameHeight = frameHeight / (recipesPerPage+1);
+        int recipeStartY = craftingFrameY + arrowHeight;
+
+        int startIndex = currentCraftingPage * recipesPerPage;
+        int endIndex = Math.min(startIndex + recipesPerPage, Crafting.craftings.size());
+
+        List<Map.Entry<Item, Crafting>> recipeList = new ArrayList<>(Crafting.craftings.entrySet());    // converting map into list
+
+        int numSubFrames = endIndex - startIndex;
+        craftingSubFramePositions = new Position[numSubFrames];
+        for (int i = startIndex, frameIndex = 0; i < endIndex; i++, frameIndex++)   // loop for page
+        {
+            Item resultItem = recipeList.get(i).getKey();
+            Crafting crafting = recipeList.get(i).getValue();
+            int craftingSubFrameYPosition = recipeStartY + (frameIndex * recipeFrameHeight);
+            int craftingSubFrameTextYPosition = craftingSubFrameYPosition + recipeFrameHeight / 2;
+
+            StringBuilder recipeText = new StringBuilder();
+            recipeText.append(resultItem.getStatistics().getItemName()).append(": ");   // item name
+
+            for (RecipeIngredient ingredient : crafting.getIngredients())   // all ingredients
+            {
+                recipeText.append(ingredient.getQuantity())
+                        .append("x ")
+                        .append(ingredient.getItem().getStatistics().getItemName())
+                        .append(" ");
+            }
+
+            craftingSubFramePositions[frameIndex] = new Position(craftingFrameX, craftingSubFrameYPosition);
+            craftingSubFrameWidth = frameWidth;
+            craftingSubFrameHeight = recipeFrameHeight;
+
+            renderFrame(g2d, craftingFrameX, craftingSubFrameYPosition, frameWidth, recipeFrameHeight, 0, 0, 1, 0.5f);
+            g2d.setColor(Color.WHITE);
+            g2d.drawString(recipeText.toString(), craftingFrameX, craftingSubFrameTextYPosition);
+        }
         g2d.dispose();
     }
 }

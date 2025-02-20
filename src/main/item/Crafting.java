@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Crafting {
-    private static final Map<Item, Crafting> craftings = new HashMap<>();
+public class Crafting
+{
+    public static final Map<Item, Crafting> craftings = new HashMap<>();
     private final List<RecipeIngredient> ingredients;
     private final Item result;
 
