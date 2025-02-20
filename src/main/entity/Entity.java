@@ -315,8 +315,7 @@ public abstract class Entity
     {
         Random random = new Random();
         float chance = random.nextFloat() * 100;
-
-        if (chance <= percentChance)
+        if (chance <= percentChance*100)
         {
             inventory.addItem(item);
         }

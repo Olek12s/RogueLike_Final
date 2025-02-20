@@ -8,6 +8,7 @@ import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
 import main.item.ingredients.Coal;
 import main.item.ingredients.IronOre;
+import main.item.ingredients.Slime;
 import main.item.ingredients.Wood;
 import main.item.weapon.mobweapon.BitingSlimeWeapon;
 import utilities.FileManipulation;
@@ -31,6 +32,7 @@ public class BitingSlime extends Entity
         this.name = "Slime";
         setupStatistics();
         setAlive(true);
+        giveItemAtChance(new Slime(gc), 0.5f);
         giveItemAtChance(new Wood(gc), 0.5f);
         giveItemAtChance(new Coal(gc), 0.35f);
         giveItemAtChance(new IronOre(gc), 0.1f);
