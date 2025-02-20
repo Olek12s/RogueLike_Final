@@ -5,6 +5,8 @@ import main.item.Crafting;
 import main.item.ItemID;
 import main.item.RecipeIngredient;
 import main.item.ingredients.BlueFlower;
+import main.item.ingredients.Coal;
+import main.item.ingredients.Slime;
 import utilities.Position;
 
 import java.util.List;
@@ -35,6 +37,9 @@ public class LargeManaPotion extends ManaPotion
     private void setRecipe()
     {
         recipe = Crafting.getOrCreate(List.of(
-                new RecipeIngredient(new BlueFlower(gc), 12)), this);
+                new RecipeIngredient(new BlueFlower(gc), 6),
+                new RecipeIngredient(new Slime(gc), 2),
+                new RecipeIngredient(new Coal(gc), 1)
+        ), this);
     }
 }

@@ -4,7 +4,10 @@ import main.controller.GameController;
 import main.item.Crafting;
 import main.item.ItemID;
 import main.item.RecipeIngredient;
+import main.item.ingredients.BlueFlower;
+import main.item.ingredients.Coal;
 import main.item.ingredients.RedFlower;
+import main.item.ingredients.Slime;
 import utilities.Position;
 
 import java.util.List;
@@ -35,6 +38,9 @@ public class LargeHealthPotion extends HealthPotion
     private void setRecipe()
     {
         recipe = Crafting.getOrCreate(List.of(
-                new RecipeIngredient(new RedFlower(gc), 12)), this);
+                new RecipeIngredient(new RedFlower(gc), 6),
+                new RecipeIngredient(new Slime(gc), 2),
+                new RecipeIngredient(new Coal(gc), 1)
+        ), this);
     }
 }

@@ -20,7 +20,7 @@ import world.map.tiles.Tile;
 // entity class level 2
 public class BitingSlime extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 32);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22Brown"), 22);
     public int level = 2;
 
 

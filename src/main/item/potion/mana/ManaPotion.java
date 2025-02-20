@@ -15,6 +15,7 @@ public abstract class ManaPotion extends Item implements Consumable
     public ManaPotion(GameController gc, ItemID itemID, int regenerationPower)
     {
         super(gc, itemID);
+        this.gc = gc;
         this.regenerationPower = regenerationPower;
     }
 
@@ -26,13 +27,24 @@ public abstract class ManaPotion extends Item implements Consumable
 
     public void applyRegenerationEffect(int regenerationPower)
     {
-        System.out.println("Mana regen " + regenerationPower);
+        Entity player = gc.player;
+        int currentMana = player.statistics.getMana();
+        int maxMana = player.statistics.getMaxMana();
+
+        int newMana = currentMana + regenerationPower;
+        if (newMana > maxMana)
+        {
+            newMana = maxMana;
+        }
+
+        player.statistics.setMana(newMana);
     }
 
     @Override
     public void consume(Entity entity)
     {
-        System.out.println("consumed mana potion " + regenerationPower);
+        //System.out.println("consumed mana potion " + regenerationPower);
+        applyRegenerationEffect(regenerationPower);
     }
 
     @Override

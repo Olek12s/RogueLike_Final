@@ -65,9 +65,8 @@ public class AssetSetter
         int offset = 50;
 
         //gc.mapController.getCurrentMap().safeSpawnEntityOnMap(new MiniBitingSlime(gc, new Position(20, 20)));
-        testEntity1 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
-        testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
-
+        //testEntity1 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
+        //testEntity2 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-25, gc.player.getWorldPosition().y - 50));
         //testEntity3 = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x, gc.player.getWorldPosition().y - 40));
         //testEntitySmallSlime = new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x-150, gc.player.getWorldPosition().y + 80));
         //testEntitySlime = new BitingSlime(gc, new Position(gc.player.getWorldPosition().x-100, gc.player.getWorldPosition().y + 80));
@@ -116,6 +115,12 @@ public class AssetSetter
         }
 
 
+
+        new MiniBitingSlime(gc, new Position(gc.player.getWorldPosition().x - 50, gc.player.getWorldPosition().y - 40));
+        //new BitingSlime(gc, new Position(gc.player.getWorldPosition().x - 100, gc.player.getWorldPosition().y - 40));
+        //new Spider(gc, new Position(gc.player.getWorldPosition().x - 150, gc.player.getWorldPosition().y - 40));
+        //new VenomousSpider(gc, new Position(gc.player.getWorldPosition().x - 200, gc.player.getWorldPosition().y - 40));
+        //new Zombie(gc, new Position(gc.player.getWorldPosition().x - 250, gc.player.getWorldPosition().y - 40));
 
         SmallHealthPotion shp = new SmallHealthPotion(gc, new Position(startX+32, startY));
         MediumHealthPotion mhp = new MediumHealthPotion(gc, new Position(startX+64, startY));
@@ -170,11 +175,6 @@ public class AssetSetter
 
         WoodenPickaxe pickaxe = new WoodenPickaxe(gc, new Position(startX-150, startY));
         WoodenAxe axe = new WoodenAxe(gc, new Position(startX-20, startY));
-
-        for (int i = 0; i < 600; i++)
-        {
-            new SmallHealthPotion(gc, new Position(startX+(20*i), startY));
-        }
 
         List<Entity> currentChunkEntities = gc.mapController.getCurrentMap().getChunk(gc.player.getWorldPosition()).getEntities();
 

@@ -152,7 +152,7 @@ public abstract class Entity
 
     public void initializeEntitySpriteAssets(int id)
     {
-         EntityRenderer.putSpriteSheet(new SpriteSheet(FileManipulation.loadImage("resources/default/bitingSlime22"), 22), id);
+         EntityRenderer.putSpriteSheet(new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22"), 22), id);
          //EntityRenderer = new SpriteSheet(FileManipulation.loadImage(spriteSheetPath), 22);
     }
 

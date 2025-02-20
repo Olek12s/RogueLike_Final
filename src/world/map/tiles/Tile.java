@@ -51,7 +51,7 @@ public class Tile implements Serializable
     {
         this.id = (short) TileID.DEFAULT_TILE.getId();
         this.worldPosition = position;
-        SpriteSheet defaultSS = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultTile"), 64);
+        SpriteSheet defaultSS = new SpriteSheet(FileManipulation.loadImage("resources/entity/defaultTile"), 64);
         this.tileObject = TileManager.getTileObject(id);
         this.tileObject.setSprite(defaultSS.extractFirst());
     }

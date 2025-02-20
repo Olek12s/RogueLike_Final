@@ -20,7 +20,7 @@ import world.map.tiles.Tile;
 // entity class level 4
 public class VenomousSpider extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 26);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22IronStrong"), 26);
     public int level = 4;
 
 

@@ -51,8 +51,8 @@
 
         private void initializeTileObjects()
         {
-            createTileObject("resources/default/defaultTile",   false, 1, "Default Tile", TileID.DEFAULT_TILE.getId());
-            createTileObject("resources/default/defaultTileCollision",  true, 0, "Default Tile Collision", TileID.DEFAULT_TILE_COLLISION.getId());
+            createTileObject("resources/entity/defaultTile",   false, 1, "Default Tile", TileID.DEFAULT_TILE.getId());
+            createTileObject("resources/entity/defaultTileCollision",  true, 0, "Default Tile Collision", TileID.DEFAULT_TILE_COLLISION.getId());
             createTileObject("resources/tiles/Dirt",  false, 1, "Dirt", TileID.DIRT.getId());
             createTileObject("resources/tiles/Grass",  false, 1, "Grass", TileID.GRASS.getId());
             createTileObject("resources/tiles/Stone", "resources/edges/Stone", TileEdge.STONE,  true, 0, "Stone", TileID.STONE.getId());

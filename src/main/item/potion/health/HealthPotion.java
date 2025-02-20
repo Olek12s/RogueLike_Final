@@ -2,6 +2,7 @@ package main.item.potion.health;
 
 import main.controller.GameController;
 import main.entity.Entity;
+import main.entity.player.Player;
 import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
@@ -13,6 +14,7 @@ public abstract class HealthPotion extends Item implements Consumable
     public HealthPotion(GameController gc, ItemID itemID, int regenerationPower)
     {
         super(gc, itemID);
+        this.gc = gc;
         this.regenerationPower = regenerationPower;
     }
 
@@ -24,13 +26,24 @@ public abstract class HealthPotion extends Item implements Consumable
 
     public void applyRegenerationEffect(int regenerationPower)
     {
-        System.out.println("HP regen " + regenerationPower);
+        Entity player = gc.player;
+        int currentHP = player.statistics.getHitPoints();
+        int maxHP = player.statistics.getMaxHitPoints();
+
+        int newHP = currentHP + regenerationPower;
+        if (newHP > maxHP)
+        {
+            newHP = maxHP;
+        }
+
+        player.statistics.setHitPoints(newHP);
     }
 
     @Override
     public void consume(Entity entity)
     {
-        System.out.println("consumed health potion " + regenerationPower);
+        //System.out.println("consumed health potion " + regenerationPower);
+        applyRegenerationEffect(regenerationPower);
     }
 
     @Override

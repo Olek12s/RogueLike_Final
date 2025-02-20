@@ -344,7 +344,6 @@ public class HUDUpdater implements Updatable
                     }
                     playerStats.setExp(playerStats.getExp() - playerStats.getNextLevelExp());   // reset exp
                     playerStats.setNextLevelExp((int)(playerStats.getNextLevelExp() * EntityStatistics.NEXT_LEVEL_EXP_MULTIPLER));
-                    System.out.println(clickedText);
                     break;
                 }
             }
@@ -396,13 +395,13 @@ public class HUDUpdater implements Updatable
         Entity player = hud.gc.player;
 
         if (!crafting.canCraft(inventory)) {
-            System.out.println("Not enough resources to craft this item!");
+            //System.out.println("Not enough resources to craft this item!");
             return;
         }
 
         crafting.craft(inventory, player);
 
-        System.out.println("Crafted item successfully!");
+        //System.out.println("Crafted item successfully!");
     }
 
     private Crafting getClickedCrafting(int mouseX, int mouseY)

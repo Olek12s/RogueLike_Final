@@ -20,7 +20,7 @@ import world.map.tiles.Tile;
 // entity class level 5
 public class Zombie extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 32);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22Diamond"), 32);
     public int level = 5;
 
 

@@ -20,7 +20,7 @@ import world.map.tiles.Tile;
 // entity class level 3
 public class Spider extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/default/defaultEntity"), 26);
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22IronWeak"), 26);
     public int level = 3;
 
     public Spider(GameController gc, Position worldPosition)

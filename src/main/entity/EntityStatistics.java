@@ -34,7 +34,9 @@ public class EntityStatistics
     private int dexterity;                    // statistic exclusive for bows and actions needing dexterity - how powerful you can shoot
     private int intellect;                    // statistic exclusive for magic - how strong your spells are
 
+    private int maxStamina;
     private int stamina;                      // statistic used in blocking attacks and fighting melee weapons. Lower stamina = lower damage and weaker ability to block
+
     private int exp;
     private int expReward;
     private int nextLevelExp;
@@ -59,6 +61,7 @@ public class EntityStatistics
     public void setStrength(int strength) {this.strength = strength;}
     public void setExp(int exp) {this.exp = exp;}
     public void setNextLevelExp(int nextLevelExp) {this.nextLevelExp = nextLevelExp;}
+    public int getMaxStamina() {return maxStamina;}
 
     public int getCurrentMovementSpeed() {return currentMovementSpeed;}
     public void setCurrentMovementSpeed(int currentMovementSpeed) {this.currentMovementSpeed = currentMovementSpeed;}
