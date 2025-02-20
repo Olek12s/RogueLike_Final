@@ -2,30 +2,27 @@ package main.item.armor.shield;
 
 import main.controller.GameController;
 import main.item.ItemID;
-import main.item.ItemRenderer;
-import main.item.armor.shield.Shield;
-import utilities.Hitbox;
 import utilities.Position;
 
-public class WoodenShield extends Shield
+public class IronShield extends Shield
 {
-    public WoodenShield(GameController gc, Position worldPosition)
+    public IronShield(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.WOODEN_SHIELD, worldPosition);
+        super(gc, ItemID.IRON_SHIELD, worldPosition);
         this.worldPosition = worldPosition;
         this.setOnGround(true);
     }
 
-    public WoodenShield(GameController gc)
+    public IronShield(GameController gc)
     {
-        super(gc, ItemID.WOODEN_SHIELD);
+        super(gc, ItemID.IRON_SHIELD);
     }
 
 
     @Override
     public void setStatistics()
     {
-        statistics.setItemName("Wooden Shield");
+        statistics.setItemName("Iron Shield");
         statistics.setStackable(false);
         statistics.setStackSize(1);
         statistics.setArmor(10);

@@ -5,13 +5,24 @@ import main.entity.Entity;
 import main.entity.monster.*;
 import main.item.ItemID;
 import main.item.armor.amulet.GelAmulet;
+import main.item.armor.boots.DiamondBoots;
+import main.item.armor.boots.IronBoots;
+import main.item.armor.boots.RubyBoots;
 import main.item.armor.boots.WoodenBoots;
+import main.item.armor.chestplate.DiamondChestplate;
+import main.item.armor.chestplate.IronChestplate;
+import main.item.armor.chestplate.RubyChestplate;
 import main.item.armor.chestplate.WoodenChestplate;
+import main.item.armor.helemt.DiamondHelmet;
+import main.item.armor.helemt.IronHelmet;
+import main.item.armor.helemt.RubyHelmet;
 import main.item.armor.helemt.WoodenHelmet;
+import main.item.armor.pants.DiamondPants;
+import main.item.armor.pants.IronPants;
+import main.item.armor.pants.RubyPants;
 import main.item.armor.pants.WoodenPants;
 import main.item.armor.ring.GelRing;
-import main.item.armor.shield.Shield;
-import main.item.armor.shield.WoodenShield;
+import main.item.armor.shield.*;
 import main.item.ingredients.*;
 import main.item.potion.energy.LargeEnergyPotion;
 import main.item.potion.energy.MediumEnergyPotion;
@@ -24,8 +35,7 @@ import main.item.potion.mana.MediumManaPotion;
 import main.item.potion.mana.SmallManaPotion;
 import main.item.tool.axe.WoodenAxe;
 import main.item.tool.pickaxe.WoodenPickaxe;
-import main.item.weapon.sword.LongWoodenSword;
-import main.item.weapon.sword.WoodenSword;
+import main.item.weapon.sword.*;
 
 import java.util.List;
 
@@ -119,17 +129,42 @@ public class AssetSetter
         MediumEnergyPotion mep = new MediumEnergyPotion(gc, new Position(startX+64, startY+64*2));
         LargeEnergyPotion lep = new LargeEnergyPotion(gc, new Position(startX+96, startY+64*2));
 
-        WoodenHelmet wh = new WoodenHelmet(gc, new Position(startX-50, startY));
-        WoodenChestplate cp = new WoodenChestplate(gc, new Position(startX-80, startY));
-        WoodenPants wp = new WoodenPants(gc, new Position(startX-120, startY));
-        WoodenBoots wb = new WoodenBoots(gc, new Position(startX-50, startY-30));
-        GelAmulet gg = new GelAmulet(gc, new Position(startX-50, startY-60));
-        GelRing rr1 = new GelRing(gc, new Position(startX-50, startY-90));
-        GelRing rr2 = new GelRing(gc, new Position(startX-50, startY-100));
-        WoodenShield sh = new WoodenShield(gc, new Position(startX-50, startY-120));
+        new GelAmulet(gc, new Position(startX-50, startY-60));
+        new GelRing(gc, new Position(startX-50, startY-90));
+        new GelRing(gc, new Position(startX-50, startY-100));
 
-        WoodenSword sw1 = new WoodenSword(gc, new Position(startX-50, startY+30));
-        LongWoodenSword sw2 = new LongWoodenSword(gc, new Position(startX-50, startY+60));
+        new WoodenHelmet(gc, new Position(startX+50, startY+300));
+        new WoodenChestplate(gc, new Position(startX+80, startY+300));
+        new WoodenPants(gc, new Position(startX+120, startY+300));
+        new WoodenBoots(gc, new Position(startX+150, startY+300));
+        new WoodenShield(gc, new Position(startX+180, startY+300));
+        new WoodenSword(gc, new Position(startX+210, startY+300));
+        new LongWoodenSword(gc, new Position(startX+230, startY+300));
+
+        new IronHelmet(gc, new Position(startX+50, startY+350));
+        new IronChestplate(gc, new Position(startX+80, startY+350));
+        new IronPants(gc, new Position(startX+120, startY+350));
+        new IronBoots(gc, new Position(startX+150, startY+350));
+        new IronShield(gc, new Position(startX+180, startY+350));
+        new IronSword(gc, new Position(startX+210, startY+350));
+        new LongIronSword(gc, new Position(startX+230, startY+350));
+
+        new DiamondHelmet(gc, new Position(startX+50, startY+400));
+        new DiamondChestplate(gc, new Position(startX+80, startY+400));
+        new DiamondPants(gc, new Position(startX+120, startY+400));
+        new DiamondBoots(gc, new Position(startX+150, startY+400));
+        new DiamondShield(gc, new Position(startX+180, startY+400));
+        new DiamondSword(gc, new Position(startX+210, startY+400));
+        new LongDiamondSword(gc, new Position(startX+230, startY+400));
+
+        new RubyHelmet(gc, new Position(startX+50, startY+450));
+        new RubyChestplate(gc, new Position(startX+80, startY+450));
+        new RubyPants(gc, new Position(startX+120, startY+450));
+        new RubyBoots(gc, new Position(startX+150, startY+450));
+        new RubyShield(gc, new Position(startX+180, startY+450));
+        new RubySword(gc, new Position(startX+210, startY+450));
+        new LongRubySword(gc, new Position(startX+230, startY+450));
+
 
 
 
