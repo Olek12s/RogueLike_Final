@@ -65,7 +65,8 @@ public enum ItemID
     DIAMOND_SWORD(50),
     LONG_DIAMOND_SWORD(51),
     RUBY_SWORD(52),
-    LONG_RUBY_SWORD(53);
+    LONG_RUBY_SWORD(53),
+    BOSS_WEAPON(54);
 
 
 

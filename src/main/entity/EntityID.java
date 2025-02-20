@@ -7,7 +7,8 @@ public enum EntityID
     BitingSlime(2),
     Spider(3),
     VenomousSpider(4),
-    Zombie(5);
+    Zombie(5),
+    Boss(6);
 
     public final int ID;
 

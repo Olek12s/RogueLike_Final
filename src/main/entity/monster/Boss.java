@@ -6,45 +6,42 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
-import main.item.ingredients.Coal;
 import main.item.ingredients.Diamond;
-import main.item.ingredients.IronOre;
 import main.item.ingredients.Ruby;
-import main.item.weapon.mobweapon.SpiderWeapon;
+import main.item.weapon.mobweapon.BossWeapon;
+import main.item.weapon.mobweapon.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
 import utilities.Position;
 import utilities.sprite.SpriteSheet;
 import world.map.tiles.Tile;
 
-// entity class level 4
-public class VenomousSpider extends Entity
+public class Boss extends Entity
 {
-    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22IronStrong"), 22);
-    public int level = 4;
+    static SpriteSheet spriteSheet = new SpriteSheet(FileManipulation.loadImage("resources/entity/bitingSlimeGreen22Boss"), 22);
+    public int level = 6;
 
 
-    public VenomousSpider(GameController gc, Position worldPosition)
+    public Boss(GameController gc, Position worldPosition)
     {
-        super(gc, EntityID.VenomousSpider.ID, worldPosition);
-        this.getInventory().getBeltSlots()[0].setStoredItem(new SpiderWeapon(gc));
+        super(gc, EntityID.Boss.ID, worldPosition);
+        this.getInventory().getBeltSlots()[0].setStoredItem(new BossWeapon(gc));
         this.isImmobilised = false;
-        this.name = "Venomous Spider";
+        this.name = "Boss";
         setupStatistics();
         setAlive(true);
-        giveItemAtChance(new IronOre(gc), 0.5f);
-        giveItemAtChance(new Diamond(gc), 0.35f);
-        giveItemAtChance(new Ruby(gc), 0.1f);
+        for (int i = 0; i < 12; i++) giveItemAtChance(new Diamond(gc), 0.8f);
+        for (int i = 0; i < 12; i++) giveItemAtChance(new Ruby(gc), 0.8f);
     }
 
-    public void setupStatistics()  // add poison effect
+    public void setupStatistics()
     {
-        this.statistics.setStrength(20, 0, 0);
-        this.statistics.setBaseArmour(3);
-        this.statistics.setHitPoints(100, 7, 7);
-        this.statistics.setRegeneration(5);
-        this.statistics.setMaxMovementSpeed(5);
-        this.statistics.setExpReward(60);
+        this.statistics.setStrength(80, 0, 0);
+        this.statistics.setBaseArmour(5);
+        this.statistics.setHitPoints(2000, 0, 0);
+        this.statistics.setRegeneration(10);
+        this.statistics.setMaxMovementSpeed(3);
+        this.statistics.setExpReward(99999);
     }
 
     @Override

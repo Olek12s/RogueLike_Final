@@ -88,7 +88,8 @@ public class AssetSetter
         //new BitingSlime(gc, new Position(gc.player.getWorldPosition().x - 100, gc.player.getWorldPosition().y - 40));
         //new Spider(gc, new Position(gc.player.getWorldPosition().x - 150, gc.player.getWorldPosition().y - 40));
         //new VenomousSpider(gc, new Position(gc.player.getWorldPosition().x - 200, gc.player.getWorldPosition().y - 40));
-        new Zombie(gc, new Position(gc.player.getWorldPosition().x - 250, gc.player.getWorldPosition().y - 40));
+        //new Zombie(gc, new Position(gc.player.getWorldPosition().x - 250, gc.player.getWorldPosition().y - 40));
+        new Boss(gc, new Position(gc.player.getWorldPosition().x - 300, gc.player.getWorldPosition().y - 40));
 
         //gc.player.getInventory().getHelmetSlot().setStoredItem(new WoodenHelmet(gc));
         //gc.player.getInventory().getChestplateSlot().setStoredItem(new WoodenChestplate(gc));

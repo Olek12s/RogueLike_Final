@@ -43,7 +43,7 @@ public class BitingSlime extends Entity
         this.statistics.setStrength(10, 0, 0);
         this.statistics.setBaseArmour(0);
         this.statistics.setHitPoints(20, 4,3);
-        this.statistics.setRegeneration(1);
+        this.statistics.setRegeneration(2);
         this.statistics.setMaxMovementSpeed(5);
         this.statistics.setExpReward(20);
     }
