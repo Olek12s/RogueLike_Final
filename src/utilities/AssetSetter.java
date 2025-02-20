@@ -111,16 +111,16 @@ public class AssetSetter
         //gc.player.getInventory().getShieldSlot().setStoredItem(new DiamondShield(gc));
 
 
-        gc.player.getInventory().getHelmetSlot().setStoredItem(new RubyHelmet(gc));
-        gc.player.getInventory().getChestplateSlot().setStoredItem(new RubyChestplate(gc));
-        gc.player.getInventory().getPantsSlot().setStoredItem(new RubyPants(gc));
-        gc.player.getInventory().getBootsSlot().setStoredItem(new RubyBoots(gc));
-        gc.player.getInventory().getShieldSlot().setStoredItem(new RubyShield(gc));
+        //gc.player.getInventory().getHelmetSlot().setStoredItem(new RubyHelmet(gc));
+        //gc.player.getInventory().getChestplateSlot().setStoredItem(new RubyChestplate(gc));
+        //gc.player.getInventory().getPantsSlot().setStoredItem(new RubyPants(gc));
+        //gc.player.getInventory().getBootsSlot().setStoredItem(new RubyBoots(gc));
+        //gc.player.getInventory().getShieldSlot().setStoredItem(new RubyShield(gc));
 
-        gc.player.getInventory().getBeltSlots()[0].setStoredItem(new WoodenSword(gc));
-        gc.player.getInventory().getBeltSlots()[1].setStoredItem(new IronSword(gc));
-        gc.player.getInventory().getBeltSlots()[2].setStoredItem(new DiamondSword(gc));
-        gc.player.getInventory().getBeltSlots()[3].setStoredItem(new RubySword(gc));
+        //gc.player.getInventory().getBeltSlots()[0].setStoredItem(new WoodenSword(gc));
+        //gc.player.getInventory().getBeltSlots()[1].setStoredItem(new IronSword(gc));
+        //gc.player.getInventory().getBeltSlots()[2].setStoredItem(new DiamondSword(gc));
+        //gc.player.getInventory().getBeltSlots()[3].setStoredItem(new RubySword(gc));
 
 
         new Wood(gc, new Position(startX-(120), startY+80));
