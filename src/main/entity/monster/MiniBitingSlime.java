@@ -6,6 +6,9 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
+import main.item.ingredients.Coal;
+import main.item.ingredients.Diamond;
+import main.item.ingredients.Wood;
 import main.item.weapon.mobweapon.BitingSlimeWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
@@ -29,6 +32,8 @@ public class MiniBitingSlime extends Entity
         this.name = "Small slime";
         setupStatistics();
         setAlive(true);
+        giveItemAtChance(new Wood(gc), 0.35f);
+        giveItemAtChance(new Coal(gc), 0.1f);
     }
 
     public void setupStatistics()

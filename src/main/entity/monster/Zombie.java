@@ -6,6 +6,10 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
+import main.item.ingredients.Coal;
+import main.item.ingredients.Diamond;
+import main.item.ingredients.IronOre;
+import main.item.ingredients.Ruby;
 import main.item.weapon.mobweapon.ZombieWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
@@ -28,6 +32,8 @@ public class Zombie extends Entity
         this.name = "Zombie";
         setupStatistics();
         setAlive(true);
+        giveItemAtChance(new Diamond(gc), 0.5f);
+        giveItemAtChance(new Ruby(gc), 0.35f);
     }
 
     public void setupStatistics()

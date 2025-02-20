@@ -46,7 +46,7 @@ public class Diamond extends Item
     public void setItemType() { itemType = ItemType.INGREDIENT; }
 
     @Override
-    public void setItemSubType() {itemSubType = ItemSubType.FLOWER;}
+    public void setItemSubType() {itemSubType = ItemSubType.INGREDIENT;}
 
     @Override
     public void setStatistics()

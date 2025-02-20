@@ -79,7 +79,8 @@ public class AssetSetter
         new Coal(gc, new Position(startX-(120), startY+100));
         new IronOre(gc, new Position(startX-(120), startY+120));
         new Diamond(gc, new Position(startX-(120), startY+140));
-        new Slime(gc, new Position(startX-(120), startY+160));
+        new Ruby(gc, new Position(startX-(120), startY+160));
+        new Slime(gc, new Position(startX-(120), startY+180));
 
         for (int i = 0; i < 30; i++)
         {

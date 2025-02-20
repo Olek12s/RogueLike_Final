@@ -39,7 +39,8 @@ public enum ItemID
     COAL(28),
     IRON_ORE(29),
     DIAMOND(30),
-    SLIME(31);
+    RUBY(31),
+    SLIME(32);
 
 
 

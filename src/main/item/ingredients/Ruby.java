@@ -5,17 +5,16 @@ import main.item.*;
 import utilities.Hitbox;
 import utilities.Position;
 
-public class RedFlower extends Item
+public class Ruby extends Item
 {
-
-    public RedFlower(GameController gc)
+    public Ruby(GameController gc)
     {
-        super(gc, ItemID.RED_FLOWER);
+        super(gc, ItemID.RUBY);
     }
 
-    public RedFlower(GameController gc, Position worldPosition)
+    public Ruby(GameController gc, Position worldPosition)
     {
-        super(gc, ItemID.RED_FLOWER, worldPosition);
+        super(gc, ItemID.RUBY, worldPosition);
         this.setOnGround(true);
     }
 
@@ -52,7 +51,7 @@ public class RedFlower extends Item
     @Override
     public void setStatistics()
     {
-        statistics.setItemName("Red Flower");
+        statistics.setItemName("Ruby");
         statistics.setStackable(false);
         statistics.setStackSize(1);
     }

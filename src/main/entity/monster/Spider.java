@@ -6,6 +6,10 @@ import main.entity.Entity;
 import main.entity.EntityID;
 import main.entity.EntityRenderer;
 import main.entity.EntityUpdater;
+import main.item.ingredients.Coal;
+import main.item.ingredients.Diamond;
+import main.item.ingredients.IronOre;
+import main.item.ingredients.Wood;
 import main.item.weapon.mobweapon.SpiderWeapon;
 import utilities.FileManipulation;
 import utilities.Hitbox;
@@ -27,6 +31,9 @@ public class Spider extends Entity
         this.name = "Spider";
         setupStatistics();
         setAlive(true);
+        giveItemAtChance(new Coal(gc), 0.5f);
+        giveItemAtChance(new IronOre(gc), 0.35f);
+        giveItemAtChance(new Diamond(gc), 0.1f);
     }
 
     public void setupStatistics()
